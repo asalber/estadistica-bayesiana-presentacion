@@ -1,0 +1,228 @@
+/*-- scss:defaults --*/
+
+$myblue: #0099CC;
+$myblue-light: #89D3F3;
+$mypurple: #996699;
+$myrose: #db1286;
+$myred: #ff2152;
+$mygreen: #03BF3D;
+$myblack: #111111;
+$mygray: #808080;
+
+
+
+$body-bg: #FFFFFF;
+$body-color: #2C3E50;
+$link-color: #2E86C1;
+$selection-bg: #AED6F1;
+
+$font-family-sans-serif: "Source Sans Pro", "Segoe UI", Calibri, sans-serif;
+$font-family-monospace: "Fira Code", "Source Code Pro", monospace;
+$presentation-heading-font: "Source Sans Pro", "Segoe UI", Calibri, sans-serif;
+
+$presentation-heading-color: #1B2A4A;
+$presentation-h1-font-size: 1.8em;
+$presentation-h2-font-size: 1.4em;
+$presentation-h3-font-size: 1.1em;
+$presentation-font-size-root: 34px;
+
+$code-block-bg: #F7F9FB;
+$code-block-border-color: #D6EAF8;
+$code-color: #1B2A4A;
+
+/*-- scss:rules --*/
+
+.myblue {
+  color: $myblue;
+}
+.myblue-light {
+  color: $myblue-light;
+}
+.mypurple {
+  color: $mypurple;
+}
+.myrose {
+  color: $myrose;
+}
+.myred {
+  color: $myred;
+}
+.mygreen {
+  color: $mygreen;
+}
+.myblack {
+  color: $myblack;
+}
+.mygray {
+  color: $mygray;
+}
+
+.reveal section h1,
+.reveal section h2 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: $myblue;
+}
+
+.reveal section h3 {
+  color: $myblue;
+  font-weight: 600;
+}
+
+.reveal .slides section.title-slide h1 {
+  color: #FFFFFF;
+  font-size: 2.2em;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.reveal .slides section.title-slide .subtitle {
+  color: #AED6F1;
+  font-size: 0.85em;
+}
+
+.reveal .slides section.title-slide .author,
+.reveal .slides section.title-slide .date {
+  color: #D6EAF8;
+  font-size: 0.7em;
+}
+
+section[data-background-color="#1B2A4A"] h2,
+section[data-background-color="#1B2A4A"] h3,
+section[data-background-color="#2C3E6B"] h2,
+section[data-background-color="#2C3E6B"] h3 {
+  color: #FFFFFF !important;
+}
+
+section[data-background-color="#1B2A4A"],
+section[data-background-color="#2C3E6B"] {
+  color: #E8EEF5;
+}
+
+.reveal .callout {
+  font-size: 0.82em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 6px;
+}
+
+.reveal table {
+  font-size: 0.72em;
+  border-collapse: collapse;
+  margin: 0.8em auto;
+}
+
+.reveal table th {
+  background-color: #1B2A4A;
+  color: #FFFFFF;
+  padding: 0.5em 0.8em;
+  font-weight: 600;
+}
+
+.reveal table td {
+  padding: 0.4em 0.8em;
+  border: 1px solid #D5D8DC;
+}
+
+.reveal table tr:nth-child(even) {
+  background-color: #F7F9FB;
+}
+
+.reveal pre {
+  font-size: 0.7em;
+  border-radius: 6px;
+  border: 1px solid #D6EAF8;
+}
+
+.reveal blockquote {
+  border-left: 4px solid #2E86C1;
+  padding: 0.5em 1em;
+  background-color: #F7F9FB;
+  font-style: italic;
+  font-size: 0.9em;
+  border-radius: 0 6px 6px 0;
+}
+
+section[data-background-color="#1B2A4A"] blockquote,
+section[data-background-color="#2C3E6B"] blockquote {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-left-color: #AED6F1;
+  color: #E8EEF5;
+}
+
+.reveal .panel-tabset .nav-link.active {
+  background-color: #2E86C1;
+  color: white;
+  border-radius: 4px 4px 0 0;
+}
+
+.reveal .panel-tabset .nav-link {
+  color: #1B2A4A;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+
+.reveal .panel-tabset .tab-content {
+  font-size: 0.88em;
+  padding-top: 0.8em;
+}
+
+.reveal .columns {
+  gap: 2em;
+}
+
+.reveal .footer {
+  font-size: 0.45em;
+  color: #85929E;
+}
+
+.reveal .r-fit-text {
+  font-size: 1.5em;
+  text-align: center;
+  padding: 0.5em 0;
+}
+
+.reveal .smaller {
+  font-size: 0.75em;
+}
+
+/* html .timeline beats the extension's .timeline so brand colors win */
+html .timeline {
+  --tl-color-line:    #{$brand-myblue};
+  --tl-color-dot:     #{$brand-mypurple};
+  --tl-color-dot-bg:  #{$body-bg};
+  --tl-color-label:   #{$brand-mypurple};
+  // --tl-color-card-bg: #{$card-bg};
+}
+
+.reveal .centered {
+  text-align: center;
+}
+
+
+.reveal .theorem {
+    background-color: rgb($myblue, 0.1);
+    border-left: 5px solid $myblue;
+    // border-right: 1px solid $;
+    // border-top: 1px solid $myborder-gray;
+    // border-bottom: 1px solid $myborder-gray;
+    border-radius: 0.25rem;
+    // margin-bottom: 1.25rem;
+    overflow-wrap: break-word;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.reveal .example {
+    all: unset;
+}
+
+.reveal p{
+  margin-top: 0.5em;
+}

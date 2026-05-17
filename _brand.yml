@@ -1,0 +1,35 @@
+color:
+  palette:
+    myblue: "#0099CC"
+    myblue-light: "#89D3F3"
+    mypurple: "#996699"
+    myred: "#ff2152"
+    mygreen: "#03BF3D"
+    myblack: "#808080"
+    mygray: "#b3b3b3"
+  primary: "myblue"
+  secondary: "myred"
+  tertiary: "mypurple"
+  background:
+    light: "#ffffff"
+    dark: "#333333"
+  foreground:
+    light: "#333333"
+    dark: "#ffffff"
+
+logo:
+  medium: "img/logos/sticker-estadistica-bayesiana-r.png"
+
+# typography:
+#   fonts:
+#     - family: "Poppins, sans-serif"
+#       source: google
+    
+#   base: "Poppins, sans-serif"
+#   headings: "Poppins, sans-serif"  
+
+typography:
+  headings:
+    color:
+      light: "#111144"
+      dark: "#d0d0ff"

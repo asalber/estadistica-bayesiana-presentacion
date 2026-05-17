@@ -1,0 +1,708 @@
+---
+title: "Probabilidad y Teorema de Bayes"
+subtitle: "Estadística Bayesiana Aplicada a Datos de Salud — Día 1: Teoría"
+author: ""
+date: today
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: true
+    hash-type: number
+    center: false
+    transition: fade
+    background-transition: fade
+    highlight-style: github
+    code-line-numbers: false
+    code-overflow: wrap
+    fig-align: center
+    width: 1280
+    height: 720
+    margin: 0.1
+    navigation-mode: vertical
+    controls: true
+    progress: true
+    history: true
+    touch: true
+    keyboard: true
+    overview: true
+    chalkboard: true
+    multiplex: false
+    pdf-separate-fragments: false
+    auto-animate: true
+    logo: ""
+    footer: "Estadística Bayesiana Aplicada a Datos de Salud"
+    # title-slide-attributes:
+    #   data-background-color: "#1B2A4A"
+execute:
+  echo: true
+  eval: false
+  warning: false
+  message: false
+lang: es
+#bibliography: references.bib
+---
+
+## Estructura de la sesión {background-color="#1B2A4A" .center}
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+### 🕐 Teoría (1h)
+
+1. ¿Por qué Bayes?
+2. Probabilidad condicional
+3. El Teorema de Bayes
+4. Prior, verosimilitud y posterior
+5. Bayesiano vs. frecuentista
+6. Aplicación: pruebas diagnósticas
+
+:::
+
+::: {.column width="50%"}
+
+### 💻 Prácticas R (3h)
+
+1. Configuración del entorno
+2. Cribado con mamografía
+3. Actualización secuencial (PCR)
+4. Visualización prior vs. posterior
+
+:::
+
+:::
+
+::: {.notes}
+Bienvenidos al curso. Hoy sentamos las bases de todo lo que viene después. La sesión teórica es de 1 hora; luego pasamos a R durante 3 horas.
+:::
+
+
+# ¿Por qué pensar en Bayesiano? {background-color="#2C3E6B"}
+
+## El golem de Praga
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+McElreath (*Statistical Rethinking*, Cap. 1) utiliza la metáfora del **golem de Praga**: una criatura de arcilla que sigue instrucciones al pie de la letra, sin comprenderlas.
+
+> Los modelos estadísticos son golems: potentes pero ciegos. Siguen sus instrucciones exactamente, para bien o para mal.
+
+Los **tests clásicos** (t-test, chi-cuadrado, ANOVA...) son golems preprogramados. Útiles, pero rígidos.
+
+La estadística bayesiana nos permite **construir nuestros propios golems**, adaptados a cada problema.
+
+:::
+
+::: {.column width="40%"}
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Golem_and_Loew.jpg/440px-Golem_and_Loew.jpg){fig-align="center" width="85%"}
+
+::: {.caption style="font-size: 0.6em; text-align: center; color: #888;"}
+El rabino Loew y el Golem de Praga
+:::
+
+:::
+
+:::
+
+::: {.notes}
+McElreath abre Statistical Rethinking con esta metáfora. La idea central es que los tests estadísticos clásicos son herramientas poderosas pero rígidas. El enfoque bayesiano nos da la flexibilidad de construir modelos a medida.
+:::
+
+
+## Mundos pequeños y mundos grandes
+
+McElreath (*Statistical Rethinking*, Cap. 2) distingue entre:
+
+::: {.callout-note appearance="simple"}
+## Mundo pequeño (*Small world*)
+El mundo lógico y autocontenido del modelo. Dentro de él, la inferencia bayesiana es **óptimamente eficiente**: ningún otro método aprovecha mejor la información disponible.
+:::
+
+::: {.callout-warning appearance="simple"}
+## Mundo grande (*Large world*)
+La realidad compleja donde desplegamos el modelo. No hay garantía de optimalidad. El rendimiento debe **demostrarse**, no deducirse.
+:::
+
+. . .
+
+En ciencias de la salud, nuestros datos viven en un mundo grande:
+
+- Datos incompletos, censurados, con valores perdidos
+- Estructuras jerárquicas (pacientes → hospitales → regiones)
+- Heterogeneidad entre poblaciones
+
+**El enfoque bayesiano nos permite formalizar la incertidumbre** sobre ese mundo grande.
+
+
+## Tres herramientas para construir golems
+
+Según McElreath, necesitamos tres herramientas:
+
+::: {.incremental}
+1. **Grafos causales (DAGs)**: representar las relaciones causales antes de modelar
+2. **Modelos generativos**: simular datos bajo hipótesis concretas
+3. **Validación estadística**: contrastar el modelo con los datos reales
+:::
+
+. . .
+
+::: {.callout-tip}
+## Idea clave
+El análisis bayesiano no comienza con fórmulas, sino con una **historia generativa** sobre cómo se produjeron los datos (Gelman et al., *BDA3*, Cap. 1).
+:::
+
+
+# Probabilidad condicional {background-color="#2C3E6B"}
+
+## Repaso: reglas fundamentales
+
+La inferencia bayesiana se construye sobre dos reglas básicas de la probabilidad:
+
+. . .
+
+::: {.columns}
+
+::: {.column width="50%"}
+### Regla del producto
+
+$$P(A, B) = P(A \mid B) \cdot P(B)$$
+
+La probabilidad conjunta de $A$ y $B$ es la probabilidad de $B$ multiplicada por la probabilidad de $A$ dado que $B$ ha ocurrido.
+:::
+
+::: {.column width="50%"}
+### Regla de la suma
+
+$$P(A) = \sum_B P(A, B) = \sum_B P(A \mid B) \cdot P(B)$$
+
+La probabilidad marginal de $A$ se obtiene sumando (o integrando) sobre todos los posibles valores de $B$.
+:::
+
+:::
+
+. . .
+
+::: {.callout-important}
+## Dato clave
+Toda la maquinaria bayesiana se deriva de estas dos reglas. No se necesita más (Gelman et al., *BDA3*, Cap. 1).
+:::
+
+
+## Ejemplo clínico: probabilidad condicional
+
+Imaginemos un hospital con los siguientes datos de 1000 pacientes ingresados en UCI:
+
+|  | Supervivencia (+) | Fallecimiento (−) | Total |
+|---|:---:|:---:|:---:|
+| **Tratamiento A** | 180 | 120 | 300 |
+| **Tratamiento B** | 490 | 210 | 700 |
+| **Total** | 670 | 330 | 1000 |
+
+. . .
+
+- $P(\text{Supervivencia} \mid \text{Trat. A}) = 180/300 = 0{,}60$
+- $P(\text{Supervivencia} \mid \text{Trat. B}) = 490/700 = 0{,}70$
+
+. . .
+
+::: {.callout-warning}
+**¿Es el tratamiento B realmente mejor?** Podría haber confusión por gravedad del paciente (paradoja de Simpson). Un modelo bayesiano jerárquico permitiría ajustar por estas variables.
+:::
+
+## El jardín de los senderos que se bifurcan
+
+McElreath introduce la inferencia bayesiana con la metáfora del **jardín de senderos que se bifurcan** (inspirada en Borges):
+
+. . .
+
+> La inferencia bayesiana es, en esencia, **contar**: contar todas las formas en que los datos podrían haber ocurrido, según cada hipótesis.
+
+. . .
+
+:::: {.columns}
+
+::: {.column width="55%"}
+
+**Ejemplo**: una bolsa con 4 canicas (azules o blancas). Sacamos 3 con reemplazo y obtenemos: 🔵⚪🔵
+
+Para cada composición posible de la bolsa, contamos las rutas compatibles con esa observación.
+
+**Las composiciones con más caminos compatibles son más plausibles.**
+
+:::
+
+::: {.column width="45%"}
+
+| Composición | Caminos | Plausibilidad |
+|:-----------:|:-------:|:------:|
+| ⚪⚪⚪⚪ | 0 | 0 |
+| 🔵⚪⚪⚪ | 3 | 0,067 |
+| 🔵🔵⚪⚪ | 8 | 0,178 |
+| 🔵🔵🔵⚪ | 9 | 0,200 |
+| 🔵🔵🔵🔵 | 0 | 0 |
+
+:::
+
+::::
+
+. . .
+
+Estas plausibilidades, normalizadas, **son probabilidades**: la distribución posterior.
+
+
+# El Teorema de Bayes {background-color="#2C3E6B"}
+
+## Formulación matemática
+
+::: {.r-fit-text}
+
+$$\underbrace{P(\theta \mid y)}_{\text{Posterior}} = \frac{\overbrace{P(y \mid \theta)}^{\text{Verosimilitud}} \cdot \overbrace{P(\theta)}^{\text{Prior}}}{\underbrace{P(y)}_{\text{Evidencia}}}$$
+
+:::
+
+. . .
+
+O, de forma proporcional (Gelman et al., *BDA3*, Cap. 1):
+
+$$\boxed{P(\theta \mid y) \propto P(y \mid \theta) \cdot P(\theta)}$$
+
+. . .
+
+::: {.callout-note}
+## En palabras
+**Lo que sabemos después de ver los datos** es proporcional a **cuán compatibles son los datos con cada valor del parámetro** multiplicado por **lo que sabíamos antes de ver los datos**.
+:::
+
+
+## Los tres ingredientes
+
+::: {.panel-tabset}
+
+### Prior $P(\theta)$
+
+**Distribución a priori**: refleja nuestro conocimiento (o ignorancia) sobre $\theta$ **antes** de observar los datos.
+
+- Puede basarse en estudios previos, opinión experta o ser deliberadamente vaga
+- Gelman recomienda priors **débilmente informativos**: que descarten valores absurdos sin dominar los datos
+- McElreath enfatiza la **simulación predictiva a priori** para verificar que la prior tiene sentido
+
+**Ejemplo clínico**: si modelamos la prevalencia de diabetes tipo 2 en España, una prior $\text{Beta}(2, 15)$ centra la creencia en torno al 10-15%, consistente con datos epidemiológicos previos.
+
+### Verosimilitud $P(y \mid \theta)$
+
+**Función de verosimilitud**: la probabilidad de observar los datos $y$ dado un valor concreto del parámetro $\theta$.
+
+- Es el **modelo generativo**: la historia de cómo se produjeron los datos
+- Es la misma función que se maximiza en la estimación frecuentista (MLE)
+- En el contexto bayesiano, se combina con la prior en lugar de maximizarse
+
+**Ejemplo clínico**: si $y$ pacientes de $n$ dan positivo en un test, y asumimos independencia:
+$$P(y \mid \theta) = \binom{n}{y} \theta^y (1-\theta)^{n-y}$$
+
+### Posterior $P(\theta \mid y)$
+
+**Distribución a posteriori**: nuestro conocimiento actualizado sobre $\theta$ tras observar los datos.
+
+- Es una **distribución completa**, no un solo número
+- Combina la información de la prior y los datos
+- A medida que acumulamos datos, la posterior se concentra en los valores más compatibles
+- Gelman et al. (*BDA3*): la posterior es un **compromiso** entre prior y verosimilitud
+
+**Interpretación directa**: podemos decir que la probabilidad de que $\theta \in [a, b]$ es 0,95 (intervalo de credibilidad). ¡Algo que **no podemos** decir con intervalos de confianza!
+
+:::
+
+
+## La posterior como compromiso
+
+La distribución posterior es un **promedio ponderado** entre la información previa y los datos observados:
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|3|6|9|12"
+library(ggplot2)
+
+# Prior: creencia inicial (prevalencia ~12%)
+prior <- function(theta) dbeta(theta, 3, 20)
+
+# Verosimilitud: 15 positivos de 120 testados
+likelihood <- function(theta) dbinom(15, 120, theta)
+
+# Posterior (analítica por conjugación)
+posterior <- function(theta) dbeta(theta, 3 + 15, 20 + 105)
+
+# La posterior se sitúa entre prior y verosimilitud
+```
+
+. . .
+
+::: {.callout-tip}
+## Caso límite (Gelman et al., *BDA3*, Cap. 2)
+- **Pocos datos** → la posterior se parece a la prior
+- **Muchos datos** → la posterior converge a la verosimilitud
+- **Prior fuerte + pocos datos** → la prior domina (cuidado con priors demasiado informativas)
+:::
+
+
+# Bayesiano vs. Frecuentista {background-color="#2C3E6B"}
+
+## Dos filosofías, una realidad
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+### Enfoque frecuentista
+
+- Los parámetros son **constantes fijas** (pero desconocidas)
+- La probabilidad se define como **frecuencia a largo plazo**
+- Inferencia basada en la **distribución muestral** del estimador
+- IC 95%: "si repitiéramos el estudio infinitas veces, el 95% de los intervalos contendrían el verdadero valor"
+
+:::
+
+::: {.column width="50%"}
+
+### Enfoque bayesiano
+
+- Los parámetros tienen **distribuciones de probabilidad**
+- La probabilidad expresa **grado de incertidumbre**
+- Inferencia basada en la **distribución posterior**
+- IC 95% (credibilidad): "hay un 95% de probabilidad de que el parámetro esté en este intervalo"
+
+:::
+
+:::
+
+. . .
+
+::: {.callout-note}
+## Perspectiva de Gelman
+Gelman defiende una posición pragmática: los métodos bayesianos no son superiores por filosofía, sino por su **flexibilidad práctica** para modelar datos complejos como los que encontramos en salud (*BDA3*, Cap. 1).
+:::
+
+
+## Comparación práctica
+
+| Aspecto | Frecuentista | Bayesiano |
+|---------|:---:|:---:|
+| Incorporar información previa | ✗ Difícil | ✓ Natural (priors) |
+| Muestras pequeñas | ⚠ Problemas | ✓ Robusto con buena prior |
+| Datos jerárquicos | ⚠ Modelos mixtos | ✓ Modelos multinivel naturales |
+| Interpretación directa | ✗ Indirecta | ✓ Probabilidad del parámetro |
+| Propagación de incertidumbre | ⚠ Aproximada | ✓ Completa |
+| Predicción | ⚠ Plug-in | ✓ Distribución predictiva |
+| Coste computacional | ✓ Rápido | ⚠ Más costoso (MCMC) |
+| Necesidad de priors | ✓ No | ⚠ Sí (subjetividad) |
+
+. . .
+
+::: {.callout-tip}
+## ¿Cuándo elegir Bayes? (Gelman & Hill)
+Cuando los datos son escasos, las estructuras son complejas, necesitamos cuantificar incertidumbre de forma directa, o queremos incorporar conocimiento previo de manera formal.
+:::
+
+
+# Aplicación: Pruebas diagnósticas {background-color="#2C3E6B"}
+
+## El problema clásico del cribado
+
+Un escenario que todo profesional de salud debería dominar:
+
+. . .
+
+::: {.callout-note appearance="simple"}
+## Escenario: mamografía de cribado
+
+- **Prevalencia** de cáncer de mama en la población cribada: $P(C) = 0{,}01$
+- **Sensibilidad** (tasa de verdaderos positivos): $P(+ \mid C) = 0{,}90$
+- **Especificidad** (tasa de verdaderos negativos): $P(- \mid \neg C) = 0{,}93$
+:::
+
+. . .
+
+**Pregunta**: una mujer obtiene un resultado **positivo**. ¿Cuál es la probabilidad de que realmente tenga cáncer?
+
+. . .
+
+::: {.fragment .fade-in}
+::: {.callout-warning}
+## Intuición errónea frecuente
+Muchos profesionales responden "alrededor del 90%". La respuesta real es muy diferente.
+:::
+:::
+
+
+## Aplicando Bayes al cribado
+
+$$P(C \mid +) = \frac{P(+ \mid C) \cdot P(C)}{P(+)}$$
+
+. . .
+
+Calculamos el denominador con la regla de la suma:
+
+$$P(+) = P(+ \mid C) \cdot P(C) + P(+ \mid \neg C) \cdot P(\neg C)$$
+
+$$P(+) = 0{,}90 \times 0{,}01 + 0{,}07 \times 0{,}99 = 0{,}009 + 0{,}0693 = 0{,}0783$$
+
+. . .
+
+$$\boxed{P(C \mid +) = \frac{0{,}90 \times 0{,}01}{0{,}0783} \approx 0{,}115}$$
+
+. . .
+
+::: {.callout-important}
+## Resultado
+Solo hay un **11,5%** de probabilidad de cáncer tras un positivo. Esto se debe a la baja prevalencia: la mayoría de los positivos son **falsos positivos**.
+:::
+
+
+## Frecuencias naturales: otra forma de verlo
+
+Para 10.000 mujeres cribadas:
+
+```{mermaid}
+%%| fig-width: 10
+flowchart TD
+    A["🏥 10.000 mujeres"] --> B["🔴 100 con cáncer\n(prevalencia 1%)"]
+    A --> C["🟢 9.900 sin cáncer"]
+    B --> D["✅ 90 test +\n(sensibilidad 90%)"]
+    B --> E["❌ 10 test −\n(falso negativo)"]
+    C --> F["⚠️ 693 test +\n(falso positivo, espec. 93%)"]
+    C --> G["✅ 9.207 test −"]
+
+    style A fill:#1B2A4A,color:#fff,stroke:#1B2A4A
+    style B fill:#c0392b,color:#fff,stroke:#c0392b
+    style C fill:#27ae60,color:#fff,stroke:#27ae60
+    style D fill:#e74c3c,color:#fff,stroke:#e74c3c
+    style E fill:#e67e22,color:#fff,stroke:#e67e22
+    style F fill:#f39c12,color:#fff,stroke:#f39c12
+    style G fill:#2ecc71,color:#fff,stroke:#2ecc71
+```
+
+. . .
+
+De los $90 + 693 = 783$ tests positivos, solo **90** tienen realmente cáncer:
+
+$$VPP = \frac{90}{783} \approx 11{,}5\%$$
+
+
+## El papel crucial de la prevalencia
+
+::: {.callout-tip}
+## Idea clave de Gelman (*BDA3*, Cap. 1)
+La misma prueba diagnóstica tiene un valor predictivo muy diferente según la **prevalencia** (la prior) de la enfermedad en la población.
+:::
+
+. . .
+
+| Prevalencia | VPP (test +) | VPN (test −) |
+|:-----------:|:------------:|:------------:|
+| 0,1% | 1,3% | 99,99% |
+| 1% | 11,5% | 99,9% |
+| 5% | 40,5% | 99,4% |
+| 20% | 76,3% | 97,4% |
+| 50% | 92,8% | 90,3% |
+
+. . .
+
+La prevalencia actúa como una **distribución a priori**: en poblaciones de bajo riesgo, incluso tests excelentes generan muchos falsos positivos.
+
+Esto tiene implicaciones directas para las políticas de cribado poblacional.
+
+
+## Actualización secuencial
+
+Una propiedad fundamental del enfoque bayesiano (Gelman et al., *BDA3*, Cap. 1):
+
+. . .
+
+> La posterior de hoy es la prior de mañana.
+
+. . .
+
+Si tras un primer test positivo hacemos un **segundo test independiente**:
+
+$$P(C \mid +_1, +_2) = \frac{P(+_2 \mid C) \cdot P(C \mid +_1)}{P(+_2 \mid +_1)}$$
+
+. . .
+
+Usando $P(C \mid +_1) = 0{,}115$ como nueva prior:
+
+$$P(C \mid +_1, +_2) = \frac{0{,}90 \times 0{,}115}{0{,}90 \times 0{,}115 + 0{,}07 \times 0{,}885} \approx 0{,}626$$
+
+. . .
+
+::: {.callout-note}
+## Resultado clínico
+Tras **dos positivos consecutivos**, la probabilidad sube del 11,5% al **62,6%**. Esta es la lógica detrás de los protocolos de confirmación diagnóstica.
+:::
+
+
+# Priors: el ingrediente bayesiano {background-color="#2C3E6B"}
+
+
+## Tipos de distribuciones a priori
+
+::: {.panel-tabset}
+
+### No informativas
+
+**Intención**: dejar que los datos "hablen por sí mismos".
+
+- Prior uniforme: $P(\theta) \propto 1$
+- Prior de Jeffreys: invariante bajo reparametrización
+
+**Problema** (Gelman et al., *BDA3*): las priors "no informativas" a menudo **sí son informativas** en el espacio de las predicciones. Una uniforme para un odds ratio implica que valores extremos (OR = 1000) son tan plausibles como moderados.
+
+### Débilmente informativas
+
+**Recomendación de Gelman**: priors que **regularizan** sin dominar.
+
+- Descartan valores absurdos
+- Estabilizan la estimación con muestras pequeñas
+- Permiten que los datos dominen cuando hay suficiente información
+
+**Ejemplo**: para un coeficiente de regresión logística, $\beta \sim \text{Normal}(0, 2{,}5)$ es una prior débilmente informativa que descarta efectos gigantescos pero permite un rango amplio.
+
+### Informativas
+
+**Basadas en conocimiento previo concreto**: metaanálisis, estudios piloto, opinión experta formalizada (*prior elicitation*).
+
+- Apropiadas cuando existe evidencia previa sólida
+- Fundamentales en ensayos clínicos con muestras pequeñas
+- Requieren **análisis de sensibilidad**: ¿cuánto cambian los resultados si cambiamos la prior?
+
+**Ejemplo**: si 5 estudios previos estiman la eficacia de un fármaco en 0,30±0,05, podemos usar $\theta \sim \text{Beta}(36, 84)$.
+
+:::
+
+
+## Simulación predictiva a priori
+
+McElreath (*Statistical Rethinking*, Cap. 4) enfatiza un paso crucial que a menudo se omite:
+
+. . .
+
+> Antes de ver los datos, **simula predicciones** desde tu prior. Si las predicciones a priori son absurdas, tu prior es mala.
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|2-3|5-6|8-9"
+# ¿Qué implica nuestra prior para la prevalencia?
+# Prior: Beta(2, 15) → centrada ~12%
+prior_samples <- rbeta(1e4, 2, 15)
+
+# Simular datos bajo la prior (n=100 pacientes)
+y_sim <- rbinom(1e4, size = 100, prob = prior_samples)
+
+# Visualizar: ¿las prevalencias simuladas son razonables?
+hist(y_sim, main = "Predicciones a priori: nº positivos de 100")
+```
+
+. . .
+
+::: {.callout-tip}
+## Regla práctica
+Si la simulación predictiva a priori genera datos que serían imposibles o ridículos en tu contexto clínico, necesitas ajustar la prior.
+:::
+
+
+# Resumen y conexión con las prácticas {background-color="#2C3E6B"}
+
+## Ideas clave del Día 1
+
+::: {.incremental}
+
+1. **La inferencia bayesiana es contar caminos** compatibles con los datos, ponderados por nuestro conocimiento previo (McElreath)
+
+2. **El Teorema de Bayes** combina prior, verosimilitud y evidencia para obtener la posterior: $P(\theta \mid y) \propto P(y \mid \theta) \cdot P(\theta)$
+
+3. **La posterior es un compromiso** entre lo que sabíamos (prior) y lo que observamos (datos), y la balanza se inclina hacia los datos a medida que acumulamos evidencia (Gelman)
+
+4. **La prevalencia es la prior** en diagnóstico: el mismo test tiene significados muy distintos según la población
+
+5. **La actualización es secuencial**: la posterior de un análisis puede ser la prior del siguiente
+
+6. **Las priors importan**: elegir priors débilmente informativas y validarlas con simulación predictiva
+
+:::
+
+
+## En las prácticas de hoy...
+
+Pondremos todo esto en práctica con R:
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+### Ejercicios
+
+- **Ej. 1**: Calcular VPP y VPN con diferentes prevalencias (cribado mamográfico)
+- **Ej. 2**: Actualización secuencial con resultados de PCR
+- **Ej. 3**: Visualizar prior vs. posterior con datos de prevalencia de diabetes
+
+:::
+
+::: {.column width="50%"}
+
+### Paquetes R
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages(c(
+  "rstanarm",   # Modelos bayesianos
+  "brms",       # Interfaz a Stan
+  "bayesplot",  # Visualización
+  "tidyverse"   # Manipulación
+))
+```
+
+:::
+
+:::
+
+
+## Referencias y lecturas recomendadas {.smaller}
+
+### Textos principales del curso
+
+- **Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A., & Rubin, D.B.** (2013). *Bayesian Data Analysis*, 3ª ed. CRC Press. — Capítulos 1-3.
+
+- **Gelman, A. & Hill, J.** (2006). *Data Analysis Using Regression and Multilevel/Hierarchical Models*. Cambridge University Press. — Capítulos 1-2.
+
+- **McElreath, R.** (2020). *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*, 2ª ed. CRC Press. — Capítulos 1-3.
+
+### Lecturas complementarias
+
+- Gelman, A. (2008). Objections to Bayesian statistics. *Bayesian Analysis*, 3(3), 445-449.
+- Greenland, S. (2006). Bayesian perspectives for epidemiological research. *International Journal of Epidemiology*, 35(3), 765-775.
+- van de Schoot, R. et al. (2021). Bayesian statistics and modelling. *Nature Reviews Methods Primers*, 1, 1.
+
+
+## {background-color="#1B2A4A" .center}
+
+### ¡Pasamos a las prácticas con R!
+
+::: {style="font-size: 1.2em; margin-top: 1em;"}
+📂 Materiales en: `practicas/dia01/`
+
+💻 Abrid RStudio y el script `01_bayes_diagnostico.R`
+:::
+
+::: {style="font-size: 0.9em; margin-top: 2em; color: #8eafd4;"}
+*"La inferencia bayesiana no es más que sentido común expresado en cálculos."*
+
+— Laplace (parafrasado)
+:::

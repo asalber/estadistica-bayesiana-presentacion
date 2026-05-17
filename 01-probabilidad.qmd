@@ -1,0 +1,406 @@
+---
+title: "Repaso de Probabilidad"
+subtitle: "Probabilidad, frecuencias, distribuciones y regla de Bayes"
+author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
+logo: img/logos/sticker-estadistica-bayesiana-r.png
+# title-slide-attributes:
+#     #data-background-color: black
+#     data-background-image: img/prompt-julia.png
+#     data-background-size: contain
+fig-align: center
+lang: es
+---
+
+## Definición clásica de probabilidad
+
+:::{#def-laplace}
+## Probabilidad - Laplace
+Dado un espacio muestral $\Omega$ de un experimento aleatorio donde todos los elementos de $\Omega$ son _equiprobables_, la _probabilidad_ de un suceso $A\subseteq \Omega$ es el cociente entre el número de elementos de $A$ y el número de elementos de $\Omega$ 
+
+$$P(A) = \frac{|A|}{|\Omega|} = \frac{\mbox{nº casos favorables a A}}{\mbox{nº casos posibles}}$$
+:::
+
+---
+
+Esta definición es ampliamente utilizada, aunque tiene importantes restricciones:
+
+  - Es necesario que todos los elementos del espacio muestral tengan la
+    misma probabilidad de ocurrir (_equiprobabilidad_).
+
+  - No puede utilizarse con espacios muestrales infinitos, o de los que
+    no se conoce el número de casos posibles.
+
+:::{.callout-caution}
+Esto no se cumple en muchos experimentos aleatorios reales.
+:::
+
+---
+
+:::{#exm-experimento-sin-equiprobabilidad}
+Dado el espacio muestral correspondiente al lanzamiento de un dado $\Omega=\{1,2,3,4,5,6\}$ y el suceso $A=\{2,4,6\}$, la probabilidad de $A$ es
+
+$$P(A) = \frac{|A|}{|\Omega|} = \frac{3}{6} = 0.5.$$
+
+Sin embargo, si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, $\Omega=\{O,A,B,AB\}$, no se puede usar la definición clásica de probabilidad para calcular la probabilidad de que tenga grupo sanguíneo $A$,
+
+$$P(A) \neq \frac{|A|}{|\Omega|} = \frac{1}{4} = 0.25,$$
+
+ya que los grupos sanguíneos no son igualmente probables en las poblaciones humanas.
+:::
+
+## Definición frecuentista de probabilidad
+
+:::{#thm-ley-grandes-numeros}
+## Ley de los grandes números
+Cuando un experimento aleatorio se repite un gran número de veces, las frecuencias relativas de los sucesos del experimento tienden a estabilizarse en torno a cierto número, que es precisamente su probabilidad.
+:::
+
+![Lanzamiento de una moneda](/img/01-probabilidad/coin-flip.gif)
+
+---
+
+:::{#def-probabilidad-frecuentista}
+## Probabilidad frecuentista
+Dado un espacio muestral $\Omega$ de un experimento aleatorio
+_reproducible_, la *probabilidad* de un suceso $A\subseteq \Omega$ es la frecuencia relativa del suceso $A$ en infinitas repeticiones del experimento 
+
+$$P(A) = lim_{n\rightarrow \infty}\frac{n_{A}}{n}$$
+:::
+
+---
+
+Aunque esta definición es muy útil en experimentos científicos reproducibles, también tiene serios inconvenientes, ya que
+
+  - Sólo se calcula una aproximación de la probabilidad real.
+  - La repetición del experimento debe ser en las mismas condiciones.
+
+---
+
+:::{#exm-probabilidad-frecuentista}
+Dado el espacio muestral correspondiente al lanzamiento de una moneda $\Omega=\{C,X\}$, si después de lanzar la moneda 100 veces obtenemos 54 caras, entonces la probabilidad de $C$ es aproximadamente
+
+$$P(C) \approx \frac{n_C}{n} = \frac{54}{100} = 0.54.$$
+:::
+
+
+:::{#exm-probabilidad-frecuentista-2}
+Si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, $\Omega=\{O,A,B,AB\}$, si se toma una muestra aleatoria de 1000 personas y se observa que 412 tienen grupo sanguíneo $A$, entonces la probabilidad del grupo sanguíneo $A$ es aproximadamente
+
+$$P(A) \approx \frac{n_A}{n} = \frac{412}{1000} = 0.412.$$
+:::
+
+## Definición subjetiva de probabilidad
+
+:::{#def-probabilidad-subjetiva}
+## Probabilidad subjetiva
+Dado un espacio muestral $\Omega$ de un experimento aleatorio, la probabilidad de un suceso $A\subseteq \Omega$ es una medida de la confianza que un individuo tiene en que el suceso $A$ ocurra, y se expresa mediante un número real entre 0 y 1.
+:::
+
+- Se basa en la experiencia personal, el conocimiento previo y la información disponible, por lo que es distinta para cada individuo y puede cambiar con el tiempo, con nueva información o experiencias.
+- No existe una fórmula matemática para calcularla.
+
+---
+
+Es la definición de probabilidad más usada en nuestras decisiones cotidianas, pero también tiene inconvenientes, ya que
+
+  - Es subjetiva, por lo que puede tener sesgos.
+  - No se puede calcular de forma objetiva, por lo que no es posible contrastar su valor con la realidad.
+
+---
+
+:::{#exm-probabilidad-subjetiva}
+Basado en el tiempo de los días previos puedo hacer la siguiente predicción del tiempo para mañana:
+
+:::{.centered}
+_Es moderadamente probable que llueva mañana._
+:::
+
+:::
+
+## Definición axiomática de probabilidad
+
+:::{#def-probabilidad-kolmogorov}
+## Probabilidad - Kolmogórov
+Dado un espacio muestral $\Omega$ de un experimento aleatorio, una función de *probabilidad* es una aplicación que asocia a cada suceso $A\subseteq \Omega$ un número real $P(A)$, que cumple los axiomas:
+
+1.  La probabilidad de un suceso cualquiera es positiva o nula, 
+    $$P(A)\geq 0.$$
+2.  La probabilidad del suceso seguro es igual a la unidad, 
+    $$P(\Omega)=1.$$
+3.  La probabilidad de la unión de dos sucesos incompatibles ($A\cap B=\emptyset$) es igual a la suma de las probabilidades de cada uno de ellos, 
+    $$P(A\cup B) = P(A)+P(B).$$
+:::
+
+---
+
+:::{#thm-consecuencias-axiomas-probabilidad}
+Si $P$ es una función de de probabilidad de un espacio muestral $\Omega$, entonces para cualesquiera sucesos $A, B\in \Omega$, se cumple
+
+1.  $P(\overline A) = 1-P(A)$.
+2.  $P(\emptyset)= 0$.
+3.  Si $A\subseteq B$ entonces $P(A)\leq P(B)$.
+4.  $P(A) \leq 1$.
+5.  $P(A-B) = P(A)-P(A\cap B)$.
+6.  Si $A$ y $B$ son sucesos compatibles entonces 
+
+    $$P(A\cup B)= P(A) + P(B) - P(A\cap B).$$
+
+7.  Si $A = \{e_1,e_2,...,e_n\}$, entonces $P(A)=\sum_{i=1}^n P(e_i).$
+:::
+
+## Interpretación de la probabilidad
+
+:::: {.columns}
+
+::: {.column}
+[**Frecuentista**]{.myblue}
+
+Frecuencia relativa a largo plazo de un suceso en un experimento aleatorio reproducible.
+:::
+
+::: {.column}
+[**Bayesiana**]{.myblue}
+
+Verosimilitud o plausibilidad de un suceso, dada la información disponible.
+:::
+
+::::
+
+- La mayor incertidumbre corresponde a $P(A)=0.5$ (Es tan probable que ocurra $A$ como que no ocurra).
+
+- La menor incertidumbre corresponde a $P(A)=1$ ($A$ sucederá con absoluta certeza) y $P(A)=0$ ($A$ no sucederá con absoluta certeza).
+
+## Experimentos condicionados
+
+En algunas ocasiones, es posible que tengamos alguna información sobre el experimento antes de su realización. Habitualmente esa información se da en forma de un suceso $B$ del mismo espacio muestral que sabemos que es cierto antes de realizar el experimento.
+
+En tal caso se dice que el suceso $B$ es un suceso _condicionante_, y la probabilidad de otro suceso $A$ se conoce como y se expresa 
+
+$$P(A|B).$$
+
+Esto debe leerse como _probabilidad de $A$ dado $B$_ o _probabilidad de $A$ bajo la condición de $B$_.
+
+---
+
+Los condicionantes suelen cambiar el espacio muestral del experimento y por tanto las probabilidades de sus sucesos.
+
+:::{#exm-sucesos-condicionados}
+Supongamos que tenemos una muestra de 100 hombres y 100 mujeres con las siguientes frecuencias 
+
+$$
+\begin{array}{|c|c|c|}
+\hline 
+ & \mbox{No fumadores} & \mbox{Fumadores} \\
+ \hline 
+ \mbox{Mujeres} & 80 & 20 \\
+ \hline
+ \mbox{Hombres} & 60 & 40 \\
+ \hline
+\end{array}
+$$ 
+
+Entonces, usando la definición frecuentista de probabilidad, la probabilidad de que una persona elegida al azar sea fumadora es 
+
+$$P(\mbox{Fumadora})= \frac{60}{200}=0.3.$$
+:::
+
+---
+
+Sin embargo, si se sabe que la persona elegida es mujer, entonces la muestra se reduce a la primera fila.
+
+$$
+\begin{array}{|c|c|c|}
+\hline
+ & \mbox{No fumadores} & \mbox{Fumadores} \\
+ \hline
+ \style{color:#ff2152}{\mbox{Mujeres}} & \style{color:#ff2152}{80} & \style{color:#ff2152}{20} \\
+ \hline
+ \mbox{Hombres} & 60 & 40 \\
+ \hline
+\end{array}
+$$ 
+
+Y entonces la probabilidad de ser fumadora es 
+
+$$P(\mbox{Fumadora}|\mbox{Mujer})=\frac{20}{100}=0.2.$$
+
+
+## Probabilidad condicionada
+
+:::{#def-probabilidad-condicionada}
+## Probabilidad condicionada
+Dado un espacio muestral $\Omega$ de un experimento aleatorio, y dos dos sucesos $A,B\subseteq \Omega$, la probabilidad de $A$ _condicionada_ por $B$ es 
+
+$$P(A|B) = \frac{P(A\cap B)}{P(B)},$$
+
+siempre y cuando, $P(B)\neq 0$.
+:::
+
+Esta definición permite calcular probabilidades sin tener que alterar el espacio muestral original del experimento.
+
+:::{#exm-probabilidad-condicionada}
+En el ejemplo anterior
+
+$$P(\mbox{Fumadora}|\mbox{Mujer})= \frac{P(\mbox{Fumadora}\cap \mbox{Mujer})}{P(\mbox{Mujer})} =  \frac{20/200}{100/200}=\frac{20}{100}=0.2.$$
+:::
+
+### Probabilidad del suceso intersección
+
+A partir de la definición de probabilidad condicionada es posible obtener la fórmula para calcular la probabilidad de la intersección de dos sucesos. 
+
+$$P(A\cap B) = P(A)P(B|A) = P(B)P(A|B).$$
+
+:::{#exm-probabilidad-interseccion}
+En una población hay un 30% de fumadores y se sabe que el 40% de los fumadores tiene cáncer de pulmón. La probabilidad de que una persona elegida al azar sea fumadora y tenga cáncer de pulmón es
+
+\begin{align*}
+P(\mbox{Fumadora}\cap \mbox{Cáncer}) &= P(\mbox{Fumadora})P(\mbox{Cáncer}|\mbox{Fumadora}) \\
+&= 0.3\times 0.4 = 0.12.
+\end{align*}
+:::
+
+## Independencia de sucesos
+
+En ocasiones, la ocurrencia del suceso condicionante no cambia la probabilidad original del suceso principal.
+
+:::{#def-sucesos-independientes}
+## Sucesos independientes
+Dado un espacio muestral $\Omega$ de un experimento aleatorio, dos sucesos $A,B\subseteq \Omega$ son _independientes_ si la probabilidad de $A$ no se ve alterada al condicionar por $B$, y viceversa, es decir, 
+
+$$P(A|B) = P(A) \quad \mbox{y} \quad P(B|A)=P(B),$$ 
+
+si $P(A)\neq 0$ y $P(B)\neq 0$.
+:::
+
+Esto significa que la ocurrencia de un evento no aporta información relevante para cambiar la incertidumbre sobre el otro.
+
+---
+
+Cuando dos eventos son independientes, la probabilidad de su intersección es igual al producto de sus probabilidades,
+
+$$P(A\cap B) = P(A)P(B).$$
+
+
+### Árboles de probabilidad con variables dependientes
+
+:::{#exm-arbol-probabilidad-variables-dependientes}
+Sea una población en la que el 30% de las personas fuman, y que la incidencia del cáncer de pulmón en fumadores es del 40% mientras que en los no fumadores es del 10%.
+
+El espacio probabilístico del experimento aleatorio que consiste en elegir una persona al azar y medir las variables Fumar y Cáncer de pulmón se muestra a continuación.
+
+![Diagrama de árbol del espacio probabilístico de fumar y tener cáncer de pulmón.](img/01-probabilidad/espacio_probabilistico_fumar_cancer.svg){width=800}
+:::
+
+### Árboles de probabilidad con variables independientes
+
+:::{#exm-arbol-probabilidad-variables-independientes}
+El árbol de probabilidad asociado al experimento aleatorio que consiste en el lanzamiento de dos monedas se muestra a continuación.
+
+![Diágrama de árbol del espacio probabilístico del lanzamiento de dos monedas.](img/01-probabilidad/espacio_probabilistico_monedas.svg){width=800}
+:::
+
+---
+
+:::{#exm-arbol-probabilidad-variables-independientes-2}
+Dada una población en la que hay un 40% de hombres y un 60% de mujeres, el experimento aleatorio que consiste en tomar una muestra aleatoria de tres personas tiene el árbol de probabilidad que se muestra a continuación.
+
+![Diagrama de árbol del espacio probabilístico del sexo de tres individuos elegidos al azar.](img/01-probabilidad/espacio_probabilistico_muestra){width=800}
+:::
+
+##
+
+:::{#def-sistema-completo-sucesos}
+## Sistema completo de sucesos
+Una colección de sucesos $A_1,A_2,\ldots,A_n$ de un mismo espacio muestral $\Omega$ es un _sistema completo_ si cumple las siguientes condiciones:
+
+1.  La unión de todos es el espacio muestral:
+    $A_1\cup \cdots\cup A_n =\Omega$.
+
+2.  Son incompatibles dos a dos: $A_i\cap A_j = \emptyset$
+    $\forall i\neq j$.
+:::
+
+<!-- ![Partición del espacio muestral en un sistema completo de sucesos.](img/01-probabilidad/particion_espacio_muestral.svg){width=500} -->
+
+En realidad un sistema completo de sucesos es una partición del espacio muestral de acuerdo a algún atributo, como por ejemplo el sexo o el grupo sanguíneo.
+
+## Teorema de la probabilidad total
+
+Conocer las probabilidades de un determinado suceso en cada una de las partes de un sistema completo puede ser útil para calcular su probabilidad.
+
+:::{#thm-probabilidad-total}
+## Probabilidad total
+Dado un sistema completo de sucesos $A_1,\ldots,A_n$ y un suceso $B$ de un espacio muestral $\Omega$, la probabilidad de cualquier suceso $B$ del espacio muestral se puede calcular mediante la fórmula 
+
+$$P(B) = \sum_{i=1}^n P(A_i\cap B) = \sum_{i=1}^n P(A_i)P(B|A_i).$$
+:::
+
+---
+
+![Teorema de la probabilidad total.](img/01-probabilidad/probabilidad_total){height=500}
+
+---
+
+:::{#exm-probabilidad-total}
+Un determinado síntoma $S$ puede ser originado por una enfermedad $E$ pero también lo pueden presentar las personas sin la enfermedad.
+Sabemos que la prevalencia de la enfermedad $E$ es $0.2$. Además, se sabe que el $90\%$ de las personas con la enfermedad presentan el síntoma, mientras que sólo el $40\%$ de las personas sin la enfermedad lo presentan. Si se toma una persona al azar de la población, _¿qué probabilidad hay de que tenga el síntoma?_
+
+Para responder a la pregunta se puede aplicar el teorema de la probabilidad total usando el sistema completo $\{E,\overline{E}\}$:
+
+$$P(S) = P(E)P(S|E)+P(\overline E)P(S|\overline E) = 0.2\cdot 0.9 + 0.8\cdot 0.4 = 0.5.$$
+
+Es decir, la mitad de la población tendrá el síntoma.
+
+_¡En el fondo se trata de una media ponderada de probabilidades!_
+:::
+
+---
+
+La respuesta a la pregunta anterior es evidente a la luz del árbol de probabilidad del espacio probabilístico del experimento.
+
+![Aplicación del teorema de la probabilidad total en un espacio probabilístico.](img/01-probabilidad/espacio_probabilistico_total)
+
+\begin{align*}
+P(S) &= P(E,S) + P(\overline E,S) = P(E)P(S|E)+P(\overline E)P(S|\overline E)\\
+& = 0.2\cdot 0.9+ 0.8\cdot 0.4 = 0.18 + 0.32 = 0.5.
+\end{align*}
+
+## Teorema de Bayes
+
+Los sucesos de un sistema completo de sucesos $A_1,\cdots,A_n$ también pueden verse como las distintas hipótesis ante un determinado hecho $B$.
+
+En estas condiciones resulta útil poder calcular las probabilidades a posteriori $P(A_i|B)$ de cada una de las hipótesis.
+
+:::{#thm-bayes}
+## Bayes
+Dado un sistema completo de sucesos $A_1,\ldots,A_n$ y un suceso $B$ de un espacio muestral $\Omega$ y otro suceso $B$ del mismo espacio muestral, la probabilidad de cada suceso $A_i$ $i=1,\ldots,n$ condicionada por $B$ puede calcularse con la siguiente fórmula
+
+$$P(A_i|B) = \frac{P(A_i\cap B)}{P(B)} = \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^n P(A_i)P(B|A_i)}.$$
+:::
+
+---
+
+:::{#exm-teorema-bayes}
+En el ejemplo anterior, una pregunta más interesante es qué diagnosticar a una persona que presenta el síntoma.
+
+En este caso se puede interpretar $E$ y $\overline{E}$ como las dos posibles hipótesis para el síntoma $S$. 
+
+**Probabilidades a priori** (Sin información sobre el síntoma)
+
+$$P(E)=0.2 \quad \mbox{y}\quad P(\overline E)=0.8$$
+
+:::
+
+---
+
+Sin embargo, si al reconocer a la persona se observa que presenta el síntoma, dicha información condiciona a las hipótesis, y para decidir entre ellas es necesario calcular sus probabilidades a posteriori, es
+decir, $P(E|S)$ y $P(\overline{E}|S)$.
+
+**Probabilidades a posteriori** (Condicionando por el síntoma)
+
+\begin{align*}
+P(E|S) &= \frac{P(E)P(S|E)}{P(E)P(S|E)+P(\overline{E})P(S|\overline{E})} = \frac{0.2\cdot 0.9}{0.2\cdot 0.9 + 0.8\cdot 0.4} = \frac{0.18}{0.5}=0.36,\\
+P(\overline{E}|S) &= \frac{P(\overline{E})P(S|\overline{E})}{P(E)P(S|E)+P(\overline{E})P(S|\overline{E})} = \frac{0.8\cdot 0.4}{0.2\cdot 0.9 + 0.8\cdot 0.4} = \frac{0.32}{0.5}=0.64.
+\end{align*}
+
+Como se puede ver la probabilidad de tener la enfermedad ha aumentado.

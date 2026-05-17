@@ -1,0 +1,71 @@
+---
+title: Curso de Estadística Bayesiana con R
+author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
+filters:
+  - timeline
+lang: es
+---
+
+
+## Contenido del curso
+
+::: {.timeline .tl-label-panel}
+
+::: {.event data-label="Lunes"}
+**Repaso de Estadística**
+Probabilidad, frecuencias, distribuciones y regla de Bayes.
+:::
+
+::: {.event data-label="Lunes"}
+[**Repaso de R**]{.mypurple}
+Estructuras de datos, distribuciones, tablas y gráficos.
+:::
+
+
+::: {.event data-label="Martes"}
+**Introducción a la estadística bayesiana**
+Estadística frecuentista vs bayesiana. Priors, likelihood y posteriors.
+:::
+
+
+::: {.event data-label="Miércoles"}
+**Inferencia bayesiana**
+Estimación de parámetros, intervalos de credibilidad y contraste de hipótesis.
+:::
+
+::: {.event data-label="Jueves"}
+**Regresión bayesiana**
+Modelos de regresión lineales y no lineales.
+:::
+
+::: {.event data-label="Viernes"}
+**Clasificación bayesiana**
+Modelos de clasificación. 
+:::
+
+:::
+
+
+## Licencia
+
+Esta obra está bajo una licencia Reconocimiento – No comercial – Compartir b
+ajo la misma licencia 3.0 España de Creative Commons. Para ver una copia de esta licencia, visite [https://creativecommons.org/licenses/by-nc-sa/3.0/es/](https://creativecommons.org/licenses/by-nc-sa/3.0/es/).
+
+Con esta licencia eres libre de:
+
+- Copiar, distribuir y mostrar este trabajo.
+- Realizar modificaciones de este trabajo.
+
+Bajo las siguientes condiciones:
+
+- **Reconocimiento**. Debe reconocer los créditos de la obra de la manera especificada por el autor o el licenciador (pero no de una manera que sugiera que tiene su apoyo o apoyan el uso que hace de su obra).
+
+- **No comercial**. No puede utilizar esta obra para fines comerciales.
+
+- **Compartir bajo la misma licencia**. Si altera o transforma esta obra, o genera una obra derivada, sólo puede distribuir la obra generada bajo una licencia idéntica a ésta.
+
+Al reutilizar o distribuir la obra, tiene que dejar bien claro los términos de la licencia de esta obra.
+
+Estas condiciones pueden no aplicarse si se obtiene el permiso del titular de los derechos de autor.
+
+Nada en esta licencia menoscaba o restringe los derechos morales del autor.

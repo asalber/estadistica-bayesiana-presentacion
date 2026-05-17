@@ -1,0 +1,34 @@
+project:
+  output-dir: "docs"
+  
+author: "Alfredo Sánchez Alberca"
+
+execute: 
+  echo: true
+  cache: true
+  freeze: auto
+
+format:
+  clean-revealjs:
+    theme: [default, custom.scss]
+    logo: img/logos/sticker-estadistica-bayesiana-r.png
+    navigation-mode: vertical
+    slide-level: 3
+    footer: <https://aprendeconalf.es/estadistica-bayesiana-presentacion/>
+    code-line-numbers: false
+    code-tools:
+      code-block-bg: true
+      code-block-border-Izquierda: "#31BAE9"
+    highlight-style: github
+    callout-appearance: simple
+    default-image-extension: svg
+    #incremental: true
+    toc: true
+    toc-depth: 1
+    chalkboard: true
+    menu: true
+    slide-number: c/t
+    transition: convex
+    transition-speed: fast
+    template-partials:
+      - title-slide.html
