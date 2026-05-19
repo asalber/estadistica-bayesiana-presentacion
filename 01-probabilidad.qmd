@@ -11,6 +11,175 @@ fig-align: center
 lang: es
 ---
 
+{{< include _configuracion-r.qmd >}}
+
+## {background-color="#0099CC"}
+
+<div class="main-title">
+Distribuciones de frecuencias
+</div>
+
+## Frecuencias muestrales
+
+:::{#def-frecuencias-muestrales}
+## Frecuencias muestrales
+Dada una muestra de tamaño $n$ de una variable $X$, para cada valor de la variable $x_i$ observado en la muestra, se define
+
+- **Frecuencia Absoluta $n_i$**: Es el número de veces que el valor $x_i$ aparece en la muestra.
+- **Frecuencia Relativa $f_i$**: Es la proporción de veces que el valor $x_i$ aparece en la muestra.
+$$f_i = \frac{n_i}{n}$$
+:::
+
+---
+
+:::{#exm-frecuencias-absolutas-relativas}
+Si tomamos una muestra aleatoria de 10 personas y 6 mujeres, entonces la frecuencia absoluta de mujeres es $n_i=6$ y la frecuencia relativa es $f_i=6/10=0.6$.
+:::
+
+## Distribuciones de frecuencias
+
+Las frecuencias muestrales se suelen organizar en _tablas de frecuencias_, que muestran para cada valor observado de la variable $x_i$ su frecuencia absoluta $n_i$ o su frecuencia relativa $f_i$.
+
+---
+
+:::{#exm-tabla-frecuencias-datos-no-agrupados}
+Número de hijos en una muestra de 25 familias.
+
+```{r}
+#| output-location: column
+library(tidyverse)
+library(janitor)
+library(knitr)
+# Data frame número de hijos
+df <- tibble(
+  hijos = rep(c(0,1,2,3,4), 
+              c(2,6,14,2,1))
+)
+# Tabla de frecuencias
+df |> 
+  tabyl(hijos) |> 
+  kable()
+```
+:::
+
+---
+
+```{r}
+# Diagrama de barras
+df |> ggplot(aes(x=hijos)) +
+  geom_bar(width = 0.2, fill = myblue) +
+  theme_minimal() +
+  labs(title = "Distribución de frecuencias", 
+       x = "Número de hijos", y = "Frecuencia absoluta")
+```
+
+---
+
+:::{#exm-tabla-frecuencias-cualitativa}
+Grupos sanguíneos de una muestra de 30 personas.
+
+```{r}
+#| output-location: column
+# Data frame grupo sanguíneo
+df <- tibble(
+  grupo = rep(c("0","A","B","AB"),
+              c(5,14,8,3))
+)
+# Tabla de frecuencias
+df |> 
+  tabyl(grupo) |> 
+  kable()
+```
+:::
+
+## Distribuciones de frecuencias bidimensionales
+
+Cuando se tienen dos variables, es posible organizar sus frecuencias en una tabla de contingencia, que muestra para cada combinación de valores de las variables su frecuencia absoluta o relativa.
+
+---
+
+:::{#exm-tabla-frecuencias-bidimensional}
+Sexo y grupo sanguíneo de una muestra de 30 personas.
+
+```{r}
+#| output-location: column
+# Data frame sexo y grupo sanguíneo
+df <- tibble(
+  sexo = rep(c("Hombre","Mujer"),
+             c(14,16)),
+  grupo = c(rep("0",3), rep("A",8), rep("B",4), rep("AB",1),
+            rep("0",2), rep("A",6), rep("B",4), rep("AB",2))
+)
+# Tabla de frecuencias
+df |> 
+  tabyl(grupo, sexo) |> 
+  kable()
+```
+:::
+
+
+### Distribuciones de frecuencias marginales 
+
+Sumando por filas o por columnas de una tabla de contingencia se obtienen las distribuciones marginales de cada variable, que muestran la frecuencia absoluta o relativa de cada valor de la variable sin tener en cuenta la otra variable.
+
+---
+
+:::{#exm-distribuciones-marginales}
+
+```{r}
+#| output-location: column
+# Distribución marginal del sexo
+df |> 
+  tabyl(grupo, sexo) |>
+  adorn_totals("row") |>
+  kable()
+```
+
+```{r}
+#| output-location: column
+# Distribución marginal del grupo sanguíneo
+df |> 
+  tabyl(grupo, sexo) |>
+  adorn_totals("col") |>
+  kable()
+```
+:::
+
+## Distribuciones de frecuencias condicionales
+
+Cada fila o columna de una tabla de contingencia es una distribución de frecuencias condicional que muestra la frecuencia absoluta o relativa de cada valor de una variable para un valor fijo de la otra variable.
+
+
+---
+
+:::{#exm-distribuciones-condicionales}
+
+```{r}
+#| output-location: column
+library(kableExtra)
+# Distribución condicional del grupo sanguíneo para hombres
+df |>
+  tabyl(grupo, sexo) |>
+  kable() |>
+  column_spec(2, color = myred)
+```
+
+```{r}
+#| output-location: column
+# Distribución condicional del sexo para el grupo A
+df |>
+  tabyl(grupo, sexo) |>
+  kable() |>
+  row_spec(2, color = myred)
+```
+:::
+
+## {background-color="#0099CC"}
+
+<div class="main-title">
+Probabilidad
+</div>
+
 ## Definición clásica de probabilidad
 
 :::{#def-laplace}
@@ -113,6 +282,12 @@ Basado en el tiempo de los días previos puedo hacer la siguiente predicción de
 
 :::{.centered}
 _Es moderadamente probable que llueva mañana._
+:::  
+
+Sin embargo, mi abuelo, puede hacer esta otra predicción:
+
+:::{.centered}
+_Me duele la rodilla, así que mañana va a llover._
 :::
 
 :::
@@ -404,3 +579,5 @@ P(\overline{E}|S) &= \frac{P(\overline{E})P(S|\overline{E})}{P(E)P(S|E)+P(\overl
 \end{align*}
 
 Como se puede ver la probabilidad de tener la enfermedad ha aumentado.
+
+

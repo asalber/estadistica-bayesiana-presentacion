@@ -9,8 +9,6 @@ $mygreen: #03BF3D;
 $myblack: #111111;
 $mygray: #808080;
 
-
-
 $body-bg: #FFFFFF;
 $body-color: #2C3E50;
 $link-color: #2E86C1;
@@ -20,11 +18,11 @@ $font-family-sans-serif: "Source Sans Pro", "Segoe UI", Calibri, sans-serif;
 $font-family-monospace: "Fira Code", "Source Code Pro", monospace;
 $presentation-heading-font: "Source Sans Pro", "Segoe UI", Calibri, sans-serif;
 
+$presentation-font-size-root: 28px;   // default is 40px
 $presentation-heading-color: #1B2A4A;
 $presentation-h1-font-size: 1.8em;
 $presentation-h2-font-size: 1.4em;
 $presentation-h3-font-size: 1.1em;
-$presentation-font-size-root: 34px;
 
 $code-block-bg: #F7F9FB;
 $code-block-border-color: #D6EAF8;
@@ -57,9 +55,27 @@ $code-color: #1B2A4A;
   color: $mygray;
 }
 
-.reveal section h1,
+.reveal {
+  font-size: 28px !important;
+}
+
+.main-title {
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.01em;
+  font-size: 2.2em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.reveal section h1 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: $myblue;
+}
+
 .reveal section h2 {
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
   color: $myblue;
 }
@@ -69,11 +85,10 @@ $code-color: #1B2A4A;
   font-weight: 600;
 }
 
-.reveal .slides section.title-slide h1 {
+.reveal .slides section.title-slide .title {
   color: #FFFFFF;
-  font-size: 2.2em;
   font-weight: 800;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-align: left;
 }
 
 .reveal .slides section.title-slide .subtitle {
@@ -113,25 +128,35 @@ section[data-background-color="#2C3E6B"] {
 }
 
 .reveal table th {
-  background-color: #1B2A4A;
-  color: #FFFFFF;
+  // background-color: #1B2A4A;
+  // color: #FFFFFF;
   padding: 0.5em 0.8em;
   font-weight: 600;
+  border-top: 1px solid #D5D8DC;
 }
 
 .reveal table td {
   padding: 0.4em 0.8em;
-  border: 1px solid #D5D8DC;
+  // border: 1px solid #D5D8DC;
 }
 
 .reveal table tr:nth-child(even) {
   background-color: #F7F9FB;
 }
 
+.reveal div.sourceCode {
+  overflow: visible !important;     /* quita la barra de scroll exterior */
+}
+
 .reveal pre {
   font-size: 0.7em;
   border-radius: 6px;
-  border: 1px solid #D6EAF8;
+  border: 0px solid $myblue;
+  overflow-x: hidden;   /* quita la barra de scroll exterior */
+}
+
+.reveal pre code {
+  overflow-x: auto;   /* única barra, en el nivel más interno */
 }
 
 .reveal blockquote {
@@ -167,10 +192,6 @@ section[data-background-color="#2C3E6B"] blockquote {
   padding-top: 0.8em;
 }
 
-.reveal .columns {
-  gap: 2em;
-}
-
 .reveal .footer {
   font-size: 0.45em;
   color: #85929E;
@@ -197,6 +218,8 @@ html .timeline {
 
 .reveal .centered {
   text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 
@@ -225,4 +248,9 @@ html .timeline {
 
 .reveal p{
   margin-top: 0.5em;
+}
+
+.reveal .columns {
+  gap: 1em;
+  margin-top: 1em;
 }

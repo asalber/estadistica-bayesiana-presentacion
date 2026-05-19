@@ -14,12 +14,10 @@ format:
     logo: img/logos/sticker-estadistica-bayesiana-r.png
     navigation-mode: vertical
     slide-level: 3
+    # smaller: true
     footer: <https://aprendeconalf.es/estadistica-bayesiana-presentacion/>
     code-line-numbers: false
-    code-tools:
-      code-block-bg: true
-      code-block-border-Izquierda: "#31BAE9"
-    highlight-style: github
+    highlight-style: atom-one
     callout-appearance: simple
     default-image-extension: svg
     #incremental: true

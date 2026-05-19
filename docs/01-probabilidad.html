@@ -6,7 +6,7 @@
 <script src="01-probabilidad_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="01-probabilidad_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="01-probabilidad_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="01-probabilidad_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="01-probabilidad_files/libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="01-probabilidad_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="01-probabilidad_files/libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
@@ -33,8 +33,74 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #383a42;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #383a42; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #50a14f; } /* Annotation */
+    code span.at { color: #a626a4; } /* Attribute */
+    code span.bn { color: #986801; } /* BaseN */
+    code span.bu { color: #a626a4; } /* BuiltIn */
+    code span.cf { color: #a626a4; } /* ControlFlow */
+    code span.ch { color: #50a14f; } /* Char */
+    code span.cn { color: #986801; } /* Constant */
+    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
+    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
+    code span.do { color: #e45649; } /* Documentation */
+    code span.dt { color: #a626a4; } /* DataType */
+    code span.dv { color: #986801; } /* DecVal */
+    code span.er { color: #f44747; text-decoration: underline; } /* Error */
+    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
+    code span.fl { color: #986801; } /* Float */
+    code span.fu { color: #4078f2; } /* Function */
+    code span.im { color: #50a14f; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #a626a4; } /* Keyword */
+    code span.op { color: #a626a4; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #a626a4; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #0184bc; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #50a14f; } /* String */
+    code span.va { color: #e45649; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-8c5ac2cc38a0d6b4fc9d751f99861ebc.css">
+  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-f3dd731250a11d331270d949edebfb86.css">
   <link href="01-probabilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -128,6 +194,8 @@
       margin-right: 0; 
     }
   </style>
+  <script src="01-probabilidad_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="01-probabilidad_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
 <script src="mathjax-config.js"></script>
@@ -141,11 +209,430 @@
       <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
         
   </section>
+<section id="section" class="title-slide slide level2 center" data-background-color="#0099CC">
+<h2></h2>
+<div class="main-title">
+<p>Distribuciones de frecuencias</p>
+</div>
+</section>
+
+<section>
+<section id="frecuencias-muestrales" class="title-slide slide level2 center">
+<h2>Frecuencias muestrales</h2>
+<div id="def-frecuencias-muestrales" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 1 (Frecuencias muestrales)</strong></span> Dada una muestra de tamaño <span class="math inline">\(n\)</span> de una variable <span class="math inline">\(X\)</span>, para cada valor de la variable <span class="math inline">\(x_i\)</span> observado en la muestra, se define</p>
+<ul>
+<li><strong>Frecuencia Absoluta <span class="math inline">\(n_i\)</span></strong>: Es el número de veces que el valor <span class="math inline">\(x_i\)</span> aparece en la muestra.</li>
+<li><strong>Frecuencia Relativa <span class="math inline">\(f_i\)</span></strong>: Es la proporción de veces que el valor <span class="math inline">\(x_i\)</span> aparece en la muestra. <span class="math display">\[f_i = \frac{n_i}{n}\]</span></li>
+</ul>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-frecuencias-absolutas-relativas" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 1</strong></span> Si tomamos una muestra aleatoria de 10 personas y 6 mujeres, entonces la frecuencia absoluta de mujeres es <span class="math inline">\(n_i=6\)</span> y la frecuencia relativa es <span class="math inline">\(f_i=6/10=0.6\)</span>.</p>
+</div>
+</section></section>
+<section>
+<section id="distribuciones-de-frecuencias" class="title-slide slide level2 center">
+<h2>Distribuciones de frecuencias</h2>
+<p>Las frecuencias muestrales se suelen organizar en <em>tablas de frecuencias</em>, que muestran para cada valor observado de la variable <span class="math inline">\(x_i\)</span> su frecuencia absoluta <span class="math inline">\(n_i\)</span> o su frecuencia relativa <span class="math inline">\(f_i\)</span>.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-tabla-frecuencias-datos-no-agrupados" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 2</strong></span> Número de hijos en una muestra de 25 familias.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame número de hijos</span></span>
+<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">hijos =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), </span>
+<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">14</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias</span></span>
+<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(hijos) <span class="sc">|&gt;</span> </span>
+<span id="cb1-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">hijos</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.56</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</section>
+<section class="slide level3">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>hijos)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de frecuencias"</span>, </span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de hijos"</span>, <span class="at">y =</span> <span class="st">"Frecuencia absoluta"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section class="slide level3">
+
+<div id="exm-tabla-frecuencias-cualitativa" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 3</strong></span> Grupos sanguíneos de una muestra de 30 personas.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame grupo sanguíneo</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"0"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"AB"</span>),</span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">14</span>,<span class="dv">8</span>,<span class="dv">3</span>))</span>
+<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias</span></span>
+<span id="cb3-7"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo) <span class="sc">|&gt;</span> </span>
+<span id="cb3-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">grupo</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1666667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.4666667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.2666667</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="distribuciones-de-frecuencias-bidimensionales" class="title-slide slide level2 center">
+<h2>Distribuciones de frecuencias bidimensionales</h2>
+<p>Cuando se tienen dos variables, es posible organizar sus frecuencias en una tabla de contingencia, que muestra para cada combinación de valores de las variables su frecuencia absoluta o relativa.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-tabla-frecuencias-bidimensional" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 4</strong></span> Sexo y grupo sanguíneo de una muestra de 30 personas.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame sexo y grupo sanguíneo</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Hombre"</span>,<span class="st">"Mujer"</span>),</span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">16</span>)),</span>
+<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">8</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">1</span>),</span>
+<span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">6</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">2</span>))</span>
+<span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias</span></span>
+<span id="cb4-9"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo, sexo) <span class="sc">|&gt;</span> </span>
+<span id="cb4-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">grupo</th>
+<th style="text-align: right;">Hombre</th>
+<th style="text-align: right;">Mujer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</section>
+<section id="distribuciones-de-frecuencias-marginales" class="slide level3">
+<h3>Distribuciones de frecuencias marginales</h3>
+<p>Sumando por filas o por columnas de una tabla de contingencia se obtienen las distribuciones marginales de cada variable, que muestran la frecuencia absoluta o relativa de cada valor de la variable sin tener en cuenta la otra variable.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribuciones-marginales" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 5</strong></span> &nbsp;</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución marginal del sexo</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo, sexo) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">grupo</th>
+<th style="text-align: right;">Hombre</th>
+<th style="text-align: right;">Mujer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución marginal del grupo sanguíneo</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo, sexo) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"col"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">grupo</th>
+<th style="text-align: right;">Hombre</th>
+<th style="text-align: right;">Mujer</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="distribuciones-de-frecuencias-condicionales" class="title-slide slide level2 center">
+<h2>Distribuciones de frecuencias condicionales</h2>
+<p>Cada fila o columna de una tabla de contingencia es una distribución de frecuencias condicional que muestra la frecuencia absoluta o relativa de cada valor de una variable para un valor fijo de la otra variable.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribuciones-condicionales" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 6</strong></span> &nbsp;</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución condicional del grupo sanguíneo para hombres</span></span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo, sexo) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">2</span>, <span class="at">color =</span> myred)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">grupo</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Hombre</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mujer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">8</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">3</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución condicional del sexo para el grupo A</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo, sexo) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">2</span>, <span class="at">color =</span> myred)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">grupo</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Hombre</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mujer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; color: rgba(255, 33, 82, 255) !important;">A</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">8</td>
+<td style="text-align: right; color: rgba(255, 33, 82, 255) !important;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</section></section>
+<section id="section-1" class="title-slide slide level2 center" data-background-color="#0099CC">
+<h2></h2>
+<div class="main-title">
+<p>Probabilidad</p>
+</div>
+</section>
+
 <section>
 <section id="definición-clásica-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición clásica de probabilidad</h2>
 <div id="def-laplace" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 1 (Probabilidad - Laplace)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio donde todos los elementos de <span class="math inline">\(\Omega\)</span> son <em>equiprobables</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es el cociente entre el número de elementos de <span class="math inline">\(A\)</span> y el número de elementos de <span class="math inline">\(\Omega\)</span></p>
+<p><span class="theorem-title"><strong>Definición 2 (Probabilidad - Laplace)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio donde todos los elementos de <span class="math inline">\(\Omega\)</span> son <em>equiprobables</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es el cociente entre el número de elementos de <span class="math inline">\(A\)</span> y el número de elementos de <span class="math inline">\(\Omega\)</span></p>
 <p><span class="math display">\[P(A) = \frac{|A|}{|\Omega|} = \frac{\mbox{nº casos favorables a A}}{\mbox{nº casos posibles}}\]</span></p>
 </div>
 </section>
@@ -170,7 +657,7 @@
 <section class="slide level3">
 
 <div id="exm-experimento-sin-equiprobabilidad" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 1</strong></span> Dado el espacio muestral correspondiente al lanzamiento de un dado <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> y el suceso <span class="math inline">\(A=\{2,4,6\}\)</span>, la probabilidad de <span class="math inline">\(A\)</span> es</p>
+<p><span class="theorem-title"><strong>Ejemplo 7</strong></span> Dado el espacio muestral correspondiente al lanzamiento de un dado <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> y el suceso <span class="math inline">\(A=\{2,4,6\}\)</span>, la probabilidad de <span class="math inline">\(A\)</span> es</p>
 <p><span class="math display">\[P(A) = \frac{|A|}{|\Omega|} = \frac{3}{6} = 0.5.\]</span></p>
 <p>Sin embargo, si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, no se puede usar la definición clásica de probabilidad para calcular la probabilidad de que tenga grupo sanguíneo <span class="math inline">\(A\)</span>,</p>
 <p><span class="math display">\[P(A) \neq \frac{|A|}{|\Omega|} = \frac{1}{4} = 0.25,\]</span></p>
@@ -188,7 +675,7 @@
 <section class="slide level3">
 
 <div id="def-probabilidad-frecuentista" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 2 (Probabilidad frecuentista)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio <em>reproducible</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es la frecuencia relativa del suceso <span class="math inline">\(A\)</span> en infinitas repeticiones del experimento</p>
+<p><span class="theorem-title"><strong>Definición 3 (Probabilidad frecuentista)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio <em>reproducible</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es la frecuencia relativa del suceso <span class="math inline">\(A\)</span> en infinitas repeticiones del experimento</p>
 <p><span class="math display">\[P(A) = lim_{n\rightarrow \infty}\frac{n_{A}}{n}\]</span></p>
 </div>
 </section>
@@ -203,11 +690,11 @@
 <section class="slide level3">
 
 <div id="exm-probabilidad-frecuentista" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 2</strong></span> Dado el espacio muestral correspondiente al lanzamiento de una moneda <span class="math inline">\(\Omega=\{C,X\}\)</span>, si después de lanzar la moneda 100 veces obtenemos 54 caras, entonces la probabilidad de <span class="math inline">\(C\)</span> es aproximadamente</p>
+<p><span class="theorem-title"><strong>Ejemplo 8</strong></span> Dado el espacio muestral correspondiente al lanzamiento de una moneda <span class="math inline">\(\Omega=\{C,X\}\)</span>, si después de lanzar la moneda 100 veces obtenemos 54 caras, entonces la probabilidad de <span class="math inline">\(C\)</span> es aproximadamente</p>
 <p><span class="math display">\[P(C) \approx \frac{n_C}{n} = \frac{54}{100} = 0.54.\]</span></p>
 </div>
 <div id="exm-probabilidad-frecuentista-2" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 3</strong></span> Si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, si se toma una muestra aleatoria de 1000 personas y se observa que 412 tienen grupo sanguíneo <span class="math inline">\(A\)</span>, entonces la probabilidad del grupo sanguíneo <span class="math inline">\(A\)</span> es aproximadamente</p>
+<p><span class="theorem-title"><strong>Ejemplo 9</strong></span> Si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, si se toma una muestra aleatoria de 1000 personas y se observa que 412 tienen grupo sanguíneo <span class="math inline">\(A\)</span>, entonces la probabilidad del grupo sanguíneo <span class="math inline">\(A\)</span> es aproximadamente</p>
 <p><span class="math display">\[P(A) \approx \frac{n_A}{n} = \frac{412}{1000} = 0.412.\]</span></p>
 </div>
 </section></section>
@@ -215,7 +702,7 @@
 <section id="definición-subjetiva-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición subjetiva de probabilidad</h2>
 <div id="def-probabilidad-subjetiva" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3 (Probabilidad subjetiva)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, la probabilidad de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es una medida de la confianza que un individuo tiene en que el suceso <span class="math inline">\(A\)</span> ocurra, y se expresa mediante un número real entre 0 y 1.</p>
+<p><span class="theorem-title"><strong>Definición 4 (Probabilidad subjetiva)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, la probabilidad de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es una medida de la confianza que un individuo tiene en que el suceso <span class="math inline">\(A\)</span> ocurra, y se expresa mediante un número real entre 0 y 1.</p>
 </div>
 <ul>
 <li>Se basa en la experiencia personal, el conocimiento previo y la información disponible, por lo que es distinta para cada individuo y puede cambiar con el tiempo, con nueva información o experiencias.</li>
@@ -233,9 +720,13 @@
 <section class="slide level3">
 
 <div id="exm-probabilidad-subjetiva" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 4</strong></span> Basado en el tiempo de los días previos puedo hacer la siguiente predicción del tiempo para mañana:</p>
+<p><span class="theorem-title"><strong>Ejemplo 10</strong></span> Basado en el tiempo de los días previos puedo hacer la siguiente predicción del tiempo para mañana:</p>
 <div class="centered">
 <p><em>Es moderadamente probable que llueva mañana.</em></p>
+</div>
+<p>Sin embargo, mi abuelo, puede hacer esta otra predicción:</p>
+<div class="centered">
+<p><em>Me duele la rodilla, así que mañana va a llover.</em></p>
 </div>
 </div>
 </section></section>
@@ -243,7 +734,7 @@
 <section id="definición-axiomática-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición axiomática de probabilidad</h2>
 <div id="def-probabilidad-kolmogorov" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 4 (Probabilidad - Kolmogórov)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, una función de <em>probabilidad</em> es una aplicación que asocia a cada suceso <span class="math inline">\(A\subseteq \Omega\)</span> un número real <span class="math inline">\(P(A)\)</span>, que cumple los axiomas:</p>
+<p><span class="theorem-title"><strong>Definición 5 (Probabilidad - Kolmogórov)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, una función de <em>probabilidad</em> es una aplicación que asocia a cada suceso <span class="math inline">\(A\subseteq \Omega\)</span> un número real <span class="math inline">\(P(A)\)</span>, que cumple los axiomas:</p>
 <ol type="1">
 <li>La probabilidad de un suceso cualquiera es positiva o nula, <span class="math display">\[P(A)\geq 0.\]</span></li>
 <li>La probabilidad del suceso seguro es igual a la unidad, <span class="math display">\[P(\Omega)=1.\]</span></li>
@@ -295,7 +786,7 @@
 
 <p>Los condicionantes suelen cambiar el espacio muestral del experimento y por tanto las probabilidades de sus sucesos.</p>
 <div id="exm-sucesos-condicionados" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 5</strong></span> Supongamos que tenemos una muestra de 100 hombres y 100 mujeres con las siguientes frecuencias</p>
+<p><span class="theorem-title"><strong>Ejemplo 11</strong></span> Supongamos que tenemos una muestra de 100 hombres y 100 mujeres con las siguientes frecuencias</p>
 <p><span class="math display">\[
 \begin{array}{|c|c|c|}
 \hline
@@ -332,13 +823,13 @@
 <section id="probabilidad-condicionada" class="title-slide slide level2 center">
 <h2>Probabilidad condicionada</h2>
 <div id="def-probabilidad-condicionada" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 5 (Probabilidad condicionada)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, y dos dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, la probabilidad de <span class="math inline">\(A\)</span> <em>condicionada</em> por <span class="math inline">\(B\)</span> es</p>
+<p><span class="theorem-title"><strong>Definición 6 (Probabilidad condicionada)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, y dos dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, la probabilidad de <span class="math inline">\(A\)</span> <em>condicionada</em> por <span class="math inline">\(B\)</span> es</p>
 <p><span class="math display">\[P(A|B) = \frac{P(A\cap B)}{P(B)},\]</span></p>
 <p>siempre y cuando, <span class="math inline">\(P(B)\neq 0\)</span>.</p>
 </div>
 <p>Esta definición permite calcular probabilidades sin tener que alterar el espacio muestral original del experimento.</p>
 <div id="exm-probabilidad-condicionada" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 6</strong></span> En el ejemplo anterior</p>
+<p><span class="theorem-title"><strong>Ejemplo 12</strong></span> En el ejemplo anterior</p>
 <p><span class="math display">\[P(\mbox{Fumadora}|\mbox{Mujer})= \frac{P(\mbox{Fumadora}\cap \mbox{Mujer})}{P(\mbox{Mujer})} =  \frac{20/200}{100/200}=\frac{20}{100}=0.2.\]</span></p>
 </div>
 </section>
@@ -347,7 +838,7 @@
 <p>A partir de la definición de probabilidad condicionada es posible obtener la fórmula para calcular la probabilidad de la intersección de dos sucesos.</p>
 <p><span class="math display">\[P(A\cap B) = P(A)P(B|A) = P(B)P(A|B).\]</span></p>
 <div id="exm-probabilidad-interseccion" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 7</strong></span> En una población hay un 30% de fumadores y se sabe que el 40% de los fumadores tiene cáncer de pulmón. La probabilidad de que una persona elegida al azar sea fumadora y tenga cáncer de pulmón es</p>
+<p><span class="theorem-title"><strong>Ejemplo 13</strong></span> En una población hay un 30% de fumadores y se sabe que el 40% de los fumadores tiene cáncer de pulmón. La probabilidad de que una persona elegida al azar sea fumadora y tenga cáncer de pulmón es</p>
 <p><span class="math display">\[\begin{align*}
 P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|\mbox{Fumadora}) \\
 &amp;= 0.3\times 0.4 = 0.12.
@@ -359,7 +850,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <h2>Independencia de sucesos</h2>
 <p>En ocasiones, la ocurrencia del suceso condicionante no cambia la probabilidad original del suceso principal.</p>
 <div id="def-sucesos-independientes" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 6 (Sucesos independientes)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span> son <em>independientes</em> si la probabilidad de <span class="math inline">\(A\)</span> no se ve alterada al condicionar por <span class="math inline">\(B\)</span>, y viceversa, es decir,</p>
+<p><span class="theorem-title"><strong>Definición 7 (Sucesos independientes)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span> son <em>independientes</em> si la probabilidad de <span class="math inline">\(A\)</span> no se ve alterada al condicionar por <span class="math inline">\(B\)</span>, y viceversa, es decir,</p>
 <p><span class="math display">\[P(A|B) = P(A) \quad \mbox{y} \quad P(B|A)=P(B),\]</span></p>
 <p>si <span class="math inline">\(P(A)\neq 0\)</span> y <span class="math inline">\(P(B)\neq 0\)</span>.</p>
 </div>
@@ -373,7 +864,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section id="árboles-de-probabilidad-con-variables-dependientes" class="slide level3">
 <h3>Árboles de probabilidad con variables dependientes</h3>
 <div id="exm-arbol-probabilidad-variables-dependientes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 8</strong></span> Sea una población en la que el 30% de las personas fuman, y que la incidencia del cáncer de pulmón en fumadores es del 40% mientras que en los no fumadores es del 10%.</p>
+<p><span class="theorem-title"><strong>Ejemplo 14</strong></span> Sea una población en la que el 30% de las personas fuman, y que la incidencia del cáncer de pulmón en fumadores es del 40% mientras que en los no fumadores es del 10%.</p>
 <p>El espacio probabilístico del experimento aleatorio que consiste en elegir una persona al azar y medir las variables Fumar y Cáncer de pulmón se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -386,7 +877,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section id="árboles-de-probabilidad-con-variables-independientes" class="slide level3">
 <h3>Árboles de probabilidad con variables independientes</h3>
 <div id="exm-arbol-probabilidad-variables-independientes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 9</strong></span> El árbol de probabilidad asociado al experimento aleatorio que consiste en el lanzamiento de dos monedas se muestra a continuación.</p>
+<p><span class="theorem-title"><strong>Ejemplo 15</strong></span> El árbol de probabilidad asociado al experimento aleatorio que consiste en el lanzamiento de dos monedas se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="img/01-probabilidad/espacio_probabilistico_monedas.svg" width="800"></p>
@@ -398,7 +889,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section class="slide level3">
 
 <div id="exm-arbol-probabilidad-variables-independientes-2" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 10</strong></span> Dada una población en la que hay un 40% de hombres y un 60% de mujeres, el experimento aleatorio que consiste en tomar una muestra aleatoria de tres personas tiene el árbol de probabilidad que se muestra a continuación.</p>
+<p><span class="theorem-title"><strong>Ejemplo 16</strong></span> Dada una población en la que hay un 40% de hombres y un 60% de mujeres, el experimento aleatorio que consiste en tomar una muestra aleatoria de tres personas tiene el árbol de probabilidad que se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="img/01-probabilidad/espacio_probabilistico_muestra.svg" width="800"></p>
@@ -407,10 +898,10 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 </div>
 </div>
 </section></section>
-<section id="section" class="title-slide slide level2 center">
+<section id="section-2" class="title-slide slide level2 center">
 <h2></h2>
 <div id="def-sistema-completo-sucesos" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 7 (Sistema completo de sucesos)</strong></span> Una colección de sucesos <span class="math inline">\(A_1,A_2,\ldots,A_n\)</span> de un mismo espacio muestral <span class="math inline">\(\Omega\)</span> es un <em>sistema completo</em> si cumple las siguientes condiciones:</p>
+<p><span class="theorem-title"><strong>Definición 8 (Sistema completo de sucesos)</strong></span> Una colección de sucesos <span class="math inline">\(A_1,A_2,\ldots,A_n\)</span> de un mismo espacio muestral <span class="math inline">\(\Omega\)</span> es un <em>sistema completo</em> si cumple las siguientes condiciones:</p>
 <ol type="1">
 <li><p>La unión de todos es el espacio muestral: <span class="math inline">\(A_1\cup \cdots\cup A_n =\Omega\)</span>.</p></li>
 <li><p>Son incompatibles dos a dos: <span class="math inline">\(A_i\cap A_j = \emptyset\)</span> <span class="math inline">\(\forall i\neq j\)</span>.</p></li>
@@ -441,7 +932,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section class="slide level3">
 
 <div id="exm-probabilidad-total" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 11</strong></span> Un determinado síntoma <span class="math inline">\(S\)</span> puede ser originado por una enfermedad <span class="math inline">\(E\)</span> pero también lo pueden presentar las personas sin la enfermedad. Sabemos que la prevalencia de la enfermedad <span class="math inline">\(E\)</span> es <span class="math inline">\(0.2\)</span>. Además, se sabe que el <span class="math inline">\(90\%\)</span> de las personas con la enfermedad presentan el síntoma, mientras que sólo el <span class="math inline">\(40\%\)</span> de las personas sin la enfermedad lo presentan. Si se toma una persona al azar de la población, <em>¿qué probabilidad hay de que tenga el síntoma?</em></p>
+<p><span class="theorem-title"><strong>Ejemplo 17</strong></span> Un determinado síntoma <span class="math inline">\(S\)</span> puede ser originado por una enfermedad <span class="math inline">\(E\)</span> pero también lo pueden presentar las personas sin la enfermedad. Sabemos que la prevalencia de la enfermedad <span class="math inline">\(E\)</span> es <span class="math inline">\(0.2\)</span>. Además, se sabe que el <span class="math inline">\(90\%\)</span> de las personas con la enfermedad presentan el síntoma, mientras que sólo el <span class="math inline">\(40\%\)</span> de las personas sin la enfermedad lo presentan. Si se toma una persona al azar de la población, <em>¿qué probabilidad hay de que tenga el síntoma?</em></p>
 <p>Para responder a la pregunta se puede aplicar el teorema de la probabilidad total usando el sistema completo <span class="math inline">\(\{E,\overline{E}\}\)</span>:</p>
 <p><span class="math display">\[P(S) = P(E)P(S|E)+P(\overline E)P(S|\overline E) = 0.2\cdot 0.9 + 0.8\cdot 0.4 = 0.5.\]</span></p>
 <p>Es decir, la mitad de la población tendrá el síntoma.</p>
@@ -470,11 +961,10 @@ P(S) &amp;= P(E,S) + P(\overline E,S) = P(E)P(S|E)+P(\overline E)P(S|\overline E
 <section class="slide level3">
 
 <div id="exm-teorema-bayes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 12</strong></span> En el ejemplo anterior, una pregunta más interesante es qué diagnosticar a una persona que presenta el síntoma.</p>
+<p><span class="theorem-title"><strong>Ejemplo 18</strong></span> En el ejemplo anterior, una pregunta más interesante es qué diagnosticar a una persona que presenta el síntoma.</p>
 <p>En este caso se puede interpretar <span class="math inline">\(E\)</span> y <span class="math inline">\(\overline{E}\)</span> como las dos posibles hipótesis para el síntoma <span class="math inline">\(S\)</span>.</p>
 <p><strong>Probabilidades a priori</strong> (Sin información sobre el síntoma)</p>
 <p><span class="math display">\[P(E)=0.2 \quad \mbox{y}\quad P(\overline E)=0.8\]</span></p>
-<p>Esto quiere decir que si no se dispone de información sobre el síntoma, el diagnóstico será que la persona no tiene la enfermedad.</p>
 </div>
 </section>
 <section class="slide level3">
@@ -706,6 +1196,44 @@ P(\overline{E}|S) &amp;= \frac{P(\overline{E})P(S|\overline{E})}{P(E)P(S|E)+P(\o
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
