@@ -12,7 +12,7 @@ lang: es
 ::: {.timeline .tl-label-panel}
 
 ::: {.event data-label="Lunes"}
-**Repaso de Estadística**
+[**Repaso de Probabilidad**](01-probabilidad.html){.mypurple}
 Probabilidad, frecuencias, distribuciones y regla de Bayes.
 :::
 
@@ -23,7 +23,7 @@ Estructuras de datos, distribuciones, tablas y gráficos.
 
 
 ::: {.event data-label="Martes"}
-**Introducción a la estadística bayesiana**
+[**Introducción a la estadística bayesiana**](02-regla-bayes.html){.mypurple}
 Estadística frecuentista vs bayesiana. Priors, likelihood y posteriors.
 :::
 

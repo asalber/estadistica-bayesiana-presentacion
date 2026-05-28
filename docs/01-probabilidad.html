@@ -100,7 +100,7 @@
     code span.vs { color: #da4453; } /* VerbatimString */
     code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-f3dd731250a11d331270d949edebfb86.css">
+  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-4d4b2b41801686363f2b3252aee43046.css">
   <link href="01-probabilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,6 +196,11 @@
   </style>
   <script src="01-probabilidad_files/libs/kePrint-0.0.1/kePrint.js"></script>
   <link href="01-probabilidad_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+  <link href="01-probabilidad_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+  <script src="01-probabilidad_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="01-probabilidad_files/libs/viz-1.8.2/viz.js"></script>
+  <link href="01-probabilidad_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+  <script src="01-probabilidad_files/libs/grViz-binding-1.0.12/grViz.js"></script>
 </head>
 <body class="quarto-light">
 <script src="mathjax-config.js"></script>
@@ -204,7 +209,7 @@
 
 <section id="title-slide" class="center">
       <img class="title-logo" src="img/logos/sticker-estadistica-bayesiana-r.png" width="250" style="float:right">
-        <p class="subtitle">Probabilidad, frecuencias, distribuciones y regla de Bayes</p>
+        <p class="subtitle">Probabilidad, frecuencias y distribuciones</p>
       <h1 class="title">Repaso de Probabilidad</h1>
       <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
         
@@ -360,6 +365,17 @@
 </table>
 </div>
 </div></div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exr-tabla-frecuencias" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 1</strong></span> El conjunto de datos <code>neonatos</code> contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.</p>
+<ol type="a">
+<li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>sexo</code>.</li>
+<li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>tabaco</code>.</li>
+<li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>apgar1</code>.</li>
+</ol>
 </div>
 </section></section>
 <section>
@@ -524,6 +540,16 @@
 </div>
 </div></div>
 </div>
+</section>
+<section class="slide level3">
+
+<div id="exr-tabla-frecuencias-bidimensional" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 2</strong></span> El conjunto de datos <code>neonatos</code> contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.</p>
+<ol type="a">
+<li>Crear una tabla de frecuencias absolutas bidimensional para las variables <code>edad</code> y <code>tabaco</code>. Añadir las frecuencias marginales de cada variable.</li>
+<li>Crear una tabla de frecuencias relativas bidimensional para las variables <code>tabaco</code> y <code>apgar1</code> para cada grupo de <code>edad</code>.</li>
+</ol>
+</div>
 </section></section>
 <section>
 <section id="distribuciones-de-frecuencias-condicionales" class="title-slide slide level2 center">
@@ -620,6 +646,17 @@
 </div>
 </div></div>
 </div>
+</section>
+<section class="slide level3">
+
+<div id="exr-distribuciones-condicionales" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 3</strong></span> El conjunto de datos <code>neonatos</code> contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.</p>
+<ol type="a">
+<li>Crear las tablas de frecuencias condicionales de <code>tabaco</code> para cada grupo de <code>edad</code>.</li>
+<li>Crear las tablas de frecuencias condicionales del <code>apgar1</code> para cada grupo de <code>tabaco</code>.</li>
+<li>Crear la tabla de frecuencias condicional del <code>apgar1</code> para hijos de madres fumadoras menos de 20 años.</li>
+</ol>
+</div>
 </section></section>
 <section id="section-1" class="title-slide slide level2 center" data-background-color="#0099CC">
 <h2></h2>
@@ -628,11 +665,171 @@
 </div>
 </section>
 
+<section id="experimentos-aleatorios" class="title-slide slide level2 center">
+<h2>Experimentos aleatorios</h2>
+<div id="def-experimento-aleatorio" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 2 (Experimento aleatorio)</strong></span> Un <em>experimento aleatorio</em> es un experimento que cumple dos condiciones:</p>
+<ol type="1">
+<li>El conjunto de posibles resultados es conocido.</li>
+<li>Es <em>no determinista</em>, es decir, no se puede predecir con absoluta certeza el resultado del experimento.</li>
+</ol>
+</div>
+<p>En algunos contextos se añade la condición de que el experimento sea <em>reproducible</em> bajo las mismas condiciones, sin embargo, esto no siempre es posible.</p>
+<p>Podemos repetir el lanzamiento de una moneda en las mismas condiciones, pero <em>no podemos repetir el nacimiento de un niño en las mismas condiciones</em>.</p>
+</section>
+
+<section>
+<section id="espacio-muestral" class="title-slide slide level2 center">
+<h2>Espacio muestral</h2>
+<div id="def-espacio-muestral" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3 (Espacio muestral)</strong></span> Al conjunto <span class="math inline">\(\Omega\)</span> de todos los posibles resultados de un experimento aleatorio se le llama <em>espacio muestral</em>.</p>
+</div>
+<div id="exm-espacio-muestral" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 7</strong></span> Algunos ejemplos de espacios muestrales son:</p>
+<ul>
+<li>Lanzamiento de una moneda: <span class="math inline">\(\Omega=\{\mbox{C},\mbox{X}\}\)</span>.</li>
+<li>Lanzamiento de un dado: <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span>.</li>
+<li>Grupo sanguíneo de un individuo seleccionado al azar: <span class="math inline">\(\Omega=\{\mbox{A},\mbox{B},\mbox{AB},\mbox{0}\}\)</span>.</li>
+<li>Estatura de un individuo seleccionado al azar: <span class="math inline">\(\Omega=\mathbb{R}^+\)</span>.</li>
+</ul>
+</div>
+</section>
+<section id="diagrama-de-árbol" class="slide level3">
+<h3>Diagrama de árbol</h3>
+<div id="exm-diagrama-arbol-espacio-muestral" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 8</strong></span> El siguiente diagrama de árbol representa el espacio muestral de un experimento aleatorio en el que se mide el sexo y el grupo sanguíneo de un individuo al azar.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Espacio muestral del sexo y grupo sanguíneo)</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.tree)</span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Hombre"</span>,<span class="st">"Mujer"</span>),</span>
+<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">16</span>)),</span>
+<span id="cb9-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">6</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">2</span>),</span>
+<span id="cb9-8"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">8</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">1</span>))</span>
+<span id="cb9-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>pathString <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Ω"</span>, df<span class="sc">$</span>sexo, df<span class="sc">$</span>grupo, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
+<span id="cb9-11"><a href="" aria-hidden="true" tabindex="-1"></a>espacio <span class="ot">&lt;-</span> <span class="fu">as.Node</span>(df)</span>
+<span id="cb9-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>    levelName
+1  Ω         
+2   ¦--Hombre
+3   ¦   ¦--0 
+4   ¦   ¦--A 
+5   ¦   ¦--B 
+6   ¦   °--AB
+7   °--Mujer 
+8       ¦--0 
+9       ¦--A 
+10      ¦--B 
+11      °--AB</code></pre>
+</div>
+</div></div>
+</div>
+</section>
+<section class="slide level3">
+
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujo del diagrama de árbol</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetGraphStyle</span>(espacio, <span class="at">rankdir =</span> <span class="st">"LR"</span>)</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetEdgeStyle</span>(espacio, <span class="at">arrowhead =</span> <span class="st">"vee"</span>)</span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetNodeStyle</span>(espacio, </span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">style =</span> <span class="st">"filled, rounded"</span>, </span>
+<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="st">"box"</span>, </span>
+<span id="cb11-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fillcolor =</span> <span class="st">"#89D3F3"</span>, </span>
+<span id="cb11-8"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fontcolor =</span> <span class="st">"black"</span>)</span>
+<span id="cb11-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-9fa0a6ce7df72964e9f9" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-9fa0a6ce7df72964e9f9">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Ω\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"2\" [label = \"Hombre\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"3\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"4\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"5\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"6\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"7\" [label = \"Mujer\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"8\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"9\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"10\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"11\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n\"1\"->\"2\" [arrowhead = \"vee\"] \n\"1\"->\"7\" [arrowhead = \"vee\"] \n\"2\"->\"3\" [arrowhead = \"vee\"] \n\"2\"->\"4\" [arrowhead = \"vee\"] \n\"2\"->\"5\" [arrowhead = \"vee\"] \n\"2\"->\"6\" [arrowhead = \"vee\"] \n\"7\"->\"8\" [arrowhead = \"vee\"] \n\"7\"->\"9\" [arrowhead = \"vee\"] \n\"7\"->\"10\" [arrowhead = \"vee\"] \n\"7\"->\"11\" [arrowhead = \"vee\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div></div>
+</section></section>
+<section id="sucesos-aleatorios" class="title-slide slide level2 center">
+<h2>Sucesos aleatorios</h2>
+<div id="def-suceso-aleatorio" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 4 (Suceso aleatorio)</strong></span> Un <em>suceso aleatorio</em> es cualquier subconjunto del espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio.</p>
+</div>
+<div id="exm-suceso-aleatorio" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 9</strong></span> Algunos ejemplos de sucesos aleatorios son:</p>
+<ul>
+<li>En el lanzamiento de un dado, el suceso <span class="math inline">\(A\)</span> de obtener un número par: <span class="math inline">\(A=\{2,4,6\}\)</span>.</li>
+<li>En la medición del nivel de colesterol en sangre de un individuo, el suceso <span class="math inline">\(B\)</span> de que el nivel de colesterol sea superior a 200 mg/dL: <span class="math inline">\(B=\{x\in \mathbb{R}^+: x&gt;200\}\)</span>.</li>
+</ul>
+</div>
+</section>
+
+<section>
+<section id="operaciones-entre-sucesos" class="title-slide slide level2 center">
+<h2>Operaciones entre sucesos</h2>
+<p>Puesto que los sucesos son conjuntos, por medio de la teoría de conjuntos se pueden definir las siguientes operaciones entre sucesos:</p>
+<ul>
+<li>Unión.</li>
+<li>Intersección.</li>
+<li>Complementario.</li>
+<li>Diferencia.</li>
+</ul>
+</section>
+<section id="unión-de-sucesos" class="slide level3">
+<h3>Unión de sucesos</h3>
+<div id="def-union-sucesos" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 5 (Suceso unión)</strong></span> Dados dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, se llama <em>suceso unión</em> de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, y se denota <span class="math inline">\(A\cup B\)</span>, al suceso formado por los elementos de <span class="math inline">\(A\)</span> junto a los elementos de <span class="math inline">\(B\)</span>, es decir,</p>
+<p><span class="math display">\[A\cup B = \{x\,|\, x\in A\mbox{ o }x\in B\}.\]</span></p>
+</div>
+
+<img data-src="img/01-probabilidad/union.svg" class="r-stretch quarto-figure-center"><p class="caption">Union de dos sucesos</p><p>El suceso unión <span class="math inline">\(A\cup B\)</span> ocurre siempre que ocurre <span class="math inline">\(A\)</span> <span style="color:red;">o</span> <span class="math inline">\(B\)</span>.</p>
+</section>
+<section id="intersección-de-sucesos" class="slide level3">
+<h3>Intersección de sucesos</h3>
+<div id="def-interseccion-sucesos" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 6 (Suceso intersección)</strong></span> Dados dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, se llama <em>suceso intersección</em> de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, y se denota <span class="math inline">\(A\cap B\)</span>, al suceso formado por los elementos comunes de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, es decir,</p>
+<p><span class="math display">\[A\cap B = \{x\,|\, x\in A\mbox{ y }x\in B\}.\]</span></p>
+</div>
+
+<img data-src="img/01-probabilidad/interseccion.svg" class="r-stretch quarto-figure-center"><p class="caption">Intersección de dos sucesos</p><p>El suceso intersección <span class="math inline">\(A\cap B\)</span> ocurre siempre que ocurren <span class="math inline">\(A\)</span> <span style="color:red;">y</span> <span class="math inline">\(B\)</span>.</p>
+<p>Diremos que dos sucesos son <strong>incompatibles</strong> si su intersección es vacía.</p>
+</section>
+<section id="contrario-de-un-suceso" class="slide level3">
+<h3>Contrario de un suceso</h3>
+<div id="def-contrario-sucesos" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 7 (Suceso contrario)</strong></span> Dado suceso <span class="math inline">\(A\subseteq \Omega\)</span>, se llama <em>suceso contrario o complementario</em> de <span class="math inline">\(A\)</span>, y se denota <span class="math inline">\(\overline A\)</span>, al suceso formado por los elementos de <span class="math inline">\(\Omega\)</span> que no pertenecen a <span class="math inline">\(A\)</span>, es decir,</p>
+<p><span class="math display">\[\overline A = \{x\,|\, x\not\in A\}.\]</span></p>
+</div>
+
+<img data-src="img/01-probabilidad/contrario.svg" class="r-stretch quarto-figure-center"><p class="caption">Contrario de un suceso</p><p>El suceso contrario <span class="math inline">\(\overline A\)</span> ocurre siempre que <span style="color:red;">no</span> ocurre <span class="math inline">\(A\)</span>.</p>
+</section>
+<section id="diferencia-de-sucesos" class="slide level3">
+<h3>Diferencia de sucesos</h3>
+<div id="def-diferencia-sucesos" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 8 (Suceso diferencia)</strong></span> Dados dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, se llama <em>suceso diferencia</em> de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, y se denota <span class="math inline">\(A-B\)</span>, al suceso formado por los elementos de <span class="math inline">\(A\)</span> que no pertenecen a <span class="math inline">\(B\)</span>, es decir,</p>
+<p><span class="math display">\[A-B = \{x\,|\, x\in A\mbox{ y }x\not\in B\} = A \cap \overline B.\]</span></p>
+</div>
+
+<img data-src="img/01-probabilidad/diferencia.svg" class="r-stretch quarto-figure-center"><p class="caption">Diferencia de sucesos</p><p>El suceso diferencia <span class="math inline">\(A-B\)</span> ocurre siempre que ocurre <span class="math inline">\(A\)</span> pero no ocurre <span class="math inline">\(B\)</span>, y también puede expresarse como <span class="math inline">\(A\cap \bar B\)</span>.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-operaciones-sucesos" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 10</strong></span> Dado el espacio muestral correspondiente al lanzamiento de un dado <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> y los sucesos <span class="math inline">\(A=\{2,4,6\}\)</span> y <span class="math inline">\(B=\{1,2,3,4\}\)</span>,</p>
+<ul>
+<li>La unión de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> es <span class="math inline">\(A\cup B=\{1,2,3,4,6\}\)</span>.</li>
+<li>La intersección de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> es <span class="math inline">\(A\cap B=\{2,4\}\)</span>.</li>
+<li>El contrario de <span class="math inline">\(A\)</span> es <span class="math inline">\(\overline A=\{1,3,5\}\)</span>.</li>
+<li>Los eventos <span class="math inline">\(A\)</span> y <span class="math inline">\(\overline A\)</span> son incompatibles.</li>
+<li>La diferencia de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> es <span class="math inline">\(A-B=\{6\}\)</span>, y la diferencia de <span class="math inline">\(B\)</span> y <span class="math inline">\(A\)</span> es <span class="math inline">\(B-A=\{1,3\}\)</span>.</li>
+</ul>
+</div>
+</section></section>
 <section>
 <section id="definición-clásica-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición clásica de probabilidad</h2>
 <div id="def-laplace" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 2 (Probabilidad - Laplace)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio donde todos los elementos de <span class="math inline">\(\Omega\)</span> son <em>equiprobables</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es el cociente entre el número de elementos de <span class="math inline">\(A\)</span> y el número de elementos de <span class="math inline">\(\Omega\)</span></p>
+<p><span class="theorem-title"><strong>Definición 9 (Probabilidad - Laplace)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio donde todos los elementos de <span class="math inline">\(\Omega\)</span> son <em>equiprobables</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es el cociente entre el número de elementos de <span class="math inline">\(A\)</span> y el número de elementos de <span class="math inline">\(\Omega\)</span></p>
 <p><span class="math display">\[P(A) = \frac{|A|}{|\Omega|} = \frac{\mbox{nº casos favorables a A}}{\mbox{nº casos posibles}}\]</span></p>
 </div>
 </section>
@@ -657,7 +854,7 @@
 <section class="slide level3">
 
 <div id="exm-experimento-sin-equiprobabilidad" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 7</strong></span> Dado el espacio muestral correspondiente al lanzamiento de un dado <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> y el suceso <span class="math inline">\(A=\{2,4,6\}\)</span>, la probabilidad de <span class="math inline">\(A\)</span> es</p>
+<p><span class="theorem-title"><strong>Ejemplo 11</strong></span> Dado el espacio muestral correspondiente al lanzamiento de un dado <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> y el suceso <span class="math inline">\(A=\{2,4,6\}\)</span>, la probabilidad de <span class="math inline">\(A\)</span> es</p>
 <p><span class="math display">\[P(A) = \frac{|A|}{|\Omega|} = \frac{3}{6} = 0.5.\]</span></p>
 <p>Sin embargo, si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, no se puede usar la definición clásica de probabilidad para calcular la probabilidad de que tenga grupo sanguíneo <span class="math inline">\(A\)</span>,</p>
 <p><span class="math display">\[P(A) \neq \frac{|A|}{|\Omega|} = \frac{1}{4} = 0.25,\]</span></p>
@@ -675,7 +872,7 @@
 <section class="slide level3">
 
 <div id="def-probabilidad-frecuentista" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3 (Probabilidad frecuentista)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio <em>reproducible</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es la frecuencia relativa del suceso <span class="math inline">\(A\)</span> en infinitas repeticiones del experimento</p>
+<p><span class="theorem-title"><strong>Definición 10 (Probabilidad frecuentista)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio <em>reproducible</em>, la <em>probabilidad</em> de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es la frecuencia relativa del suceso <span class="math inline">\(A\)</span> en infinitas repeticiones del experimento</p>
 <p><span class="math display">\[P(A) = lim_{n\rightarrow \infty}\frac{n_{A}}{n}\]</span></p>
 </div>
 </section>
@@ -690,11 +887,11 @@
 <section class="slide level3">
 
 <div id="exm-probabilidad-frecuentista" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 8</strong></span> Dado el espacio muestral correspondiente al lanzamiento de una moneda <span class="math inline">\(\Omega=\{C,X\}\)</span>, si después de lanzar la moneda 100 veces obtenemos 54 caras, entonces la probabilidad de <span class="math inline">\(C\)</span> es aproximadamente</p>
+<p><span class="theorem-title"><strong>Ejemplo 12</strong></span> Dado el espacio muestral correspondiente al lanzamiento de una moneda <span class="math inline">\(\Omega=\{C,X\}\)</span>, si después de lanzar la moneda 100 veces obtenemos 54 caras, entonces la probabilidad de <span class="math inline">\(C\)</span> es aproximadamente</p>
 <p><span class="math display">\[P(C) \approx \frac{n_C}{n} = \frac{54}{100} = 0.54.\]</span></p>
 </div>
 <div id="exm-probabilidad-frecuentista-2" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 9</strong></span> Si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, si se toma una muestra aleatoria de 1000 personas y se observa que 412 tienen grupo sanguíneo <span class="math inline">\(A\)</span>, entonces la probabilidad del grupo sanguíneo <span class="math inline">\(A\)</span> es aproximadamente</p>
+<p><span class="theorem-title"><strong>Ejemplo 13</strong></span> Si se considera el espacio muestral correspondiente a observar el grupo sanguíneo de un individuo al azar, <span class="math inline">\(\Omega=\{O,A,B,AB\}\)</span>, si se toma una muestra aleatoria de 1000 personas y se observa que 412 tienen grupo sanguíneo <span class="math inline">\(A\)</span>, entonces la probabilidad del grupo sanguíneo <span class="math inline">\(A\)</span> es aproximadamente</p>
 <p><span class="math display">\[P(A) \approx \frac{n_A}{n} = \frac{412}{1000} = 0.412.\]</span></p>
 </div>
 </section></section>
@@ -702,7 +899,7 @@
 <section id="definición-subjetiva-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición subjetiva de probabilidad</h2>
 <div id="def-probabilidad-subjetiva" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 4 (Probabilidad subjetiva)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, la probabilidad de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es una medida de la confianza que un individuo tiene en que el suceso <span class="math inline">\(A\)</span> ocurra, y se expresa mediante un número real entre 0 y 1.</p>
+<p><span class="theorem-title"><strong>Definición 11 (Probabilidad subjetiva)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, la probabilidad de un suceso <span class="math inline">\(A\subseteq \Omega\)</span> es una medida de la confianza que un individuo tiene en que el suceso <span class="math inline">\(A\)</span> ocurra, y se expresa mediante un número real entre 0 y 1.</p>
 </div>
 <ul>
 <li>Se basa en la experiencia personal, el conocimiento previo y la información disponible, por lo que es distinta para cada individuo y puede cambiar con el tiempo, con nueva información o experiencias.</li>
@@ -720,7 +917,7 @@
 <section class="slide level3">
 
 <div id="exm-probabilidad-subjetiva" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 10</strong></span> Basado en el tiempo de los días previos puedo hacer la siguiente predicción del tiempo para mañana:</p>
+<p><span class="theorem-title"><strong>Ejemplo 14</strong></span> Basado en el tiempo de los días previos puedo hacer la siguiente predicción del tiempo para mañana:</p>
 <div class="centered">
 <p><em>Es moderadamente probable que llueva mañana.</em></p>
 </div>
@@ -734,7 +931,7 @@
 <section id="definición-axiomática-de-probabilidad" class="title-slide slide level2 center">
 <h2>Definición axiomática de probabilidad</h2>
 <div id="def-probabilidad-kolmogorov" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 5 (Probabilidad - Kolmogórov)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, una función de <em>probabilidad</em> es una aplicación que asocia a cada suceso <span class="math inline">\(A\subseteq \Omega\)</span> un número real <span class="math inline">\(P(A)\)</span>, que cumple los axiomas:</p>
+<p><span class="theorem-title"><strong>Definición 12 (Probabilidad - Kolmogórov)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, una función de <em>probabilidad</em> es una aplicación que asocia a cada suceso <span class="math inline">\(A\subseteq \Omega\)</span> un número real <span class="math inline">\(P(A)\)</span>, que cumple los axiomas:</p>
 <ol type="1">
 <li>La probabilidad de un suceso cualquiera es positiva o nula, <span class="math display">\[P(A)\geq 0.\]</span></li>
 <li>La probabilidad del suceso seguro es igual a la unidad, <span class="math display">\[P(\Omega)=1.\]</span></li>
@@ -786,7 +983,7 @@
 
 <p>Los condicionantes suelen cambiar el espacio muestral del experimento y por tanto las probabilidades de sus sucesos.</p>
 <div id="exm-sucesos-condicionados" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 11</strong></span> Supongamos que tenemos una muestra de 100 hombres y 100 mujeres con las siguientes frecuencias</p>
+<p><span class="theorem-title"><strong>Ejemplo 15</strong></span> Supongamos que tenemos una muestra de 100 hombres y 100 mujeres con las siguientes frecuencias</p>
 <p><span class="math display">\[
 \begin{array}{|c|c|c|}
 \hline
@@ -823,13 +1020,13 @@
 <section id="probabilidad-condicionada" class="title-slide slide level2 center">
 <h2>Probabilidad condicionada</h2>
 <div id="def-probabilidad-condicionada" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 6 (Probabilidad condicionada)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, y dos dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, la probabilidad de <span class="math inline">\(A\)</span> <em>condicionada</em> por <span class="math inline">\(B\)</span> es</p>
+<p><span class="theorem-title"><strong>Definición 13 (Probabilidad condicionada)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, y dos dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span>, la probabilidad de <span class="math inline">\(A\)</span> <em>condicionada</em> por <span class="math inline">\(B\)</span> es</p>
 <p><span class="math display">\[P(A|B) = \frac{P(A\cap B)}{P(B)},\]</span></p>
 <p>siempre y cuando, <span class="math inline">\(P(B)\neq 0\)</span>.</p>
 </div>
 <p>Esta definición permite calcular probabilidades sin tener que alterar el espacio muestral original del experimento.</p>
 <div id="exm-probabilidad-condicionada" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 12</strong></span> En el ejemplo anterior</p>
+<p><span class="theorem-title"><strong>Ejemplo 16</strong></span> En el ejemplo anterior</p>
 <p><span class="math display">\[P(\mbox{Fumadora}|\mbox{Mujer})= \frac{P(\mbox{Fumadora}\cap \mbox{Mujer})}{P(\mbox{Mujer})} =  \frac{20/200}{100/200}=\frac{20}{100}=0.2.\]</span></p>
 </div>
 </section>
@@ -838,7 +1035,7 @@
 <p>A partir de la definición de probabilidad condicionada es posible obtener la fórmula para calcular la probabilidad de la intersección de dos sucesos.</p>
 <p><span class="math display">\[P(A\cap B) = P(A)P(B|A) = P(B)P(A|B).\]</span></p>
 <div id="exm-probabilidad-interseccion" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 13</strong></span> En una población hay un 30% de fumadores y se sabe que el 40% de los fumadores tiene cáncer de pulmón. La probabilidad de que una persona elegida al azar sea fumadora y tenga cáncer de pulmón es</p>
+<p><span class="theorem-title"><strong>Ejemplo 17</strong></span> En una población hay un 30% de fumadores y se sabe que el 40% de los fumadores tiene cáncer de pulmón. La probabilidad de que una persona elegida al azar sea fumadora y tenga cáncer de pulmón es</p>
 <p><span class="math display">\[\begin{align*}
 P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|\mbox{Fumadora}) \\
 &amp;= 0.3\times 0.4 = 0.12.
@@ -850,7 +1047,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <h2>Independencia de sucesos</h2>
 <p>En ocasiones, la ocurrencia del suceso condicionante no cambia la probabilidad original del suceso principal.</p>
 <div id="def-sucesos-independientes" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 7 (Sucesos independientes)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span> son <em>independientes</em> si la probabilidad de <span class="math inline">\(A\)</span> no se ve alterada al condicionar por <span class="math inline">\(B\)</span>, y viceversa, es decir,</p>
+<p><span class="theorem-title"><strong>Definición 14 (Sucesos independientes)</strong></span> Dado un espacio muestral <span class="math inline">\(\Omega\)</span> de un experimento aleatorio, dos sucesos <span class="math inline">\(A,B\subseteq \Omega\)</span> son <em>independientes</em> si la probabilidad de <span class="math inline">\(A\)</span> no se ve alterada al condicionar por <span class="math inline">\(B\)</span>, y viceversa, es decir,</p>
 <p><span class="math display">\[P(A|B) = P(A) \quad \mbox{y} \quad P(B|A)=P(B),\]</span></p>
 <p>si <span class="math inline">\(P(A)\neq 0\)</span> y <span class="math inline">\(P(B)\neq 0\)</span>.</p>
 </div>
@@ -864,7 +1061,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section id="árboles-de-probabilidad-con-variables-dependientes" class="slide level3">
 <h3>Árboles de probabilidad con variables dependientes</h3>
 <div id="exm-arbol-probabilidad-variables-dependientes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 14</strong></span> Sea una población en la que el 30% de las personas fuman, y que la incidencia del cáncer de pulmón en fumadores es del 40% mientras que en los no fumadores es del 10%.</p>
+<p><span class="theorem-title"><strong>Ejemplo 18</strong></span> Sea una población en la que el 30% de las personas fuman, y que la incidencia del cáncer de pulmón en fumadores es del 40% mientras que en los no fumadores es del 10%.</p>
 <p>El espacio probabilístico del experimento aleatorio que consiste en elegir una persona al azar y medir las variables Fumar y Cáncer de pulmón se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -877,7 +1074,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section id="árboles-de-probabilidad-con-variables-independientes" class="slide level3">
 <h3>Árboles de probabilidad con variables independientes</h3>
 <div id="exm-arbol-probabilidad-variables-independientes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 15</strong></span> El árbol de probabilidad asociado al experimento aleatorio que consiste en el lanzamiento de dos monedas se muestra a continuación.</p>
+<p><span class="theorem-title"><strong>Ejemplo 19</strong></span> El árbol de probabilidad asociado al experimento aleatorio que consiste en el lanzamiento de dos monedas se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="img/01-probabilidad/espacio_probabilistico_monedas.svg" width="800"></p>
@@ -889,7 +1086,7 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 <section class="slide level3">
 
 <div id="exm-arbol-probabilidad-variables-independientes-2" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 16</strong></span> Dada una población en la que hay un 40% de hombres y un 60% de mujeres, el experimento aleatorio que consiste en tomar una muestra aleatoria de tres personas tiene el árbol de probabilidad que se muestra a continuación.</p>
+<p><span class="theorem-title"><strong>Ejemplo 20</strong></span> Dada una población en la que hay un 40% de hombres y un 60% de mujeres, el experimento aleatorio que consiste en tomar una muestra aleatoria de tres personas tiene el árbol de probabilidad que se muestra a continuación.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="img/01-probabilidad/espacio_probabilistico_muestra.svg" width="800"></p>
@@ -898,84 +1095,1003 @@ P(\mbox{Fumadora}\cap \mbox{Cáncer}) &amp;= P(\mbox{Fumadora})P(\mbox{Cáncer}|
 </div>
 </div>
 </section></section>
-<section id="section-2" class="title-slide slide level2 center">
+<section id="section-2" class="title-slide slide level2 center" data-background-color="#0099CC">
 <h2></h2>
-<div id="def-sistema-completo-sucesos" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 8 (Sistema completo de sucesos)</strong></span> Una colección de sucesos <span class="math inline">\(A_1,A_2,\ldots,A_n\)</span> de un mismo espacio muestral <span class="math inline">\(\Omega\)</span> es un <em>sistema completo</em> si cumple las siguientes condiciones:</p>
-<ol type="1">
-<li><p>La unión de todos es el espacio muestral: <span class="math inline">\(A_1\cup \cdots\cup A_n =\Omega\)</span>.</p></li>
-<li><p>Son incompatibles dos a dos: <span class="math inline">\(A_i\cap A_j = \emptyset\)</span> <span class="math inline">\(\forall i\neq j\)</span>.</p></li>
-</ol>
+<div class="main-title">
+<p>Distribuciones de probabilidad</p>
 </div>
-<!-- ![Partición del espacio muestral en un sistema completo de sucesos.](img/01-probabilidad/particion_espacio_muestral.svg){width=500} -->
-<p>En realidad un sistema completo de sucesos es una partición del espacio muestral de acuerdo a algún atributo, como por ejemplo el sexo o el grupo sanguíneo.</p>
 </section>
 
 <section>
-<section id="teorema-de-la-probabilidad-total" class="title-slide slide level2 center">
-<h2>Teorema de la probabilidad total</h2>
-<p>Conocer las probabilidades de un determinado suceso en cada una de las partes de un sistema completo puede ser útil para calcular su probabilidad.</p>
-<div id="thm-probabilidad-total" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3 (Probabilidad total)</strong></span> Dado un sistema completo de sucesos <span class="math inline">\(A_1,\ldots,A_n\)</span> y un suceso <span class="math inline">\(B\)</span> de un espacio muestral <span class="math inline">\(\Omega\)</span>, la probabilidad de cualquier suceso <span class="math inline">\(B\)</span> del espacio muestral se puede calcular mediante la fórmula</p>
-<p><span class="math display">\[P(B) = \sum_{i=1}^n P(A_i\cap B) = \sum_{i=1}^n P(A_i)P(B|A_i).\]</span></p>
+<section id="variables-aleatorias" class="title-slide slide level2 center">
+<h2>Variables aleatorias</h2>
+<div id="def-variables-aleatorias" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 15 (Variable Aleatoria)</strong></span> Una <em>variable aleatoria</em> <span class="math inline">\(X\)</span> es una función que asocia un número real a cada elemento del espacio muestral de un experimento aleatorio.</p>
+<p><span class="math display">\[
+    X:\Omega \rightarrow \mathbb{R}
+\]</span></p>
+<p>Al conjunto de posibles valores que puede tomar la variable aleatoria se le llama o de la variable, y se representa por <span class="math inline">\(\mbox{Ran}(X)\)</span>.</p>
+</div>
+<p>En el fondo, una variable aleatoria es una variable cuyos valores provienen de la realización de un experimento aleatorio, y por tanto, tendrá asociada una determinada distribución de probabilidad.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-variable-aleatoria" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 21</strong></span> La variable <span class="math inline">\(X\)</span> que mide el número de personas infectadas con un virus en una muestra aleatoria de 10 personas es una variable aleatoria, y tiene como rango el conjunto de números enteros entre 0 y 10, es decir,</p>
+<p><span class="math display">\[
+    \mbox{Ran}(X)=\{0,1,2,3,4,5,6,7,8,9,10\}
+\]</span></p>
+</div>
+</section></section>
+<section id="tipos-de-variables-aleatorias" class="title-slide slide level2 center">
+<h2>Tipos de variables aleatorias</h2>
+<p>Las variables aleatorias se clasifican en dos tipos:</p>
+<ul>
+<li><p><strong>Discretas (VAD)</strong>. Toman valores aislados y su rango es numerable.<br>
+<strong>Ejemplo</strong>. Número de hijos, número de cigarrillos, número de asignaturas aprobadas, etc.</p></li>
+<li><p><strong>Continuas (VAC)</strong>. Toman valores en un intervalo real y su rango es no numerable.<br>
+<strong>Ejemplo</strong>. Peso, estatura, edad, nivel de colesterol, etc.</p></li>
+</ul>
+</section>
+
+<section>
+<section id="varibles-aleatorias-discretas" class="title-slide slide level2 center">
+<h2>Varibles aleatorias discretas</h2>
+<div id="def-funcion-probabilidad-discreta" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 16 (Función de probabilidad)</strong></span> La <em>función de probabilidad</em> de una variable aleatoria discreta <span class="math inline">\(X\)</span> es una función <span class="math inline">\(f(x)\)</span> que asocia a cada valor de la variable su probabilidad</p>
+<p><span class="math display">\[
+f(x_i) = P(X=x_i).
+\]</span></p>
 </div>
 </section>
 <section class="slide level3">
 
-<div class="quarto-figure quarto-figure-center">
+<div id="exm-funcion-probabilidad-discreta" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 22</strong></span> La función de probabilidad de la variable que mide el número de caras obtenidas al lanzar una moneda tres veces es</p>
+<p><span class="math display">\[
+\begin{array}{c|cccc}
+x &amp; 0 &amp; 1 &amp; 2 &amp; 3 \\
+\hline
+f(x) &amp; \frac{1}{8} &amp; \frac{3}{8} &amp; \frac{3}{8} &amp; \frac{1}{8}
+\end{array}
+\]</span></p>
+</div>
+</section></section>
+<section id="estadísticos-de-una-variable-aleatoria-discreta" class="title-slide slide level2 center">
+<h2>Estadísticos de una variable aleatoria discreta</h2>
+<p><strong>Media</strong></p>
+<p><span class="math display">\[
+E(X) = \sum_{i} x_i f(x_i).
+\]</span></p>
+<p><strong>Varianza</strong></p>
+<p><span class="math display">\[
+Var(X) = \sum_{i} (x_i - E(X))^2 f(x_i) = \sum_{i} x_i^2 f(x_i) - E(X)^2.
+\]</span></p>
+</section>
+
+<section>
+<section id="distribución-uniforme-discreta" class="title-slide slide level2 center">
+<h2>Distribución Uniforme Discreta</h2>
+<div id="def-distribucion-uniforme-discreta" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 17 (Distribución Uniforme Discreta)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad uniforme discreto</em> <span class="math inline">\(X\sim U(n)\)</span>, si su rango es <span class="math inline">\(R(X)=\{1,\ldots,n: \}\)</span> y su función de probabilidad es constante, es decir,</p>
+<p><span class="math display">\[
+P(X=k) = \frac{1}{n} \quad \forall k=1,\ldots,n.
+\]</span></p>
+</div>
+<p>El modelo de distribución uniforme discreto se utiliza para modelar experimentos aleatorios con un número finito de resultados <em>equiprobables</em>, como por ejemplo el lanzamiento de un dado o la selección aleatoria de un individuo de una población con un número finito de individuos.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-uniforme-discreta" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 23</strong></span> El modelo de distribución de probabilidad de resultado de lanzar un dado equilibrado es uniforme discreto <span class="math inline">\(U(6)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="co"># Rango </span></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>) <span class="co"># Probabilidad</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>p)) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">fill=</span>myblue) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución uniforme discreta U(6)"</span>,</span>
+<span id="cb12-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
 <figure>
-<p><img data-src="img/01-probabilidad/probabilidad_total.svg" height="500"></p>
-<figcaption>Teorema de la probabilidad total.</figcaption>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
 </figure>
 </div>
-</section>
-<section class="slide level3">
-
-<div id="exm-probabilidad-total" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 17</strong></span> Un determinado síntoma <span class="math inline">\(S\)</span> puede ser originado por una enfermedad <span class="math inline">\(E\)</span> pero también lo pueden presentar las personas sin la enfermedad. Sabemos que la prevalencia de la enfermedad <span class="math inline">\(E\)</span> es <span class="math inline">\(0.2\)</span>. Además, se sabe que el <span class="math inline">\(90\%\)</span> de las personas con la enfermedad presentan el síntoma, mientras que sólo el <span class="math inline">\(40\%\)</span> de las personas sin la enfermedad lo presentan. Si se toma una persona al azar de la población, <em>¿qué probabilidad hay de que tenga el síntoma?</em></p>
-<p>Para responder a la pregunta se puede aplicar el teorema de la probabilidad total usando el sistema completo <span class="math inline">\(\{E,\overline{E}\}\)</span>:</p>
-<p><span class="math display">\[P(S) = P(E)P(S|E)+P(\overline E)P(S|\overline E) = 0.2\cdot 0.9 + 0.8\cdot 0.4 = 0.5.\]</span></p>
-<p>Es decir, la mitad de la población tendrá el síntoma.</p>
-<p><em>¡En el fondo se trata de una media ponderada de probabilidades!</em></p>
 </div>
-</section>
-<section class="slide level3">
-
-<p>La respuesta a la pregunta anterior es evidente a la luz del árbol de probabilidad del espacio probabilístico del experimento.</p>
-
-<img data-src="img/01-probabilidad/espacio_probabilistico_total.svg" class="r-stretch quarto-figure-center"><p class="caption">Aplicación del teorema de la probabilidad total en un espacio probabilístico.</p><p><span class="math display">\[\begin{align*}
-P(S) &amp;= P(E,S) + P(\overline E,S) = P(E)P(S|E)+P(\overline E)P(S|\overline E)\\
-&amp; = 0.2\cdot 0.9+ 0.8\cdot 0.4 = 0.18 + 0.32 = 0.5.
-\end{align*}\]</span></p>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución uniforme discreta U(6)"</span>,</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
 </section></section>
 <section>
-<section id="teorema-de-bayes" class="title-slide slide level2 center">
-<h2>Teorema de Bayes</h2>
-<p>Los sucesos de un sistema completo de sucesos <span class="math inline">\(A_1,\cdots,A_n\)</span> también pueden verse como las distintas hipótesis ante un determinado hecho <span class="math inline">\(B\)</span>.</p>
-<p>En estas condiciones resulta útil poder calcular las probabilidades a posteriori <span class="math inline">\(P(A_i|B)\)</span> de cada una de las hipótesis.</p>
-<div id="thm-bayes" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4 (Bayes)</strong></span> Dado un sistema completo de sucesos <span class="math inline">\(A_1,\ldots,A_n\)</span> y un suceso <span class="math inline">\(B\)</span> de un espacio muestral <span class="math inline">\(\Omega\)</span> y otro suceso <span class="math inline">\(B\)</span> del mismo espacio muestral, la probabilidad de cada suceso <span class="math inline">\(A_i\)</span> <span class="math inline">\(i=1,\ldots,n\)</span> condicionada por <span class="math inline">\(B\)</span> puede calcularse con la siguiente fórmula</p>
-<p><span class="math display">\[P(A_i|B) = \frac{P(A_i\cap B)}{P(B)} = \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^n P(A_i)P(B|A_i)}.\]</span></p>
+<section id="distribución-binomial" class="title-slide slide level2 center">
+<h2>Distribución Binomial</h2>
+<div id="def-distribucion-binomial" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 18 (Distribución Binomial)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad binomial</em> <span class="math inline">\(X\sim B(n, p)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0,1,\ldots,n\}\)</span> y su función de probabilidad es</p>
+<p><span class="math display">\[
+P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad k=0,1,\ldots,n,
+\]</span></p>
+<p>donde <span class="math inline">\(n\)</span> es el <em>número de ensayos</em> y <span class="math inline">\(p\)</span> la <em>probabilidad de éxito</em> en cada ensayo.</p>
+</div>
+<p>El modelo binomial se utiliza para modelar el número de éxitos en <span class="math inline">\(n\)</span> ensayos independientes con dos posibles resultados (éxito/fracaso), como por ejemplo el número de caras al lanzar <span class="math inline">\(n\)</span> monedas o el número de individuos enfermos en una muestra de tamaño <span class="math inline">\(n\)</span>.</p>
+<p><strong>Estadísticos</strong> <span class="math display">\[
+E(X) = np \quad \mbox{y} \quad Var(X) = np(1-p).
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-binomial" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 24</strong></span> El número de caras al lanzar 10 monedas equilibradas sigue una distribución binomial <span class="math inline">\(B(10, 0.5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>,  <span class="co"># Rango</span></span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>) <span class="co"># Probabilidad</span></span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb14-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución binomial B(10, 0.5)"</span>,</span>
+<span id="cb14-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución binomial B(10, 0.5)"</span>,</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-binomial-para-distintos-valores-de-n-y-p" class="slide level3">
+<h3>Forma de la distribución binomial para distintos valores de <span class="math inline">\(n\)</span> y <span class="math inline">\(p\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-de-poisson" class="title-slide slide level2 center">
+<h2>Distribución de Poisson</h2>
+<div id="def-distribucion-poisson" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 19 (Distribución de Poisson)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad de Poisson</em> <span class="math inline">\(X\sim P(\lambda)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0,1,2,\ldots\}\)</span> y su función de probabilidad es</p>
+<p><span class="math display">\[
+P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!} \quad k=0,1,2,\ldots,
+\]</span></p>
+<p>donde <span class="math inline">\(\lambda&gt;0\)</span> es el número medio de ocurrencias del suceso en el intervalo de referencia.</p>
+</div>
+<p>El modelo de Poisson se utiliza para modelar el número de ocurrencias de un suceso en un intervalo de tiempo o espacio fijo, como por ejemplo el número de llamadas que recibe una centralita en una hora o el número de mutaciones en un fragmento de ADN.</p>
+<p><strong>Estadísticos</strong> <span class="math display">\[
+E(X) = Var(X) = \lambda.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-poisson" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 25</strong></span> El número de llamadas que recibe una centralita en una hora, si la media es 4, sigue una distribución de Poisson <span class="math inline">\(P(4)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,  <span class="co"># Rango truncado</span></span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">lambda =</span> <span class="dv">4</span>)  <span class="co"># Probabilidad</span></span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de Poisson P(4)"</span>,</span>
+<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución de Poisson P(4)"</span>,</span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-de-poisson-para-distintos-valores-de-lambda" class="slide level3">
+<h3>Forma de la distribución de Poisson para distintos valores de <span class="math inline">\(\lambda\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="variables-aleatorias-continuas" class="title-slide slide level2 center">
+<h2>Variables aleatorias continuas</h2>
+<div id="def-funcion-densidad" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 20 (Función de densidad)</strong></span> La <em>función de densidad</em> de una variable aleatoria continua <span class="math inline">\(X\)</span> es una función <span class="math inline">\(f(x)\)</span> que cumple las siguientes condiciones:</p>
+<ol type="1">
+<li><span class="math inline">\(f(x)\geq 0\)</span> para todo <span class="math inline">\(x\in \mathbb{R}\)</span>.</li>
+<li><span class="math inline">\(\int_{-\infty}^{+\infty} f(x)\,dx = 1\)</span>.</li>
+<li><span class="math inline">\(P(a\leq X \leq b) = \int_a^b f(x)\,dx\)</span> para cualesquiera <span class="math inline">\(a,b\in \mathbb{R}\)</span> con <span class="math inline">\(a\leq b\)</span>.</li>
+</ol>
 </div>
 </section>
 <section class="slide level3">
 
-<div id="exm-teorema-bayes" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 18</strong></span> En el ejemplo anterior, una pregunta más interesante es qué diagnosticar a una persona que presenta el síntoma.</p>
-<p>En este caso se puede interpretar <span class="math inline">\(E\)</span> y <span class="math inline">\(\overline{E}\)</span> como las dos posibles hipótesis para el síntoma <span class="math inline">\(S\)</span>.</p>
-<p><strong>Probabilidades a priori</strong> (Sin información sobre el síntoma)</p>
-<p><span class="math display">\[P(E)=0.2 \quad \mbox{y}\quad P(\overline E)=0.8\]</span></p>
+<div id="exm-funcion-densidad" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 26</strong></span> La función</p>
+<p><span class="math display">\[
+f(x) = \begin{cases}
+e^{-x} &amp; x\geq 0 \\
+0 &amp; x&lt;0
+\end{cases}
+\]</span></p>
+<p>es una función de densidad ya que cumple las condiciones anteriores.</p>
+<ol type="1">
+<li><span class="math inline">\(f(x)\geq 0\)</span> para todo <span class="math inline">\(x\in \mathbb{R}\)</span>.</li>
+<li><span class="math inline">\(\int_{-\infty}^{+\infty} f(x)\,dx = \int_0^{+\infty} e^{-x}\,dx = \left[-e^{-x}\right]_0^{+\infty} = 1\)</span>.</li>
+<li><span class="math inline">\(P(a\leq X \leq b) = \int_a^b f(x)\,dx = \int_a^b e^{-x}\,dx = \left[-e^{-x}\right]_a^b = e^{-a}-e^{-b}\)</span> para <span class="math inline">\(0\leq a\leq b\)</span>.</li>
+</ol>
+</div>
+</section></section>
+<section id="estadísticos-de-una-variable-aleatoria-continua" class="title-slide slide level2 center">
+<h2>Estadísticos de una variable aleatoria continua</h2>
+<p><strong>Media</strong></p>
+<p><span class="math display">\[
+E(X) = \int_{-\infty}^{+\infty} x f(x)\,dx.
+\]</span></p>
+<p><strong>Varianza</strong> <span class="math display">\[
+Var(X) = \int_{-\infty}^{+\infty} (x - E(X))^2 f(x)\,dx = \int_{-\infty}^{+\infty} x^2 f(x)\,dx - E(X)^2.
+\]</span></p>
+</section>
+
+<section>
+<section id="distribución-uniforme-continua" class="title-slide slide level2 center">
+<h2>Distribución Uniforme Continua</h2>
+<div id="def-distribucion-uniforme-continua" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 21 (Distribución Uniforme Continua)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad uniforme continuo</em> <span class="math inline">\(X\sim U(a, b)\)</span>, si su rango es <span class="math inline">\(R(X)=[a,b]\)</span> y su función de densidad es constante en ese intervalo,</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{b-a} \quad \forall x\in[a,b].
+\]</span></p>
+</div>
+<p>El modelo uniforme continuo se utiliza para modelar experimentos aleatorios donde todos los valores del intervalo <span class="math inline">\([a,b]\)</span> son <em>equiprobables</em>, como por ejemplo el tiempo de espera de un autobús que tiene frecuencia fija.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-uniforme-continua" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 27</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">20</span>), <span class="at">p =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="dv">0</span>))</span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución uniforme continua U(0, 20)"</span>,</span>
+<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="distribución-beta" class="title-slide slide level2 center">
+<h2>Distribución Beta</h2>
+<div id="def-distribucion-beta" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 22 (Distribución Beta)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad beta</em> <span class="math inline">\(X\sim \mbox{Beta}(\alpha, \beta)\)</span>, si su rango es <span class="math inline">\(R(X)=[0,1]\)</span> y su función de densidad es</p>
+<p><span class="math display">\[
+f(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} \quad x\in[0,1],
+\]</span></p>
+<p>donde <span class="math inline">\(\alpha, \beta&gt;0\)</span> son los parámetros de <em>forma</em> y <span class="math inline">\(B(\alpha,\beta)=\frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}\)</span> es la función beta.</p>
+</div>
+<p>El modelo beta se utiliza para modelar proporciones o probabilidades, ya que su rango está acotado en <span class="math inline">\([0,1]\)</span>. Según los valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, puede tomar formas muy variadas (simétrica, asimétrica, en forma de U, etc.).</p>
+<p><strong>Estadísticos</strong> Su media y varianza son</p>
+<p><span class="math display">\[
+E(X) = \frac{\alpha}{\alpha+\beta}, \qquad Var(X) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.
+\]</span></p>
+<div style="font-size: 0.7em;">
+<p>Nota: La <strong>función gamma</strong> es una generalización del factorial a los números reales positivos, definida como <span class="math inline">\(\Gamma(\alpha) = \int_0^{+\infty} t^{\alpha-1}e^{-t}\,dt\)</span>. Para enteros positivos cumple <span class="math inline">\(\Gamma(n) = (n-1)!\)</span></p>
 </div>
 </section>
 <section class="slide level3">
 
-<p>Sin embargo, si al reconocer a la persona se observa que presenta el síntoma, dicha información condiciona a las hipótesis, y para decidir entre ellas es necesario calcular sus probabilidades a posteriori, es decir, <span class="math inline">\(P(E|S)\)</span> y <span class="math inline">\(P(\overline{E}|S)\)</span>.</p>
-<p><strong>Probabilidades a posteriori</strong> (Condicionando por el síntoma)</p>
-<p><span class="math display">\[\begin{align*}
-P(E|S) &amp;= \frac{P(E)P(S|E)}{P(E)P(S|E)+P(\overline{E})P(S|\overline{E})} = \frac{0.2\cdot 0.9}{0.2\cdot 0.9 + 0.8\cdot 0.4} = \frac{0.18}{0.5}=0.36,\\
-P(\overline{E}|S) &amp;= \frac{P(\overline{E})P(S|\overline{E})}{P(E)P(S|E)+P(\overline{E})P(S|\overline{E})} = \frac{0.8\cdot 0.4}{0.2\cdot 0.9 + 0.8\cdot 0.4} = \frac{0.32}{0.5}=0.64.
-\end{align*}\]</span></p>
-<p>Como se puede ver la probabilidad de tener la enfermedad ha aumentado.</p>
+<div id="exm-distribucion-beta" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 28</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Beta(2, 5)</span></span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">5</span>))  <span class="co"># Densidad de probabilidad</span></span>
+<span id="cb19-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
+<span id="cb19-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Beta(2, 5)"</span>,</span>
+<span id="cb19-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-beta-para-distintos-valores-de-alpha-y-beta" class="slide level3">
+<h3>Forma de la distribución Beta para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-normal" class="title-slide slide level2 center">
+<h2>Distribución Normal</h2>
+<div id="def-distribucion-normal" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 23 (Distribución Normal)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad normal</em> <span class="math inline">\(X\sim N(\mu, \sigma)\)</span>, si su rango es <span class="math inline">\(R(X)=(-\infty,+\infty)\)</span> y su función de densidad es</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \quad x\in\mathbb{R},
+\]</span></p>
+<p>donde <span class="math inline">\(\mu\in\mathbb{R}\)</span> es la <em>media</em> y <span class="math inline">\(\sigma&gt;0\)</span> la <em>desviación típica</em>.</p>
+</div>
+<p>El modelo normal es el más importante en Estadística. Describe muchos fenómenos naturales y, por el <em>teorema central</em> del límite, es la distribución límite de la media de muestras grandes de cualquier distribución.</p>
+<p><strong>Estadísticos</strong> <span class="math display">\[E(X) = \mu \quad \mbox{y} \quad Var(X) = \sigma^2.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-normal" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 29</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm).</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad N(170, 8)</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">170</span>, <span class="at">sd =</span> <span class="dv">8</span>)) <span class="co"># Densidad de probabilidad</span></span>
+<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
+<span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Normal N(170, 8)"</span>,</span>
+<span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-normal-para-distintos-valores-de-mu-y-sigma" class="slide level3">
+<h3>Forma de la distribución Normal para distintos valores de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-gamma" class="title-slide slide level2 center">
+<h2>Distribución Gamma</h2>
+<div id="def-distribucion-gamma" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 24 (Distribución Gamma)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad gamma</em> <span class="math inline">\(X\sim \Gamma(\alpha, \beta)\)</span>, si su rango es <span class="math inline">\(R(X)=(0,+\infty)\)</span> y su función de densidad es</p>
+<p><span class="math display">\[
+f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x} \quad x&gt;0,
+\]</span></p>
+<p>donde <span class="math inline">\(\alpha&gt;0\)</span> es el parámetro de <em>forma</em> y <span class="math inline">\(\beta&gt;0\)</span> el parámetro de <em>tasa</em>, y <span class="math inline">\(\Gamma(\alpha)\)</span> es la función <em>gamma</em>.</p>
+</div>
+<p>El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas. Incluye como casos particulares la distribución exponencial (<span class="math inline">\(\alpha=1\)</span>) y, en el límite, se aproxima a la normal para valores grandes de <span class="math inline">\(\alpha\)</span>.</p>
+<p><strong>Estadísticos</strong></p>
+<p><span class="math display">\[
+E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-gamma" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 30</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Gamma(3, 2)</span></span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">rate =</span> <span class="dv">2</span>))</span>
+<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
+<span id="cb21-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Gamma(3, 2)"</span>,</span>
+<span id="cb21-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb21-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-25-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-gamma-para-distintos-valores-de-alpha-y-beta" class="slide level3">
+<h3>Forma de la distribución Gamma para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section></section>
+<section id="section-3" class="title-slide slide level2 center" data-background-color="#0099CC">
+<h2></h2>
+<div class="main-title">
+<p>Muestreo</p>
+</div>
+</section>
+
+<section id="muestreo-aleatorio-simple" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple</h2>
+<p>El proceso de tomar valores de una variable aleatoria a través de la realización de un experimento aleatorio se conoce como <em>muestreo</em>.</p>
+<p>Cuando selección de los valores se hace de manera independiente y con la misma distribución, se dice que se ha realizado un <em>muestreo aleatorio simple</em>.</p>
+
+<img data-src="img/01-probabilidad/muestreo_aleatorio_simple.png" class="r-stretch quarto-figure-center"><p class="caption">Muestreo aleatorio simple (Fuente: <a href="https://commons.wikimedia.org/wiki/File:Simple_random_sampling.PNG">Wikimedia Commons</a>, CC BY-SA 4.0, Dan Kernler).</p></section>
+
+<section>
+<section id="muestreo-en-variables-aleatorias-discretas" class="title-slide slide level2 center">
+<h2>Muestreo en variables aleatorias discretas</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria discreta con un número finito de valores, se puede usar la función <code>sample()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>x</code>: vector de valores a muestrear.</li>
+<li><code>size</code>: número de valores a muestrear.</li>
+<li><code>prob</code>: vector de probabilidades asociadas a cada valor de <code>x</code>. Si no se especifica, se asume que todos los valores tienen la misma probabilidad.</li>
+<li><code>replace</code>: un valor <code>TRUE</code> indica que el muestreo es con reemplazo, mientras que un valor <code>FALSE</code> implica que el muestreo es sin reemplazo.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-lanzamiento-moneda" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 31</strong></span> El siguiente código realiza un muestreo aleatorio simple de tamaño 10 del resultado de lanzar una moneda equilibrada, es decir, con probabilidades iguales para cara y cruz.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
+<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores posibles: Cara ("C") y Cruz ("X")</span></span>
+<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"X"</span>)</span>
+<span id="cb22-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
+<span id="cb22-5"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb22-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
+<span id="cb22-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "X" "C" "X" "C" "C" "X" "C" "C" "C" "X"</code></pre>
+</div>
+</div>
+<p>Si la moneda estuviera trucada, por ejemplo con una probabilidad de cara del 0.8 y de cruz del 0.2, se tendría:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
+<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
+<span id="cb24-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
+<span id="cb24-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "X" "C" "C" "C" "C" "X" "C" "C" "C" "X"</code></pre>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="muestreo-en-el-modelo-de-distribución-binomial" class="title-slide slide level2 center">
+<h2>Muestreo en el modelo de distribución binomial</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución binomial, se puede usar la función <code>rbinom()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>size</code>: número de repeticiones o ensayos.</li>
+<li><code>prob</code>: probabilidad de éxito para cada ensayo.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-binomial" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 32</strong></span> Se sabe que el porcentaje de fumadores en una población es del 20%. Vamos a realizar un muestreo aleatorio simple de tamaño 20 del número de fumadores en una muestra aleatoriad de 10 personas.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
+<span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de repeticiones</span></span>
+<span id="cb26-3"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># Probabilidad de éxito (fumador)</span></span>
+<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución binomial</span></span>
+<span id="cb26-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb26-6"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 3 2 4 4 0 2 4 2 2 4 2 2 2 0 4 1 0 1 4</code></pre>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb28-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
+<span id="cb28-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
+<span id="cb28-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb28-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-30-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span></p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
+<span id="cb29-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb29-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb29-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
+<span id="cb29-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
+<span id="cb29-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-de-poisson" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución de Poisson</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función <code>rpois()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>lambda</code>: número medio de ocurrencias del suceso en el intervalo de referencia.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-poisson" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 33</strong></span> El número medio de infartos que se producen diariamente en una ciudad es 5. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del número de infartos diarios en dicha ciudad.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Media</span></span>
+<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">lambda =</span> lambda))</span>
+<span id="cb30-4"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
+<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
+<span id="cb30-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb30-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
+<span id="cb30-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
+<span id="cb30-13"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb30-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-32-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span></p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">lambda =</span> lambda))</span>
+<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
+<span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
+<span id="cb31-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb31-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
+<span id="cb31-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
+<span id="cb31-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb31-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-33-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aletorio-de-una-distribución-uniforme-continua" class="title-slide slide level2 center">
+<h2>Muestreo aletorio de una distribución uniforme continua</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función <code>runif()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>min</code>: límite inferior del intervalo.</li>
+<li><code>max</code>: límite superior del intervalo.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-uniforme-continua" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 34</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del tiempo de espera de dicho autobús.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a>min <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># Límite inferior</span></span>
+<span id="cb32-4"><a href="" aria-hidden="true" tabindex="-1"></a>max <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># Límite superior</span></span>
+<span id="cb32-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución uniforme continua</span></span>
+<span id="cb32-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> n, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
+<span id="cb32-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb32-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb32-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb32-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
+<span id="cb32-12"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb32-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-34-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span></p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb33-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="at">color =</span> myred,  <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
+<span id="cb33-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-35-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-beta" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución beta</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función <code>rbeta()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>shape1</code>: parámetro de forma <span class="math inline">\(\alpha\)</span>.</li>
+<li><code>shape2</code>: parámetro de forma <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-beta" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 35</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb34-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb34-4"><a href="" aria-hidden="true" tabindex="-1"></a>shape2 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Parámetro de forma β</span></span>
+<span id="cb34-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución beta</span></span>
+<span id="cb34-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbeta</span>(<span class="at">n =</span> n, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb34-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución beta teórica</span></span>
+<span id="cb34-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_beta <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb34-9"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb34-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb34-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb34-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb34-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb34-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo beta</span></span>
+<span id="cb34-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_beta, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb34-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Beta(2, 5)"</span>,</span>
+<span id="cb34-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb34-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-36-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb35-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb35-4"><a href="" aria-hidden="true" tabindex="-1"></a>shape2 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Parámetro de forma β</span></span>
+<span id="cb35-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución beta</span></span>
+<span id="cb35-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbeta</span>(<span class="at">n =</span> n, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb35-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución beta teórica</span></span>
+<span id="cb35-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_beta <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb35-9"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb35-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb35-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb35-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb35-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb35-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo beta</span></span>
+<span id="cb35-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_beta, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb35-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Beta(2, 5)"</span>,</span>
+<span id="cb35-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb35-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-37-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level3">
+
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-normal" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución normal</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución normal, se puede usar la función <code>rnorm()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>mean</code>: media <span class="math inline">\(\mu\)</span> de la distribución.</li>
+<li><code>sd</code>: desviación típica <span class="math inline">\(\sigma\)</span> de la distribución.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-normal" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 36</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm). Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="dv">170</span> <span class="co"># Media μ</span></span>
+<span id="cb36-4"><a href="" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">8</span>     <span class="co"># Desviación típica σ</span></span>
+<span id="cb36-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución normal</span></span>
+<span id="cb36-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd</span>
+<span id="cb36-7"><a href="" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb36-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución normal teórica</span></span>
+<span id="cb36-9"><a href="" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb36-10"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb36-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb36-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb36-14"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb36-16"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-17"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo normal</span></span>
+<span id="cb36-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_norm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb36-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb36-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de N(170, 8)"</span>,</span>
+<span id="cb36-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb36-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-38-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb37-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="dv">170</span> <span class="co"># Media μ</span></span>
+<span id="cb37-4"><a href="" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">8</span>     <span class="co"># Desviación típica σ</span></span>
+<span id="cb37-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución normal</span></span>
+<span id="cb37-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd</span>
+<span id="cb37-7"><a href="" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb37-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución normal teórica</span></span>
+<span id="cb37-9"><a href="" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb37-10"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb37-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb37-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb37-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb37-14"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb37-16"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-17"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo normal</span></span>
+<span id="cb37-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_norm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb37-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb37-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de N(170, 8)"</span>,</span>
+<span id="cb37-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb37-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-39-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-gamma" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución gamma</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución gamma, se puede usar la función <code>rgamma()</code> de R.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>shape</code>: parámetro de forma <span class="math inline">\(\alpha\)</span>.</li>
+<li><code>rate</code>: parámetro de tasa <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-gamma" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 37</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb38-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb38-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
+<span id="cb38-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
+<span id="cb38-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
+<span id="cb38-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
+<span id="cb38-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
+<span id="cb38-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
+<span id="cb38-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb38-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
+<span id="cb38-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb38-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb38-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb38-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb38-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
+<span id="cb38-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
+<span id="cb38-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myrose, <span class="at">linewidth =</span> <span class="dv">2</span> </span>
+<span id="cb38-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
+<span id="cb38-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb38-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-40-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo gamma <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo gamma <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
+<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
+<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
+<span id="cb39-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
+<span id="cb39-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
+<span id="cb39-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
+<span id="cb39-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb39-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
+<span id="cb39-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb39-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb39-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb39-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
+<span id="cb39-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
+<span id="cb39-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myrose, <span class="at">linewidth =</span> <span class="dv">2</span> </span>
+<span id="cb39-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
+<span id="cb39-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb39-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-41-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
 
 </section></section>
     </div>

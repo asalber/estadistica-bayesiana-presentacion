@@ -1,0 +1,296 @@
+---
+title: "Regla de Bayes"
+subtitle: "Teorema de Bayes. Distribuciones a priori, funciones de verosimilitud y distribuciones a posteriori"
+author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
+logo: img/logos/sticker-estadistica-bayesiana-r.png
+# title-slide-attributes:
+#     #data-background-color: black
+#     data-background-image: img/prompt-julia.png
+#     data-background-size: contain
+fig-align: center
+filters:
+  - arrows
+lang: es
+---
+
+{{< include _configuracion-r.qmd >}}
+
+## {background-color="#0099CC"}
+
+:::{.main-title}
+Regla de Bayes
+:::
+
+##
+
+:::{#def-sistema-completo-sucesos}
+## Sistema completo de sucesos
+Una colección de sucesos $A_1,A_2,\ldots,A_n$ de un mismo espacio muestral $\Omega$ es un _sistema completo_ si cumple las siguientes condiciones:
+
+1.  La unión de todos es el espacio muestral:
+    $A_1\cup \cdots\cup A_n =\Omega$.
+
+2.  Son incompatibles dos a dos: $A_i\cap A_j = \emptyset$
+    $\forall i\neq j$.
+:::
+
+En realidad un sistema completo de sucesos es una partición del espacio muestral de acuerdo a algún atributo, como por ejemplo el sexo o el grupo sanguíneo.
+
+## Teorema de la probabilidad total
+
+Conocer las probabilidades de un determinado suceso en cada una de las partes de un sistema completo puede ser útil para calcular su probabilidad.
+
+:::{#thm-probabilidad-total}
+## Probabilidad total
+Dado un sistema completo de sucesos $A_1,\ldots,A_n$ y un suceso $B$ de un espacio muestral $\Omega$, la probabilidad de cualquier suceso $B$ del espacio muestral se puede calcular mediante la fórmula 
+
+$$P(B) = \sum_{i=1}^n P(A_i\cap B) = \sum_{i=1}^n P(A_i)P(B|A_i).$$
+:::
+
+---
+
+![Teorema de la probabilidad total.](img/01-probabilidad/probabilidad_total){height=500}
+
+---
+
+:::{#exm-probabilidad-total}
+Un test diagnóstico para una enfermedad $E$ tiene una sensibilidad del 90% y una especificidad del 95%, es decir, 
+
+$$
+P(+|E)=0.9 \quad \mbox{y} \quad P(-|\overline{E})=0.95.
+$$
+
+
+Si la prevalencia de la enfermedad en una población es del 10%, ¿qué porcentaje de positivos se espera en una muestra aleatoria de la población?
+
+<br>
+
+::::{.columns}
+:::{.column width="40%"} 
+:::{style="margin:auto;"}
+| | Enfermo | No enfermo | 
+|-|:-------:|:-----------:| 
+$+$ | 0.090     | 0.045        |
+$-$ | 0.010     | 0.855         |
+| | 0.1       | 0.9          |
+:::
+:::
+
+:::{.column width="60%"}
+![](img/01-probabilidad/arbol_probabilidad_test_diagnostico){width=500}
+:::
+::::
+
+:::
+
+---
+
+Para responder a la pregunta se puede aplicar el teorema de la probabilidad total usando el sistema completo $\{E,\overline{E}\}$:
+
+
+:::{style="width:40%; margin:auto;"}
+| | Enfermo | No enfermo | |
+|-|:-------:|:-----------:| -|
+$+$ | <span style="color:red;">0.090</span>      | <span style="color:red;">0.045</span>  | <span style="color:red;">0.135</span>     |
+$-$ | 0.010     | 0.855   | 0.864      |
+| | 0.1       | 0.9          | |
+:::
+
+$$
+P(+) = P(E)P(+|E)+P(\overline E)P(+|\overline E) = 0.1\cdot 0.9 + 0.9\cdot 0.05 = 0.135.
+$$
+
+Es decir, alrededor del 13.5% de los resultados del test serán positivos.
+
+_¡En el fondo se trata de una media ponderada de probabilidades!_
+
+
+## Teorema de Bayes
+
+Los sucesos de un sistema completo de sucesos $A_1,\cdots,A_n$ también pueden verse como las distintas hipótesis ante un determinado hecho $B$.
+
+En estas condiciones resulta útil poder calcular las probabilidades a posteriori $P(A_i|B)$ de cada una de las hipótesis.
+
+:::{#thm-bayes}
+## Bayes
+Dado un sistema completo de sucesos $A_1,\ldots,A_n$ y un suceso $B$ de un espacio muestral $\Omega$ y otro suceso $B$ del mismo espacio muestral, la probabilidad de cada suceso $A_i$ $i=1,\ldots,n$ condicionada por $B$ puede calcularse con la siguiente fórmula
+
+$$P(A_i|B) = \frac{P(A_i\cap B)}{P(B)} = \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^n P(A_i)P(B|A_i)}.$$
+:::
+
+---
+
+:::{#exm-teorema-bayes}
+En el ejemplo anterior, una pregunta más interesante es qué diagnosticar a una persona que ha dado positivo en el test.
+
+En este caso se puede interpretar $E$ y $\overline{E}$ como las dos posibles hipótesis para el resultado positivo del test. 
+
+**Probabilidades a priori** (sin información sobre el síntoma)
+
+$$
+P(E)=0.1 \quad \mbox{y}\quad P(\overline E)=0.9
+$$
+
+Sin información el diagnóstico sería que no tiene la enfermedad.
+:::
+
+---
+
+Sin embargo, si al realizar el test a una persona se obtiene un resultado positivo, dicha información condiciona a las hipótesis, y para decidir entre ellas es necesario calcular sus probabilidades a posteriori, es decir, $P(E|+)$ y $P(\overline{E}|+)$.
+
+**Probabilidades a posteriori** (condicionando por el síntoma)
+
+
+:::{style="width:40%; margin:auto;"}
+| | Enfermo | No enfermo | |
+|-|:-------:|:-----------:| -|
+$+$ | <span style="color:#0099CC;">0.090</span>      | <span style="color:#ff2152;">0.045</span>  | <span style="color:#03BF3D;">0.135</span>     |
+$-$ | 0.010     | 0.855   | 0.864      |
+| | 0.1       | 0.9          | |
+:::
+
+\begin{align*}
+P(E|+) &= \frac{P(E)P(+|E)}{P(E)P(+|E)+P(\overline{E})P(+|\overline{E})} = \frac{0.1\cdot 0.9}{0.1\cdot 0.9 + 0.9\cdot 0.05} = \frac{\textcolor{#0099CC}{0.09}}{\textcolor{#03BF3D}{0.135}}=0.667,\\
+P(\overline{E}|+) &= \frac{P(\overline{E})P(+|\overline{E})}{P(E)P(+|E)+P(\overline{E})P(+|\overline{E})} = \frac{0.9\cdot 0.05}{0.1\cdot 0.9 + 0.9\cdot 0.05} = \frac{\textcolor{#ff2152}{0.045}}{\textcolor{#03BF3D}{0.135}}=0.333.
+\end{align*}
+
+Con un resultado positivo en el test, la probabilidad de tener la enfermedad ha aumentado y ahora el diagnóstico sería que tiene la enfermedad.
+
+---
+
+:::{#exr-teorema-bayes}
+Se dispone de dos test $A$ y $B$ para diagnosticar una enfermedad con una prevalencia del 1% en la población.
+El test $A$ tiene una sensibilidad del 98% y una especificidad del 80%, mientras que el test $B$ tiene una sensibilidad del 75% y una especificidad del 99%.
+
+a.  ¿Cuál de los dos test funcionaría mejor como test de cribado?
+a.  Si aplicamos el test de cribado a una persona y da positivo, ¿cuál es la probabilidad de que esté enferma? ¿Qué diagnosticaríamos?
+a.  Si aplicamos a una persona el test de cribado primero y luego el otro test y ambos dan positivo, ¿cuál es la probabilidad de que esté enferma? ¿Qué diagnosticaríamos?
+:::
+
+## Regla de Bayes
+
+En terminología bayesiana, si $H$ representa una hipótesis y $D$ representa los datos observados, entonces el teorema de Bayes se puede expresar como la siguiente regla de actualización de la probabilidad de la hipótesis $H$ dada la evidencia $D$:
+
+<br>
+
+:::{.centered}
+[Probabilidad a posteriori]{.myblue style="margin-right: 2em;" .fragment fragment-index=1} [Probabilidad a priori]{.myred style="margin-right: 2em;" .fragment fragment-index=2} [Verosimilitud]{.mygreen style="margin-right: 2em;" .fragment fragment-index=3}
+:::
+
+::: {style="position: relative; height: 100px;"}
+{{< arrow from="250,0" to="380,100" color="#0099CC" position="absolute" fragment = "true" fragment-index=1 >}}
+{{< arrow from="540,0" to="540,100" color="#ff2152" position="absolute" fragment = "true" fragment-index=2 >}}
+{{< arrow from="800,0" to="700,100" color="#03BF3D" position="absolute" fragment = "true" fragment-index=3 >}}
+{{< arrow from="250,0" to="380,100" color="#0099CC" position="absolute" fragment = "true" fragment-index=1 >}}
+:::
+
+$$
+\textcolor{#0099CC}{P(H|D)} = \frac{\textcolor{#ff2152}{P(H)}\times \textcolor{#03BF3D}{P(D|H)}}{P(D)}
+$$
+
+::: {style="position: relative; height: 100px;"}
+{{< arrow from="570,100" to="570,0" position="absolute" fragment = "true" fragment-index=4 >}}
+:::
+
+:::{.centered}
+[Evidencia marginal (normalizador)]{.fragment fragment-index=4}
+:::
+
+## Función de verosimilitud
+
+En la regla de Bayes, la probabilidad $P(D|H)$ se conoce como _verosimilitud_ de la hipótesis $H$ dada la evidencia $D$.
+
+Cuando tenemos varias hipótesis, la verosimilitud de cada una de ellas se puede comparar con la de las otras para determinar cuál es la más compatible con los datos observados.
+
+:::{#def-funcion-verosimilitud}
+## Función de verosimilitud
+Dado un sistema completo de sucesos con hipótesis $H_1, H_2, \ldots, H_n$ de un experimento aleatorio, y un suceso $D$ que representa la evidencia observada, la _función de verosimilitud_ es una función que asigna a cada hipótesis $H_i$ la probabilidad de observar la evidencia $D$ dada esa hipótesis, es decir, 
+
+$$
+L(H_i|D) = P(D|H_i)
+$$
+:::
+
+:::{.callout-important}
+Los valores de la función de verosimilitud son probabilidades condicionadas, pero la variable de la función de verosimilitud es el condicionante, es decir, la hipótesis $H_i$, no la evidencia $D$.
+
+$$
+L(x|D) = P(D|x)
+$$
+:::
+
+---
+
+:::{#exm-funcion-verosimilitud}
+Consideremos el ejemplo del test diagnóstico anterior, con sensibilidad del 90% y especificidad del 95%.
+
+Dada la evidencia de que el resultado del test ha sido positivo, la función de verosimilitud de las  hipótesis $E$ y $\overline{E}$ es
+
+La función de verosimilitud de las dos posibles hipótesis $E$ y $\overline{E}$ dada la evidencia $+$ es
+
+$$
+L(E|+) = P(+|E) = 0.9 \quad \mbox{y} \quad L(\overline{E}|+) = P(+|\overline{E}) = 1 - 0.95 = 0.05.
+$$
+
+En este caso, la hipótesis $E$ es mucho más compatible con la evidencia que la hipótesis $\overline{E}$.
+:::
+
+### Interpretación de la función de verosimilitud
+
+La función de verosimilitud se puede interpretar como una medida de la compatibilidad de cada hipótesis con los datos observados.
+
+_Cuanto mayor sea la función de verosimilitud de una hipótesis dada la evidencia, más plausible será la hipótesis._
+
+Es importante destacar que la función de verosimilitud no es una función de probabilidad, ya que la suma de la verosimilitud de todas las hipótesis no tiene por qué ser igual a 1.
+
+:::{#exm-interpretacion-funcion-verosimilitud}
+La siguiente tabla refleja las probabilidad a priori y la función de verosimilitud de las hipótesis $E$ y $\overline{E}$ dada la evidencia $+$ en el ejemplo del test diagnóstico.
+
+| Hipótesis | Probabilidad a priori $P(H)$ | Función de verosimilitud $L(H|D)$ |
+|:---------:|:-----------------------------:|:---------------------------------:|
+| $E$       | 0.1                           | 0.9                               |
+| $\overline{E}$ | 0.9                           | 0.05                              |
+:::
+
+## Probabilidad a posteriori
+
+Si disponemos de la probabilidad a priori de cada hipótesis y de la función de verosimilitud dada la evidencia, entonces es posible calcular la probabilidad a posteriori de cada hipótesis dada la evidencia utilizando la regla de Bayes.
+
+$$
+\textcolor{#0099CC}{P(H_i|D)} = \frac{\textcolor{#ff2152}{P(H_i)}\times \textcolor{#03BF3D}{P(D|H_i)}}{P(D)}
+$$
+
+La probabilidad del denominador $P(D)$ es un factor común para todas las hipótesis, por lo que podemos decir que la probabilidad a posteriori de cada hipótesis es proporcional al producto de su probabilidad a priori por su función de verosimilitud:
+
+$$
+\textcolor{#0099CC}{P(H_i|D)} \propto \textcolor{#ff2152}{P(H_i)}\times \textcolor{#03BF3D}{P(D|H_i)}
+$$
+
+---
+
+:::{#exm-probabilidad-posteriori}
+En el ejemplo del test diagnóstico, dado que el test ha resultado positivo, tenemos las siguientes plausibilidades a posteriori.
+
+
+| Hipótesis | Probabilidad a priori $P(H)$ | |  Función de verosimilitud $L(H|D)$ | | Plausibilidad a posteriori |
+|:---------:|:-----------------------------:|:-:|:---------------------------------:|:-:|:---------------------------:|
+| $E$       | 0.1   |$\times$                        | 0.9            | $=$                   | 0.090
+| $\overline{E}$ | 0.9  |$\times$                         | 0.05       |$=$                       | 0.045
+
+Como puede observarse, la suma de las plausibilidades a posteriori no es igual a 1, por lo que no se pueden interpretar como probabilidades. Sin embargo, sí podemos compararlas, y en este caso la hipótesis $E$ es el doble de plausible que la hipótesis $\overline{E}$ dada la evidencia de que el test ha resultado positivo.
+:::
+
+---
+
+:::{.centered}
+_¿Cómo podríamos transformar las plausibilidades a posteriori en probabilidades a posteriori?_
+:::
+
+---
+
+Podemos normalizar las plausibilidades a posteriori para obtener probabilidades a posteriori, dividiendo cada una de ellas por la suma de todas las plausibilidades a posteriori.
+
+| Hipótesis | Probabilidad a priori $P(H)$ | |  Función de verosimilitud $L(H|D)$ | | Plausibilidad a posteriori | Probabilidad a posteriori $P(H|D)$ |
+|:---------:|:---------------------:|:-:|:-------------------------:|:-:|:-------------------:|:-----------------------------:|
+| $E$       | 0.1   |$\times$                        | 0.9            | $=$                   | 0.090 | 0.09/(0.09+0.045) = 0.667 |
+| $\overline{E}$ | 0.9  |$\times$                         | 0.05       |$=$                       | 0.045 | 0.045/(0.09+0.045) = 0.333 |
