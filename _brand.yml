@@ -10,12 +10,8 @@ color:
   primary: "myblue"
   secondary: "myred"
   tertiary: "mypurple"
-  background:
-    light: "#ffffff"
-    dark: "#333333"
-  foreground:
-    light: "#333333"
-    dark: "#ffffff"
+  background: "#ffffff"
+  foreground: "#333333"
 
 logo:
   medium: "img/logos/sticker-estadistica-bayesiana-r.png"
@@ -30,6 +26,4 @@ logo:
 
 typography:
   headings:
-    color:
-      light: "#111144"
-      dark: "#d0d0ff"
+    color: "#111144"

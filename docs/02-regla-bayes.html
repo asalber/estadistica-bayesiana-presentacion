@@ -6,10 +6,10 @@
 <script src="02-regla-bayes_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="02-regla-bayes_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="02-regla-bayes_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="02-regla-bayes_files/libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="02-regla-bayes_files/libs/quarto-html/quarto-syntax-highlighting-57476271c5f0467c372e20ff5d25630e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="02-regla-bayes_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="02-regla-bayes_files/libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+  <meta name="generator" content="quarto-1.6.40">
 
   <meta name="author" content="Alfredo Sánchez Alberca &nbsp;   ">
   <title>Regla de Bayes</title>
@@ -19,9 +19,6 @@
   <link rel="stylesheet" href="02-regla-bayes_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="02-regla-bayes_files/libs/revealjs/dist/reveal.css">
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -33,8 +30,73 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #383a42;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #383a42; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #50a14f; } /* Annotation */
+    code span.at { color: #a626a4; } /* Attribute */
+    code span.bn { color: #986801; } /* BaseN */
+    code span.bu { color: #a626a4; } /* BuiltIn */
+    code span.cf { color: #a626a4; } /* ControlFlow */
+    code span.ch { color: #50a14f; } /* Char */
+    code span.cn { color: #986801; } /* Constant */
+    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
+    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
+    code span.do { color: #e45649; } /* Documentation */
+    code span.dt { color: #a626a4; } /* DataType */
+    code span.dv { color: #986801; } /* DecVal */
+    code span.er { color: #f44747; text-decoration: underline; } /* Error */
+    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
+    code span.fl { color: #986801; } /* Float */
+    code span.fu { color: #4078f2; } /* Function */
+    code span.im { color: #50a14f; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #a626a4; } /* Keyword */
+    code span.op { color: #a626a4; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #a626a4; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #0184bc; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #50a14f; } /* String */
+    code span.va { color: #e45649; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="02-regla-bayes_files/libs/revealjs/dist/theme/quarto-29168980ef24252dad94e584016e2b06.css">
+  <link rel="stylesheet" href="02-regla-bayes_files/libs/revealjs/dist/theme/quarto-c1498796a6af4aadd42e34fe15405d35.css">
   <link href="02-regla-bayes_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="02-regla-bayes_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="02-regla-bayes_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -141,7 +203,7 @@
       <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
         
   </section>
-<section id="section" class="title-slide slide level2 center" data-background-color="#0099CC">
+<section id="section" class="title-slide slide level2 myblue center" data-background-color="">
 <h2></h2>
 <div class="main-title">
 <p>Regla de Bayes</p>
@@ -358,183 +420,186 @@ P(\overline{E}|+) &amp;= \frac{P(\overline{E})P(+|\overline{E})}{P(E)P(+|E)+P(\o
 <p><span class="myblue fragment" style="margin-right: 2em;" data-fragment-index="1">Probabilidad a posteriori</span> <span class="myred fragment" style="margin-right: 2em;" data-fragment-index="2">Probabilidad a priori</span> <span class="mygreen fragment" style="margin-right: 2em;" data-fragment-index="3">Verosimilitud</span></p>
 </div>
 <div style="position: relative; height: 100px;">
-<p><style>
-.arrow-anim-758742-path {
+<style>
+.arrow-anim-150955-path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
 }
-.arrow-anim-758742-marker {
+.arrow-anim-150955-marker {
   opacity: 0;
 }
-.fragment.visible .arrow-anim-758742-path {
-  animation: arrow-anim-758742-draw 0.50s ease forwards;
+.fragment.visible .arrow-anim-150955-path {
+  animation: arrow-anim-150955-draw 0.50s ease forwards;
 }
-.fragment.visible .arrow-anim-758742-marker {
-  animation: arrow-anim-758742-marker-appear 0.1s ease forwards;
+.fragment.visible .arrow-anim-150955-marker {
+  animation: arrow-anim-150955-marker-appear 0.1s ease forwards;
   animation-delay: 0.05s;
 }
-@keyframes arrow-anim-758742-draw {
+@keyframes arrow-anim-150955-draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes arrow-anim-758742-marker-appear {
+@keyframes arrow-anim-150955-marker-appear {
   to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrow-anim-758742-path {
+  .arrow-anim-150955-path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
   }
-  .arrow-anim-758742-marker {
+  .arrow-anim-150955-marker {
     opacity: 1;
   }
-  .fragment.visible .arrow-anim-758742-path,
-  .fragment.visible .arrow-anim-758742-marker {
+  .fragment.visible .arrow-anim-150955-path,
+  .fragment.visible .arrow-anim-150955-marker {
     animation: none;
   }
 }
-</style><span class="fragment custom" data-fragment-index="1"></span></p><div style="position: absolute; left: 230.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="170.0" height="140.0" viewbox="0 0 170.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-219466" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-758742-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#0099CC"></path></marker></defs><path class="arrow-anim-758742-path" d="M 20.0,20.0 L 150.0,120.0" stroke="#0099CC" stroke-width="2" fill="none" marker-end="url(#arrow-219466)"></path></svg></div> <style>
-.arrow-anim-366457-path {
+</style><span class="fragment custom" data-fragment-index="1"><div style="position: absolute; left: 230.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="170.0" height="140.0" viewbox="0 0 170.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-234624" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-150955-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#0099CC"></path></marker></defs><path class="arrow-anim-150955-path" d="M 20.0,20.0 L 150.0,120.0" stroke="#0099CC" stroke-width="2" fill="none" marker-end="url(#arrow-234624)"></path></svg></div></span>
+<style>
+.arrow-anim-347482-path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
 }
-.arrow-anim-366457-marker {
+.arrow-anim-347482-marker {
   opacity: 0;
 }
-.fragment.visible .arrow-anim-366457-path {
-  animation: arrow-anim-366457-draw 0.50s ease forwards;
+.fragment.visible .arrow-anim-347482-path {
+  animation: arrow-anim-347482-draw 0.50s ease forwards;
 }
-.fragment.visible .arrow-anim-366457-marker {
-  animation: arrow-anim-366457-marker-appear 0.1s ease forwards;
+.fragment.visible .arrow-anim-347482-marker {
+  animation: arrow-anim-347482-marker-appear 0.1s ease forwards;
   animation-delay: 0.05s;
 }
-@keyframes arrow-anim-366457-draw {
+@keyframes arrow-anim-347482-draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes arrow-anim-366457-marker-appear {
+@keyframes arrow-anim-347482-marker-appear {
   to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrow-anim-366457-path {
+  .arrow-anim-347482-path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
   }
-  .arrow-anim-366457-marker {
+  .arrow-anim-347482-marker {
     opacity: 1;
   }
-  .fragment.visible .arrow-anim-366457-path,
-  .fragment.visible .arrow-anim-366457-marker {
+  .fragment.visible .arrow-anim-347482-path,
+  .fragment.visible .arrow-anim-347482-marker {
     animation: none;
   }
 }
-</style><span class="fragment custom" data-fragment-index="2"><div style="position: absolute; left: 520.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="40.0" height="140.0" viewbox="0 0 40.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-675247" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-366457-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#ff2152"></path></marker></defs><path class="arrow-anim-366457-path" d="M 20.0,20.0 L 20.0,120.0" stroke="#ff2152" stroke-width="2" fill="none" marker-end="url(#arrow-675247)"></path></svg></div></span> <style>
-.arrow-anim-308566-path {
+</style><span class="fragment custom" data-fragment-index="2"><div style="position: absolute; left: 520.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="40.0" height="140.0" viewbox="0 0 40.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-525005" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-347482-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#ff2152"></path></marker></defs><path class="arrow-anim-347482-path" d="M 20.0,20.0 L 20.0,120.0" stroke="#ff2152" stroke-width="2" fill="none" marker-end="url(#arrow-525005)"></path></svg></div></span>
+<style>
+.arrow-anim-636884-path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
 }
-.arrow-anim-308566-marker {
+.arrow-anim-636884-marker {
   opacity: 0;
 }
-.fragment.visible .arrow-anim-308566-path {
-  animation: arrow-anim-308566-draw 0.50s ease forwards;
+.fragment.visible .arrow-anim-636884-path {
+  animation: arrow-anim-636884-draw 0.50s ease forwards;
 }
-.fragment.visible .arrow-anim-308566-marker {
-  animation: arrow-anim-308566-marker-appear 0.1s ease forwards;
+.fragment.visible .arrow-anim-636884-marker {
+  animation: arrow-anim-636884-marker-appear 0.1s ease forwards;
   animation-delay: 0.05s;
 }
-@keyframes arrow-anim-308566-draw {
+@keyframes arrow-anim-636884-draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes arrow-anim-308566-marker-appear {
+@keyframes arrow-anim-636884-marker-appear {
   to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrow-anim-308566-path {
+  .arrow-anim-636884-path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
   }
-  .arrow-anim-308566-marker {
+  .arrow-anim-636884-marker {
     opacity: 1;
   }
-  .fragment.visible .arrow-anim-308566-path,
-  .fragment.visible .arrow-anim-308566-marker {
+  .fragment.visible .arrow-anim-636884-path,
+  .fragment.visible .arrow-anim-636884-marker {
     animation: none;
   }
 }
-</style><span class="fragment custom" data-fragment-index="3"><div style="position: absolute; left: 680.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="140.0" height="140.0" viewbox="0 0 140.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-389958" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-308566-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#03BF3D"></path></marker></defs><path class="arrow-anim-308566-path" d="M 120.0,20.0 L 20.0,120.0" stroke="#03BF3D" stroke-width="2" fill="none" marker-end="url(#arrow-389958)"></path></svg></div></span> <style>
-.arrow-anim-292998-path {
+</style><span class="fragment custom" data-fragment-index="3"><div style="position: absolute; left: 680.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="140.0" height="140.0" viewbox="0 0 140.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-485698" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-636884-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#03BF3D"></path></marker></defs><path class="arrow-anim-636884-path" d="M 120.0,20.0 L 20.0,120.0" stroke="#03BF3D" stroke-width="2" fill="none" marker-end="url(#arrow-485698)"></path></svg></div></span>
+<style>
+.arrow-anim-237417-path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
 }
-.arrow-anim-292998-marker {
+.arrow-anim-237417-marker {
   opacity: 0;
 }
-.fragment.visible .arrow-anim-292998-path {
-  animation: arrow-anim-292998-draw 0.50s ease forwards;
+.fragment.visible .arrow-anim-237417-path {
+  animation: arrow-anim-237417-draw 0.50s ease forwards;
 }
-.fragment.visible .arrow-anim-292998-marker {
-  animation: arrow-anim-292998-marker-appear 0.1s ease forwards;
+.fragment.visible .arrow-anim-237417-marker {
+  animation: arrow-anim-237417-marker-appear 0.1s ease forwards;
   animation-delay: 0.05s;
 }
-@keyframes arrow-anim-292998-draw {
+@keyframes arrow-anim-237417-draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes arrow-anim-292998-marker-appear {
+@keyframes arrow-anim-237417-marker-appear {
   to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrow-anim-292998-path {
+  .arrow-anim-237417-path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
   }
-  .arrow-anim-292998-marker {
+  .arrow-anim-237417-marker {
     opacity: 1;
   }
-  .fragment.visible .arrow-anim-292998-path,
-  .fragment.visible .arrow-anim-292998-marker {
+  .fragment.visible .arrow-anim-237417-path,
+  .fragment.visible .arrow-anim-237417-marker {
     animation: none;
   }
 }
-</style><span class="fragment custom" data-fragment-index="1"><div style="position: absolute; left: 230.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="170.0" height="140.0" viewbox="0 0 170.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-713412" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-292998-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#0099CC"></path></marker></defs><path class="arrow-anim-292998-path" d="M 20.0,20.0 L 150.0,120.0" stroke="#0099CC" stroke-width="2" fill="none" marker-end="url(#arrow-713412)"></path></svg></div></span><p></p>
+</style><span class="fragment custom" data-fragment-index="1"><div style="position: absolute; left: 230.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="170.0" height="140.0" viewbox="0 0 170.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-934566" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-237417-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="#0099CC"></path></marker></defs><path class="arrow-anim-237417-path" d="M 20.0,20.0 L 150.0,120.0" stroke="#0099CC" stroke-width="2" fill="none" marker-end="url(#arrow-934566)"></path></svg></div></span>
 </div>
 <p><span class="math display">\[
 \textcolor{#0099CC}{P(H|D)} = \frac{\textcolor{#ff2152}{P(H)}\times \textcolor{#03BF3D}{P(D|H)}}{P(D)}
 \]</span></p>
 <div style="position: relative; height: 100px;">
 <style>
-.arrow-anim-405359-path {
+.arrow-anim-959284-path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
 }
-.arrow-anim-405359-marker {
+.arrow-anim-959284-marker {
   opacity: 0;
 }
-.fragment.visible .arrow-anim-405359-path {
-  animation: arrow-anim-405359-draw 0.50s ease forwards;
+.fragment.visible .arrow-anim-959284-path {
+  animation: arrow-anim-959284-draw 0.50s ease forwards;
 }
-.fragment.visible .arrow-anim-405359-marker {
-  animation: arrow-anim-405359-marker-appear 0.1s ease forwards;
+.fragment.visible .arrow-anim-959284-marker {
+  animation: arrow-anim-959284-marker-appear 0.1s ease forwards;
   animation-delay: 0.05s;
 }
-@keyframes arrow-anim-405359-draw {
+@keyframes arrow-anim-959284-draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes arrow-anim-405359-marker-appear {
+@keyframes arrow-anim-959284-marker-appear {
   to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrow-anim-405359-path {
+  .arrow-anim-959284-path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
   }
-  .arrow-anim-405359-marker {
+  .arrow-anim-959284-marker {
     opacity: 1;
   }
-  .fragment.visible .arrow-anim-405359-path,
-  .fragment.visible .arrow-anim-405359-marker {
+  .fragment.visible .arrow-anim-959284-path,
+  .fragment.visible .arrow-anim-959284-marker {
     animation: none;
   }
 }
-</style><span class="fragment custom" data-fragment-index="4"><div style="position: absolute; left: 550.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="40.0" height="140.0" viewbox="0 0 40.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-344830" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-405359-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="black"></path></marker></defs><path class="arrow-anim-405359-path" d="M 20.0,120.0 L 20.0,20.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#arrow-344830)"></path></svg></div></span>
+</style><span class="fragment custom" data-fragment-index="4"><div style="position: absolute; left: 550.0px; top: -20.0px; pointer-events: none; z-index: 9999;"><svg width="40.0" height="140.0" viewbox="0 0 40.0 140.0" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;"><defs><marker id="arrow-288686" markerwidth="10" markerheight="10" refx="0" refy="5.0" orient="auto-start-reverse" markerunits="strokeWidth"><path class="arrow-anim-959284-marker" d="M 0 0 L 10 5.0 L 0 10 z" fill="black"></path></marker></defs><path class="arrow-anim-959284-path" d="M 20.0,120.0 L 20.0,20.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#arrow-288686)"></path></svg></div></span>
 </div>
 <div class="centered">
 <p><span class="fragment" data-fragment-index="4">Evidencia marginal (normalizador)</span></p>
@@ -721,6 +786,253 @@ L(E|+) = P(+|E) = 0.9 \quad \mbox{y} \quad L(\overline{E}|+) = P(+|\overline{E})
 </tr>
 </tbody>
 </table>
+</section></section>
+<section id="simulación-de-la-regla-de-bayes" class="title-slide slide level2 center">
+<h2>Simulación de la regla de Bayes</h2>
+<p>Podemos simular el procedimiento de actualización de la probabilidad de una hipótesis dada la evidencia, que realiza la regla de Bayes. Para ello necesitamos tomar muestras aleatorias de:</p>
+<ul>
+<li>La distribución a priori de la hipótesis <span class="math inline">\(H\)</span>.</li>
+<li>La distribución conjunta de la hipótesis <span class="math inline">\(H\)</span> y la evidencia <span class="math inline">\(D\)</span> teniendo en cuenta la función de verosimilitud <span class="math inline">\(L(H|D)\)</span>.</li>
+</ul>
+</section>
+
+<section id="muestreo-de-la-distribución-a-priori" class="title-slide slide level2 center">
+<h2>Muestreo de la distribución a priori</h2>
+<div id="exr-muestreo-distribucion-priori" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 2</strong></span> Obtener una muestra aleatoria de tamaño <span class="math inline">\(n=10000\)</span> de la distribución a priori de la hipótesis <span class="math inline">\(H\)</span> con probabilidades <span class="math inline">\(P(E)=0.1\)</span> y <span class="math inline">\(P(\overline{E})=0.9\)</span> y representar gráficamente la distribución muestral.</p>
+</div>
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>df_H <span class="ot">=</span> <span class="fu">tibble</span>(hipótesis <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"E"</span>, <span class="st">"NoE"</span>))  <span class="co"># Hipótesis</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)  <span class="co"># P(E) y P(No E)</span></span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># Para reproducibilidad</span></span>
+<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo de la distribución a priori</span></span>
+<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a>muestra_prior <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(df_H, <span class="at">size =</span> n, <span class="at">weight =</span> prior, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras de la distribución de frecuencias</span></span>
+<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(muestra_prior, <span class="fu">aes</span>(<span class="at">x =</span> hipótesis)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestra aleatoria de la distribución a priori"</span>,</span>
+<span id="cb1-12"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Hipótesis"</span>, <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="02-regla-bayes_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</details>
+</section>
+
+<section id="muestreo-de-la-distribución-conjunta" class="title-slide slide level2 center">
+<h2>Muestreo de la distribución conjunta</h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo de la función de verosimilitud (resultado del test)</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>muestra_prior <span class="ot">&lt;-</span> muestra_prior <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test =</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="fu">n</span>()) <span class="sc">&lt;</span> <span class="fu">ifelse</span>(hipótesis <span class="sc">==</span> <span class="st">"E"</span>, <span class="fl">0.9</span>, <span class="fl">0.05</span>), <span class="st">"+"</span>, <span class="st">"-"</span>))</span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras de la distribución de frecuencias del test</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(muestra_prior, <span class="fu">aes</span>(<span class="at">x =</span> hipótesis, <span class="at">fill =</span> test)) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de frecuencias del resultado del test"</span>,</span>
+<span id="cb2-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Hipótesis"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="02-regla-bayes_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+
+<section>
+<section id="muestreo-de-la-distribución-a-posteriori" class="title-slide slide level2 center">
+<h2>Muestreo de la distribución a posteriori</h2>
+<p>Una vez tenemos la distribución conjunta, podemos obtener una muestra de la distribución a posteriori, filtrando por la evidencia de que el resultado del test ha sido positivo.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar casos con test positivos</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>muestra_posterior <span class="ot">&lt;-</span> muestra_prior <span class="sc">|&gt;</span> <span class="fu">filter</span>(test <span class="sc">==</span> <span class="st">"+"</span>)</span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras de la distribución de frecuencias de la muestra a posteriori</span></span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(muestra_posterior, <span class="fu">aes</span>(<span class="at">x =</span> hipótesis, <span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count)))) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestra aleatoria de la distribución a posteriori"</span>,</span>
+<span id="cb3-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Hipótesis"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="02-regla-bayes_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Como se puede observar, la distribución de frecuencias a posteriori coincide con las probabilidades a posteriori calculadas con la regla de Bayes.</p>
+</section>
+<section class="slide level3">
+
+<div id="exr-teorema-bayes" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 3</strong></span> Se dispone de dos test <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> para diagnosticar una enfermedad con una prevalencia del 1% en la población. El test <span class="math inline">\(A\)</span> tiene una sensibilidad del 98% y una especificidad del 80%, mientras que el test <span class="math inline">\(B\)</span> tiene una sensibilidad del 75% y una especificidad del 99%.</p>
+<ol type="a">
+<li>Obtener una muestra aleatoria de tamaño 100000 de la distribución a priori de la hipótesis.</li>
+<li>Obtener una muestra aleatoria de tamaño 100000 de la distribución conjunta de las hipótesis y el resultado del test A.</li>
+<li>Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test A ha resultado positivo.</li>
+<li>Obtener una muestra aleatoria de la distribución conjunta de las hipótesis y el resultado del test B.</li>
+<li>Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test B ha resultado positivo.</li>
+</ol>
+</div>
+</section></section>
+<section id="modelos-bayesianos" class="title-slide slide level2 center">
+<h2>Modelos bayesianos</h2>
+<p>Un modelo bayesiano es un modelo estadístico que incorpora la incertidumbre sobre los parámetros desconocidos a través de distribuciones de probabilidad a priori, y que utiliza la regla de Bayes para actualizar estas distribuciones a posteriori a medida que se va obteniendo nueva información a través de los datos observados.</p>
+</section>
+
+<section id="elementos-de-un-modelo-bayesiano" class="title-slide slide level2 center">
+<h2>Elementos de un modelo bayesiano</h2>
+<p>Para definir un modelo bayesiano es necesario especificar:</p>
+<ol type="1">
+<li>El espacio de las hipótesis o parámetros desconocidos.</li>
+<li>La distribución de probabilidad a priori de las hipótesis o parámetros desconocidos que refleja la incertidumbre inicial sobre ellos antes de observar los datos.</li>
+<li>La distribución de probabilidad de los datos observados para cada hipótesis o valor de los parámetros desconocidos, que viene dada a través de la función de verosimilitud.</li>
+</ol>
+
+<img data-src="img/02-regla-bayes/modelo-bayesiano.svg" class="r-stretch quarto-figure-center"><p class="caption">Esquema de un modelo bayesiano</p></section>
+
+<section id="distribuciones-de-probabilidad-a-priori-discretas-y-continuas" class="title-slide slide level2 center">
+<h2>Distribuciones de probabilidad a priori discretas y continuas</h2>
+<p>Dependiendo de la naturaleza de las hipótesis o parámetros desconocidos, el espacio de hipótesis puede ser discreto o continuo. Esto da lugar a dos tipos de distribuciones de probabilidad a priori.</p>
+<ul>
+<li><p><strong>Distribuciones a priori discretas</strong>. Se utilizan cuando el espacio de hipótesis es discreto, es decir, las hipótesis o parámetros desconocidos toman un número finito o contable de valores, como por ejemplo el caso del test diagnóstico con las hipótesis <span class="math inline">\(E\)</span> y <span class="math inline">\(\overline{E}\)</span>.</p></li>
+<li><p><strong>Distribuciones a priori continuas</strong>. Se utilizan cuando el espacio de hipótesis es continuo, es decir, las hipótesis o parámetros desconocidos pueden tomar cualquier valor dentro de un intervalo o región del espacio, como por ejemplo el caso de la estimación de la media o una proporción de una población.</p></li>
+</ul>
+</section>
+
+<section id="distribuciones-de-los-datos-observados-condicionados-por-las-hipótesis" class="title-slide slide level2 center">
+<h2>Distribuciones de los datos observados condicionados por las hipótesis</h2>
+<p>Del mismo modo, dependiendo de la naturaleza de los datos observados, la función de verosimilitud puede modelarse mediante distribuciones de probabilidad discretas o continuas.</p>
+<ul>
+<li><p><strong>Distribuciones de probabilidad discretas</strong>. Se utilizan cuando los datos observados son discretos, es decir, toman un número finito o contable de valores, como por ejemplo el número de éxitos en una serie de ensayos independientes.</p></li>
+<li><p><strong>Distribuciones de probabilidad continuas</strong>. Se utilizan cuando los datos observados son continuos, es decir, pueden tomar cualquier valor dentro de un intervalo o región del espacio, como por ejemplo la altura o el peso de una persona.</p></li>
+</ul>
+</section>
+
+<section id="tipos-de-modelos-bayesianos" class="title-slide slide level2 center">
+<h2>Tipos de modelos bayesianos</h2>
+<p>Según el tipo de la distribución a priori y de la distribución de los datos utilizada para calcular la función de verosimilitud, tenemos distintos tipos de modelos bayesianos.</p>
+
+<img data-src="img/02-regla-bayes/taxonomia-modelos-bayesianos.svg" class="r-stretch quarto-figure-center"><p class="caption">Taxonomía de modelos bayesianos</p></section>
+
+<section id="modelos-bayesianos-más-utilizados" class="title-slide slide level2 center">
+<h2>Modelos bayesianos más utilizados</h2>
+<ul>
+<li><p><strong>Prior discreto + verosimilitud discreta</strong>. Las parejas más habituales son uniforme discreta con Binomial o Poisson, y priors ad hoc definidos por un experto con Multinomial o categórica. Es el caso del diagnóstico médico con hipótesis finitas.</p></li>
+<li><p><strong>Prior discreto + verosimilitud continua</strong>. Aparece en comparación y selección de modelos. La pareja más importante es uniforme sobre modelos con Normal o Weibull para calcular factores de Bayes. El caso spike-and-slab con Normal es la base de la selección bayesiana de variables en regresión.</p></li>
+<li><p><strong>Prior continuo + verosimilitud discreta</strong>. Aquí están los pares conjugados más importantes de la epidemiología: Beta-Binomial para proporciones, Dirichlet-Multinomial para categorías, Gamma-Poisson para conteos, y Beta-Geométrica para tiempo hasta el primer evento.</p></li>
+<li><p><strong>Prior continuo + verosimilitud continua</strong> — Es el caso más general. Los pares conjugados más importantes son Normal-Normal, Normal Inv-Gamma y Gamma-Exponencial para tasas. Todo lo demás (regresión con covariables, modelos mixtos, supervivencia) no tiene forma analítica cerrada y requiere aproximación por MCMC.</p></li>
+</ul>
+</section>
+
+<section>
+<section id="modelo-beta---binomial" class="title-slide slide level2 center">
+<h2>Modelo Beta - Binomial</h2>
+<p>Cuando el parámetro de interés es una proporción <span class="math inline">\(\theta\)</span>, como por ejemplo el la proporción de fumadores en una población), y los datos observados son el número de éxitos <span class="math inline">\(x\)</span> en una serie de <span class="math inline">\(n\)</span> ensayos independientes, como por ejemplo el número de personas fumadoras en una muestra, el modelo bayesiano más utilizado es el modelo Beta-Binomial.</p>
+<ul>
+<li>Prior: <span class="math inline">\(\theta \sim \text{Beta}(\alpha, \beta)\)</span></li>
+<li>Verosimilitud: <span class="math inline">\(x|\theta \sim B(n, \theta)\)</span>.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<div id="exr-modelo-beta-binomial" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 4</strong></span> Supongamos que queremos estimar la proporción de fumadores en nuestra ciudad. Sabemos que en varias muestras tomadas en otras ciudades similares, la proporción media estaba alrededor del 33% y que la menor y mayor proporción observadas fueron del 19% y del 48%, respectivamente.</p>
+<p>¿Qué distribución Beta podríamos utilizar para modelizar la distribución a priori?</p>
+<p>Usa la aplicación <a href="https://nube.aprendeconalf.es/shiny/distribuciones/">https://nube.aprendeconalf.es/shiny/distribuciones/</a> para probar distintas distribuciones Beta y encontrar aquella que mejor se ajuste a la información.</p>
+</div>
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta</span>(<span class="at">alpha =</span> <span class="dv">30</span>, <span class="at">beta =</span> <span class="dv">60</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="02-regla-bayes_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</details>
+</section>
+<section class="slide level3">
+
+<div id="exr-modelo-beta-binomial-2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 5</strong></span> Tras realizar un nuevo sondeo en la nuestra ciudad hemos observado que en una muestra de 100 personas, 32 son fumadoras.</p>
+<p>¿Cuál es la función de verosimilitud del número de fumadores observados en la muestra para un proporción de fumadores en la ciudad <span class="math inline">\(\theta\)</span>?</p>
+</div>
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<p>Llamemos <span class="math inline">\(Y\)</span> al número de personas fumadoras en una muestra de tamaño <span class="math inline">\(n=100\)</span>. Suponiendo que la proporción de personas fumadoras en la ciudad es <span class="math inline">\(\theta\)</span>, el número de personas fumadoras observadas en una muestra aleatoria de 100 personas sigue una distribución Binomial con parámetros <span class="math inline">\(n=100\)</span> y <span class="math inline">\(\theta\)</span>.</p>
+<p><span class="math display">\[
+Y|\theta \sim B(n=100, \theta)
+\]</span></p>
+<p>por lo que la función de verosimilitud es</p>
+<span class="math display">\[
+L(\theta|Y=32) = P(Y=32|\theta) = \binom{100}{32} \theta^{32} (1-\theta)^{68}.
+\]</span>
+</details>
+</section>
+<section class="slide level3">
+
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">32</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> x)</span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de verosimilitud para y = 32</span></span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(θ <span class="ot">=</span> x, <span class="at">verosimilitud =</span> y)</span>
+<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> θ, <span class="at">y =</span> verosimilitud)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#0099CC"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Función de verosimilitud para y = 32"</span>,</span>
+<span id="cb5-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proporción de fumadores en la ciudad (θ)"</span>, <span class="at">y =</span> <span class="st">"Verosimilitud"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="02-regla-bayes_files/figure-revealjs/unnamed-chunk-6-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level3">
+
+<p>Una vez que tenemos las distribuciones a priori y la función de verosimilitud, podemos calcular la distribución a posteriori utilizando la regla de Bayes.</p>
+<p><span class="math display">\[
+f(\theta|Y=32) = \frac{f(\theta)L(\theta|Y=32)}{P(Y=32)}
+\]</span></p>
+<p>Sin embargo, la constante normalizadora <span class="math inline">\(P(Y=32)\)</span> es difícil de calcular ya que requiere acumular las probabilidades <span class="math inline">\(f(\theta)L(\theta|Y=32)\)</span> para cualquier <span class="math inline">\(\theta\)</span>. Pero como <span class="math inline">\(\theta\)</span> es una variable continua que puede tomar cualquier valor real entre 0 y 1, esta suma se convierte en la integral</p>
+<p><span class="math display">\[
+P(Y=32) = \int_0^1 f(\theta)L(\theta|Y=32) d\theta
+\]</span></p>
 
 </section></section>
     </div>
@@ -980,173 +1292,190 @@ L(E|+) = P(+|E) = 0.9 \quad \mbox{y} \quad L(\overline{E}|+) = P(+|\overline{E})
     </script>
 
     <script id="quarto-html-after-body" type="application/javascript">
-      window.document.addEventListener("DOMContentLoaded", function (event) {
-        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-        tabsets.forEach(function(tabset) {
-          const tabby = new Tabby('#' + tabset.id);
-        });
-        const isCodeAnnotation = (el) => {
-          for (const clz of el.classList) {
-            if (clz.startsWith('code-annotation-')) {                     
-              return true;
-            }
-          }
-          return false;
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
         }
-        const onCopySuccess = function(e) {
-          // button target
-          const button = e.trigger;
-          // don't keep focus
-          button.blur();
-          // flash "checked"
-          button.classList.add('code-copy-button-checked');
-          var currentTitle = button.getAttribute("title");
-          button.setAttribute("title", "Copiado");
-          let tooltip;
-          if (window.bootstrap) {
-            button.setAttribute("data-bs-toggle", "tooltip");
-            button.setAttribute("data-bs-placement", "left");
-            button.setAttribute("data-bs-title", "Copiado");
-            tooltip = new bootstrap.Tooltip(button, 
-              { trigger: "manual", 
-                customClass: "code-copy-button-tooltip",
-                offset: [0, -8]});
-            tooltip.show();    
-          }
-          setTimeout(function() {
-            if (tooltip) {
-              tooltip.hide();
-              button.removeAttribute("data-bs-title");
-              button.removeAttribute("data-bs-toggle");
-              button.removeAttribute("data-bs-placement");
-            }
-            button.setAttribute("title", currentTitle);
-            button.classList.remove('code-copy-button-checked');
-          }, 1000);
-          // clear code selection
-          e.clearSelection();
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
         }
-        const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copiado");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copiado");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-        }
-        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-          text: getTextToCopy
-        });
-        clipboard.on('success', onCopySuccess);
-        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-            text: getTextToCopy,
-            container: window.document.getElementById('quarto-embedded-source-code-modal')
-          });
-          clipboardModal.on('success', onCopySuccess);
-        }
-          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-          var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp('/' + window.location.host + '/');
-          var isInternal = (href) => {
-              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-          }
-          // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-          for (var i=0; i<links.length; i++) {
-            const link = links[i];
-            if (!isInternal(link.href)) {
-              // undo the damage that might have been done by quarto-nav.js in the case of
-              // links that we want to consider external
-              if (link.dataset.originalHref !== undefined) {
-                link.href = link.dataset.originalHref;
-              }
-            }
-          }
-        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-          const config = {
-            allowHTML: true,
-            maxWidth: 500,
-            delay: 100,
-            arrow: false,
-            appendTo: function(el) {
-                return el.closest('section.slide') || el.parentElement;
-            },
-            interactive: true,
-            interactiveBorder: 10,
-            theme: 'light-border',
-            placement: 'bottom-start',
-          };
-          if (contentFn) {
-            config.content = contentFn;
-          }
-          if (onTriggerFn) {
-            config.onTrigger = onTriggerFn;
-          }
-          if (onUntriggerFn) {
-            config.onUntrigger = onUntriggerFn;
-          }
-            config['offset'] = [0,0];
-            config['maxWidth'] = 700;
-          window.tippy(el, config); 
-        }
-        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-        for (var i=0; i<noterefs.length; i++) {
-          const ref = noterefs[i];
-          tippyHover(ref, function() {
-            // use id or data attribute instead here
-            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-            try { href = new URL(href).hash; } catch {}
-            const id = href.replace(/^#\/?/, "");
-            const note = window.document.getElementById(id);
-            if (note) {
-              return note.innerHTML;
-            } else {
-              return "";
-            }
-          });
-        }
-        const findCites = (el) => {
-          const parentEl = el.parentElement;
-          if (parentEl) {
-            const cites = parentEl.dataset.cites;
-            if (cites) {
-              return {
-                el,
-                cites: cites.split(' ')
-              };
-            } else {
-              return findCites(el.parentElement)
-            }
-          } else {
-            return undefined;
-          }
-        };
-        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-        for (var i=0; i<bibliorefs.length; i++) {
-          const ref = bibliorefs[i];
-          const citeInfo = findCites(ref);
-          if (citeInfo) {
-            tippyHover(citeInfo.el, function() {
-              var popup = window.document.createElement('div');
-              citeInfo.cites.forEach(function(cite) {
-                var citeDiv = window.document.createElement('div');
-                citeDiv.classList.add('hanging-indent');
-                citeDiv.classList.add('csl-entry');
-                var biblioDiv = window.document.getElementById('ref-' + cite);
-                if (biblioDiv) {
-                  citeDiv.innerHTML = biblioDiv.innerHTML;
-                }
-                popup.appendChild(citeDiv);
-              });
-              return popup.innerHTML;
-            });
-          }
-        }
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
-      </script>
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
     
 
 </body></html>

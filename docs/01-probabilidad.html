@@ -100,7 +100,7 @@
     code span.vs { color: #da4453; } /* VerbatimString */
     code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-4d4b2b41801686363f2b3252aee43046.css">
+  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-2e690043c2bbe322177ad84c8cb371d3.css">
   <link href="01-probabilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -214,7 +214,7 @@
       <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
         
   </section>
-<section id="section" class="title-slide slide level2 center" data-background-color="#0099CC">
+<section id="section" class="title-slide slide level2 myblue center" data-background-color="">
 <h2></h2>
 <div class="main-title">
 <p>Distribuciones de frecuencias</p>
@@ -374,7 +374,9 @@
 <ol type="a">
 <li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>sexo</code>.</li>
 <li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>tabaco</code>.</li>
+<li>Representar gráficamente la distribución de frecuencias absolutas de la variable <code>tabaco</code>.</li>
 <li>Crear una tabla de frecuencias absolutas y relativas para la variable <code>apgar1</code>.</li>
+<li>Representar gráficamente la distribución de frecuencias relativas de la variable <code>apgar1</code>.</li>
 </ol>
 </div>
 </section></section>
@@ -649,6 +651,51 @@
 </section>
 <section class="slide level3">
 
+<p>El siguiente código permite obtener la distribución marginal de los grupos sanguíneos para las mujeres.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos las mujeres</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df, sexo <span class="sc">==</span> <span class="st">"Mujer"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(grupo) <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">grupo</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1250</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.3750</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.3125</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</section>
+<section class="slide level3">
+
 <div id="exr-distribuciones-condicionales" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 3</strong></span> El conjunto de datos <code>neonatos</code> contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.</p>
 <ol type="a">
@@ -700,18 +747,18 @@
 <p><span class="theorem-title"><strong>Ejemplo 8</strong></span> El siguiente diagrama de árbol representa el espacio muestral de un experimento aleatorio en el que se mide el sexo y el grupo sanguíneo de un individuo al azar.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Espacio muestral del sexo y grupo sanguíneo)</span></span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.tree)</span>
-<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Hombre"</span>,<span class="st">"Mujer"</span>),</span>
-<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">16</span>)),</span>
-<span id="cb9-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">6</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">2</span>),</span>
-<span id="cb9-8"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">8</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">1</span>))</span>
-<span id="cb9-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-10"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>pathString <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Ω"</span>, df<span class="sc">$</span>sexo, df<span class="sc">$</span>grupo, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
-<span id="cb9-11"><a href="" aria-hidden="true" tabindex="-1"></a>espacio <span class="ot">&lt;-</span> <span class="fu">as.Node</span>(df)</span>
-<span id="cb9-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Espacio muestral del sexo y grupo sanguíneo)</span></span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.tree)</span>
+<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Hombre"</span>,<span class="st">"Mujer"</span>),</span>
+<span id="cb10-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">16</span>)),</span>
+<span id="cb10-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">6</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">2</span>),</span>
+<span id="cb10-8"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"0"</span>,<span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">8</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"AB"</span>,<span class="dv">1</span>))</span>
+<span id="cb10-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-10"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>pathString <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Ω"</span>, df<span class="sc">$</span>sexo, df<span class="sc">$</span>grupo, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
+<span id="cb10-11"><a href="" aria-hidden="true" tabindex="-1"></a>espacio <span class="ot">&lt;-</span> <span class="fu">as.Node</span>(df)</span>
+<span id="cb10-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code>    levelName
@@ -734,19 +781,19 @@
 
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujo del diagrama de árbol</span></span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetGraphStyle</span>(espacio, <span class="at">rankdir =</span> <span class="st">"LR"</span>)</span>
-<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetEdgeStyle</span>(espacio, <span class="at">arrowhead =</span> <span class="st">"vee"</span>)</span>
-<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetNodeStyle</span>(espacio, </span>
-<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">style =</span> <span class="st">"filled, rounded"</span>, </span>
-<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="st">"box"</span>, </span>
-<span id="cb11-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fillcolor =</span> <span class="st">"#89D3F3"</span>, </span>
-<span id="cb11-8"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fontcolor =</span> <span class="st">"black"</span>)</span>
-<span id="cb11-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujo del diagrama de árbol</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetGraphStyle</span>(espacio, <span class="at">rankdir =</span> <span class="st">"LR"</span>)</span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetEdgeStyle</span>(espacio, <span class="at">arrowhead =</span> <span class="st">"vee"</span>)</span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">SetNodeStyle</span>(espacio, </span>
+<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">style =</span> <span class="st">"filled, rounded"</span>, </span>
+<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="st">"box"</span>, </span>
+<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fillcolor =</span> <span class="st">"#89D3F3"</span>, </span>
+<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">fontcolor =</span> <span class="st">"black"</span>)</span>
+<span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(espacio)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-9fa0a6ce7df72964e9f9" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-9fa0a6ce7df72964e9f9">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Ω\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"2\" [label = \"Hombre\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"3\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"4\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"5\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"6\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"7\" [label = \"Mujer\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"8\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"9\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"10\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"11\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n\"1\"->\"2\" [arrowhead = \"vee\"] \n\"1\"->\"7\" [arrowhead = \"vee\"] \n\"2\"->\"3\" [arrowhead = \"vee\"] \n\"2\"->\"4\" [arrowhead = \"vee\"] \n\"2\"->\"5\" [arrowhead = \"vee\"] \n\"2\"->\"6\" [arrowhead = \"vee\"] \n\"7\"->\"8\" [arrowhead = \"vee\"] \n\"7\"->\"9\" [arrowhead = \"vee\"] \n\"7\"->\"10\" [arrowhead = \"vee\"] \n\"7\"->\"11\" [arrowhead = \"vee\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-bed5df997f40c3ae5c12" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-bed5df997f40c3ae5c12">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Ω\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"2\" [label = \"Hombre\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"3\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"4\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"5\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"6\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"7\" [label = \"Mujer\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"8\" [label = \"0\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"9\" [label = \"A\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"10\" [label = \"B\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n  \"11\" [label = \"AB\", style = \"filled, rounded\", shape = \"box\", fillcolor = \"#89D3F3\", fontcolor = \"black\"] \n\"1\"->\"2\" [arrowhead = \"vee\"] \n\"1\"->\"7\" [arrowhead = \"vee\"] \n\"2\"->\"3\" [arrowhead = \"vee\"] \n\"2\"->\"4\" [arrowhead = \"vee\"] \n\"2\"->\"5\" [arrowhead = \"vee\"] \n\"2\"->\"6\" [arrowhead = \"vee\"] \n\"7\"->\"8\" [arrowhead = \"vee\"] \n\"7\"->\"9\" [arrowhead = \"vee\"] \n\"7\"->\"10\" [arrowhead = \"vee\"] \n\"7\"->\"11\" [arrowhead = \"vee\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div></div>
 </section></section>
@@ -840,10 +887,13 @@
 <li><p>Es necesario que todos los elementos del espacio muestral tengan la misma probabilidad de ocurrir (<em>equiprobabilidad</em>).</p></li>
 <li><p>No puede utilizarse con espacios muestrales infinitos, o de los que no se conoce el número de casos posibles.</p></li>
 </ul>
-<div class="callout callout-caution callout-style-simple">
+<div class="callout callout-caution callout-titled callout-style-default">
 <div class="callout-body">
+<div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
+</div>
+<p><strong>Precaución</strong></p>
 </div>
 <div class="callout-content">
 <p>Esto no se cumple en muchos experimentos aleatorios reales.</p>
@@ -1186,30 +1236,17 @@ P(X=k) = \frac{1}{n} \quad \forall k=1,\ldots,n.
 <p><span class="theorem-title"><strong>Ejemplo 23</strong></span> El modelo de distribución de probabilidad de resultado de lanzar un dado equilibrado es uniforme discreto <span class="math inline">\(U(6)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="co"># Rango </span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>) <span class="co"># Probabilidad</span></span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
-<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>p)) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">fill=</span>myblue) <span class="sc">+</span></span>
-<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución uniforme discreta U(6)"</span>,</span>
-<span id="cb12-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb12-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución uniforme discreta U(6)"</span>,</span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="co"># Rango </span></span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>) <span class="co"># Probabilidad</span></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>p)) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">fill=</span>myblue) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución uniforme discreta U(6)"</span>,</span>
+<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1239,7 +1276,7 @@ E(X) = np \quad \mbox{y} \quad Var(X) = np(1-p).
 <section class="slide level3">
 
 <div id="exm-distribucion-binomial" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 24</strong></span> El número de caras al lanzar 10 monedas equilibradas sigue una distribución binomial <span class="math inline">\(B(10, 0.5)\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 24</strong></span> En una población hay el mismo número de hombres que de mujeres. La variable que mide el número de mujeres en una muestra aleatoria de <span class="math inline">\(10\)</span> personas sigue una distribución binomial <span class="math inline">\(B(10, 0.5)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
@@ -1251,7 +1288,7 @@ E(X) = np \quad \mbox{y} \quad Var(X) = np(1-p).
 <span id="cb14-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
 <span id="cb14-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
 <span id="cb14-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución binomial B(10, 0.5)"</span>,</span>
-<span id="cb14-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de mujeres"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
 <span id="cb14-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
@@ -1262,70 +1299,91 @@ E(X) = np \quad \mbox{y} \quad Var(X) = np(1-p).
 </div>
 </div>
 </div></div>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución binomial B(10, 0.5)"</span>,</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
 </div>
 </section>
 <section id="forma-de-la-distribución-binomial-para-distintos-valores-de-n-y-p" class="slide level3">
 <h3>Forma de la distribución binomial para distintos valores de <span class="math inline">\(n\)</span> y <span class="math inline">\(p\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section></section>
 <section>
-<section id="distribución-de-poisson" class="title-slide slide level2 center">
-<h2>Distribución de Poisson</h2>
-<div id="def-distribucion-poisson" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 19 (Distribución de Poisson)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad de Poisson</em> <span class="math inline">\(X\sim P(\lambda)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0,1,2,\ldots\}\)</span> y su función de probabilidad es</p>
+<section id="distribución-geométrica" class="title-slide slide level2 center">
+<h2>Distribución Geométrica</h2>
+<div id="def-distribucion-geométrica" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 19 (Distribución Geométrica)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad geométrica</em> <span class="math inline">\(X\sim G(p)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0,1,2,\ldots\}\)</span> y su función de probabilidad es</p>
 <p><span class="math display">\[
-P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!} \quad k=0,1,2,\ldots,
+P(X=k) = (1-p)^{k}p \quad k=0,1,2,\ldots,
 \]</span></p>
-<p>donde <span class="math inline">\(\lambda&gt;0\)</span> es el número medio de ocurrencias del suceso en el intervalo de referencia.</p>
+<p>donde <span class="math inline">\(p\)</span> es la <em>probabilidad de éxito</em> en cada ensayo.</p>
 </div>
-<p>El modelo de Poisson se utiliza para modelar el número de ocurrencias de un suceso en un intervalo de tiempo o espacio fijo, como por ejemplo el número de llamadas que recibe una centralita en una hora o el número de mutaciones en un fragmento de ADN.</p>
+<p>El modelo geométrico se utiliza para modelar el número de fracasos necesarios para obtener el primer éxito en una serie de ensayos independientes con dos posibles resultados (éxito/fracaso), como por ejemplo el número de cruces hasta obtener la primera cara o el número de pacientes sanos hasta obtener un paciente enfermo.</p>
 <p><strong>Estadísticos</strong> <span class="math display">\[
-E(X) = Var(X) = \lambda.
+E(X) = \frac{1}{p} \quad \mbox{y} \quad Var(X) = \frac{1-p}{p^2}.
 \]</span></p>
 </section>
 <section class="slide level3">
 
-<div id="exm-distribucion-poisson" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 25</strong></span> El número de llamadas que recibe una centralita en una hora, si la media es 4, sigue una distribución de Poisson <span class="math inline">\(P(4)\)</span>.</p>
+<div id="exm-distribucion-geométrica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 25</strong></span> Se sabe que en una población hay aproximadamente un 30% de fumadores. La variable que mide el número de personas no fumadoras que se necesitan hasta encontrar la primera persona fumadora sigue una distribución geométrica <span class="math inline">\(G(0.3)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,  <span class="co"># Rango truncado</span></span>
-<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">lambda =</span> <span class="dv">4</span>)  <span class="co"># Probabilidad</span></span>
-<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
-<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
-<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
-<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de Poisson P(4)"</span>,</span>
-<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">14</span>,  <span class="co"># Rango truncado (número de fracasos)</span></span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dgeom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">14</span>, <span class="at">prob =</span> <span class="fl">0.3</span>) <span class="co"># Probabilidad</span></span>
+<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb15-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución geométrica G(0.3)"</span>,</span>
+<span id="cb15-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de no fumadoras hasta la primera fumadora"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-geométrica-para-distintos-valores-de-p" class="slide level3">
+<h3>Forma de la distribución geométrica para distintos valores de <span class="math inline">\(p\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-binomial-negativa" class="title-slide slide level2 center">
+<h2>Distribución Binomial Negativa</h2>
+<div id="def-distribucion-binomial-negativa" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 20 (Distribución Binomial Negativa)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad binomial negativa</em> <span class="math inline">\(X\sim BN(r, p)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0, 1, 2, \ldots\}\)</span> y su función de probabilidad es <span class="math display">\[
+P(X=k) = \binom{r+k-1}{k}p^r(1-p){k} \quad k=0, 1, 2, \ldots
+\]</span></p>
+<p>donde <span class="math inline">\(r\)</span> es el <em>número de éxitos</em> y <span class="math inline">\(p\)</span> la <em>probabilidad de éxito</em> en cada ensayo.</p>
+</div>
+<p>El modelo binomial negativa se utiliza para modelar el número de fracasos necesarios para obtener <span class="math inline">\(r\)</span> éxitos en una serie de ensayos independientes con dos posibles resultados (éxito/fracaso), como por ejemplo el número de cruces hasta obtener la quinta cara o el número de pacientes sanos hasta obtener el tercer paciente enfermo.</p>
+<p><strong>Estadísticos</strong></p>
+<p><span class="math display">\[
+E(X) = \frac{r(1-p)}{p} \quad \mbox{y} \quad Var(X) = \frac{r(1-p)}{p^2}.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-binomial-negativa" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 26</strong></span> Se sabe que en una población hay aproximadamente un 30% de fumadores. La variable que el número de personas no fumadoras hasta obtener 3 personas fumadoras sigue una distribución <span class="math inline">\(BN(3, 0.3)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(df<span class="sc">$</span>p, <span class="at">names.arg =</span> df<span class="sc">$</span>x, <span class="at">col =</span> myblue, <span class="at">main =</span> <span class="st">"Distribución de Poisson P(4)"</span>,</span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad"</span>, <span class="at">space =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>,  <span class="co"># Rango truncado (número de fracasos)</span></span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dnbinom</span> (<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">prob =</span> <span class="fl">0.3</span>) <span class="co"># Probabilidad</span></span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución binomial negativa BN(3, 0.3)"</span>,</span>
+<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de no fumadoras hasta las tercera fumadora"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1337,15 +1395,62 @@ E(X) = Var(X) = \lambda.
 </div></div>
 </div>
 </section>
+<section id="forma-de-la-distribución-binomial-negativa-para-distintos-valores-de-r-y-p" class="slide level3">
+<h3>Forma de la distribución Binomial Negativa para distintos valores de <span class="math inline">\(r\)</span> y <span class="math inline">\(p\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-de-poisson" class="title-slide slide level2 center">
+<h2>Distribución de Poisson</h2>
+<div id="def-distribucion-poisson" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 21 (Distribución de Poisson)</strong></span> Se dice que una variable aleatoria discreta <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad de Poisson</em> <span class="math inline">\(X\sim P(\lambda)\)</span>, si su rango es <span class="math inline">\(R(X)=\{0,1,2,\ldots\}\)</span> y su función de probabilidad es</p>
+<p><span class="math display">\[
+P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!} \quad k=0,1,2,\ldots,
+\]</span></p>
+<p>donde <span class="math inline">\(\lambda&gt;0\)</span> es el <em>número medio de ocurrencias</em> del suceso en el intervalo de referencia.</p>
+</div>
+<p>El modelo de Poisson se utiliza para modelar el número de ocurrencias de un suceso en un intervalo de tiempo o espacio fijo, como por ejemplo el número de llamadas que recibe una centralita en una hora o el número de mutaciones en un fragmento de ADN.</p>
+<p><strong>Estadísticos</strong> <span class="math display">\[
+E(X) = Var(X) = \lambda.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-poisson" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 27</strong></span> En una ciudad el número medio de nacimientos diarios es 4. Entonces, el número nacimientos en un día sigue una distribución de Poisson <span class="math inline">\(P(4)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,  <span class="co"># Rango truncado</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">lambda =</span> <span class="dv">4</span>)  <span class="co"># Probabilidad</span></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de barras</span></span>
+<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de Poisson P(4)"</span>,</span>
+<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de nacimientos"</span>, <span class="at">y =</span> <span class="st">"Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
 <section id="forma-de-la-distribución-de-poisson-para-distintos-valores-de-lambda" class="slide level3">
 <h3>Forma de la distribución de Poisson para distintos valores de <span class="math inline">\(\lambda\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="variables-aleatorias-continuas" class="title-slide slide level2 center">
 <h2>Variables aleatorias continuas</h2>
 <div id="def-funcion-densidad" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 20 (Función de densidad)</strong></span> La <em>función de densidad</em> de una variable aleatoria continua <span class="math inline">\(X\)</span> es una función <span class="math inline">\(f(x)\)</span> que cumple las siguientes condiciones:</p>
+<p><span class="theorem-title"><strong>Definición 22 (Función de densidad)</strong></span> La <em>función de densidad</em> de una variable aleatoria continua <span class="math inline">\(X\)</span> es una función <span class="math inline">\(f(x)\)</span> que cumple las siguientes condiciones:</p>
 <ol type="1">
 <li><span class="math inline">\(f(x)\geq 0\)</span> para todo <span class="math inline">\(x\in \mathbb{R}\)</span>.</li>
 <li><span class="math inline">\(\int_{-\infty}^{+\infty} f(x)\,dx = 1\)</span>.</li>
@@ -1356,7 +1461,7 @@ E(X) = Var(X) = \lambda.
 <section class="slide level3">
 
 <div id="exm-funcion-densidad" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 26</strong></span> La función</p>
+<p><span class="theorem-title"><strong>Ejemplo 28</strong></span> La función</p>
 <p><span class="math display">\[
 f(x) = \begin{cases}
 e^{-x} &amp; x\geq 0 \\
@@ -1386,17 +1491,22 @@ Var(X) = \int_{-\infty}^{+\infty} (x - E(X))^2 f(x)\,dx = \int_{-\infty}^{+\inft
 <section id="distribución-uniforme-continua" class="title-slide slide level2 center">
 <h2>Distribución Uniforme Continua</h2>
 <div id="def-distribucion-uniforme-continua" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 21 (Distribución Uniforme Continua)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad uniforme continuo</em> <span class="math inline">\(X\sim U(a, b)\)</span>, si su rango es <span class="math inline">\(R(X)=[a,b]\)</span> y su función de densidad es constante en ese intervalo,</p>
+<p><span class="theorem-title"><strong>Definición 23 (Distribución Uniforme Continua)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad uniforme continuo</em> <span class="math inline">\(X\sim U(a, b)\)</span>, si su rango es <span class="math inline">\(R(X)=[a,b]\)</span> y su función de densidad es constante en ese intervalo,</p>
 <p><span class="math display">\[
-f(x) = \frac{1}{b-a} \quad \forall x\in[a,b].
+f(x) = \frac{1}{b-a} \quad \forall x\in[a,b],
 \]</span></p>
+<p>donde <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> son el <em>mínimo</em> y el <em>máximo</em> de los valores que puede tomar la variable, respectivamente.</p>
 </div>
 <p>El modelo uniforme continuo se utiliza para modelar experimentos aleatorios donde todos los valores del intervalo <span class="math inline">\([a,b]\)</span> son <em>equiprobables</em>, como por ejemplo el tiempo de espera de un autobús que tiene frecuencia fija.</p>
+<p><strong>Estadísticos</strong></p>
+<p><span class="math display">\[
+E(X) = \frac{a+b}{2} \quad \mbox{y} \quad Var(X) = \frac{(b-a)^2}{12}.
+\]</span></p>
 </section>
 <section class="slide level3">
 
 <div id="exm-distribucion-uniforme-continua" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 27</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 29</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">20</span>), <span class="at">p =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="dv">0</span>))</span>
@@ -1405,13 +1515,13 @@ f(x) = \frac{1}{b-a} \quad \forall x\in[a,b].
 <span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución uniforme continua U(0, 20)"</span>,</span>
-<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo de espera"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
 <span id="cb18-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1422,7 +1532,7 @@ f(x) = \frac{1}{b-a} \quad \forall x\in[a,b].
 <section id="distribución-beta" class="title-slide slide level2 center">
 <h2>Distribución Beta</h2>
 <div id="def-distribucion-beta" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 22 (Distribución Beta)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad beta</em> <span class="math inline">\(X\sim \mbox{Beta}(\alpha, \beta)\)</span>, si su rango es <span class="math inline">\(R(X)=[0,1]\)</span> y su función de densidad es</p>
+<p><span class="theorem-title"><strong>Definición 24 (Distribución Beta)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad beta</em> <span class="math inline">\(X\sim \mbox{Beta}(\alpha, \beta)\)</span>, si su rango es <span class="math inline">\(R(X)=[0,1]\)</span> y su función de densidad es</p>
 <p><span class="math display">\[
 f(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} \quad x\in[0,1],
 \]</span></p>
@@ -1440,7 +1550,7 @@ E(X) = \frac{\alpha}{\alpha+\beta}, \qquad Var(X) = \frac{\alpha\beta}{(\alpha+\
 <section class="slide level3">
 
 <div id="exm-distribucion-beta" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 28</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 30</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Beta(2, 5)</span></span>
@@ -1457,7 +1567,7 @@ E(X) = \frac{\alpha}{\alpha+\beta}, \qquad Var(X) = \frac{\alpha\beta}{(\alpha+\
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1467,12 +1577,12 @@ E(X) = \frac{\alpha}{\alpha+\beta}, \qquad Var(X) = \frac{\alpha\beta}{(\alpha+\
 <section id="forma-de-la-distribución-beta-para-distintos-valores-de-alpha-y-beta" class="slide level3">
 <h3>Forma de la distribución Beta para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="distribución-normal" class="title-slide slide level2 center">
 <h2>Distribución Normal</h2>
 <div id="def-distribucion-normal" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 23 (Distribución Normal)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad normal</em> <span class="math inline">\(X\sim N(\mu, \sigma)\)</span>, si su rango es <span class="math inline">\(R(X)=(-\infty,+\infty)\)</span> y su función de densidad es</p>
+<p><span class="theorem-title"><strong>Definición 25 (Distribución Normal)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad normal</em> <span class="math inline">\(X\sim N(\mu, \sigma)\)</span>, si su rango es <span class="math inline">\(R(X)=(-\infty,+\infty)\)</span> y su función de densidad es</p>
 <p><span class="math display">\[
 f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \quad x\in\mathbb{R},
 \]</span></p>
@@ -1485,7 +1595,7 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \quad x\in\ma
 <section class="slide level3">
 
 <div id="exm-distribucion-normal" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 29</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm).</p>
+<p><span class="theorem-title"><strong>Ejemplo 31</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm).</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad N(170, 8)</span></span>
@@ -1503,7 +1613,7 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \quad x\in\ma
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-25-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1513,56 +1623,101 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \quad x\in\ma
 <section id="forma-de-la-distribución-normal-para-distintos-valores-de-mu-y-sigma" class="slide level3">
 <h3>Forma de la distribución Normal para distintos valores de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section></section>
 <section>
-<section id="distribución-gamma" class="title-slide slide level2 center">
-<h2>Distribución Gamma</h2>
-<div id="def-distribucion-gamma" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 24 (Distribución Gamma)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad gamma</em> <span class="math inline">\(X\sim \Gamma(\alpha, \beta)\)</span>, si su rango es <span class="math inline">\(R(X)=(0,+\infty)\)</span> y su función de densidad es</p>
-<p><span class="math display">\[
-f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x} \quad x&gt;0,
-\]</span></p>
-<p>donde <span class="math inline">\(\alpha&gt;0\)</span> es el parámetro de <em>forma</em> y <span class="math inline">\(\beta&gt;0\)</span> el parámetro de <em>tasa</em>, y <span class="math inline">\(\Gamma(\alpha)\)</span> es la función <em>gamma</em>.</p>
+<section id="distribución-exponencial" class="title-slide slide level2 center">
+<h2>Distribución Exponencial</h2>
+<div id="def-distribucion-exponencial" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 26 (Distribución Exponencial)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un modelo de distribución de probabilidad exponencial <span class="math inline">\(X\sim Exp(\lambda)\)</span>, si su rango es <span class="math inline">\(R(X)=(0,+\infty)\)</span> y su función de densidad es <span class="math display">\[
+f(x) = \lambda e^{-\lambda x} \quad x&gt;0,
+\]</span> donde <span class="math inline">\(\lambda &gt; 0\)</span> es la <em>tasa de ocurrencia</em> del suceso.</p>
 </div>
-<p>El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas. Incluye como casos particulares la distribución exponencial (<span class="math inline">\(\alpha=1\)</span>) y, en el límite, se aproxima a la normal para valores grandes de <span class="math inline">\(\alpha\)</span>.</p>
+<p>El modelo exponencial se utiliza para modelar tiempos de espera o duraciones positivas, como por ejemplo el tiempo entre llamadas a una centralita o el tiempo de vida de un paciente.</p>
 <p><strong>Estadísticos</strong></p>
 <p><span class="math display">\[
-E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}.
+E(X) = \frac{1}{\lambda} \quad \mbox{y} \quad Var(X) = \frac{1}{\lambda^2}.
 \]</span></p>
 </section>
 <section class="slide level3">
 
-<div id="exm-distribucion-gamma" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 30</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
+<div id="exm-distribucion-exponencial" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 32 (Ejemplo: Distribución Exponencial)</strong></span> Se sabe que la tasa de infecciones por un virus es de 0.2 por día. Entonces, el tiempo hasta que haya una infección sigue una distribución exponencial <span class="math inline">\(\exp(0.2)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Gamma(3, 2)</span></span>
-<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
-<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">rate =</span> <span class="dv">2</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Exp(0.2)</span></span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dexp</span>(x, <span class="at">rate =</span> <span class="fl">0.2</span>)) <span class="co"># Densidad de probabilidad</span></span>
 <span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
 <span id="cb21-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
 <span id="cb21-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb21-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Gamma(3, 2)"</span>,</span>
-<span id="cb21-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Exponencial Exp(0.2)"</span>,</span>
+<span id="cb21-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta la infección"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
 <span id="cb21-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-25-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-27-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></div>
 </div>
 </section>
-<section id="forma-de-la-distribución-gamma-para-distintos-valores-de-alpha-y-beta" class="slide level3">
-<h3>Forma de la distribución Gamma para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span></h3>
+<section id="forma-de-la-distribución-exponencial-para-distintos-valores-de-lambda" class="slide level3">
+<h3>Forma de la distribución Exponencial para distintos valores de <span class="math inline">\(\lambda\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section></section>
-<section id="section-3" class="title-slide slide level2 center" data-background-color="#0099CC">
-<h2></h2>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="distribución-gamma" class="title-slide slide level2 center">
+<h2>Distribución Gamma</h2>
+<div id="def-distribucion-gamma" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 27 (Distribución Gamma)</strong></span> Se dice que una variable aleatoria continua <span class="math inline">\(X\)</span> sigue un <em>modelo de distribución de probabilidad gamma</em> <span class="math inline">\(X\sim \Gamma(\alpha, \lambda)\)</span>, si su rango es <span class="math inline">\(R(X)=(0,+\infty)\)</span> y su función de densidad es</p>
+<p><span class="math display">\[
+f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x} \quad x&gt;0,
+\]</span></p>
+<p>donde <span class="math inline">\(\alpha&gt;0\)</span> es el parámetro de <em>forma</em> y <span class="math inline">\(\lambda&gt;0\)</span> el parámetro de <em>tasa</em>, y <span class="math inline">\(\Gamma(\alpha)\)</span> es la función <em>gamma</em>.</p>
+</div>
+<p>El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas. Incluye como casos particulares la distribución exponencial (<span class="math inline">\(\alpha=1\)</span>) y, en el límite, se aproxima a la normal para valores grandes de <span class="math inline">\(\alpha\)</span>.</p>
+<p><strong>Estadísticos</strong></p>
+<p><span class="math display">\[
+E(X) = \frac{\alpha}{\lambda} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\lambda^2}.
+\]</span></p>
+</section>
+<section class="slide level3">
+
+<div id="exm-distribucion-gamma" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 33</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de densidad Gamma(3, 2)</span></span>
+<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">rate =</span> <span class="dv">2</span>))</span>
+<span id="cb22-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de densidad de probabilidad</span></span>
+<span id="cb22-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución Gamma(3, 2)"</span>,</span>
+<span id="cb22-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta el tercer contagio"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-29-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="forma-de-la-distribución-gamma-para-distintos-valores-de-alpha-y-lambda" class="slide level3">
+<h3>Forma de la distribución Gamma para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\lambda\)</span></h3>
+
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section></section>
+<section id="background-color-.myblue" class="title-slide slide level2 center">
+<h2>{background-color = .myblue}</h2>
 <div class="main-title">
 <p>Muestreo</p>
 </div>
@@ -1579,6 +1734,16 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 <section id="muestreo-en-variables-aleatorias-discretas" class="title-slide slide level2 center">
 <h2>Muestreo en variables aleatorias discretas</h2>
 <p>Para realizar un muestreo aleatorio simple de una variable aleatoria discreta con un número finito de valores, se puede usar la función <code>sample()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>sample()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de los elementos de un vector dado, con o sin reemplazamiento, y con probabilidades asociadas a cada elemento.</p>
 <p>Parámetros:</p>
 <ul>
 <li><code>x</code>: vector de valores a muestrear.</li>
@@ -1586,29 +1751,32 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 <li><code>prob</code>: vector de probabilidades asociadas a cada valor de <code>x</code>. Si no se especifica, se asume que todos los valores tienen la misma probabilidad.</li>
 <li><code>replace</code>: un valor <code>TRUE</code> indica que el muestreo es con reemplazo, mientras que un valor <code>FALSE</code> implica que el muestreo es sin reemplazo.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level3">
 
 <div id="exm-muestreo-aleatorio-simple-lanzamiento-moneda" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 31</strong></span> El siguiente código realiza un muestreo aleatorio simple de tamaño 10 del resultado de lanzar una moneda equilibrada, es decir, con probabilidades iguales para cara y cruz.</p>
+<p><span class="theorem-title"><strong>Ejemplo 34</strong></span> El siguiente código realiza un muestreo aleatorio simple de tamaño 10 del resultado de lanzar una moneda equilibrada, es decir, con probabilidades iguales para cara y cruz.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
-<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores posibles: Cara ("C") y Cruz ("X")</span></span>
-<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"X"</span>)</span>
-<span id="cb22-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
-<span id="cb22-5"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb22-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
-<span id="cb22-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
+<span id="cb23-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores posibles: Cara ("C") y Cruz ("X")</span></span>
+<span id="cb23-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"X"</span>)</span>
+<span id="cb23-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
+<span id="cb23-5"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb23-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
+<span id="cb23-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "X" "C" "X" "C" "C" "X" "C" "C" "C" "X"</code></pre>
 </div>
 </div>
 <p>Si la moneda estuviera trucada, por ejemplo con una probabilidad de cara del 0.8 y de cruz del 0.2, se tendría:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
-<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
-<span id="cb24-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
-<span id="cb24-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades asociadas a cada valor</span></span>
+<span id="cb25-2"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
+<span id="cb25-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de tamaño 10</span></span>
+<span id="cb25-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "X" "C" "C" "C" "C" "X" "C" "C" "C" "X"</code></pre>
 </div>
@@ -1617,27 +1785,40 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </section></section>
 <section>
 <section id="muestreo-en-el-modelo-de-distribución-binomial" class="title-slide slide level2 center">
-<h2>Muestreo en el modelo de distribución binomial</h2>
+<h2>Muestreo en el modelo de distribución Binomial</h2>
 <p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución binomial, se puede usar la función <code>rbinom()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rbinom()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución Binomial.</p>
 <p>Parámetros:</p>
 <ul>
 <li><code>n</code>: tamaño de la muestra.</li>
 <li><code>size</code>: número de repeticiones o ensayos.</li>
 <li><code>prob</code>: probabilidad de éxito para cada ensayo.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level3">
 
 <div id="exm-muestreo-aleatorio-simple-distribucion-binomial" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 32</strong></span> Se sabe que el porcentaje de fumadores en una población es del 20%. Vamos a realizar un muestreo aleatorio simple de tamaño 20 del número de fumadores en una muestra aleatoriad de 10 personas.</p>
+<p><span class="theorem-title"><strong>Ejemplo 35</strong></span> Se sabe que el porcentaje de fumadores en una población es del 20%. Vamos a realizar un muestreo aleatorio simple de tamaño 20 del número de fumadores en una muestra aleatoriad de 10 personas.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
-<span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de repeticiones</span></span>
-<span id="cb26-3"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># Probabilidad de éxito (fumador)</span></span>
-<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución binomial</span></span>
-<span id="cb26-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
-<span id="cb26-6"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># Para reproducibilidad</span></span>
+<span id="cb27-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de repeticiones</span></span>
+<span id="cb27-3"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># Probabilidad de éxito (fumador)</span></span>
+<span id="cb27-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución binomial</span></span>
+<span id="cb27-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb27-6"><a href="" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 1 3 2 4 4 0 2 4 2 2 4 2 2 2 0 4 1 0 1 4</code></pre>
@@ -1645,155 +1826,17 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </div></div>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
-<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
-<span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb28-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
-<span id="cb28-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb28-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
-<span id="cb28-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb28-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
-<span id="cb28-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
-<span id="cb28-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb28-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-30-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span></p>
-</div>
-</section>
-<section class="slide level3">
-
-<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span>.</p>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
-<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
-<span id="cb29-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
-<span id="cb29-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb29-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
-<span id="cb29-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
-<span id="cb29-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb29-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
-<span id="cb29-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
-<span id="cb29-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb29-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-</section></section>
-<section>
-<section id="muestreo-aleatorio-simple-de-una-distribución-de-poisson" class="title-slide slide level2 center">
-<h2>Muestreo aleatorio simple de una distribución de Poisson</h2>
-<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función <code>rpois()</code> de R.</p>
-<p>Parámetros:</p>
-<ul>
-<li><code>n</code>: tamaño de la muestra.</li>
-<li><code>lambda</code>: número medio de ocurrencias del suceso en el intervalo de referencia.</li>
-</ul>
-</section>
-<section class="slide level3">
-
-<div id="exm-muestreo-aleatorio-simple-distribucion-poisson" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 33</strong></span> El número medio de infartos que se producen diariamente en una ciudad es 5. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del número de infartos diarios en dicha ciudad.</p>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Media</span></span>
-<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">lambda =</span> lambda))</span>
-<span id="cb30-4"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
-<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
-<span id="cb30-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb30-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
-<span id="cb30-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb30-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
-<span id="cb30-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb30-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
-<span id="cb30-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
-<span id="cb30-13"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb30-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-32-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span></p>
-</div>
-</section>
-<section class="slide level3">
-
-<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span>.</p>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">lambda =</span> lambda))</span>
-<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
-<span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
-<span id="cb31-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb31-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
-<span id="cb31-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
-<span id="cb31-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb31-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
-<span id="cb31-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
-<span id="cb31-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
-<span id="cb31-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-33-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-</section></section>
-<section>
-<section id="muestreo-aletorio-de-una-distribución-uniforme-continua" class="title-slide slide level2 center">
-<h2>Muestreo aletorio de una distribución uniforme continua</h2>
-<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función <code>runif()</code> de R.</p>
-<p>Parámetros:</p>
-<ul>
-<li><code>n</code>: tamaño de la muestra.</li>
-<li><code>min</code>: límite inferior del intervalo.</li>
-<li><code>max</code>: límite superior del intervalo.</li>
-</ul>
-</section>
-<section class="slide level3">
-
-<div id="exm-muestreo-aleatorio-simple-distribucion-uniforme-continua" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 34</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del tiempo de espera de dicho autobús.</p>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
-<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a>min <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># Límite inferior</span></span>
-<span id="cb32-4"><a href="" aria-hidden="true" tabindex="-1"></a>max <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># Límite superior</span></span>
-<span id="cb32-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución uniforme continua</span></span>
-<span id="cb32-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> n, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
-<span id="cb32-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb32-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb32-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb32-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb32-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
-<span id="cb32-12"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb32-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
+<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb29-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb29-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
+<span id="cb29-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
+<span id="cb29-10"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de fumadores"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1803,23 +1846,26 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </div>
 </div>
 </div></div>
-<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span></p>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span></p>
 </div>
 </section>
 <section class="slide level3">
 
-<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span>.</p>
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo binomial <span class="math inline">\(B(10, 0.2)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
-<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb33-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb33-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb33-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb33-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="at">color =</span> myred,  <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb33-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
-<span id="cb33-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb33-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución binomial teórica</span></span>
+<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_binom <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">p =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p))</span>
+<span id="cb30-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb30-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo binomial</span></span>
+<span id="cb30-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_binom, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
+<span id="cb30-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de B(10, 0.2)"</span>,</span>
+<span id="cb30-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de fumadores"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1831,40 +1877,48 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </div></div>
 </section></section>
 <section>
-<section id="muestreo-aleatorio-simple-de-una-distribución-beta" class="title-slide slide level2 center">
-<h2>Muestreo aleatorio simple de una distribución beta</h2>
-<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función <code>rbeta()</code> de R.</p>
+<section id="muestreo-aleatorio-simple-de-una-distribución-de-poisson" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución de Poisson</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función <code>rpois()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rpois()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución de Poisson.</p>
 <p>Parámetros:</p>
 <ul>
 <li><code>n</code>: tamaño de la muestra.</li>
-<li><code>shape1</code>: parámetro de forma <span class="math inline">\(\alpha\)</span>.</li>
-<li><code>shape2</code>: parámetro de forma <span class="math inline">\(\beta\)</span>.</li>
+<li><code>lambda</code>: número medio de ocurrencias del suceso en el intervalo de referencia.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level3">
 
-<div id="exm-muestreo-aleatorio-simple-distribucion-beta" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 35</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
+<div id="exm-muestreo-aleatorio-simple-distribucion-poisson" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 36</strong></span> El número medio de infartos que se producen diariamente en una ciudad es 5. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del número de infartos diarios en esta ciudad.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
-<span id="cb34-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Parámetro de forma α</span></span>
-<span id="cb34-4"><a href="" aria-hidden="true" tabindex="-1"></a>shape2 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Parámetro de forma β</span></span>
-<span id="cb34-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución beta</span></span>
-<span id="cb34-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbeta</span>(<span class="at">n =</span> n, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
-<span id="cb34-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución beta teórica</span></span>
-<span id="cb34-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_beta <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
-<span id="cb34-9"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
-<span id="cb34-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb34-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb34-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb34-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb34-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo beta</span></span>
-<span id="cb34-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_beta, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb34-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Beta(2, 5)"</span>,</span>
-<span id="cb34-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb34-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Media</span></span>
+<span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">lambda =</span> lambda))</span>
+<span id="cb31-4"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
+<span id="cb31-5"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
+<span id="cb31-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb31-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
+<span id="cb31-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb31-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
+<span id="cb31-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
+<span id="cb31-13"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de infartos"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb31-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1874,16 +1928,148 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </div>
 </div>
 </div></div>
-<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span></p>
 </div>
 </section>
 <section class="slide level3">
 
-<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo de Poisson <span class="math inline">\(P(5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">lambda =</span> lambda))</span>
+<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>x)</span>
+<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a>df_pois <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">p =</span> <span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span>x_max, <span class="at">lambda =</span> lambda))</span>
+<span id="cb32-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución muestral</span></span>
+<span id="cb32-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo de Poisson</span></span>
+<span id="cb32-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_pois, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb32-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>x_max) <span class="sc">+</span></span>
+<span id="cb32-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de P(5)"</span>,</span>
+<span id="cb32-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Número de infartos"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa / Probabilidad"</span>) <span class="sc">+</span></span>
+<span id="cb32-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-37-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aletorio-de-una-distribución-uniforme-continua" class="title-slide slide level2 center">
+<h2>Muestreo aletorio de una distribución Uniforme Continua</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función <code>runif()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>runif()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución uniforme continua.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>min</code>: límite inferior del intervalo.</li>
+<li><code>max</code>: límite superior del intervalo.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-uniforme-continua" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 37</strong></span> El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua <span class="math inline">\(U(0, 20)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del tiempo de espera del autobús.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb33-3"><a href="" aria-hidden="true" tabindex="-1"></a>min <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># Límite inferior</span></span>
+<span id="cb33-4"><a href="" aria-hidden="true" tabindex="-1"></a>max <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># Límite superior</span></span>
+<span id="cb33-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución uniforme continua</span></span>
+<span id="cb33-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> n, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
+<span id="cb33-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb33-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb33-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="at">color =</span> myred,  <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
+<span id="cb33-13"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo de espera"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-38-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span></p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo uniforme continuo <span class="math inline">\(U(0, 20)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">min =</span> min, <span class="at">max =</span> max))</span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb34-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">20</span>, <span class="at">color =</span> myred,  <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de U(0, 20)"</span>,</span>
+<span id="cb34-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo de espera"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb34-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-39-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-beta" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución Beta</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función <code>rbeta()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rbeta()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución beta.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>shape1</code>: parámetro de forma <span class="math inline">\(\alpha\)</span>.</li>
+<li><code>shape2</code>: parámetro de forma <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-beta" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 38</strong></span> La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución <span class="math inline">\(\mbox{Beta}(2, 5)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
 <span id="cb35-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Parámetro de forma α</span></span>
 <span id="cb35-4"><a href="" aria-hidden="true" tabindex="-1"></a>shape2 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Parámetro de forma β</span></span>
 <span id="cb35-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución beta</span></span>
@@ -1898,80 +2084,85 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 <span id="cb35-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo beta</span></span>
 <span id="cb35-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_beta, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb35-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Beta(2, 5)"</span>,</span>
-<span id="cb35-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb35-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proporción de respuestas positivas"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
 <span id="cb35-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-37-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-40-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+</div>
 </section>
 <section class="slide level3">
 
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo beta <span class="math inline">\(Beta(2, 5)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb36-4"><a href="" aria-hidden="true" tabindex="-1"></a>shape2 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Parámetro de forma β</span></span>
+<span id="cb36-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución beta</span></span>
+<span id="cb36-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbeta</span>(<span class="at">n =</span> n, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb36-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución beta teórica</span></span>
+<span id="cb36-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_beta <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb36-9"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> shape1, <span class="at">shape2 =</span> shape2))</span>
+<span id="cb36-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb36-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb36-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo beta</span></span>
+<span id="cb36-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_beta, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Beta(2, 5)"</span>,</span>
+<span id="cb36-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proporción de respuestas positivas"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb36-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-41-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
 </section></section>
 <section>
 <section id="muestreo-aleatorio-simple-de-una-distribución-normal" class="title-slide slide level2 center">
-<h2>Muestreo aleatorio simple de una distribución normal</h2>
+<h2>Muestreo aleatorio simple de una distribución Normal</h2>
 <p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución normal, se puede usar la función <code>rnorm()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rnorm()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución normal.</p>
 <p>Parámetros:</p>
 <ul>
 <li><code>n</code>: tamaño de la muestra.</li>
 <li><code>mean</code>: media <span class="math inline">\(\mu\)</span> de la distribución.</li>
 <li><code>sd</code>: desviación típica <span class="math inline">\(\sigma\)</span> de la distribución.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level3">
 
 <div id="exm-muestreo-aleatorio-simple-distribucion-normal" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 36</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm). Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
-<span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="dv">170</span> <span class="co"># Media μ</span></span>
-<span id="cb36-4"><a href="" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">8</span>     <span class="co"># Desviación típica σ</span></span>
-<span id="cb36-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución normal</span></span>
-<span id="cb36-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd</span>
-<span id="cb36-7"><a href="" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb36-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución normal teórica</span></span>
-<span id="cb36-9"><a href="" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">length.out =</span> <span class="dv">300</span></span>
-<span id="cb36-10"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
-<span id="cb36-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb36-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb36-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
-<span id="cb36-14"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
-<span id="cb36-16"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-17"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo normal</span></span>
-<span id="cb36-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_norm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
-<span id="cb36-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb36-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de N(170, 8)"</span>,</span>
-<span id="cb36-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb36-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-38-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></div>
-<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
-</div>
-</section>
-<section class="slide level3">
-
-<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 39</strong></span> La estatura de personas adultas en una población suele seguir una distribución normal <span class="math inline">\(N(170, 8)\)</span> (en cm). Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
 <span id="cb37-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="dv">170</span> <span class="co"># Media μ</span></span>
 <span id="cb37-4"><a href="" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">8</span>     <span class="co"># Desviación típica σ</span></span>
 <span id="cb37-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución normal</span></span>
@@ -1991,13 +2182,145 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 <span id="cb37-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb37-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb37-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de N(170, 8)"</span>,</span>
-<span id="cb37-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb37-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
 <span id="cb37-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-39-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-42-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo normal <span class="math inline">\(N(170, 8)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb38-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="dv">170</span> <span class="co"># Media μ</span></span>
+<span id="cb38-4"><a href="" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">8</span>     <span class="co"># Desviación típica σ</span></span>
+<span id="cb38-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución normal</span></span>
+<span id="cb38-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd</span>
+<span id="cb38-7"><a href="" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb38-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución normal teórica</span></span>
+<span id="cb38-9"><a href="" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb38-10"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb38-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb38-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb38-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb38-14"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb38-16"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-17"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Distribución de probabilidad del modelo normal</span></span>
+<span id="cb38-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_norm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb38-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb38-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de N(170, 8)"</span>,</span>
+<span id="cb38-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb38-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-43-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="muestreo-aleatorio-simple-de-una-distribución-exponencial" class="title-slide slide level2 center">
+<h2>Muestreo aleatorio simple de una distribución Exponencial</h2>
+<p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución exponencial, se puede usar la función <code>rexp()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rexp()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución exponencial.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>n</code>: tamaño de la muestra.</li>
+<li><code>rate</code>: tasa de ocurrencia <span class="math inline">\(\lambda\)</span> del suceso.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-muestreo-aleatorio-simple-distribucion-exponencial" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 40</strong></span> El tiempo hasta la infección por un virus sigue una distribución exponencial <span class="math inline">\(Exp(0.2)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># Tasa de ocurrencia λ</span></span>
+<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución exponencial</span></span>
+<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rexp</span>(<span class="at">n =</span> n, <span class="at">rate =</span> rate))</span>
+<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución exponencial teórica</span></span>
+<span id="cb39-7"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qexp</span>(<span class="fl">0.999</span>, <span class="at">rate =</span> rate)</span>
+<span id="cb39-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_exp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span>), <span class="at">p =</span> <span class="fu">dexp</span>(x, <span class="at">rate =</span> rate))</span>
+<span id="cb39-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb39-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb39-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span></span>
+<span id="cb39-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span>  </span>
+<span id="cb39-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica  </span></span>
+<span id="cb39-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_exp, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb39-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Exp(0.2)"</span>,</span>
+<span id="cb39-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta la infección"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb39-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-44-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo exponencial <span class="math inline">\(Exp(0.2)\)</span>.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo exponencial <span class="math inline">\(Exp(0.2)\)</span>.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb40-3"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># Tasa de ocurrencia λ</span></span>
+<span id="cb40-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución exponencial</span></span>
+<span id="cb40-5"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rexp</span>(<span class="at">n =</span> n, <span class="at">rate =</span> rate))</span>
+<span id="cb40-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución exponencial teórica</span></span>
+<span id="cb40-7"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qexp</span>(<span class="fl">0.999</span>, <span class="at">rate =</span> rate)</span>
+<span id="cb40-8"><a href="" aria-hidden="true" tabindex="-1"></a>df_exp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span>), <span class="at">p =</span> <span class="fu">dexp</span>(x, <span class="at">rate =</span> rate))</span>
+<span id="cb40-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb40-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">bounds =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span>  </span>
+<span id="cb40-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica  </span></span>
+<span id="cb40-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_exp, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb40-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Exp(0.2)"</span>,</span>
+<span id="cb40-17"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta la infección"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb40-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-45-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2005,49 +2328,62 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 </section></section>
 <section>
 <section id="muestreo-aleatorio-simple-de-una-distribución-gamma" class="title-slide slide level2 center">
-<h2>Muestreo aleatorio simple de una distribución gamma</h2>
+<h2>Muestreo aleatorio simple de una distribución Gamma</h2>
 <p>Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución gamma, se puede usar la función <code>rgamma()</code> de R.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>rgamma()</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve una muestra aleatoria de una distribución gamma.</p>
 <p>Parámetros:</p>
 <ul>
 <li><code>n</code>: tamaño de la muestra.</li>
 <li><code>shape</code>: parámetro de forma <span class="math inline">\(\alpha\)</span>.</li>
 <li><code>rate</code>: parámetro de tasa <span class="math inline">\(\beta\)</span>.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level3">
 
 <div id="exm-muestreo-aleatorio-simple-distribucion-gamma" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 37</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
+<p><span class="theorem-title"><strong>Ejemplo 41</strong></span> El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución <span class="math inline">\(\Gamma(3, 2)\)</span>. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
-<span id="cb38-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
-<span id="cb38-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
-<span id="cb38-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
-<span id="cb38-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
-<span id="cb38-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
-<span id="cb38-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
-<span id="cb38-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
-<span id="cb38-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
-<span id="cb38-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
-<span id="cb38-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb38-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb38-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
-<span id="cb38-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb38-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
-<span id="cb38-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
-<span id="cb38-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
-<span id="cb38-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myrose, <span class="at">linewidth =</span> <span class="dv">2</span> </span>
-<span id="cb38-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb38-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
-<span id="cb38-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb38-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb41-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb41-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb41-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
+<span id="cb41-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
+<span id="cb41-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
+<span id="cb41-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
+<span id="cb41-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
+<span id="cb41-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
+<span id="cb41-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb41-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
+<span id="cb41-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb41-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb41-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb41-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb41-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
+<span id="cb41-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
+<span id="cb41-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span> </span>
+<span id="cb41-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
+<span id="cb41-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta el tercer contagio"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb41-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-40-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-46-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2060,34 +2396,34 @@ E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}
 <p>Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo gamma <span class="math inline">\(\Gamma(3, 2)\)</span>.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
-<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
-<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
-<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
-<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
-<span id="cb39-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
-<span id="cb39-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
-<span id="cb39-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
-<span id="cb39-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
-<span id="cb39-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
-<span id="cb39-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb39-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
-<span id="cb39-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
-<span id="cb39-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
-<span id="cb39-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
-<span id="cb39-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
-<span id="cb39-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myrose, <span class="at">linewidth =</span> <span class="dv">2</span> </span>
-<span id="cb39-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
-<span id="cb39-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
-<span id="cb39-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Tamaño de la muestra</span></span>
+<span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Parámetro de forma α</span></span>
+<span id="cb42-4"><a href="" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># Parámetro de tasa β</span></span>
+<span id="cb42-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo aleatorio simple de la distribución gamma</span></span>
+<span id="cb42-6"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rgamma</span>(<span class="at">n =</span> n, shape</span>
+<span id="cb42-7"><a href="" aria-hidden="true" tabindex="-1"></a>, <span class="at">rate =</span> rate))</span>
+<span id="cb42-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribución gamma teórica</span></span>
+<span id="cb42-9"><a href="" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="fl">0.999</span>, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
+<span id="cb42-10"><a href="" aria-hidden="true" tabindex="-1"></a>df_gamma <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">300</span></span>
+<span id="cb42-11"><a href="" aria-hidden="true" tabindex="-1"></a>), <span class="at">p =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> rate))</span>
+<span id="cb42-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad de probabilidad de la muestra</span></span>
+<span id="cb42-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb42-15"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"density"</span>, <span class="at">color =</span> myblue, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb42-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>   </span>
+<span id="cb42-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de densidad teórica</span></span>
+<span id="cb42-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_gamma, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p), <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span> </span>
+<span id="cb42-20"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Muestreo aleatorio simple de Gamma(3, 2)"</span>,</span>
+<span id="cb42-22"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tiempo hasta el tercer contagio"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>) <span class="sc">+</span></span>
+<span id="cb42-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-41-1.png" width="960"></p>
+<p><img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-47-1.png" width="960"></p>
 </figure>
 </div>
 </div>

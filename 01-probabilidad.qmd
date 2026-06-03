@@ -15,7 +15,7 @@ lang: es
 
 {{< include _configuracion-r.qmd >}}
 
-## {background-color="#0099CC"}
+## {background-color= .myblue}
 
 :::{.main-title}
 Distribuciones de frecuencias
@@ -99,9 +99,11 @@ df |>
 :::{#exr-tabla-frecuencias}
 El conjunto de datos `neonatos` contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.
 
-a.  Crear una tabla de frecuencias absolutas y relativas para la variable `sexo`.
-a.  Crear una tabla de frecuencias absolutas y relativas para la variable `tabaco`.
-a.  Crear una tabla de frecuencias absolutas y relativas para la variable `apgar1`.
+a. Crear una tabla de frecuencias absolutas y relativas para la variable `sexo`.
+a. Crear una tabla de frecuencias absolutas y relativas para la variable `tabaco`.
+a. Representar gráficamente la distribución de frecuencias absolutas de la variable `tabaco`.
+a. Crear una tabla de frecuencias absolutas y relativas para la variable `apgar1`.
+a. Representar gráficamente la distribución de frecuencias relativas de la variable `apgar1`.
 ::: 
 
 ## Distribuciones de frecuencias bidimensionales
@@ -192,6 +194,18 @@ df |>
   row_spec(2, color = myred)
 ```
 :::
+
+---
+
+El siguiente código permite obtener la distribución marginal de los grupos sanguíneos para las mujeres.
+
+```{r}
+#| output-location: column
+# Filtramos las mujeres
+filter(df, sexo == "Mujer") |> 
+  tabyl(grupo) |> 
+  kable()
+```
 
 ---
 
@@ -787,12 +801,6 @@ ggplot(df, aes(x=x, y=p)) +
        x = "X", y = "Probabilidad") +
   theme_minimal()
 ```
-
-```{r}
-#| output-location: column
-barplot(df$p, names.arg = df$x, col = myblue, main = "Distribución uniforme discreta U(6)",
-        xlab = "X", ylab = "Probabilidad", space = 3)
-```
 :::
 
 ## Distribución Binomial
@@ -819,7 +827,7 @@ $$
 
 :::{#exm-distribucion-binomial}
 
-El número de caras al lanzar 10 monedas equilibradas sigue una distribución binomial $B(10, 0.5)$.
+En una población hay el mismo número de hombres que de mujeres. La variable que mide el número de mujeres en una muestra aleatoria de $10$ personas sigue una distribución binomial $B(10, 0.5)$.
 
 ```{r}
 #| output-location: column
@@ -832,14 +840,8 @@ ggplot(df, aes(x = x, y = p)) +
   geom_bar(stat = "identity", width = 0.2, fill = myblue) +
   scale_x_continuous(breaks = 0:10) +
   labs(title = "Distribución binomial B(10, 0.5)",
-       x = "X", y = "Probabilidad") +
+       x = "Número de mujeres", y = "Probabilidad") +
   theme_minimal()
-```
-
-```{r}
-#| output-location: column
-barplot(df$p, names.arg = df$x, col = myblue, main = "Distribución binomial B(10, 0.5)",
-        xlab = "X", ylab = "Probabilidad", space = 3)
 ```
 :::
 
@@ -868,6 +870,133 @@ df_binom |>
   theme(strip.text = element_text(size = 11))
 ```
 
+## Distribución Geométrica
+
+:::{#def-distribucion-geométrica}
+## Distribución Geométrica
+Se dice que una variable aleatoria discreta $X$ sigue un _modelo de distribución de probabilidad geométrica_ $X\sim G(p)$, si su rango es $R(X)=\{0,1,2,\ldots\}$ y su función de probabilidad es
+
+$$
+P(X=k) = (1-p)^{k}p \quad k=0,1,2,\ldots,
+$$
+
+donde $p$ es la _probabilidad de éxito_ en cada ensayo.
+:::
+
+El modelo geométrico se utiliza para modelar el número de fracasos  necesarios para obtener el primer éxito en una serie de ensayos independientes con dos posibles resultados (éxito/fracaso), como por ejemplo el número de cruces hasta obtener la primera cara o el número de pacientes sanos hasta obtener un paciente enfermo.
+
+**Estadísticos**
+$$
+E(X) = \frac{1}{p} \quad \mbox{y} \quad Var(X) = \frac{1-p}{p^2}.
+$$
+
+---
+
+:::{#exm-distribucion-geométrica}
+Se sabe que en una población hay aproximadamente un 30% de fumadores. La variable que mide el número de personas no fumadoras que se necesitan hasta encontrar la primera persona fumadora sigue una distribución geométrica $G(0.3)$.
+
+```{r}
+#| output-location: column
+df <- tibble(
+  x = 0:14,  # Rango truncado (número de fracasos)
+  p = dgeom(0:14, prob = 0.3) # Probabilidad
+)
+# Diagrama de barras
+ggplot(df, aes(x = x, y = p)) +
+  geom_bar(stat = "identity", width = 0.2, fill = myblue) +
+  scale_x_continuous(breaks = 0:14) +
+  labs(title = "Distribución geométrica G(0.3)",
+       x = "Número de no fumadoras hasta la primera fumadora", y = "Probabilidad") +
+  theme_minimal()
+```
+:::
+
+### Forma de la distribución geométrica para distintos valores de $p$
+
+```{r}
+#| echo: false
+ps <- c(0.1, 0.5, 0.9)
+df_geom <- tibble(p = ps) |>
+  rowwise() |>
+  mutate(x = list(0:14), prob = list(dgeom(0:14, prob = p))) |>
+  unnest(cols = c(x, prob)) |>
+  mutate(label = factor(paste0("p == ", p), 
+                        levels = paste0("p == ", ps)))
+df_geom |>
+  ggplot(aes(x = x, y = prob)) +
+  geom_bar(stat = "identity", width = 0.5, fill = myblue) +
+  facet_wrap(~ label, nrow = 1, labeller = label_parsed) +
+  labs(x = "X", y = "Probabilidad") +
+  theme_minimal() +
+  theme(strip.text = element_text(size = 11))
+```
+
+## Distribución Binomial Negativa
+
+:::{#def-distribucion-binomial-negativa}
+## Distribución Binomial Negativa
+Se dice que una variable aleatoria discreta $X$ sigue un _modelo de distribución de probabilidad binomial negativa_ $X\sim BN(r, p)$, si su rango es $R(X)=\{0, 1, 2, \ldots\}$ y su función de probabilidad es
+$$
+P(X=k) = \binom{r+k-1}{k}p^r(1-p){k} \quad k=0, 1, 2, \ldots
+$$
+
+donde $r$ es el _número de éxitos_ y $p$ la _probabilidad de éxito_ en cada ensayo.
+:::
+
+El modelo binomial negativa se utiliza para modelar el número de fracasos necesarios para obtener $r$ éxitos en una serie de ensayos independientes con dos posibles resultados (éxito/fracaso), como por ejemplo el número de cruces hasta obtener la quinta cara o el número de pacientes sanos hasta obtener el tercer paciente enfermo.
+
+**Estadísticos**
+
+$$
+E(X) = \frac{r(1-p)}{p} \quad \mbox{y} \quad Var(X) = \frac{r(1-p)}{p^2}.
+$$
+
+---
+
+:::{#exm-distribucion-binomial-negativa}
+Se sabe que en una población hay aproximadamente un 30% de fumadores. La variable que el número de personas no fumadoras hasta obtener 3 personas fumadoras sigue una distribución $BN(3, 0.3)$.
+
+```{r}
+#| output-location: column
+df <- tibble(
+  x = 0:25,  # Rango truncado (número de fracasos)
+  p = dnbinom (0:25, size = 3, prob = 0.3) # Probabilidad
+)
+# Diagrama de barras
+ggplot(df, aes(x = x, y = p)) +
+  geom_bar(stat = "identity", width = 0.2, fill = myblue) +
+  scale_x_continuous(breaks = 0:25) +
+  labs(title = "Distribución binomial negativa BN(3, 0.3)",
+       x = "Número de no fumadoras hasta las tercera fumadora", y = "Probabilidad") +
+  theme_minimal()
+```
+:::
+
+### Forma de la distribución Binomial Negativa para distintos valores de $r$ y $p$
+
+```{r}
+#| echo: false
+params <- expand.grid(r = c(1, 3, 5), p = c(0.2, 0.5, 0.8))
+df_binom <- params |>
+  rowwise() |>
+  mutate(x = list(0:30), prob = list(dnbinom(0:30, size = r, prob = p))) |>
+  unnest(cols = c(x, prob)) |>
+  mutate(
+    label = factor(
+      paste0("r = ", r, ", p = ", p),
+      levels = paste0("r = ", rep(c(1, 3, 5), 3), ", p = ", rep(c(0.2, 0.5, 0.8), each = 3))
+    )
+  )
+
+df_binom |>
+  ggplot(aes(x = x, y = prob)) +
+  geom_bar(stat = "identity", width = 0.5, fill = myblue) +
+  facet_wrap(~ label, scales = "free", nrow = 3) +
+  labs(x = "X", y = "Probabilidad") +
+  theme_minimal() +
+  theme(strip.text = element_text(size = 11))
+```
+
 ## Distribución de Poisson
 
 :::{#def-distribucion-poisson}
@@ -878,7 +1007,7 @@ $$
 P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!} \quad k=0,1,2,\ldots,
 $$
 
-donde $\lambda>0$ es el número medio de ocurrencias del suceso en el intervalo de referencia.
+donde $\lambda>0$ es el _número medio de ocurrencias_ del suceso en el intervalo de referencia.
 :::
 
 El modelo de Poisson se utiliza para modelar el número de ocurrencias de un suceso en un intervalo de tiempo o espacio fijo, como por ejemplo el número de llamadas que recibe una centralita en una hora o el número de mutaciones en un fragmento de ADN.
@@ -892,7 +1021,7 @@ $$
 
 :::{#exm-distribucion-poisson}
 
-El número de llamadas que recibe una centralita en una hora, si la media es 4, sigue una distribución de Poisson $P(4)$.
+En una ciudad el número medio de nacimientos diarios es 4. Entonces, el número nacimientos en un día sigue una distribución de Poisson $P(4)$.
 
 ```{r}
 #| output-location: column
@@ -905,14 +1034,8 @@ ggplot(df, aes(x = x, y = p)) +
   geom_bar(stat = "identity", width = 0.2, fill = myblue) +
   scale_x_continuous(breaks = 0:12) +
   labs(title = "Distribución de Poisson P(4)",
-       x = "X", y = "Probabilidad") +
+       x = "Número de nacimientos", y = "Probabilidad") +
   theme_minimal()
-```
-
-```{r}
-#| output-location: column
-barplot(df$p, names.arg = df$x, col = myblue, main = "Distribución de Poisson P(4)",
-        xlab = "X", ylab = "Probabilidad", space = 3)
 ```
 :::
 
@@ -933,7 +1056,7 @@ df_pois <- tibble(lambda = lambdas) |>
 df_pois |>
   ggplot(aes(x = x, y = prob)) +
   geom_bar(stat = "identity", width = 0.5, fill = myblue) +
-  facet_wrap(~ label, scales = "free", nrow = 1, labeller = label_parsed) +
+  facet_wrap(~ label, nrow = 1, labeller = label_parsed) +
   labs(x = "X", y = "Probabilidad") +
   theme_minimal() +
   theme(strip.text = element_text(size = 11))
@@ -990,11 +1113,19 @@ $$
 Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad uniforme continuo_ $X\sim U(a, b)$, si su rango es $R(X)=[a,b]$ y su función de densidad es constante en ese intervalo,
 
 $$
-f(x) = \frac{1}{b-a} \quad \forall x\in[a,b].
+f(x) = \frac{1}{b-a} \quad \forall x\in[a,b],
 $$
+
+donde $a$ y $b$ son el _mínimo_ y el _máximo_ de los valores que puede tomar la variable, respectivamente.
 :::
 
 El modelo uniforme continuo se utiliza para modelar experimentos aleatorios donde todos los valores del intervalo $[a,b]$ son _equiprobables_, como por ejemplo el tiempo de espera de un autobús que tiene frecuencia fija.
+
+**Estadísticos**
+
+$$
+E(X) = \frac{a+b}{2} \quad \mbox{y} \quad Var(X) = \frac{(b-a)^2}{12}.
+$$
 
 ---
 
@@ -1010,7 +1141,7 @@ ggplot(df, aes(x = x, y = p)) +
   geom_area(fill = myblue, alpha = 0.5) +
   geom_line(color = myblue, linewidth = 1) +
   labs(title = "Distribución uniforme continua U(0, 20)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo de espera", y = "Densidad") +
   theme_minimal()
 ```
 :::
@@ -1147,17 +1278,78 @@ df_norm |>
   theme(strip.text = element_text(size = 11))
 ```
 
+## Distribución Exponencial
+:::{#def-distribucion-exponencial}
+## Distribución Exponencial
+Se dice que una variable aleatoria continua $X$ sigue un modelo de distribución de probabilidad exponencial $X\sim Exp(\lambda)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
+$$
+f(x) = \lambda e^{-\lambda x} \quad x>0,
+$$
+donde $\lambda > 0$ es la _tasa de ocurrencia_ del suceso.
+:::
+
+El modelo exponencial se utiliza para modelar tiempos de espera o duraciones positivas, como por ejemplo el tiempo entre llamadas a una centralita o el tiempo de vida de un paciente.
+
+**Estadísticos**
+
+$$
+E(X) = \frac{1}{\lambda} \quad \mbox{y} \quad Var(X) = \frac{1}{\lambda^2}.
+$$
+
+---
+
+:::{#exm-distribucion-exponencial}
+## Ejemplo: Distribución Exponencial
+Se sabe que la tasa de infecciones por un virus es de 0.2 por día. Entonces, el tiempo hasta que haya una infección sigue una distribución exponencial $\exp(0.2)$.
+
+```{r}
+#| output-location: column
+# Función de densidad Exp(0.2)
+df <- tibble(x = seq(0, 30, length.out = 300),
+             p = dexp(x, rate = 0.2)) # Densidad de probabilidad
+# Diagrama de densidad de probabilidad
+ggplot(df, aes(x = x, y = p)) +
+  geom_area(fill = myblue, alpha = 0.5) +
+  geom_line(color = myblue, linewidth = 1) +
+  labs(title = "Distribución Exponencial Exp(0.2)",
+       x = "Tiempo hasta la infección", y = "Densidad") +
+  theme_minimal()
+```
+:::
+
+### Forma de la distribución Exponencial para distintos valores de $\lambda$
+
+```{r}
+#| echo: false
+lambdas <- c(0.1, 0.3, 0.5)
+df_exp <- tibble(lambda = lambdas) |>
+  rowwise() |>
+  mutate(x = list(seq(0, qexp(0.99, rate = lambda), length.out = 300)),
+         y = list(dexp(x, rate = lambda))) |>
+  unnest(cols = c(x, y)) |>
+  mutate(label = factor(paste0("λ = ", lambda), levels = paste0("λ = ", lambdas))) 
+
+df_exp |>
+  ggplot(aes(x = x, y = y)) +
+  geom_line(color = myblue) +   
+  geom_area(fill = myblue, alpha = 0.5) +  
+  labs(x = "X", y = "Densidad") +
+  facet_wrap(~ label, nrow = 1) +
+  theme_minimal() +
+  theme(strip.text = element_text(size = 11))
+```
+
 ## Distribución Gamma
 
 :::{#def-distribucion-gamma}
 ## Distribución Gamma
-Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad gamma_ $X\sim \Gamma(\alpha, \beta)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
+Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad gamma_ $X\sim \Gamma(\alpha, \lambda)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
 
 $$
-f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x} \quad x>0,
+f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x} \quad x>0,
 $$
 
-donde $\alpha>0$ es el parámetro de _forma_ y $\beta>0$ el parámetro de _tasa_, y $\Gamma(\alpha)$ es la función _gamma_.
+donde $\alpha>0$ es el parámetro de _forma_ y $\lambda>0$ el parámetro de _tasa_, y $\Gamma(\alpha)$ es la función _gamma_.
 :::
 
 El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas. Incluye como casos particulares la distribución exponencial ($\alpha=1$) y, en el límite, se aproxima a la normal para valores grandes de $\alpha$.
@@ -1165,7 +1357,7 @@ El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas
 **Estadísticos**
 
 $$
-E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}.
+E(X) = \frac{\alpha}{\lambda} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\lambda^2}.
 $$
 
 ---
@@ -1183,39 +1375,39 @@ ggplot(df, aes(x = x, y = p)) +
   geom_area(fill = myblue, alpha = 0.5) +
   geom_line(color = myblue, linewidth = 1) +
   labs(title = "Distribución Gamma(3, 2)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo hasta el tercer contagio", y = "Densidad") +
   theme_minimal()
 ```
 :::
 
-### Forma de la distribución Gamma para distintos valores de $\alpha$ y $\beta$
+### Forma de la distribución Gamma para distintos valores de $\alpha$ y $\lambda$
 
 ```{r}
 #| echo: false
 library(ggh4x) # Para facet_grid2
 alpha_vals <- c(1, 10, 30)
-beta_vals <- c(1, 10, 30)
+lambda_vals <- c(0.1, 0.2, 0.3)
 
-df_gamma <- expand.grid(alpha = alpha_vals, beta = beta_vals) |>
-  pmap_dfr(function(alpha, beta) {
-    x_max <- qgamma(0.9999, shape = alpha, rate = beta)
+df_gamma <- expand.grid(alpha = alpha_vals, lambda = lambda_vals) |>
+  pmap_dfr(function(alpha, lambda) {
+    x_max <- qgamma(0.9999, shape = alpha, rate = lambda)
     tibble(x = seq(0.001, x_max, length.out = 300),
-           y = dgamma(x, shape = alpha, rate = beta),
+           y = dgamma(x, shape = alpha, rate = lambda),
            alpha = factor(paste0("α = ", alpha), levels = paste0("α = ", alpha_vals)),
-           beta = factor(paste0("β = ", beta), levels = paste0("β = ", beta_vals)))
+           lambda = factor(paste0("λ = ", lambda), levels = paste0("λ = ", lambda_vals)))
   })
 
 df_gamma |>
   ggplot(aes(x = x, y = y)) +
   geom_area(fill = myblue, alpha = 0.5) +
   geom_line(color = myblue, linewidth = 1) +
-  ggh4x::facet_grid2(alpha ~ beta, scales = "free", independent = "y") +
+  ggh4x::facet_grid2(alpha ~ lambda, scales = "free", independent = "y") +
   labs(x = "X", y = "Densidad") +
   theme_minimal() +
   theme(strip.text = element_text(size = 11))
 ```
 
-## {background-color="#0099CC"}
+## {background-color = .myblue}
 
 ::: {.main-title}
 Muestreo
@@ -1233,12 +1425,18 @@ Cuando selección de los valores se hace de manera independiente y con la misma 
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria discreta con un número finito de valores, se puede usar la función `sample()` de R.  
 
+:::{.callout-note}
+## `sample()`
+
+Devuelve una muestra aleatoria de los elementos de un vector dado, con o sin reemplazamiento, y con probabilidades asociadas a cada elemento.
+
 Parámetros:
 
 - `x`: vector de valores a muestrear.
 - `size`: número de valores a muestrear.
 - `prob`: vector de probabilidades asociadas a cada valor de `x`. Si no se especifica, se asume que todos los valores tienen la misma probabilidad.
 - `replace`: un valor `TRUE` indica que el muestreo es con reemplazo, mientras que un valor `FALSE` implica que el muestreo es sin reemplazo.
+:::
 
 ---
 
@@ -1266,15 +1464,21 @@ sample(x, size = 10, prob = p, replace = TRUE)
 ```
 :::
 
-## Muestreo en el modelo de distribución binomial
+## Muestreo en el modelo de distribución Binomial
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución binomial, se puede usar la función `rbinom()` de R.
+
+:::{.callout-note}
+## `rbinom()`
+
+Devuelve una muestra aleatoria de una distribución Binomial.
 
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `size`: número de repeticiones o ensayos.
 - `prob`: probabilidad de éxito para cada ensayo.
+:::
 
 ---
 
@@ -1304,11 +1508,11 @@ ggplot(df, aes(x = x)) +
   geom_point(data = df_binom, aes(x = x, y = p), color = myred, size = 2) +
   scale_x_continuous(breaks = 0:n) +
   labs(title = "Muestreo aleatorio simple de B(10, 0.2)",
-       x = "X", y = "Frecuencia relativa / Probabilidad") +
+       x = "Número de fumadores", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo binomial $B(10, 0.2)$
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo binomial $B(10, 0.2)$
 :::
 
 ---
@@ -1327,7 +1531,7 @@ ggplot(df, aes(x = x)) +
   geom_point(data = df_binom, aes(x = x, y = p), color = myred, size = 2) +
   scale_x_continuous(breaks = 0:n) +
   labs(title = "Muestreo aleatorio simple de B(10, 0.2)",
-       x = "X", y = "Frecuencia relativa / Probabilidad") +
+       x = "Número de fumadores", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
 
@@ -1335,16 +1539,22 @@ ggplot(df, aes(x = x)) +
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función `rpois()` de R.
 
+:::{.callout-note}
+## `rpois()`
+
+Devuelve una muestra aleatoria de una distribución de Poisson.
+
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `lambda`: número medio de ocurrencias del suceso en el intervalo de referencia.
+:::
 
 ---
 
 :::{#exm-muestreo-aleatorio-simple-distribucion-poisson}
 
-El número medio de infartos que se producen diariamente en una ciudad es 5. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del número de infartos diarios en dicha ciudad.
+El número medio de infartos que se producen diariamente en una ciudad es 5. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del número de infartos diarios en esta ciudad.
 
 ```{r}
 #| output-location: column
@@ -1360,11 +1570,11 @@ ggplot(df, aes(x = x)) +
   geom_point(data = df_pois, aes(x = x, y = p), color = myred, size = 2) +
   scale_x_continuous(breaks = 0:x_max) +
   labs(title = "Muestreo aleatorio simple de P(5)",
-       x = "X", y = "Frecuencia relativa / Probabilidad") +
+       x = "Número de infartos", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo de Poisson $P(5)$
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo de Poisson $P(5)$
 :::
 
 ---
@@ -1383,25 +1593,31 @@ ggplot(df, aes(x = x)) +
   geom_point(data = df_pois, aes(x = x, y = p), color = myred, size = 2) +
   scale_x_continuous(breaks = 0:x_max) +
   labs(title = "Muestreo aleatorio simple de P(5)",
-       x = "X", y = "Frecuencia relativa / Probabilidad") +
+       x = "Número de infartos", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
 
-## Muestreo aletorio de una distribución uniforme continua
+## Muestreo aletorio de una distribución Uniforme Continua
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función `runif()` de R.
+
+:::{.callout-note}
+## `runif()`
+
+Devuelve una muestra aleatoria de una distribución uniforme continua.
 
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `min`: límite inferior del intervalo.
 - `max`: límite superior del intervalo.
+:::
 
 ---
 
 :::{#exm-muestreo-aleatorio-simple-distribucion-uniforme-continua}
 
-El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua $U(0, 20)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del tiempo de espera de dicho autobús.
+El tiempo de espera de un autobús que pasa cada 20 minutos sigue una distribución uniforme continua $U(0, 20)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 del tiempo de espera del autobús.
 
 ```{r}
 #| output-location: column
@@ -1413,14 +1629,15 @@ max <- 20 # Límite superior
 df <- tibble(x = runif(n = n, min = min, max = max))
 ggplot(df, aes(x = x)) +
   # Diagrama de densidad de probabilidad de la muestra
-  geom_area(stat = "density", fill = myblue, alpha = 0.5) +
-  geom_line(stat = "density", color = myblue, linewidth = 1) +
+  geom_area(stat = "density", fill = myblue, alpha = 0.5, bounds = c(0, 20)) +
+  geom_line(stat = "density", color = myblue, linewidth = 1, bounds = c(0, 20)) +
+  geom_hline(yintercept = 1/20, color = myred,  linewidth = 1) +
   labs(title = "Muestreo aleatorio simple de U(0, 20)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo de espera", y = "Densidad") +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo uniforme continuo $U(0, 20)$
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo uniforme continuo $U(0, 20)$
 :::
 
 ---
@@ -1432,30 +1649,35 @@ Pero para tamaños muestrales grandes, la distribución de frecuencias del muest
 df <- tibble(x = runif(n = 10000, min = min, max = max))
 ggplot(df, aes(x = x)) +
   # Diagrama de densidad de probabilidad de la muestra
-  geom_area(stat = "density", fill = myblue, alpha = 0.5) +
-  geom_line(stat = "density", color = myblue, linewidth = 1) +
+  geom_area(stat = "density", fill = myblue, alpha = 0.5, bounds = c(0, 20)) +
+  geom_line(stat = "density", color = myblue, linewidth = 1, bounds = c(0, 20)) +
   geom_hline(yintercept = 1/20, color = myred,  linewidth = 1) +
   labs(title = "Muestreo aleatorio simple de U(0, 20)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo de espera", y = "Densidad") +
   theme_minimal()
 ```
 
-## Muestreo aleatorio simple de una distribución beta
+## Muestreo aleatorio simple de una distribución Beta
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función `rbeta()` de R.
+
+:::{.callout-note}
+## `rbeta()`
+
+Devuelve una muestra aleatoria de una distribución beta.
 
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `shape1`: parámetro de forma $\alpha$.
 - `shape2`: parámetro de forma $\beta$.
-  
+:::
 
 ---
 
 :::{#exm-muestreo-aleatorio-simple-distribucion-beta}
 
-La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución $\mbox{Beta}(2, 5)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.
+La proporción de individuos que responden positivamente a un tratamiento puede modelarse con una distribución $\mbox{Beta}(2, 5)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.
 
 ```{r}
 #| output-location: column
@@ -1475,11 +1697,11 @@ ggplot(df, aes(x = x)) +
   # Distribución de probabilidad del modelo beta
   geom_line(data = df_beta, aes(x = x, y = p), color = myred, linewidth = 1) +
   labs(title = "Muestreo aleatorio simple de Beta(2, 5)",
-       x = "X", y = "Densidad") +
+       x = "Proporción de respuestas positivas", y = "Densidad") +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo beta $Beta(2, 5)$.
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo beta $Beta(2, 5)$.
 :::
 
 ---
@@ -1504,27 +1726,31 @@ ggplot(df, aes(x = x)) +
   # Distribución de probabilidad del modelo beta
   geom_line(data = df_beta, aes(x = x, y = p), color = myred, linewidth = 1) +
   labs(title = "Muestreo aleatorio simple de Beta(2, 5)",
-       x = "X", y = "Densidad") +
+       x = "Proporción de respuestas positivas", y = "Densidad") +
   theme_minimal()
 ```
 
----
-
-## Muestreo aleatorio simple de una distribución normal
+## Muestreo aleatorio simple de una distribución Normal
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución normal, se puede usar la función `rnorm()` de R.
+
+:::{.callout-note}
+## `rnorm()`
+
+Devuelve una muestra aleatoria de una distribución normal.
 
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `mean`: media $\mu$ de la distribución.
 - `sd`: desviación típica $\sigma$ de la distribución.
+:::
 
 ---
 
 :::{#exm-muestreo-aleatorio-simple-distribucion-normal}
 
-La estatura de personas adultas en una población suele seguir una distribución normal $N(170, 8)$ (en cm). Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.
+La estatura de personas adultas en una población suele seguir una distribución normal $N(170, 8)$ (en cm). Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.
 
 ```{r}
 #| output-location: column
@@ -1549,11 +1775,11 @@ ggplot(df, aes(x = x)) +
   ) +
   scale_x_continuous(breaks = seq(140, 200, by = 10)) +
   labs(title = "Muestreo aleatorio simple de N(170, 8)",
-       x = "X", y = "Densidad") +
+       x = "Estatura", y = "Densidad") +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo normal $N(170, 8)$.
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo normal $N(170, 8)$.
 :::
 
 ---
@@ -1583,19 +1809,97 @@ ggplot(df, aes(x = x)) +
   ) +
   scale_x_continuous(breaks = seq(140, 200, by = 10)) +
   labs(title = "Muestreo aleatorio simple de N(170, 8)",
-       x = "X", y = "Densidad") +
+       x = "Estatura", y = "Densidad") +
   theme_minimal()
 ```
 
-## Muestreo aleatorio simple de una distribución gamma
+## Muestreo aleatorio simple de una distribución Exponencial
+
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución exponencial, se puede usar la función `rexp()` de R.
+
+:::{.callout-note}
+## `rexp()`
+
+Devuelve una muestra aleatoria de una distribución exponencial.
+
+Parámetros:
+
+- `n`: tamaño de la muestra.
+- `rate`: tasa de ocurrencia $\lambda$ del suceso.
+:::
+
+---
+
+:::{#exm-muestreo-aleatorio-simple-distribucion-exponencial}
+
+El tiempo hasta la infección por un virus sigue una distribución exponencial $Exp(0.2)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de esta distribución.
+
+```{r}
+#| output-location: column
+set.seed(123)
+n <- 10  # Tamaño de la muestra
+rate <- 0.2 # Tasa de ocurrencia λ
+# Muestreo aleatorio simple de la distribución exponencial
+df <- tibble(x = rexp(n = n, rate = rate))
+# Distribución exponencial teórica
+x_max <- qexp(0.999, rate = rate)
+df_exp <- tibble(x = seq(0, x_max, length.out = 300), p = dexp(x, rate = rate))
+ggplot(df, aes(x = x)) +
+  # Diagrama de densidad de probabilidad de la muestra
+  geom_area(stat = "density", fill = myblue, alpha = 0.5, bounds = c(0, x_max)) +
+  geom_line(stat = "density", color = myblue, linewidth = 1, bounds = c(0, x_max)) +  
+  # Diagrama de densidad teórica  
+  geom_line(data = df_exp, aes(x = x, y = p), color = myred, linewidth = 1
+  ) +
+  labs(title = "Muestreo aleatorio simple de Exp(0.2)",
+       x = "Tiempo hasta la infección", y = "Densidad") +
+  theme_minimal()
+```
+
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo exponencial $Exp(0.2)$.
+:::
+
+---
+
+Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo exponencial $Exp(0.2)$.
+
+```{r}
+#| output-location: column
+set.seed(123)
+n <- 10000  # Tamaño de la muestra
+rate <- 0.2 # Tasa de ocurrencia λ
+# Muestreo aleatorio simple de la distribución exponencial
+df <- tibble(x = rexp(n = n, rate = rate))
+# Distribución exponencial teórica
+x_max <- qexp(0.999, rate = rate)
+df_exp <- tibble(x = seq(0, x_max, length.out = 300), p = dexp(x, rate = rate))
+ggplot(df, aes(x = x)) +
+  # Diagrama de densidad de probabilidad de la muestra
+  geom_area(stat = "density", fill = myblue, alpha = 0.5, bounds = c(0, x_max)) +
+  geom_line(stat = "density", color = myblue, linewidth = 1, bounds = c(0, x_max)) +  
+  # Diagrama de densidad teórica  
+  geom_line(data = df_exp, aes(x = x, y = p), color = myred, linewidth = 1
+  ) +
+  labs(title = "Muestreo aleatorio simple de Exp(0.2)",
+       x = "Tiempo hasta la infección", y = "Densidad") +
+  theme_minimal()
+```
+
+## Muestreo aleatorio simple de una distribución Gamma
 
 Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución gamma, se puede usar la función `rgamma()` de R.
+
+:::{.callout-note}
+## `rgamma()`
+
+Devuelve una muestra aleatoria de una distribución gamma.
 
 Parámetros:
 
 - `n`: tamaño de la muestra.
 - `shape`: parámetro de forma $\alpha$.
 - `rate`: parámetro de tasa $\beta$.
+:::
 
 ---
 
@@ -1623,10 +1927,10 @@ ggplot(df, aes(x = x)) +
   geom_line(stat = "density", color = myblue, linewidth = 1
   ) +   
   # Diagrama de densidad teórica
-  geom_line(data = df_gamma, aes(x = x, y = p), color = myrose, linewidth = 2 
+  geom_line(data = df_gamma, aes(x = x, y = p), color = myred, linewidth = 1 
   ) +
   labs(title = "Muestreo aleatorio simple de Gamma(3, 2)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo hasta el tercer contagio", y = "Densidad") +
   theme_minimal()
 ```
 
@@ -1657,9 +1961,9 @@ ggplot(df, aes(x = x)) +
   geom_line(stat = "density", color = myblue, linewidth = 1
   ) +   
   # Diagrama de densidad teórica
-  geom_line(data = df_gamma, aes(x = x, y = p), color = myrose, linewidth = 2 
+  geom_line(data = df_gamma, aes(x = x, y = p), color = myred, linewidth = 1 
   ) +
   labs(title = "Muestreo aleatorio simple de Gamma(3, 2)",
-       x = "X", y = "Densidad") +
+       x = "Tiempo hasta el tercer contagio", y = "Densidad") +
   theme_minimal()
 ```

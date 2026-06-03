@@ -1,0 +1,16 @@
+#
+#
+#| echo: false
+# Colores
+myblue <- "#0099CC"
+mylightblue <- "#bcdeff"
+myred <- "#ff2152"
+mypurple <-  "#996699"
+myrose <- "#db1286"
+mygreen <- "#03BF3D"
+myblack <- "#111111"
+mygray <- "#808080"
+myorange <- "#e67e22";
+#
+#
+#

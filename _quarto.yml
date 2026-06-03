@@ -18,7 +18,7 @@ format:
     footer: <https://aprendeconalf.es/estadistica-bayesiana-presentacion/>
     code-line-numbers: false
     highlight-style: atom-one
-    callout-appearance: simple
+    callout-appearance: default
     default-image-extension: svg
     #incremental: true
     toc: true

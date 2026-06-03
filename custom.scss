@@ -33,6 +33,9 @@ $code-color: #1B2A4A;
 .myblue {
   color: $myblue;
 }
+.slide-background.myblue > .slide-background-content {
+  background-color: $myblue;
+}
 .myblue-light {
   color: $myblue-light;
 }

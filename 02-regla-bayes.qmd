@@ -10,12 +10,13 @@ logo: img/logos/sticker-estadistica-bayesiana-r.png
 fig-align: center
 filters:
   - arrows
+  - shinylive
 lang: es
 ---
 
 {{< include _configuracion-r.qmd >}}
 
-## {background-color="#0099CC"}
+## {background-color= .myblue}
 
 :::{.main-title}
 Regla de Bayes
@@ -294,3 +295,212 @@ Podemos normalizar las plausibilidades a posteriori para obtener probabilidades 
 |:---------:|:---------------------:|:-:|:-------------------------:|:-:|:-------------------:|:-----------------------------:|
 | $E$       | 0.1   |$\times$                        | 0.9            | $=$                   | 0.090 | 0.09/(0.09+0.045) = 0.667 |
 | $\overline{E}$ | 0.9  |$\times$                         | 0.05       |$=$                       | 0.045 | 0.045/(0.09+0.045) = 0.333 |
+
+## Simulación de la regla de Bayes
+
+Podemos simular el procedimiento de actualización de la probabilidad de una hipótesis dada la evidencia, que realiza la regla de Bayes. Para ello necesitamos tomar muestras aleatorias de:
+
+- La distribución a priori de la hipótesis $H$.
+- La distribución conjunta de la hipótesis $H$ y la evidencia $D$ teniendo en cuenta la función de verosimilitud $L(H|D)$.
+
+## Muestreo de la distribución a priori
+
+:::{#exr-muestreo-distribucion-priori}
+Obtener una muestra aleatoria de tamaño $n=10000$ de la distribución a priori de la hipótesis $H$ con probabilidades $P(E)=0.1$ y $P(\overline{E})=0.9$ y representar gráficamente la distribución muestral.
+:::
+
+<details>
+<summary>**Solución**</summary>
+```{r}
+#| output-location: column
+library(tidyverse)
+df_H = tibble(hipótesis = c("E", "NoE"))  # Hipótesis
+prior <- c(0.1, 0.9)  # P(E) y P(No E)
+set.seed(123)  # Para reproducibilidad
+n <- 10000  # Tamaño de la muestra
+# Muestreo de la distribución a priori
+muestra_prior <- sample_n(df_H, size = n, weight = prior, replace = TRUE)
+# Diagrama de barras de la distribución de frecuencias
+ggplot(muestra_prior, aes(x = hipótesis)) +
+  geom_bar(fill = myblue) +
+  labs(title = "Muestra aleatoria de la distribución a priori",
+       x = "Hipótesis", y = "Frecuencia") +
+  theme_minimal()
+```
+</details>
+
+## Muestreo de la distribución conjunta
+
+```{r}
+#| output-location: column
+# Muestreo de la función de verosimilitud (resultado del test)
+muestra_prior <- muestra_prior |>
+  mutate(test = ifelse(runif(n()) < ifelse(hipótesis == "E", 0.9, 0.05), "+", "-"))
+# Diagrama de barras de la distribución de frecuencias del test
+ggplot(muestra_prior, aes(x = hipótesis, fill = test)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Distribución de frecuencias del resultado del test",
+       x = "Hipótesis", y = "Frecuencia relativa") +
+  theme_minimal()
+```
+
+## Muestreo de la distribución a posteriori
+
+Una vez tenemos la distribución conjunta, podemos obtener una muestra de la distribución a posteriori, filtrando por la evidencia de que el resultado del test ha sido positivo.
+
+```{r}
+#| output-location: column
+# Filtrar casos con test positivos
+muestra_posterior <- muestra_prior |> filter(test == "+")
+# Diagrama de barras de la distribución de frecuencias de la muestra a posteriori
+ggplot(muestra_posterior, aes(x = hipótesis, y = after_stat(count / sum(count)))) +
+  geom_bar(fill = myblue) +
+  labs(title = "Muestra aleatoria de la distribución a posteriori",
+       x = "Hipótesis", y = "Frecuencia relativa") +
+  theme_minimal()
+```
+
+Como se puede observar, la distribución de frecuencias a posteriori coincide con las probabilidades a posteriori calculadas con la regla de Bayes.
+
+---
+
+:::{#exr-teorema-bayes}
+Se dispone de dos test $A$ y $B$ para diagnosticar una enfermedad con una prevalencia del 1% en la población.
+El test $A$ tiene una sensibilidad del 98% y una especificidad del 80%, mientras que el test $B$ tiene una sensibilidad del 75% y una especificidad del 99%.
+
+a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución a priori de la hipótesis.
+a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución conjunta de las hipótesis y el resultado del test A.
+a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test A ha resultado positivo.
+a.  Obtener una muestra aleatoria de la distribución conjunta de las hipótesis y el resultado del test B.
+a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test B ha resultado positivo.
+:::
+
+## Modelos bayesianos
+
+Un modelo bayesiano es un modelo estadístico que incorpora la incertidumbre sobre los parámetros desconocidos a través de distribuciones de probabilidad a priori, y que utiliza la regla de Bayes para actualizar estas distribuciones a posteriori a medida que se va obteniendo nueva información a través de los datos observados.
+
+## Elementos de un modelo bayesiano
+
+Para definir un modelo bayesiano es necesario especificar:
+
+1.  El espacio de las hipótesis o parámetros desconocidos.
+2.  La distribución de probabilidad a priori de las hipótesis o parámetros desconocidos que refleja la incertidumbre inicial sobre ellos antes de observar los datos.
+3.  La distribución de probabilidad de los datos observados para cada hipótesis o valor de los parámetros desconocidos, que viene dada a través de la función de verosimilitud.
+
+![Esquema de un modelo bayesiano](img/02-regla-bayes/modelo-bayesiano)
+
+## Distribuciones de probabilidad a priori discretas y continuas
+
+Dependiendo de la naturaleza de las hipótesis o parámetros desconocidos, el espacio de hipótesis puede ser discreto o continuo. Esto da lugar a dos tipos de distribuciones de probabilidad a priori.
+
+- **Distribuciones a priori discretas**. Se utilizan cuando el espacio de hipótesis es discreto, es decir, las hipótesis o parámetros desconocidos toman un número finito o contable de valores, como por ejemplo el caso del test diagnóstico con las hipótesis $E$ y $\overline{E}$.
+
+- **Distribuciones a priori continuas**. Se utilizan cuando el espacio de hipótesis es continuo, es decir, las hipótesis o parámetros desconocidos pueden tomar cualquier valor dentro de un intervalo o región del espacio, como por ejemplo el caso de la estimación de la media o una proporción de una población.
+
+## Distribuciones de los datos observados condicionados por las hipótesis
+
+Del mismo modo, dependiendo de la naturaleza de los datos observados, la función de verosimilitud puede modelarse mediante distribuciones de probabilidad discretas o continuas.
+
+- **Distribuciones de probabilidad discretas**. Se utilizan cuando los datos observados son discretos, es decir, toman un número finito o contable de valores, como por ejemplo el número de éxitos en una serie de ensayos independientes.
+
+- **Distribuciones de probabilidad continuas**. Se utilizan cuando los datos observados son continuos, es decir, pueden tomar cualquier valor dentro de un intervalo o región del espacio, como por ejemplo la altura o el peso de una persona.
+
+## Tipos de modelos bayesianos 
+
+Según el tipo de la distribución a priori y de la distribución de los datos utilizada para calcular la función de verosimilitud, tenemos distintos tipos de modelos bayesianos.
+
+![Taxonomía de modelos bayesianos](img/02-regla-bayes/taxonomia-modelos-bayesianos)
+
+
+## Modelos bayesianos más utilizados
+
+- **Prior discreto + verosimilitud discreta**. Las parejas más habituales son uniforme discreta con Binomial o Poisson, y priors ad hoc definidos por un experto con Multinomial o categórica. Es el caso del diagnóstico médico con hipótesis finitas.
+
+- **Prior discreto + verosimilitud continua**. Aparece en comparación y selección de modelos. La pareja más importante es uniforme sobre modelos con Normal o Weibull para calcular factores de Bayes. El caso spike-and-slab con Normal es la base de la selección bayesiana de variables en regresión.
+
+- **Prior continuo + verosimilitud discreta**. Aquí están los pares conjugados más importantes de la epidemiología: Beta-Binomial para proporciones, Dirichlet-Multinomial para categorías, Gamma-Poisson para conteos, y Beta-Geométrica para tiempo hasta el primer evento.
+
+- **Prior continuo + verosimilitud continua** — Es el caso más general. Los pares conjugados más importantes son  Normal-Normal, Normal Inv-Gamma y Gamma-Exponencial para tasas. Todo lo demás (regresión con covariables, modelos mixtos, supervivencia) no tiene forma analítica cerrada y requiere aproximación por MCMC.
+
+## Modelo Beta - Binomial
+
+Cuando el parámetro de interés es una proporción $\theta$, como por ejemplo el la proporción de fumadores en una población), y los datos observados son el número de éxitos $x$ en una serie de $n$ ensayos independientes, como por ejemplo el número de personas fumadoras en una muestra, el modelo bayesiano más utilizado es el modelo Beta-Binomial.
+
+- Prior: $\theta \sim \text{Beta}(\alpha, \beta)$
+- Verosimilitud: $x|\theta \sim B(n, \theta)$.
+
+---
+
+:::{#exr-modelo-beta-binomial}
+Supongamos que queremos estimar la proporción de fumadores en nuestra ciudad. Sabemos que en varias muestras tomadas en otras ciudades similares, la proporción media estaba alrededor del 33% y que la menor y mayor proporción observadas fueron del 19% y del 48%, respectivamente.
+
+¿Qué distribución Beta podríamos utilizar para modelizar la distribución a priori?
+
+Usa la aplicación [https://nube.aprendeconalf.es/shiny/distribuciones/](https://nube.aprendeconalf.es/shiny/distribuciones/) para probar distintas distribuciones Beta y encontrar aquella que mejor se ajuste a la información.
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output-location: column
+library(bayesrules)
+plot_beta(alpha = 30, beta = 60)
+```
+</details>
+
+---
+
+:::{#exr-modelo-beta-binomial-2}
+Tras realizar un nuevo sondeo en la nuestra ciudad hemos observado que en una muestra de 100 personas, 32 son fumadoras.
+
+¿Cuál es la función de verosimilitud del número de fumadores observados en la muestra para un proporción de fumadores en la ciudad $\theta$?
+:::
+
+<details>
+<summary>**Solución**</summary>
+Llamemos $Y$ al número de personas fumadoras en una muestra de tamaño $n=100$.
+Suponiendo que la proporción de personas fumadoras en la ciudad es $\theta$, el número de personas fumadoras observadas en una muestra aleatoria de 100 personas sigue una distribución Binomial con parámetros $n=100$ y $\theta$.
+
+$$
+Y|\theta \sim B(n=100, \theta)
+$$
+
+por lo que la función de verosimilitud es
+
+$$
+L(\theta|Y=32) = P(Y=32|\theta) = \binom{100}{32} \theta^{32} (1-\theta)^{68}.
+$$
+</details>
+
+---
+
+```{r}
+#| output-location: column
+x <- seq(0, 1, length.out = 100)
+y <- dbinom(32, size = 100, prob = x)
+# Función de verosimilitud para y = 32
+df <- tibble(θ = x, verosimilitud = y)
+ggplot(df, aes(x = θ, y = verosimilitud)) +
+  geom_line(color = "#0099CC", size = 1.5) +
+  labs(title = "Función de verosimilitud para y = 32",
+       x = "Proporción de fumadores en la ciudad (θ)", y = "Verosimilitud") +
+  theme_minimal()
+```
+
+---
+
+Una vez que tenemos las distribuciones a priori y la función de verosimilitud, podemos calcular la distribución a posteriori utilizando la regla de Bayes.
+
+$$
+f(\theta|Y=32) = \frac{f(\theta)L(\theta|Y=32)}{P(Y=32)}
+$$
+
+Sin embargo, la constante normalizadora $P(Y=32)$ es difícil de calcular ya que requiere acumular las probabilidades $f(\theta)L(\theta|Y=32)$ para cualquier $\theta$. Pero como $\theta$ es una variable continua que puede tomar cualquier valor real entre 0 y 1, esta suma se convierte en la integral
+
+$$
+P(Y=32) = \int_0^1 f(\theta)L(\theta|Y=32) d\theta
+$$
+
+
