@@ -9,4 +9,9 @@ stringr
 forcats
 lubridate
 bayesrules
-patchwork
+StanHeaders
+rstan
+bayesplot
+tidybayes
+broom.mixed
+knitr

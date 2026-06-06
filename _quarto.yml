@@ -1,6 +1,15 @@
 project:
   output-dir: "docs"
-  
+
+lang: es
+
+language:
+  callout-tip-title: "Ayuda"
+  callout-note-title: "Nota"
+  callout-important-title: "Importante"
+  callout-warning-title: "Advertencia"
+  callout-caution-title: "Precaución"
+
 author: "Alfredo Sánchez Alberca"
 
 execute: 

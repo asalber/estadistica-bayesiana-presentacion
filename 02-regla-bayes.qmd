@@ -376,9 +376,98 @@ a.  Obtener una muestra aleatoria de la distribución conjunta de las hipótesis
 a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test B ha resultado positivo.
 :::
 
+## Distribuciones conjugadas
+
+Hemos visto que para obtener la distribución de probabilidad a posteriori de una hipótesis dada la evidencia, es necesario combinar la función de probabilidad a priori de la hipótesis con la función de verosimilitud dada la evidencia, utilizando la regla de Bayes.
+
+Existen determinadas familias de distribuciones de probabilidad que, al combinarse con otras familias de distribuciones, mantienen su forma funcional. Estas familias se denominan _distribuciones conjugadas_ y son de gran utilidad en el contexto de la inferencia bayesiana.
+
+Las distribuciones conjugadas más comunes son:
+
+- Beta-Binomial
+- Beta-Geometrica
+- Gamma-Poisson
+- Gamma-Exponencial
+- Normal-Normal
+
+## Distribución conjugada Beta-Binomial
+
+Si $p\sim \mbox{Beta}(\alpha, \beta)$ sigue una distribución Beta de parámetros $\alpha$ y $\beta$, y $X\sim B(n, p)$ sigue una distribución Binomial con parámetros $n$ y $p$, entonces la distribución a posteriori de $p$ dado $X=k$ es también una distribución beta,
+
+$$
+p|X=k \sim \mbox{Beta}(\alpha+k, \beta+n-k).
+$$
+
+---
+
+:::{#exm-distribucion-conjugada-beta-binomial}
+Supongamos que queremos estimar la proporción de fumadores en nuestra ciudad tenemos una distribución a priori de $p$ dada por una distribución Beta con parámetros $\alpha=2$ y $\beta=5$, es decir, $p\sim \mbox{Beta}(2, 5)$.
+Si tomamos una muestra aleatoria de $n=30$ personas y observamos que $k=10$ de ellas son fumadoras, entonces la distribución a posteriori de $p$ dado $X=30$ es
+
+$$
+p|X=10 \sim \mbox{Beta}(2+10, 5+30-10) = \mbox{Beta}(12, 25).
+$$
+:::
+
+## Distribución conjugada Gamma-Poisson
+
+Si $\lambda \sim \mbox{Gamma}(\alpha, \beta)$ sigue una distribución Gamma de parámetros $\alpha$ y $\beta$, y $X\sim \mbox{P}(\lambda)$ sigue una distribución Poisson con parámetro $\lambda$, entonces la distribución a posteriori de $\lambda$ dado $X=k$ es también una distribución Gamma,
+
+$$
+\lambda|\{X=k\} \sim \mbox{Gamma}(\alpha+k, \beta+1).
+$$
+
+Si se toman $n$ muestras independientes de la misma distribución Poisson $P(\lambda)$, entonces la distribución a posteriori de $\lambda$ dado $X_1=x_1,\ldots,X_n=x_n$ es también una distribución Gamma,
+
+$$
+\lambda|\{X_1=x_1,\ldots,X_n=x_n\} \sim \mbox{Gamma}\left(\alpha+\sum_{i=1}^n x_i, \beta+n\right).
+$$
+
+---
+
+:::{#exm-distribucion-conjugada-gamma-poisson}
+Supongamos que queremos estimar la tasa de nacimientos diarios en una ciudad. Tenemos una distribución a priori de $\lambda$ dada por una distribución Gamma con parámetros $\alpha=2$ y $\beta=5$, es decir, $\lambda \sim \mbox{Gamma}(2, 5)$.
+Si observamos que en una muestra de 5 días se han producido $X_1=10, X_2=8, X_3=9, X_4=11, X_5=7$ eventos, entonces la distribución a posteriori de $\lambda$ es
+
+\begin{align*}
+\lambda |\{X_1=10, X_2=8, X_3=9, X_4=11, X_5=7\} 
+&\sim \mbox{Gamma}(2+10+8+9+11+7, 5+5) \\
+&= \mbox{Gamma}(47, 10).
+\end{align*}
+:::
+
+## Distribución conjugada Normal-Normal
+
+Si $\mu \sim N(\theta, \tau^2)$ sigue una distribución Normal de media $\theta$ y varianza $\tau^2$, y $X\sim N(\mu, \sigma^2)$ sigue una distribución Normal con media $\mu$ y varianza $\sigma^2$, entonces la distribución a posteriori de $\mu$ dado $X=x$ es también una distribución Normal,
+
+$$
+\mu|X=x \sim N\left(\frac{\frac{\theta}{\tau^2}+\frac{x}{\sigma^2}}{\frac{1}{\tau^2}+\frac{1}{\sigma^2}}, \frac{1}{\frac{1}{\tau^2}+\frac{1}{\sigma^2}}\right)
+= N\left(\frac{\theta\sigma^2 + x\tau^2}{\sigma^2 + \tau^2}, \frac{\sigma^2\tau^2}{\sigma^2 + \tau^2}\right).
+$$
+
+Si se toman $n$ muestras independientes de la misma distribución Normal $N(\mu, \sigma^2)$, entonces la distribución a posteriori de $\mu$ dado $X_1=x_1,\ldots,X_n=x_n$ es también una distribución Normal,
+
+\begin{align*}
+\mu|\{X_1=x_1,\ldots,X_n=x_n\} &\sim N\left(\frac{\frac{\theta}{\tau^2}+\frac{\sum_{i=1}^n x_i}{\sigma^2}}{\frac{1 }{\tau^2}+\frac{n}{\sigma^2}}, \frac{1}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}}\right) \\
+&= N\left(\frac{\theta\sigma^2 + \bar{x}n\tau^2}{\sigma^2 + n\tau^2  }, \frac{\sigma^2\tau^2}{\sigma^2 + n\tau^2}\right).
+\end{align*}
+
+---
+
+:::{#exm-distribucion-conjugada-normal-normal}
+Supongamos que el peso perdido con una dieta sigue una distribución normal $N(\mu, 4) y queremos estimar el peso medio $\mu$ perdido con la dieta. Tenemos una distribución a priori de $\mu$ dada por una distribución Normal con media $\theta=10$ y varianza $\tau^2=1$, es decir, $\mu \sim N(10, 1)$.
+Si tomanos una muestra aleatoria de $n=20$ personas que han seguido la dieta y observamos que el peso medio perdido es $\bar{x}=8$, entonces la distribución a posteriori de $\mu$ es
+
+$$
+\mu|\{X_1,\ldots,X_{20}\} \sim N\left(\frac{10\cdot 4 + 8\cdot 20\cdot 1}{4 + 20\cdot 1}, \frac{4\cdot 1}{4 + 20\cdot 1}\right) = N(8.57, 0.17).
+$$
+:::
+
 ## Modelos bayesianos
 
 Un modelo bayesiano es un modelo estadístico que incorpora la incertidumbre sobre los parámetros desconocidos a través de distribuciones de probabilidad a priori, y que utiliza la regla de Bayes para actualizar estas distribuciones a posteriori a medida que se va obteniendo nueva información a través de los datos observados.
+
+Los modelos bayesianos puedon considerarse _modelos de aprendizaje autmático_ puesto que aprenden distribuciones con la experiencia que se va adquiriendo a través de los datos observados.
 
 ## Elementos de un modelo bayesiano
 
@@ -425,10 +514,10 @@ Según el tipo de la distribución a priori y de la distribución de los datos u
 
 ## Modelo Beta - Binomial
 
-Cuando el parámetro de interés es una proporción $\theta$, como por ejemplo el la proporción de fumadores en una población), y los datos observados son el número de éxitos $x$ en una serie de $n$ ensayos independientes, como por ejemplo el número de personas fumadoras en una muestra, el modelo bayesiano más utilizado es el modelo Beta-Binomial.
+Cuando el parámetro de interés es una proporción $\theta$, como por ejemplo el la proporción de fumadores en una población, y los datos observados son el número de éxitos $X$ en una serie de $n$ ensayos independientes, como por ejemplo el número de personas fumadoras en una muestra, el modelo bayesiano más utilizado es el modelo Beta-Binomial.
 
 - Prior: $\theta \sim \text{Beta}(\alpha, \beta)$
-- Verosimilitud: $x|\theta \sim B(n, \theta)$.
+- Verosimilitud: $X|\theta \sim B(n, \theta)$.
 
 ---
 
@@ -436,26 +525,46 @@ Cuando el parámetro de interés es una proporción $\theta$, como por ejemplo e
 Supongamos que queremos estimar la proporción de fumadores en nuestra ciudad. Sabemos que en varias muestras tomadas en otras ciudades similares, la proporción media estaba alrededor del 33% y que la menor y mayor proporción observadas fueron del 19% y del 48%, respectivamente.
 
 ¿Qué distribución Beta podríamos utilizar para modelizar la distribución a priori?
+:::
 
+:::{.callout-tip}
 Usa la aplicación [https://nube.aprendeconalf.es/shiny/distribuciones/](https://nube.aprendeconalf.es/shiny/distribuciones/) para probar distintas distribuciones Beta y encontrar aquella que mejor se ajuste a la información.
 :::
+
+---
 
 <details>
 <summary>**Solución**</summary>
 
 ```{r}
 #| output-location: column
+x <- seq(0, 1, length.out = 100)
+y <- dbeta(x, shape1 = 30, shape2 = 60)
+df <- tibble(θ = x, densidad = y)
+ggplot(df, aes(x = θ, y = densidad)) +
+  geom_line(color = myblue) +
+  labs(title = "Distribución Beta con α=30 y β=60",
+       x = "Proporción de fumadores (θ)", y = "Densidad") +
+  theme_minimal()
+```
+
+También podemos usar el paquete [`bayesrules`](https://bayes-rules.github.io/bayesrules/docs/index.html) para visualizar las distribuciones más características en estadística bayesiana.
+
+```{r}
+#| output-location: column
 library(bayesrules)
-plot_beta(alpha = 30, beta = 60)
+plot_beta(alpha = 30, beta = 60) + 
+  labs(title = "Distribución Beta con α=30 y β=60",
+       x = "Proporción de fumadores (θ)", y = "Densidad")
 ```
 </details>
 
 ---
 
 :::{#exr-modelo-beta-binomial-2}
-Tras realizar un nuevo sondeo en la nuestra ciudad hemos observado que en una muestra de 100 personas, 32 son fumadoras.
+Tras realizar un nuevo sondeo en la nuestra ciudad hemos observado que en una muestra de 100 personas, 20 son fumadoras.
 
-¿Cuál es la función de verosimilitud del número de fumadores observados en la muestra para un proporción de fumadores en la ciudad $\theta$?
+¿Cuál es la función de verosimilitud para un proporción de fumadores en la ciudad $\theta$?
 :::
 
 <details>
@@ -470,7 +579,7 @@ $$
 por lo que la función de verosimilitud es
 
 $$
-L(\theta|Y=32) = P(Y=32|\theta) = \binom{100}{32} \theta^{32} (1-\theta)^{68}.
+L(\theta|Y=20) = P(Y=20|\theta) = \binom{100}{20} \theta^{20} (1-\theta)^{80}.
 $$
 </details>
 
@@ -479,14 +588,23 @@ $$
 ```{r}
 #| output-location: column
 x <- seq(0, 1, length.out = 100)
-y <- dbinom(32, size = 100, prob = x)
-# Función de verosimilitud para y = 32
+y <- dbinom(20, size = 100, prob = x)
+# Función de verosimilitud para y = 20
 df <- tibble(θ = x, verosimilitud = y)
 ggplot(df, aes(x = θ, y = verosimilitud)) +
-  geom_line(color = "#0099CC", size = 1.5) +
-  labs(title = "Función de verosimilitud para y = 32",
-       x = "Proporción de fumadores en la ciudad (θ)", y = "Verosimilitud") +
+  geom_line(color = myblue, size = 1.5) +
+    labs(title = "Función de verosimilitud para y = 20",
+        x = "Proporción de fumadores (θ)", y = "Verosimilitud") +
   theme_minimal()
+```
+
+O bien, usando el paquete `bayesrules`,
+
+```{r}
+#| output-location: column
+plot_binomial_likelihood(y = 20, n = 100) +
+  labs(title = "Función de verosimilitud para y = 20",
+       x = "Proporción de fumadores (θ)", y = "Verosimilitud")
 ```
 
 ---
@@ -494,13 +612,879 @@ ggplot(df, aes(x = θ, y = verosimilitud)) +
 Una vez que tenemos las distribuciones a priori y la función de verosimilitud, podemos calcular la distribución a posteriori utilizando la regla de Bayes.
 
 $$
-f(\theta|Y=32) = \frac{f(\theta)L(\theta|Y=32)}{P(Y=32)}
+f(\theta|Y=20) = \frac{f(\theta)L(\theta|Y=20)}{P(Y=20)}
 $$
 
-Sin embargo, la constante normalizadora $P(Y=32)$ es difícil de calcular ya que requiere acumular las probabilidades $f(\theta)L(\theta|Y=32)$ para cualquier $\theta$. Pero como $\theta$ es una variable continua que puede tomar cualquier valor real entre 0 y 1, esta suma se convierte en la integral
+Sin embargo, la constante normalizadora $P(Y=20)$ es difícil de calcular ya que requiere acumular las probabilidades $f(\theta)L(\theta|Y=20)$ para cualquier $\theta$. Pero como $\theta$ es una variable continua que puede tomar cualquier valor real entre 0 y 1, esta suma se convierte en la integral
 
 $$
-P(Y=32) = \int_0^1 f(\theta)L(\theta|Y=32) d\theta
+P(Y=20) = \int_0^1 f(\theta)L(\theta|Y=20) d\theta
 $$
 
+---
 
+Afortunadamente, aprovechando la distribución conjugada Beta-Binomial, sabemos que en este caso la distribución a posteriori de $\theta$ dado $Y=20$ es también una distribución Beta con parámetros $\alpha=30+20=50$ y $\beta=60+100-20=140$, es decir, $\theta|Y=20 \sim \mbox{Beta}(50, 140)$.
+
+```{r}
+#| output-location: column
+plot_beta(alpha = 50, beta = 140) + 
+  labs(title = "Distribución a posteriori de θ dado Y=20",
+       x = "Proporción de fumadores (θ)", y = "Densidad")
+```
+
+---
+
+Podemos dibujar las tres distribuciones, a priori, verosimilitud y a posteriori, en la misma gráfica mediante la función [`plot_beta_binomial()`](https://bayes-rules.github.io/bayesrules/docs/reference/plot_beta_binomial.html) del paquete `bayesrules`.
+
+:::{.callout-note}
+## `plot_beta_binomial()`
+
+Dibuja la distribución Beta a priori, la distribución Binomial de la función de verosimilitud y la distribución Beta a posteriori dado el número de éxitos observado en la muestra.
+
+Parámetros:
+
+- `alpha`: Parámetro $\alpha$ de la distribución Beta a priori.
+- `beta`: Parámetro $\beta$ de la distribución Beta a priori.
+- `y`: Número de éxitos observados en la muestra.
+- `n`: Tamaño de la muestra.
+:::
+
+
+```{r}
+#| output-location: column
+plot_beta_binomial(alpha = 30, beta = 60, y = 20, n = 100) +
+  labs(title = "Distribución a priori, función de verosimilitud y distribución a posteriori",
+       x = "Proporción de fumadores (θ)", y = "Densidad / Verosimilitud")
+```
+
+## Simulación de la distribución a posteriori
+
+Cuando no sea posible determinar analíticamente la distribución teórica a posteriori, como por ejemplo en el caso de modelos bayesianos con distribuciones no conjugadas, entonces se puede simular la distribución a posteriori mediante técnicas de muestreo.
+
+Las técnicas de muestreo más habituales, por orden de antigüedad, son:
+
+- Muestreo de rejilla (grid sampling)
+- Markov Chain Monte Carlo (MCMC)
+- Hamiltonian Monte Carlo (HMC)
+
+## Simulación de la distribución a posteriori mediante muestreo de rejilla
+
+La técnica de muestreo de rejilla es la más sencilla y consiste en:
+
+1.  Definir una rejilla de valores posibles para la hipótesis o parámetro desconocido.
+2.  Calcular la función de verosimilitud para cada uno de estos valores.
+3.  Multiplicarla por la probabilidad a priori correspondiente a cada valor.
+4.  Normalizar el resultado para obtener una distribución a posteriori aproximada.
+
+---
+
+:::{#exm-simulacion-posteriori-rejilla}
+En el ejemplo anterior para estimar la proporción de personas fumadoras, partiendo de la distribución a priori $\theta \sim \mbox{Beta}(30, 60)$ y de la función de verosimilitud $L(\theta|Y=20) = P(Y=20|\theta) = \binom{100}{20} \theta^{20} (1-\theta)^{80}$, el siguiente código simula la distribución a posteriori de $\theta$ dado $Y=20$ mediante muestreo de rejilla.
+
+```{r}
+#| output-location: column
+# Rejilla de 100 posibles valores de θ entre 0 y 1
+rejilla <- seq(0, 1, length.out = 100)
+# Función de verosimilitud para cada valor de θ
+verosimilitud <- dbinom(20, size = 100, prob = rejilla)
+# Probabilidad a priori para cada valor de θ
+prior <- dbeta(rejilla, shape1 = 30, shape2 = 60)
+# Plausibilidad a posteriori para cada valor de θ
+posterior <- prior * verosimilitud
+# Normalizamos la plausibilidad a posteriori para obtener una distribución de probabilidad
+df_posterior <- tibble(θ = rejilla, posterior = posterior / sum(posterior))
+# Gráfica de la distribución a posteriori
+ggplot(df_posterior, aes(x = θ, y = posterior)) +
+  geom_line(color = myblue, size = 1.5) +
+  labs(title = "Distribución a posteriori de θ dado Y=20 (simulación de rejilla)",
+       x = "Proporción de fumadores (θ)", y = "Densidad") +
+  theme_minimal()
+```
+:::
+
+
+---
+
+Para ver si esta distribución simulada se parece a la distribución teórica $Beta(50, 140)$, podemos extraer una muestra aleatoria de ella suficientemente grande y dibujar su histograma.
+
+```{r}
+#| output-location: column
+set.seed(123)
+# Muestra aleatoria de tamaño 10000
+muestra_posterior <- sample_n(df_posterior, size = 10000, weight = posterior, replace = TRUE)
+# Histograma de la muestra a posteriori
+ggplot(muestra_posterior, aes(x = θ)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.01, alpha = 0.7, fill = myblue, color = "white") +
+  stat_function(fun = dbeta, args = list(50, 140), color = myred) +
+  labs(title = "Histograma de la muestra aleatoria de la distribución a posteriori",
+       x = "Proporción de fumadores (θ)", y = "Densidad") +
+  theme_minimal()
+```
+
+
+_Como se puede observar, el histograma de la muestra aleatoria de la distribución a posteriori simulada mediante muestreo de rejilla se ajusta bastante bien a la función de densidad de la distribución teórica $Beta(50, 140)$._
+
+---
+
+:::{#exr-simulacion-posteriori-rejilla}
+Partiendo de la distribución a posteriori anterior para la proporción de fumadores, $p\sim Beta(50, 140)$, simula la distribución a posteriori si se toma otra muestra de tamaño 300 en la que aparecen 140 personas fumadoras. 
+:::
+
+<details>
+<summary>**Solución**</summary>
+```{r}
+#| output-location: column
+# Rejilla de 100 posibles valores de θ entre 0 y 1
+rejilla <- seq(0, 1, length.out = 100)
+# Función de verosimilitud para cada valor de θ con la nueva muestra
+verosimilitud <- dbinom(140, size = 300, prob = rejilla)
+# Probabilidad a priori para cada valor de θ (distribución a posteriori anterior)
+prior <- dbeta(rejilla, shape1 = 50, shape2 = 140)
+# Plausibilidad a posteriori para cada valor de θ
+posterior <- prior * verosimilitud
+# Normalización de la plausibilidad a posteriori
+df_posterior <- tibble(θ = rejilla, posterior = posterior / sum(posterior))
+set.seed(123)
+# Muestra aleatoria de tamaño 10000
+muestra_posterior <- sample_n(df_posterior, size = 10000, weight = posterior, replace = TRUE)
+# Histograma de la muestra a posteriori
+ggplot(muestra_posterior, aes(x = θ)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.01, alpha = 0.7, fill = myblue, color = "white") +
+  stat_function(fun = dbeta, args = list(50+140, 140+300-140), color = myred) +
+  labs(title = "Histograma de la muestra aleatoria de la distribución a posteriori",
+       x = "Proporción de fumadores (θ)", y = "Densidad") +
+  theme_minimal()
+```
+</details>
+
+
+## Modelo Gamma-Poisson
+
+Cuando el parámetro de interés es una tasa $\lambda$, como por ejemplo la tasa de nacimientos diarios en una ciudad, y los datos observados son el número de eventos $X$ en un intervalo de tiempo dado, como por ejemplo el número de nacimientos en un día, el modelo bayesiano más utilizado es el modelo Gamma-Poisson.
+
+- Prior: $\lambda \sim \text{Gamma}(\alpha, \beta)$
+- Verosimilitud: $X|\lambda \sim P(\lambda)$.
+
+---
+
+:::{#exr-modelo-gamma-poisson}
+Supongamos que queremos estimar la incidencia de infartos diarios en España por cada millón habitantes. Sabemos que en varios países similares, la tasa media de infartos es de 5 por cada 1000 habitantes al año, y que la menor y mayor tasa observadas fueron de 2 y 10 por cada 1000 habitantes al año, respectivamente.
+
+¿Qué distribución Gamma podríamos utilizar para modelizar la distribución a priori?
+:::
+
+:::{.callout-tip}
+Usa la aplicación [https://nube.aprendeconalf.es/shiny/distribuciones/](https://nube.aprendeconalf.es/shiny/distribuciones/) para probar distintas distribuciones Gamma y encontrar aquella que mejor se ajuste a la información.
+:::
+
+<details>
+<summary>**Solución**</summary>
+```{r}
+#| output-location: column
+plot_gamma(shape = 10, rate = 2) + 
+  labs(title = "Distribución Gamma con α=2 y β=0.4",
+       x = "Tasa de infartos (λ)", y = "Densidad")
+```
+</details>
+
+---
+
+:::{#exr-modelo-gamma-poisson-2}
+Tras realizar un nuevo sondeo hemos observado que en una muestra de 5 días se han producido $X_1=10, X_2=8, X_3=9, X_4=11, X_5=7$ infartos.
+
+¿Cuál es la función de verosimilitud para para tasa de infartos $\lambda$?
+:::
+
+<details>
+<summary>**Solución**</summary>
+Llamemos $Y$ al número de infartos diarios.
+Suponiendo que la tasa de infartos diarios es $\lambda$, el número de infartos diarios puede modelizarse con una distribución de Poisson de parámetro $\lambda$, es decir, $Y\sim P(\lambda$), por lo que la función de verosimilitud para una tasa de infartos $\lambda$ dado el número de infartos observados en 5 días es
+
+\begin{align*}
+L(\lambda|Y=(10,8,9,11,7)) = &P(Y_1=10|\lambda)P(Y_2=8|\lambda)P(Y_3=9|\lambda)\\
+&P(Y_4=11|\lambda)P(Y_5=7|\lambda).
+\end{align*}
+
+por lo que la función de verosimilitud es
+
+\begin{align*}
+L(\lambda|Y=(10,8,9,11,7)) 
+&= \frac{e^{-\lambda}\lambda^{10}}{10!} \frac{e^{-\lambda}\lambda^{8}}{8!} \frac{e^{-\lambda}\lambda^{9}}{9!}\frac{e^{-\lambda}\lambda^{11}}{11!} \frac{e^{-\lambda}\lambda^{7}}{7!} \\
+&= \frac{ e^{-5\lambda}\lambda^{45}}{10!8!9!11!7!}.
+\end{align*}
+</details>
+
+---
+
+```{r}
+#| output-location: column
+
+plot_poisson_likelihood(y = c(10, 8, 9, 11, 7), lambda_upper_bound = 15) +
+  labs(title = "Función de verosimilitud para la muestra de 5 días",
+       x = "Tasa de infartos (λ)", y = "Verosimilitud")
+```
+
+---
+
+Una vez que tenemos las distribuciones a priori y la función de verosimilitud, podemos calcular la distribución a posteriori utilizando la regla de Bayes.
+
+$$
+f(\lambda|Y=(10,8,9,11,7)) = \frac{f(\lambda)L(\lambda|Y=(10,8,9,11,7))}{P(Y=(10,8,9,11,7))}
+$$
+
+De nuevo, la constante normalizadora $P(Y=(10,8,9,11,7))$ es difícil de calcular ya que requiere acumular las probabilidades $f(\lambda)L(\lambda|Y=(10,8,9,11,7))$ para cualquier $\lambda$. Pero como $\lambda$ es una variable continua que puede tomar cualquier valor real entre 0 y $\infty$, esta suma se convierte en la integral
+
+$$
+P(Y=(10,8,9,11,7)) = \int_0^\infty f(\lambda)L(\lambda|Y=(10,8,9,11,7)) d\lambda
+$$
+
+---
+
+De nuevo, podemos ahorrarnos el cálculo de la integral aprovechando la distribución conjugada Gamma-Poisson, sabemos que en este caso la distribución a posteriori de $\lambda$ dada la muestra $Y_1=10, Y_2=8, Y_3=9, Y_4=11, Y_5=7$ es también una distribución Gamma con parámetros $\alpha=10+10+8+9+11+7$ y $\beta=2+5$, es decir, $\lambda \sim \mbox{Gamma}(55, 7)$.
+
+```{r}
+#| output-location: column
+plot_gamma(shape = 55, rate = 7) + 
+  labs(title = "Distribución a posteriori de λ",
+       x = "Tasa de infartos (λ)", y = "Densidad")
+```
+
+---
+
+Podemos dibujar las tres distribuciones, a priori, verosimilitud y a posteriori, en la misma gráfica mediante la función [`plot_gamma_poisson()`](https://bayes-rules.github.io/bayesrules/docs/reference/plot_gamma_poisson.html) del paquete `bayesrules`.
+
+:::{.callout-note}
+## `plot_gamma_poisson()`
+
+Dibuja la distribución Gamma a priori, la distribución Poisson de la función de verosimilitud y la distribución Gamma a posteriori dada una muestra de conteos.
+
+Parámetros:
+
+- `shape`: Parámetro $\alpha$ de la distribución Gamma a priori.
+- `rate`: Parámetro $\beta$ de la distribución Gamma a priori.
+- `sum_y`: Suma de los conteos observados en la muestra.
+- `n`: Tamaño de la muestra.
+:::
+
+
+```{r}
+#| output-location: column
+plot_gamma_poisson(shape = 10, rate = 2, sum_y = 45, n = 5) +
+  labs(title = "Distribución a priori, función de verosimilitud y distribución a posteriori",
+       x = "Tasa de infartos (λ)", y = "Densidad / Verosimilitud")
+```
+
+### Simulación de la distribución a posteriori mediante muestreo de rejilla
+
+:::{#exm-simulacion-posteriori-rejilla-gamma-poisson}
+Partiendo de la distribución a priori $\lambda \sim \mbox{Gamma}(10, 2)$ y de la función de verosimilitud $L(\lambda|Y=(10, 8, 9, 11, 7))$, el siguiente código permite simular la distribución a posteriori de $\lambda$ mediante muestreo de rejilla.
+
+```{r}
+#| output-location: column
+# Rejilla de 100 posibles valores de λ entre 0 y 15
+rejilla <- seq(1, 15, length.out = 100)
+# Función de verosimilitud para cada valor de λ
+verosimilitud <- sapply(rejilla, function(l) prod(dpois(c(10, 8, 9, 11, 7), lambda = l)))
+# Probabilidad a priori para cada valor de λ
+prior <- dgamma(rejilla, shape = 10, rate = 2)
+# Plausibilidad a posteriori para cada valor de λ
+posterior <- prior * verosimilitud
+# Normalizamos la plausibilidad a posteriori para obtener una distribución de probabilidad
+df_posterior <- tibble(λ = rejilla, posterior = posterior / sum(posterior))
+set.seed(123)
+# Muestra aleatoria de tamaño 10000
+muestra_posterior <- sample_n(df_posterior, size = 10000, weight = posterior, replace = TRUE)
+# Histograma de la muestra a posteriori
+ggplot(muestra_posterior, aes(x = λ)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.5, alpha = 0.7, fill = myblue, color = "white") +
+  stat_function(fun = dgamma, args = list(55, 7), color = myred) +
+  labs(title = "Histograma de la muestra aleatoria de la distribución a posteriori",
+       x = "Tasa de infartos (λ)", y = "Densidad") +
+  theme_minimal()
+```
+:::
+
+---
+
+:::{#exr-simulacion-posteriori-rejilla-gamma-poisson-2}
+Partiendo de la distribución a posteriori anterior para la tasa de infartos, $\lambda\sim \mbox{Gamma}(55, 7)$, simula la distribución a posteriori si se toma otra muestra de tamaño 5 en la que se han producido $X_1=5, X_2=7, X_3=4, X_4=6, X_5=3$.
+:::
+
+<details>
+<summary>**Solución**</summary>
+```{r}  
+#| output-location: column
+# Rejilla de 100 posibles valores de λ entre 0 y 15
+rejilla <- seq(1, 15, length.out = 100)
+# Función de verosimilitud para cada valor de λ con la nueva muestra
+verosimilitud <- sapply(rejilla, function(l) prod(dpois(c(5, 7, 4, 6, 3), lambda = l)))
+# Probabilidad a priori para cada valor de λ (distribución a posteriori anterior)
+prior <- dgamma(rejilla, shape = 55, rate = 7)
+# Plausibilidad a posteriori para cada valor de λ
+posterior <- prior * verosimilitud
+# Normalización de la plausibilidad a posteriori
+df_posterior <- tibble(λ = rejilla, posterior = posterior / sum(posterior))
+set.seed(123)
+# Muestra aleatoria de tamaño 10000
+muestra_posterior <- sample_n(df_posterior, size = 10000, weight = posterior, replace = TRUE)
+# Histograma de la muestra a posteriori
+ggplot(muestra_posterior, aes(x = λ)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.5, alpha = 0.7, fill = myblue, color = "white") + 
+  stat_function(fun = dgamma, args = list(55+25, 7+5), color = myred) +
+  labs(title = "Histograma de la muestra aleatoria de la distribución a posteriori",
+       x = "Tasa de infartos (λ)", y = "Densidad") +
+  theme_minimal()
+```
+</details>
+
+## Independencia del orden de obtención de los datos
+
+Una de las propiedades más importantes de la regla de Bayes es que el orden en el que se obtienen los datos no afecta a la distribución a posteriori, es decir
+
+$$
+f(\theta|Y_1, Y_2) = f(\theta|Y_2, Y_1).
+$$
+
+La demostración es sencilla. Si primero se observa $Y_1$,
+
+$$
+f(\theta|Y_1) = \frac{f(\theta)L(\theta|Y_1)}{P(Y_1)}
+$$
+
+y después $Y_2$
+
+$$
+f(\theta|Y_1,Y_2) = \frac{\frac{f(\theta)L(\theta|Y_1)}{P(Y_1)}L(\theta|Y_2)}{P(Y_2)} = \frac{f(\theta)L(\theta|Y_1)L(\theta|Y_2)}{P(Y_1)P(Y_2)} = \frac{f(\theta)L(\theta|Y_2)L(\theta|Y_1)}{P(Y_2)P(Y_1)} = f(\theta|Y_2,Y_1).
+$$
+
+## Modelo Normal-Normal
+
+Cuando el parámetro de interés es una media $\mu$, como por ejemplo el nivel medio de colesterol en sangre, y los datos $X$ siguen una distribución Normal, como por ejemplo el nivel de colesterol en sangre, el modelo bayesiano más utilizado es el modelo Normal-Normal.
+
+- Prior: $\mu \sim N(\theta, \tau^2)$
+- Verosimilitud: $X|\mu \sim N(\mu, \sigma^2)$.
+
+---
+
+:::{#exr-modelo-normal-normal}
+Supongamos que queremos estimar el nivel medio de colesterol en sangre en una población. Sabemos que en poblaciones similares, el nivel de colesterol medio está en un rango que va de 191 a 209 mg/dL. ¿Qué distribución Normal podríamos utilizar para modelizar la distribución a priori?
+:::
+
+:::{.callout-tip}
+Usa la aplicación [https://nube.aprendeconalf.es/shiny/distribuciones/](https://nube.aprendeconalf.es/shiny/distribuciones/) para probar distintas distribuciones Normal y encontrar aquella que mejor se ajuste a la información.
+:::
+
+<details>
+<summary>**Solución**</summary>
+```{r}
+#| output-location: column
+plot_normal(mean = 200, sd = 3) +
+  labs(title = "Distribución Normal con media 200 y desviación estándar 2",
+       x = "Nivel de colesterol (mg/dL)", y = "Densidad")
+```
+</details>
+
+---
+
+:::{#exr-modelo-normal-normal-2}
+Tras realizar un nuevo sondeo hemos observado que en una muestra de 10 personas el nivel medio de colesterol en sangre es de 230, 226, 245, 228, 232, 235, 232, 244, 251, 247 mg/dL. Suponiendo que el nivel de colesterol en sangre sigue una distribución Normal con desviación típica conocida de 40 mg/dL (algo razonable al tratarse de una variable continua biológica), ¿cuál es la función de verosimilitud para el nivel medio de colesterol $\mu$?
+:::
+
+<details>
+<summary>**Solución**</summary>
+Llamemos $Y$ al nivel de colesterol en sangre.
+Suponiendo que el nivel de colesterol en sangre sigue una distribución Normal con media $\mu$ y desviación típica conocida de 40 mg/dL, es decir, $Y\sim N(\mu, 40^2)$, entonces la función de verosimilitud para el nivel medio de colesterol $\mu$ dado el nivel medio observado en la muestra es
+
+$$
+L(\mu|y) = \frac{1}{(2\pi \sigma^2)^{n/2}} \exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mu)^2\right)
+$$
+
+donde $y = (y_1, \ldots, y_n)$ es el vector de observaciones y $\sigma^2 = 40^2$.
+</details>
+
+---
+
+
+```{r}
+#| output-location: column
+muestra <- c(230, 226, 245, 228, 232, 235, 232, 244, 251, 247)
+plot_normal_likelihood(y = muestra, sigma = 40) +
+  labs(title = "Función de verosimilitud para el nivel medio de colesterol",
+       x = "Nivel medio de colesterol (μ)", y = "Verosimilitud")
+```
+
+---
+
+Al igual que con los otros modelos, una vez tenemos definidas la función de verosimilitud y la distribución a priori, podemos calcular la distribución a posteriori utilizando la regla de Bayes.
+
+Podemos dibujar las tres distribuciones, a priori, verosimilitud y a posteriori, en la misma gráfica mediante la función [`plot_normal_normal()`](https://bayes-rules.github.io/bayesrules/docs/reference/plot_normal_normal.html) del paquete `bayesrules`.
+
+:::{.callout-note}
+## `plot_normal_normal()`
+
+Dibuja la distribución Normal a priori, la distribución Normal de la función de verosimilitud y la distribución Normal a posteriori dado una muestra de datos.
+
+Parámetros:
+
+- `mean`: Media de la distribución Normal a priori.
+- `sd`: Desviación estándar de la distribución Normal a priori.
+- `y`: Vector de observaciones de la muestra.
+- `sigma`: Desviación estándar conocida de la distribución Normal de la función de verosimilitud.
+:::
+
+---
+
+```{r}
+#| output-location: column
+media <- mean(c(230, 226, 245, 228, 232, 235, 232, 244, 251, 247))
+plot_normal_normal(mean = 200, sd = 3, y_bar = media, n = 10, sigma = 40) +
+  labs(title = "Distribución a priori, función de verosimilitud y distribución a posteriori", 
+       x = "Nivel medio de colesterol (μ)", y = "Densidad / Verosimilitud")
+```
+
+## Explosión combinatoria del muestreo de rejilla
+
+El muestreo de rejilla es sencillo pero no es factible para modelos bayesianos con muchos parámetros, ya que el número de puntos en la rejilla crece exponencialmente con el número de parámetros, lo que hace que el cálculo de la función de verosimilitud y la normalización de la distribución a posteriori sea computacionalmente prohibitivo. La siguiente tabla refleja el crecimiento computacional del muestreo de rejilla a medida que aumenta el número de parámetros y el número de puntos en la rejilla.
+
+| Número de parámetros | Número de puntos por parámetro | Número total de puntos en la rejilla |
+|----------------------:|-------------------------------:|-------------------------------------:|
+| 1                    | 100                           | 100                                 |
+| 2                    | 100                           | 10,000                              |
+| 3                    | 100                           | 1,000,000                           |
+| 4                    | 100                           | 100,000,000                         |
+| 5                    | 100                           | 10,000,000,000                      |
+
+Por esta razón, para modelos bayesianos con muchos parámetros se utilizan técnicas de muestreo más eficientes como MCMC o HMC. 
+
+## Muestreos basádos en procesos de Monte Carlo
+
+Los métodos de Monte Carlo tratan de generar muestras representativas de la distribución a posteriori con un coste computacional mucho menor que el muestreo de rejilla. Los dos tipos principales son: 
+
+- **Markov Chain Monte Carlo (MCMC)**. Es una familia de algoritmos generan cadenas de Markov cuya distribución estacionaria es la distribución a posteriori deseada. Los algoritmos parten de un valor inicial de cada parámetro y en cada iteración se propone un nuevo valor aleatorio cercano al anterior, que se acepta o rechaza con una regla que garantiza que la cadena converja a la distribución posterior sin necesidad de conocer su constante de normalización. El más conocido de esta familia es el algoritmo de Metropolis-Hastings.
+- **Hamiltonian Monte Carlo (HMC)**. Refina esta idea usando el gradiente del log-posterior para proponer saltos grandes y coherentes con la geometría de la distribución, evitando el paseo aleatorio ineficiente de algoritmos más simples como Metropolis-Hastings, lo que lo hace especialmente potente en modelos con muchos parámetros correlacionados.
+
+## El lenguaje Stan
+
+:::{.columns}
+
+:::{.column width="60%"}
+El lenguaje Stan es un lenguaje de programación específico para el modelado e inferencia bayesiana que implementa algoritmos de muestreo eficientes como HMC.
+:::
+
+:::{.column width="10%"}
+:::
+
+
+:::{.column width="15%"}
+![](img/logos/stan-logo.png)
+:::
+:::
+
+- Es un lenguaje declarativo que permite definir modelos bayesianos complejos de manera sencilla.
+- Compila los modelos a código C++ optimizado por lo que es capaz de generar muestras aleatorias de distribuciones a posteriori multiparamétricas de forma rápida y eficiente.
+- Permite también realizar análisis de convergencia y sensibilidad de las muestras generadas.
+
+
+## Estructura de un programa en Stan
+
+Un programa en Stan se compone de varios bloques declarativos:
+
+- `data`: Declara las variables observadas en los datos, sus dimensiones, tipos y rango posible de valores.
+-  `parameters`: Declara los parámetros del modelo que queremos estimar, sus dimensiones, tipos y rango posible de valores.
+-  `model`: Define la estructura del modelo bayesiano, especificando la distribución a priori de los parámetros y la función de verosimilitud de los datos dados los parámetros.
+-  `generated quantities`: Permite definir variables adicionales que se calculan a partir de los parámetros y los datos, como por ejemplo predicciones o métricas de medidas de ajuste del modelo.
+
+---
+
+:::{#exm-stan}
+A continuación se muestra un programa en Stan para el modelo Beta-Binomial para estimar la proporción de fumadores.
+
+```stan
+// modelo-beta-binomial.stan
+// Datos
+data {
+  int<lower = 0, upper = 10> Y;
+}
+// Parmámetros
+parameters {
+  real<lower = 0, upper = 1> pi;
+}
+// Modelo
+model {
+  Y ~ binomial(100, pi);
+  pi ~ beta(30, 60);
+}
+// Posterior predictivo: simular nuevas observaciones
+generated quantities {
+  int y_rep = binomial_rng(100, pi);
+}
+```
+::: 
+
+## El paquete `rstan`
+
+El paquete [`rstan`](https://mc-stan.org/rstan/articles/rstan.html) es la interfaz de R para el lenguaje Stan, que permite compilar y ejecutar modelos escritos en Stan desde R, así como analizar los resultados obtenidos.
+
+Los programas de Stan se especifican en una cadena de caracteres y se compilan mediante la función `stan`.
+
+:::{.callout-note}
+## `stan()`
+
+Compila un programa de Stan y simula el muestreo de la distribución a posteriori dados los datos.
+
+- `model_code`: Cadena de caracteres con el código del programa de Stan.
+- `data`: Lista con los datos a pasar al programa de Stan.
+- `chains`: Número de cadenas de Markov a simular.
+- `iter`: Número de iteraciones para el muestreo (tamaño de cada cadena)
+- `seed`: Semilla para la generación de números aleatorios.
+:::
+
+---
+
+:::{#exm-stan-rstan}
+El siguiente código define un modelo Gamma-Poisson para el número de infartos diarios, con una distribución a priori $\lambda \sim \mbox{Gamma}(10, 2)$ y una función de verosimilitud $L(\lambda|Y)$ Poisson, lo compila y simula el muestreo de la distribución a posteriori.
+
+```{r}
+#| output: false
+library(rstan)
+# Código del programa de Stan
+modelo <- "
+data {
+  int<lower=0> n; // número de días
+  int<lower=0> y[n]; // número de infartos diarios
+}
+parameters {
+  real<lower=0> lambda; // tasa de infartos
+}
+model {
+  y ~ poisson(lambda); // función de verosimilitud
+  lambda ~ gamma(10, 2); // distribución a priori
+}
+"
+posterior_sim <- stan(model_code = modelo, 
+    data = list(n = 5, y = c(10, 8, 9, 11, 7)), 
+    chains = 4, iter = 5000*2, seed = 123)
+```
+:::
+
+---
+
+El resultado es una muestra de 4 cadenas de Markov de tamaño 5000 cada una, es decir, un total de 20.000 muestras de la distribución a posteriori de $\lambda$ dado el número de infartos diarios observado en la muestra.
+
+```{r}
+library(broom.mixed)
+library(knitr)
+tidy(posterior_sim, conf.int = TRUE, conf.level = 0.95) |> 
+kable()
+```
+
+---
+
+Podemos visualizar la traza cuatro cadenas de Markov generadas con la función `mcmc_trace` del paquete [`bayesplot`](https://mc-stan.org/bayesplot/).
+
+```{r}
+library(bayesplot)
+mcmc_trace(posterior_sim, pars = "lambda") +
+  labs(title = "Trazas de las cadenas de Markov para λ",
+       x = "Iteración", y = "Valor de λ") +
+  theme_gray()
+```
+
+---
+
+Haciendo un zoom sobre una de estas cadenas podemos observar cómo recorre los distintos valores de la distribución a posteriori.
+
+
+```{r}
+#| echo: false
+mcmc_trace(as.array(posterior_sim)[, 1, , drop = FALSE], pars = "lambda", window = c(1, 100)) +
+  labs(title = "Zoom sobre una de las cadenas de Markov para λ",
+       x = "Iteración", y = "Valor de λ") +
+  theme_gray()
+```
+
+Se puede observar que la cadena toma valores entre 5 y11.
+
+---
+
+Podemos visualizar la distribución a posteriori de $\lambda$ con la función `mcmc_dens` del paquete `bayesplot`.
+
+```{r}
+mcmc_dens(posterior_sim, pars = "lambda") +
+  stat_function(fun = dgamma, args = list(55, 7), color = myred) +
+  labs(title = "Distribución a posteriori de λ",
+       x = "Tasa de infartos (λ)", y = "Densidad") +
+  theme_gray()
+```
+
+---
+
+:::{#exr-stan-rstan}
+Definir un modelo Normal-Normal en Stan para el nivel medio de colesterol en sangre, con una distribución a priori $N(200, 2^2)$ y una función de verosimilitud Normal con desviación estándar conocida de 40 mg/dL, compilarlo y simular el muestreo de la distribución a posteriori dada la muestra de 10 personas con niveles de colesterol 230, 226, 245, 228, 232, 235, 232, 244, 251, 247.
+:::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+```{r}
+#| output: false
+# Código del programa de Stan
+modelo <- "
+data {  
+  int<lower=0> n; // número de personas
+  vector[n] y; // niveles de colesterol
+}
+parameters {
+  real mu; // nivel medio de colesterol
+}
+model {
+  y ~ normal(mu, 40); // función de verosimilitud
+  mu ~ normal(200, 3); // distribución a priori
+}
+"
+posterior_sim <- stan(model_code = modelo, 
+    data = list(n = 10, y = c(230, 226, 245, 228, 232, 235, 232, 244, 251, 247)), 
+    chains = 4, iter = 5000*2, seed = 123)
+```
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+```{r}
+mcmc_dens(posterior_sim, pars = "mu") +
+  stat_function(fun = dnorm, args = list(201.97, sqrt(8.52)), color = myred) +
+  labs(title = "Distribución a posteriori de μ",
+       x = "Nivel medio de colesterol (μ)", y = "Densidad") +
+  theme_gray()
+```
+</details>
+
+## Análisis de las cadenas de Markov
+
+El principal problema de la generación de muestras de la distribución a posteriori mediante cadenas de Markov con MCMC o HMC es que los valores de las cadenas no son independientes. Cada valor de la cadena depende del anterior, y aunque el algoritmo busca que la muestra se ajuste a la distribución de a posteriori, a veces puede fallar y generar muestras poco representativas.
+
+![Cadenenas de Markov anómalas](img/02-regla-bayes/cadenas-markov-anomalas.png)
+
+---
+
+Para analizar la calidad de las muestras generadas por MCMC o HMC se pueden utilizar distintas técnicas:
+
+- **Análisis de la traza**. Consiste en visualizar las trazas de las cadenas de Markov para detectar patrones anómalos, como por ejemplo cadenas que no convergen a la misma distribución, cadenas que no exploran toda la distribución a posteriori o cadenas que se quedan atrapadas en un valor concreto.
+- **Análisis de la autocorrelación**. Consiste en calcular la autocorrelación de las muestras generadas para detectar si los valores de la cadena están muy correlacionados entre sí, lo que indicaría que la muestra no es representativa de la distribución a posteriori.
+- **Análisis de la eficiencia**. Consiste en calcular el número efectivo de muestras independientes que se han generado, lo que permite evaluar la eficiencia del algoritmo de muestreo utilizado.
+- **Análisis de la consistencia**. Consiste en comparando la variabilidad de los valores muestreados en todas las cadenas combinadas con la variabilidad dentro de cada cadena individual.
+
+## Análisis de la traza
+
+Para analizar la distribución de frecuencias de las trazas de las cadenas de Markov podemos utilizar la función `mcmc_dens_overlay` del paquete `bayesplot`.
+
+:::{.callout-note}
+## `mcmc_dens_overlay()`
+
+Dibuja las distribuciones de frecuenicas de cada cadena de Markov generada. 
+
+Parámetros:
+
+- `fit`: Objeto de clase `stanfit` con el resultado del muestreo de la distribución a posteriori.
+- `pars`: Vector de caracteres con los nombres de los parámetros a analizar.
+:::
+
+:::{#exm-analisis-traza}
+```{r}
+#| output-location: column
+mcmc_dens_overlay(posterior_sim, pars = "mu") +
+  labs(title = "Distribución de frecuencias de las trazas de las cadenas de Markov para μ",
+       x = "Nivel medio de colesterol (μ)", 
+       y = "Densidad") +
+  theme_gray()
+```
+:::
+
+## Análisis de la autocorrelación
+
+Cada valor de la cadena de Markov depende del anterior, lo que genera una cadena de dependencias
+
+$$
+\theta_1 \to \theta_2 \to \theta_3 \to \ldots \to \theta_{n-2} \to \theta_{n-1} \to \theta_n
+$$ 
+
+Aunque la dependencia del valor $\theta_n$ del valor anterior $\theta_{n-1}$ es muy fuerte, es de esperar que la dependencia del valor $\theta_{n-i}$ disminuya a medida que $i$ aumenta. Esta dependencia entre los valores de la cadena de Markov se conoce como _autocorrelación_.
+
+:::{#def-autocorrelación}
+## Autocorrelación de una cadena de Markov
+Dada una cadena de Markov $\theta_i$ con $i=1, \ldots, n$, la autocorrelación de orden $k$ se define como
+
+$$
+\rho_k = \frac{\text{Cov}(\theta_i, \theta_{i+k})}{\mbox{Var}(\theta_i)}
+$$
+donde $\text{Cov}(\theta_i, \theta_{i+k})$ es la covarianza entre el valor $\theta_i$ y el valor $\theta_{i+k}$, y $\text{Var}(\theta_i)$ es la varianza de los valores $\theta_i$.
+:::
+
+---
+
+Para la autocorrelación de las muestras generadas podemos usar la función `mcmc_acf` del paquete `bayesplot`.
+
+:::{.callout-note}
+## `mcmc_acf()`
+
+Dibuja la función de autocorrelación de las muestras generadas por MCMC o HMC.
+
+Parámetros:
+
+- `fit`: Objeto de clase `stanfit` con el resultado del muestreo de la distribución a posteriori.
+- `pars`: Vector de caracteres con los nombres de los parámetros a analizar.
+- `lags`: Número de ordenes o retardos para calcular la autocorrelación.
+:::
+
+:::{#exm-analisis-autocorrelacion}
+```{r}
+#| output-location: column
+mcmc_acf(posterior_sim, pars = "mu", lags = 10) +
+  labs(title = "Función de autocorrelación de las muestras generadas por MCMC para μ",
+       x = "Orden o retardo (k)", 
+       y = "Autocorrelación (ρ_k)") +
+  theme_gray()
+```
+:::
+
+Se observa que tras 5 iteraciones la autocorrelación es prácticamente nula.
+
+## Análisis de eficiencia
+
+La eficiencia de una cadena de Markov generada por MCMC o HMC se puede evaluar calculando el _número efectivo de muestras independientes_ (ESS) que se han generado, que es el número de muestras realmente independientes a las que equivale nuestra de una cadena de Markov autocorrelada.
+
+Podemos analizar la eficiencia de las muestras generadas con la función `mcmc_neff` del paquete `bayesplot`.
+
+:::{.callout-note}
+## `neff_ratio()`
+
+Calcula la tasa de número efectivo de muestras independientes (ESS) de las cadenas de Markov generadas por MCMC o HMC.
+
+Parámetros:
+
+- `fit`: Objeto de clase `stanfit` con el resultado del muestreo de la distribución a posteriori.
+- `pars`: Vector de caracteres con los nombres de los parámetros a analizar.
+:::
+
+:::{#exm-analisis-eficiencia}
+```{r}
+#| output-location: column
+neff_ratio(posterior_sim, pars = "mu")
+```
+:::
+
+En este caso el número efectivo de muestras independientes es un 36.7% de las muestras generadas. 
+
+## Análisis de consistencia
+
+La consistencia de las muestras generadas por MCMC o HMC se puede evaluar comparando la variabilidad de los valores muestreados en todas las cadenas combinadas con la variabilidad dentro de cada cadena individual. 
+
+:::{#def-metrica-r-hat}
+## Métrica $\hat{R}$
+Dada una colección de cadenas de Markov generadas por un mismo proceso (MCMC o HMC), la métrica $\hat{R}$ se define como la raíz cuadrada de la razón entre la variabilidad total de los valores muestreados en todas las cadenas combinadas y la variabilidad dentro de cada cadena individual.
+
+$$
+\hat{R} = \sqrt{\frac{\mbox{Var}_{total}}{\mbox{Var}_{individual}}}
+$$
+:::
+
+Si la variabilidad entre cadenas es similar a la variabilidad dentro de cada cadena, $\hat{R} \approx 1$, lo que indica que las cadenas han convergido a la misma distribución a posteriori y las muestras son consistentes.
+
+---
+
+Podemos analizar la consistencia de las muestras generadas con la función `rhat` del paquete `bayesplot`.
+
+:::{.callout-note}
+## `rhat()`
+Calcula la métrica $\hat{R}$ para evaluar la consistencia de las muestras generadas por MCMC o HMC.
+
+Parámetros:
+
+- `fit`: Objeto de clase `stanfit` con el resultado del muestreo de la distribución a posteriori.
+- `pars`: Vector de caracteres con los nombres de los parámetros a analizar.
+:::
+
+:::{#exm-analisis-consistencia}
+Veamos cuanto vale la métrica $\hat{R}$ para las cadenas de Markov generadas de la distribución a posteriori del nivel de colesterol medio.
+
+```{r}
+#| output-location: column
+rhat(posterior_sim, pars = "mu")
+```
+
+El valor es prácticamente 1, por lo que las 4 cadenas de Markov generadas son consistentes.
+:::
+
+## Dependencia de los resultados en la elección de la distribución a priori
+
+Una de las críticas más comunes a la inferencia bayesiana es que los resultados pueden depender de la elección de la distribución a priori, lo que puede introducir un sesgo subjetivo en el análisis. 
+
+Los defensores de la Estadística Bayesiana argumentan que la elección de la distribución a priori debe basarse en el conocimiento previo disponible sobre el fenómeno que se está estudiando, y no en una preferencia personal o arbitraria.
+
+No obstante, es importante realizar un análisis de sensibilidad para evaluar cómo varían los resultados a posteriori al cambiar la distribución a priori, lo que permite identificar si los resultados son robustos o si dependen en gran medida de la elección de la distribución a priori.
+
+## Uso de distribuciones a priori poco informativas
+
+Una forma de minimizar la influencia de la elección de la distribución a priori es utilizar distribuciones a priori poco informativas, que son distribuciones que asignan una probabilidad similar a un amplio rango de valores del parámetro, como por ejemplo la distribución uniforme continua.
+
+:::{#exm-distribucion-priori-poco-informativa}
+Veamos cómo se ve afectada la distribución a poteriori en el ejemplo de la estimación del nivel de colesterol medio usando una distribución a priori uniforme continua $U(190, 210)$.
+:::
+
+---
+
+```{r}
+#| output: false
+# Código del programa de Stan
+modelo <- "
+data {  
+  int<lower=0> n; // número de personas
+  vector[n] y; // niveles de colesterol
+}
+parameters {
+  real<lower=150, upper=300> mu; // nivel medio de colesterol
+}
+model {
+  y ~ normal(mu, 40) ; // función de verosimilitud
+  mu ~ uniform(150, 300); // distribución a priori
+}
+"
+posterior_sim <- stan(model_code = modelo, 
+    data = list(n = 10, y = c(230, 226, 245, 228, 232, 235, 232, 244, 251, 247)), 
+    chains = 4, iter = 5000*2, seed = 123)
+```
+
+```{r}
+#| output-location: column
+mcmc_dens(posterior_sim, pars = "mu") +
+  stat_function(fun = dnorm, args = list(201.97, sqrt(8.52)), color = myred) +
+  labs(title = "Distribución a posteriori de μ",
+       x = "Nivel medio de colesterol (μ)", y = "Densidad") +
+  theme_gray()
+```
+
+---
+
+```{r}
+#| output: false
+posterior_sim <- stan(model_code = modelo, 
+    data = list(n = 10^2, y = rnorm(10^2, mean = 201.97, sd = sqrt(8.52))), 
+    chains = 4, iter = 5000*2, seed = 123)
+```
+
+<br>
+
+```{r}
+#| output-location: column
+mcmc_dens(posterior_sim, pars = "mu") +
+  labs(title = "Distribución a posteriori de μ",
+       x = "Nivel medio de colesterol (μ)", y = "Densidad") +
+  theme_gray()
+```
+
+:::{.centered}
+_Para muestras pequeñas puede haber bastante discrepancia entre las distribuciones posteriores generadas por distintas distribuciones a priori, pero esa diferencia se disipa a medida que tenemos más datos._
+:::

@@ -1343,13 +1343,13 @@ df_exp |>
 
 :::{#def-distribucion-gamma}
 ## Distribución Gamma
-Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad gamma_ $X\sim \Gamma(\alpha, \lambda)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
+Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad gamma_ $X\sim \mbox{Gamma}(\alpha, \beta)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
 
 $$
-f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x} \quad x>0,
+f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x} \quad x>0,
 $$
 
-donde $\alpha>0$ es el parámetro de _forma_ y $\lambda>0$ el parámetro de _tasa_, y $\Gamma(\alpha)$ es la función _gamma_.
+donde $\alpha>0$ es el parámetro de _forma_ y $\beta>0$ el parámetro de _tasa_, y $\Gamma(\alpha)$ es la función _gamma_.
 :::
 
 El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas. Incluye como casos particulares la distribución exponencial ($\alpha=1$) y, en el límite, se aproxima a la normal para valores grandes de $\alpha$.
@@ -1357,13 +1357,13 @@ El modelo gamma se utiliza para modelar tiempos de espera o duraciones positivas
 **Estadísticos**
 
 $$
-E(X) = \frac{\alpha}{\lambda} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\lambda^2}.
+E(X) = \frac{\alpha}{\beta} \quad \mbox{y} \quad Var(X) = \frac{\alpha}{\beta^2}.
 $$
 
 ---
 
 :::{#exm-distribucion-gamma}
-El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución $\Gamma(3, 2)$.
+El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución $\mbox{Gamma}(3, 2)$.
 
 ```{r}
 #| output-location: column
@@ -1380,34 +1380,86 @@ ggplot(df, aes(x = x, y = p)) +
 ```
 :::
 
-### Forma de la distribución Gamma para distintos valores de $\alpha$ y $\lambda$
+### Forma de la distribución Gamma para distintos valores de $\alpha$ y $\beta$
 
 ```{r}
 #| echo: false
 library(ggh4x) # Para facet_grid2
 alpha_vals <- c(1, 10, 30)
-lambda_vals <- c(0.1, 0.2, 0.3)
+beta_vals <- c(0.1, 0.2, 0.3)
 
-df_gamma <- expand.grid(alpha = alpha_vals, lambda = lambda_vals) |>
-  pmap_dfr(function(alpha, lambda) {
-    x_max <- qgamma(0.9999, shape = alpha, rate = lambda)
+df_gamma <- expand.grid(alpha = alpha_vals, beta = beta_vals) |>
+  pmap_dfr(function(alpha, beta) {
+    x_max <- qgamma(0.9999, shape = alpha, rate = beta)
     tibble(x = seq(0.001, x_max, length.out = 300),
-           y = dgamma(x, shape = alpha, rate = lambda),
+           y = dgamma(x, shape = alpha, rate = beta),
            alpha = factor(paste0("α = ", alpha), levels = paste0("α = ", alpha_vals)),
-           lambda = factor(paste0("λ = ", lambda), levels = paste0("λ = ", lambda_vals)))
+           beta = factor(paste0("β = ", beta), levels = paste0("β = ", beta_vals)))
   })
 
 df_gamma |>
   ggplot(aes(x = x, y = y)) +
   geom_area(fill = myblue, alpha = 0.5) +
   geom_line(color = myblue, linewidth = 1) +
-  ggh4x::facet_grid2(alpha ~ lambda, scales = "free", independent = "y") +
+  ggh4x::facet_grid2(alpha ~ beta, scales = "free", independent = "y") +
   labs(x = "X", y = "Densidad") +
   theme_minimal() +
   theme(strip.text = element_text(size = 11))
 ```
 
-## {background-color = .myblue}
+## Distribución Gamma inversa
+
+:::{#def-distribucion-gamma-inversa}
+## Distribución Gamma Inversa
+Se dice que una variable aleatoria continua $X$ sigue un _modelo de distribución de probabilidad gamma inversa_ $X\sim \mbox{Gamma}^{-1}(\alpha, \beta)$, si su rango es $R(X)=(0,+\infty)$ y su función de densidad es
+$$
+f(x) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}x^{-\alpha-1}e^{-\beta/x}, \quad x>0,
+$$
+
+donde $\alpha>0$ es el parámetro de _forma_ y $\beta>0$ el parámetro de _escala_, y $\Gamma(\alpha)$ es la función _gamma_.
+:::
+
+Se cumple que si $X\sim \mbox{Gamma}(\alpha, \beta)$, entonces $1/X\sim \mbox{Gamma}^{-1}(\alpha, 1/\beta)$.
+
+La distribución gamma inversa se utiliza habitualmente para modelar varianzas en estadística bayesiana.
+
+**Estadísticos**
+
+$$
+E(X) = \frac{\beta}{\alpha-1} \quad \mbox {y} \quad Var(X) = \frac{\beta^2}{(\alpha-1)^2(\alpha-2)} \quad \mbox{para } \alpha > 2.
+$$
+
+---
+
+### Forma de la distribución Gamma Inversa para distintos valores de $\alpha$ y $\beta$
+
+```{r}
+#| echo: false
+library(extraDistr)
+library(ggh4x) # Para facet_grid2
+alpha_vals <- c(5, 10, 15)
+beta_vals <- c(1, 5, 10)
+
+df_gamma_inv <- expand.grid(alpha = alpha_vals, beta = beta_vals) |>
+  pmap_dfr(function(alpha, beta) {
+    x_max <- qinvgamma(0.99, alpha = alpha, beta = beta)
+    tibble(x = seq(0.001, x_max, length.out = 300),
+           y = dinvgamma(x, alpha = alpha, beta = beta),
+           alpha = factor(paste0("α = ", alpha), levels = paste0("α = ", alpha_vals)),
+           beta = factor(paste0("β = ", beta), levels = paste0("β = ", beta_vals)))
+  })
+
+df_gamma_inv |>
+  ggplot(aes(x = x, y = y)) +
+  geom_area(fill = myblue, alpha = 0.5) +
+  geom_line(color = myblue, linewidth = 1) +
+  ggh4x::facet_grid2(alpha ~ beta, scales = "free", independent = "y",) +
+  labs(x = "X", y = "Densidad") +
+  theme_minimal() +
+  theme(strip.text = element_text(size = 11))
+```
+
+## {background-color= .myblue}
 
 ::: {.main-title}
 Muestreo
@@ -1905,7 +1957,7 @@ Parámetros:
 
 :::{#exm-muestreo-aleatorio-simple-distribucion-gamma}
 
-El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución $\Gamma(3, 2)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.
+El tiempo hasta el tercer contagio de un virus, si los contagios ocurren a una tasa de 2 por hora, sigue una distribución $\mbox{Gamma}(3, 2)$. Vamos a realizar un muestreo aleatorio simple de tamaño 10 de dicha distribución.
 
 ```{r}
 #| output-location: column
@@ -1934,12 +1986,12 @@ ggplot(df, aes(x = x)) +
   theme_minimal()
 ```
 
-Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo gamma $\Gamma(3, 2)$.
+Para tamaños muestrales pequeños, la distribución de frecuencias muestra es muy diferente a la distribución de probabilidad del modelo gamma $\mbox{Gamma}(3, 2)$.
 :::
 
 ---
 
-Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo gamma $\Gamma(3, 2)$.
+Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo gamma $\mbox{Gamma}(3, 2)$.
 
 ```{r}
 #| output-location: column
