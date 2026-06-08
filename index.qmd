@@ -13,7 +13,7 @@ lang: es
 
 ::: {.event data-label="Lunes"}
 [**Repaso de Probabilidad**](01-probabilidad.html){.mypurple}
-Probabilidad, frecuencias, distribuciones y regla de Bayes.
+Probabilidad, frecuencias, distribuciones y simulación de muestras aleatorias.
 :::
 
 ::: {.event data-label="Lunes"}
@@ -24,23 +24,23 @@ Estructuras de datos, distribuciones, tablas y gráficos.
 
 ::: {.event data-label="Martes"}
 [**Introducción a la estadística bayesiana**](02-regla-bayes.html){.mypurple}
-Estadística frecuentista vs bayesiana. Priors, likelihood y posteriors.
+Regla de Bayes. Distribuciones a priori, funciones de verosimilitud y distribuciones a posteriori.
 :::
 
 
 ::: {.event data-label="Miércoles"}
-**Inferencia bayesiana**
-Estimación de parámetros, intervalos de credibilidad y contraste de hipótesis.
+[**Inferencia bayesiana**](03-inferencia-bayesiana.html){.mypurple}
+Estimación de parámetros, intervalos de credibilidad, contraste de hipótesis y predicciones.
 :::
 
 ::: {.event data-label="Jueves"}
-**Regresión bayesiana**
-Modelos de regresión lineales y no lineales.
+[**Regresión bayesiana**](04-regresion-bayesiana.html){.mypurple}
+Modelos de regresión lineales y no lineales. Análisis de modelos. Predicciones.
 :::
 
 ::: {.event data-label="Viernes"}
-**Clasificación bayesiana**
-Modelos de clasificación. 
+[**Clasificación bayesiana**](05-clasificacion-bayesiana.html){.mypurple} 
+Modelos de clasificación. Análisis de modelos. Predicciones. 
 :::
 
 :::

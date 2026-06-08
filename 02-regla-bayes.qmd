@@ -10,7 +10,6 @@ logo: img/logos/sticker-estadistica-bayesiana-r.png
 fig-align: center
 filters:
   - arrows
-  - shinylive
 lang: es
 ---
 
@@ -1488,3 +1487,89 @@ mcmc_dens(posterior_sim, pars = "mu") +
 :::{.centered}
 _Para muestras pequeñas puede haber bastante discrepancia entre las distribuciones posteriores generadas por distintas distribuciones a priori, pero esa diferencia se disipa a medida que tenemos más datos._
 :::
+
+## Elección de la distribución a priori. Tipos de distribuciones a priori. 
+
+Aunque ya hemos visto que la elección de la distribución a priori no es relevante cuando tenemos muchos datos, para muestras pequeñas, una eleción adecuada de la distribución a priori es determinante.
+
+- **No informativas**. Asignan la misma plausibilidad a todos los valores del parámetro, incluso cuando hay valores del parámetro que no tienen sentido. 
+
+- **Poco informativas**. Asignan una probabilidad similar a un amplio rango de valores del parámetro, pero descartan valores que no tienen sentido.
+-  
+- **Informativas**. Reflejan un conocimiento previo sólido sobre el parámetro de interés, lo que puede ser útil para mejorar la precisión de las estimaciones cuando se dispone de poca información en los datos.
+
+## Distribuciones a priori no informativas
+
+Una distribución a priori no informativa asigna la misma plausibilidad al todo el rango de valores del parámetro. 
+
+El caso más extremo es modelo uniforme impropio $f(\theta) \propto 1$, que no es una distribución de probabilidad porque no integra a 1, pero produce distribuciones a posteriori adecuadas con suficientes datos.
+
+**¿Cuándo usarla?** Se puede usar cuando no tenemos información previa y los datos son abundantes. 
+
+**¿Cuándo no usarla?:** No debería usarse con muestras pequeñas, porque el posterior puede ser inestable o producir estimaciones absurdas.
+
+:::{#exm-distribucion-priori-no-informativa}
+Para estimar la tensión arterial sistólica media de una población se utiliza un modelo uniforme $f(\mu) \propto 1$ que asigna la misma plausibilidad a cualquier valor de $\mu>0$
+:::
+
+## Distribuciones a priori poco informativas
+
+Una distribución a priori poco informativa asigna una probabilidad similar a un amplio rango de valores del parámetro, pero descarta valores que no tienen sentido. 
+
+Suele utilizarse una distribución uniforme continua restringiendo el rango de valores del parámetro a aquellos que son plausibles, o una distribución Normal con una desviación estándar grande para reflejar la incertidumbre sobre el valor del parámetro.
+
+**¿Cuándo usarla?** Se puede usar cuando no tenemos información previa pero queremos evitar que el posterior sea inestable o produzca estimaciones absurdas con muestras pequeñas. Es la opción más habitual cuando no hay información sólida sobre la incertidumbre del parámetro. 
+
+**¿Cuándo no usarla?:** No debería usarse cuando tenemos información previa sólida sobre el parámetro de interés, porque no aprovecha esa información para mejorar la precisión de las estimaciones, especialmente si tenemos pocos datos.
+
+:::{#exm-distribucion-priori-poco-informativa}
+Para estimar la tensión arterial sistólica media de una población se utiliza un modelo uniforme $\mu \sim U(70, 200)$ que asigna la misma plausibilidad a cualquier valor de $\mu$ entre 70 y 200 mmHg, pero descarta valores menores de 80 o mayores de 200 mmHg que no tienen sentido.
+:::
+
+## Distribuciones a priori informativas
+
+Una distribución a priori informativa refleja un conocimiento previo sólido sobre el parámetro de interés (resultados de estudios anteriores, valores de referencia clínica, opinión de expertos), para modelizar su incertidumbre, lo que puede ser útil para mejorar la precisión de las estimaciones cuando se dispone de poca información en los datos.
+
+Suelen utilizarse distribuciones conjugadas de las distribuciones de los datos.
+
+**¿Cuándo usarla?** Cuando tenemos evidencia previa sólida (metaanálisis, registros históricos, valores fisiológicos bien establecidos). Siempre debe documentarse y justificarse.
+
+**¿Cuándo no usarla?** No debería usarse cuando no tenemos información previa sólida sobre el parámetro de interés, porque puede introducir un sesgo subjetivo en el análisis y producir estimaciones poco fiables, especialmente si tenemos pocos datos.
+
+:::{#exm-distribucion-priori-informativa}
+Para estimar la tensión arterial sistólica media de una población se utiliza un modelo Normal $\mu \sim N(120, 15^2)$ que refleja el conocimiento previo sobre la tensión arterial sistólica media en poblaciones similares, con una media de 120 mmHg y una desviación estándar de 15 mmHg para reflejar la incertidumbre sobre ese valor.
+:::
+
+## Distribuciones a priori recomendadas 
+
+| Situación | Prior recomendado |
+|---|---|
+| Media poblacional | `normal(valor_referencia, incertidumbre)` |
+| Desviación típica | `half_t(3, 0, 1)` o `exponential(1)` |
+| Proporción sin información previa | `beta(1, 1)` o `beta(0.5, 0.5)` |
+| Proporción con información previa | `beta()` calibrada con la media y la varianza observadas |  
+| Coeficientes de regresión (datos estandarizados) | `normal(0, 1)` |
+| Coeficientes de regresión (datos sin estandarizar) | `normal(0, 2.5)` — recomendación de Gelman |
+| Muchos predictores, selección de variables | `horseshoe(df=1)` |
+| Regresión logística, coeficientes | `normal(0, 2.5)` o `student_t(7, 0, 2.5)` |
+
+## Distribuciones a priori en Epidemiología
+
+| Parámetro | Distribución prior | Parámetros habituales | Conjugada con | Aplicación en epidemiología |
+|---|---|---|---|---|
+| Prevalencia, proporción | Beta(α, β) | Beta(1,1) uniforme · Beta(0.5,0.5) Jeffreys · Beta(2,5) informativa | Binomial / Bernoulli | Prevalencia de enfermedad, tasa de ataque, sensibilidad/especificidad de test |
+| Vector de proporciones | Dirichlet(α₁,…,αₖ) | Dir(1,…,1) uniforme · Dir(0.5,…,0.5) Jeffreys | Multinomial / Categórica | Distribución de serotipos, variantes, grupos de riesgo |
+| Tasa de incidencia, tasa de mortalidad | Gamma(α, β) | Gamma(0.01, 0.01) difusa · Gamma(2, 0.5) débil | Poisson / Exponencial | Incidencia de casos por 100.000 hab., mortalidad, tasa de hospitalización |
+| Número reproductivo R₀, R(t) | Gamma(α, β) | Gamma(1, 0.2) · Gamma(2, 0.5) | Poisson (ecuación renovación) | Transmisibilidad de enfermedades infecciosas, estimación de R(t) |
+| Media poblacional (tensión arterial, colesterol, glucemia) | Normal(μ₀, σ₀²) | N(valor referencia, σ amplio) | Normal (σ² conocida) | Estimación de la media de biomarcadores clínicos |
+| Media y varianza poblacional | Normal-Inv-Gamma(μ₀,λ,α,β) | Hiperparámetros basados en valores de referencia | Normal completa | Biomarcadores con media y varianza desconocidas |
+| Log-odds, coeficiente de regresión logística | Normal(0, σ²) | N(0, 2.5²) Gelman · N(0, 1) estandarizado | — (MCMC) | Factores de riesgo en estudios de casos y controles, OR ajustado |
+| Log-hazard ratio, coeficiente de supervivencia | Normal(0, σ²) | N(0, 2.5²) | — (MCMC) | Análisis de supervivencia: tiempo hasta evento, censura |
+| Desviación típica, varianza residual | half-Normal(0, σ) · half-t(ν,0,σ) | half-N(0,1) · half-t(3,0,1) Gelman | — (MCMC) | Variabilidad residual en regresión, modelos mixtos |
+| Varianza de efectos aleatorios | half-t(ν, 0, σ) · Gamma-Inversa(α,β) | half-t(3,0,1) recomendado · IG(0.01,0.01) clásico | — (MCMC) | Heterogeneidad entre centros, hospitales, regiones en modelos jerárquicos |
+| Correlación entre efectos aleatorios | LKJ(η) | LKJ(1) uniforme · LKJ(2) concentrado | — (MCMC) | Correlación entre interceptos y pendientes en modelos mixtos |
+| Eficacia vacunal (escala log-OR) | Normal(0, σ²) · Beta (escala probabilidad) | N(log(0.5), 0.5²) informativa | — (MCMC) | Ensayos clínicos de vacunas, estudios de efectividad vacunal |
+| Sensibilidad y especificidad de test | Beta(α, β) | Beta(18,2) Se≈90% · Beta(38,2) Sp≈95% | Binomial | Evaluación de pruebas diagnósticas, modelos de misclasificación |
+| Coeficientes en modelos con muchas variables | Horseshoe(df) · Normal(0,1) | horseshoe(df=1) · N(0,1) estandarizado | — (MCMC) | Selección de factores de riesgo, estudios de exposición múltiple |
+| Parámetro de forma Weibull (supervivencia) | Gamma(α, β) · half-Normal | Gamma(1,1) · half-N(0,1) | — (MCMC) | Modelos paramétricos de supervivencia, tiempo hasta recaída o muerte |
+| Fracción atribuible poblacional | Beta(α, β) | Beta(1,1) uniforme · informativa según estudios previos | Binomial | Proporción de casos atribuibles a un factor de riesgo modificable |
