@@ -1,6 +1,6 @@
 ---
 title: "Repaso de Probabilidad"
-subtitle: "Probabilidad, frecuencias y distribuciones"
+subtitle: "Probabilidad, frecuencias,  distribuciones y simulación de muestras aleatorias."
 author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
 logo: img/logos/sticker-estadistica-bayesiana-r.png
 # title-slide-attributes:

@@ -35,12 +35,12 @@ Estimación de parámetros, intervalos de credibilidad, contraste de hipótesis 
 
 ::: {.event data-label="Jueves"}
 [**Regresión bayesiana**](04-regresion-bayesiana.html){.mypurple}
-Modelos de regresión lineales y no lineales. Análisis de modelos. Predicciones.
+Modelos de regresión lineales y no lineales, evaluación de modelos y predicciones.
 :::
 
 ::: {.event data-label="Viernes"}
 [**Clasificación bayesiana**](05-clasificacion-bayesiana.html){.mypurple} 
-Modelos de clasificación. Análisis de modelos. Predicciones. 
+Modelos de clasificación, evaluación de modelos y predicciones. 
 :::
 
 :::

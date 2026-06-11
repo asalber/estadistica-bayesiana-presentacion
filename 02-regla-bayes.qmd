@@ -1,6 +1,6 @@
 ---
-title: "Regla de Bayes"
-subtitle: "Teorema de Bayes. Distribuciones a priori, funciones de verosimilitud y distribuciones a posteriori"
+title: "Introducción a la Estadística bayesiana"
+subtitle: "Regla de Bayes. Distribuciones a priori, funciones de verosimilitud y distribuciones a posteriori"
 author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
 logo: img/logos/sticker-estadistica-bayesiana-r.png
 # title-slide-attributes:

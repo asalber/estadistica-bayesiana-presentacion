@@ -1,0 +1,627 @@
+---
+title: "Regresión Bayesiana"
+subtitle: "Modelos de regresión lineales y no lineales, evaluación de modelos y predicciones"
+author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
+logo: img/logos/sticker-estadistica-bayesiana-r.png
+# title-slide-attributes:
+#     #data-background-color: black
+#     data-background-image: img/prompt-julia.png
+#     data-background-size: contain
+fig-align: center
+filters:
+  - arrows
+lang: es
+---
+
+{{< include _configuracion-r.qmd >}}
+
+```{r}
+#| echo: false
+#| output: false
+library(rstan)
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+```
+
+## {background-color= .myblue}
+
+:::{.main-title}
+Regresión lineal simple
+:::
+
+## Modelos de regresión
+
+En Estadística se utilizan  _modelos de regresión_ para describir la relación entre una variable dependiente $Y$ y una o varias variables independientes $X_1, X_2, \ldots, X_n$.
+
+En el caso de una sola variable independiente, se habla de _regresión simple_, y el modelo se expresa como
+
+$$
+Y = f(X) + \varepsilon,
+$$
+
+donde $f(X)$ es una función de $X$ que describe la relación entre $Y$ y $X$, y $\varepsilon$ es un término de error que refleja la variabilidad de $Y$ que no se explica por $X$, y que se asume que sigue una distribución normal con media cero y varianza $\sigma^2$,
+
+$$
+\varepsilon \sim \mathcal{N}(0, \sigma).
+$$
+
+## Diagrama de dispersión
+
+Para analizar la relación entre dos variables cuantitativas, debemos estudiar la variabilidad de la distribución conjunta de las dos variables. Esta variabilidad conjunta se suele representar gráficamente mediante un _diagrama de dispersión_. Un diagrama de dispersión se representa sobre unos ejes cartesianos, donde el eje $X$ normalmente representa la variable independiente, y el eje $Y$ representa la variable dependiente, y por cada par de valores $(x_i,y_j)$ en la muestra se dibuja un punto en el plano con esas coordenadas.
+
+:::{.content-visible when-format="html"}
+![Diagrama de dispersión.](img/04-regresion-bayesiana/diagrama_dispersion){width=500}
+:::
+
+---
+
+:::{#exm-diagrama-dispersion}
+El conjunto de datos `peso-estatura` contiene el peso y la estatura de una muestra de 200 personas mayores de 18 años. El siguiente código muestra el diagrama de dispersión de peso frente a estatura.
+
+```{r}
+#| output-location: column
+library(tidyverse)
+df <- read_csv("datos/peso-estatura.csv")
+ggplot(df, aes(x = estatura, y = peso)) +
+  geom_point(color = myblue) +
+  labs(x = "Estatura (cm)", y = "Peso (kg)") +
+  theme_minimal()
+```
+:::
+
+## Tipos de modelos de regresión simple
+
+La forma de la nube de puntos en el diagrama de dispersión nos da una idea de la forma de la función $f$ que describe la relación entre $Y$ y $X$.
+
+![Tipos de regresión simple.](img/04-regresion-bayesiana/diagrama_dispersion_tipos_relaciones){width=500}
+
+## Regresión lineal simple
+
+Cuando $f$ es una recta, se dice que el modelo es un modelo de _regresión lineal simple_, y se expresa como
+$$
+Y = \beta_0 + \beta_1 X + \varepsilon,
+$$
+
+donde $f(x) = \beta_0 + \beta_1 x$ es una una recta que expresa la relación lineal entre $Y$ y $X$, y $\varepsilon \sim N(0, \sigma).$
+
+Para cada valor $x_i$ de la variable independiente, el modelo de regresión lineal simple asume que la variable dependiente $Y$ sigue una distribución normal con media $\mu_i = \beta_0 + \beta_1 x_i$ y varianza $\sigma$.
+
+La relación lineal queda determinada por dos coeficientes:
+
+- **Término independiente $\beta_0$**. Es la media de $Y$ cuando $X=0$.
+- **Pendiente $\beta_1$**. Es el cambio que experimenta la media de $Y$ por cada unidad que se incrementa $X$.
+
+## Regresión lineal en Estadística frecuentista
+
+En Estadística frecuentista, el modelo de regresión lineal simple se estima a partir de los datos utilizando el método de los mínimos cuadrados, que consiste en encontrar los valores de $\beta_0$ y $\beta_1$ que minimizan la suma de los cuadrados de las diferencias entre los valores observados $y_i$ y los valores predichos por el modelo $\hat{y}_i = \beta_0 + \beta_1 x_i$.
+
+Esto da lugar a la famosa fórmula de la recta de regresión lineal simple:
+
+$$
+y = \bar{y} + \frac{\sigma_{xy}}{\sigma_x^2}(x-\bar{x}),
+$$
+
+donde $\bar{x}$ y $\bar{y}$ son las medias de $X$ e $Y$, respectivamente, $\sigma_{xy}$ es la covarianza entre $X$ e $Y$, y $\sigma_x^2$ es la varianza de $X$, es decir,
+
+$$
+\beta_0 = \bar{y} - \beta_1 \bar{x} \quad \text{y} \quad \beta_1 = \frac{\sigma_{xy}}{\sigma_x^2},
+$$
+
+son dos estimaciones puntuales.
+
+
+## Ajuste de modelos de regresión con R
+
+En R existen varias funciones para ajustar modelos de regresión lineal. Las más habituales son:
+
+- `lm()`. Se utiliza para variables dependientes continuas con distribución normal. Ajusta un modelo de regresión lineal utilizando el método de los mínimos cuadrados ordinarios.
+
+- `glm()`. Se utiliza para variables dependientes con distribuciones de la familia exponencial: normal, binomial, Poisson, gamma, etc. Ajusta un modelo de regresión generalizada utilizando el método de máxima verosimilitud (minimiza la log-verosimilitud).
+
+## Ajuste de un modelo de regresión lineal simple con `lm()`
+
+:::{.callout-note}
+## `lm()`
+
+Realiza un ajuste de un modelo de regresión lineal utilizando el método de los mínimos cuadrados ordinarios.
+
+Parámetros:
+
+- `formula`: fórmula que especifica el modelo de regresión lineal a ajustar.
+- `data`: conjunto de datos que se utilizará para ajustar el modelo de regresión lineal.
+:::
+
+Conviene recordar que la fórmula para especificar un modelo de regresión en R tiene la siguiente sintaxis:
+
+```r
+var_dependiente ~ var_independientes
+```
+
+donde las variables independientes en modelos de regresión múltiple se pueden combinar con los operadores
+
+- `+` para incluir varias variables independientes sin interacción.
+- `*` para incluir varias variables independientes con interacción.
+- `:` para incluir sólo la interacción entre varias variables independientes.
+
+---
+
+:::{#exm-regresion-lineal-simple-frecuentista}
+Recordemos el ajuste de un modelo de regresión lineal simple del peso sobre la estatura utilizando el método de mínimos cuadrados con la función `lm()`.
+
+```{r}
+library(broom)
+library(knitr)
+modelo_lineal <- lm(peso ~ estatura, data = df)
+tidy(modelo_lineal) |> kable()
+```
+:::
+
+## Ajuste de un modelo de regresión lineal simple con `glm()`
+
+:::{.callout-note}
+## `glm()`
+Realiza un ajuste de un modelo de regresión generalizada utilizando el método de máxima verosimilitud.
+
+Parámetros:
+
+- `formula`: fórmula que especifica el modelo de regresión generalizada a ajustar.
+- `family`: familia de distribuciones del error aleatorio en el modelo y de la función de enlace.
+- `data`: conjunto de datos que se utilizará para ajustar el modelo de regresión generalizada.
+:::
+
+Donde la familia de distribuciones `family` puede ser cualquiera de las siguientes:
+
+| `family` | Variable dependiente | Función de enlace | Uso típico |
+|---|---|---|---|
+| `gaussian()` | Continua | identidad $\mu$ | Equivalente a `lm` |
+| `binomial()` | 0/1 o proporción | logit $\log\left(\frac{\mu}{1-\mu}\right)$ | Regresión logística |
+| `poisson()` | Conteos | logaritmo $\log(\mu)$ | Modelos de conteo |
+| `Gamma()` | Continua positiva | inversa $1/\mu$ | Tiempos, costes |
+| `inverse.gaussian()` | Continua positiva | inversa cuadrada $1/\mu^2$ | Tiempos de espera |
+
+---
+
+:::{#exm-regresion-lineal-simple-generalizada}
+Recordemos el ajuste de un modelo de regresión lineal simple del peso sobre la estatura utilizando el método de máxima verosimilitud con la función `glm()`.
+
+```{r}
+modelo_lineal <- glm(peso ~ estatura, data = df, family = gaussian())
+tidy(modelo_lineal) |> kable()
+```
+:::
+
+## Regresión lineal en Estadística bayesiana
+
+En Estadística bayesiana, los dos coeficientes del modelo $\beta_0$ y $\beta_1$ son dos parámetros más del modelo, que tienen asociada una distribución que refleja la incertidumbre sobre su valor. 
+
+Si asumimos que el término de error $\varepsilon$ sigue una distribución normal, entonces tenemos el modelo
+
+$$
+Y_i|\beta_0, \beta_1, \sigma^2 \sim N(\beta_0 + \beta_1 x_i, \sigma).
+$$
+
+Al igual que para otros parámetros, asignaremos una distribución a priori a cada uno de los coeficientes, así como a la desviación típica $\sigma$ del término de error, y actualizaremos estas distribuciones a priori con los datos para obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.
+
+## Supuestos del modelo de regresión lineal simple
+
+El modelo de regresión lineal simple se basa en los siguientes supuestos:
+
+1. **Linealidad**. La relación entre $Y$ y $X$ es lineal, es decir, la función $f$ que describe la relación entre $Y$ y $X$ es una recta.
+2. **Independencia**. Las observaciones son independientes entre sí.
+3. **Normalidad**. El término de error $\varepsilon$ sigue una distribución normal con media cero y desviación típica $\sigma$.
+4. **Homoscedasticidad**. La varianza del término de error $\varepsilon$ es constante para todos los valores de $X$.
+
+## Distribución a priori de los parámetros del modelo
+
+Como vimos, para especificar las distribuciones a priori de los parámetros del modelo podemos utilizar distribuciones no informativas o distribuciones informativas. Si disponemos de información previa sobre los parámetros del modelo, debemos utilizar distribuciones informativas para reflejar esa información previa.
+
+Puesto que $\beta_0$ y $\beta_1$ son parámetros de localización, es decir, parámetros que pueden tomar cualquier valor real, una distribución a priori adecuada para estos parámetros es la distribución normal. 
+
+\begin{align*} 
+\beta_0 & \sim N(\theta_0,\tau_0) \\
+\beta_1 & \sim N(\theta_1,\tau_1)
+\end{align*}
+
+Mientras que para la desviación típica $\sigma$ del término de error, que es un parámetro de escala, es decir, un parámetro que sólo puede tomar valores positivos, una distribución a priori adecuada es la distribución exponencial o la Gamma invertida.
+
+$$
+\sigma \sim \text{Exp}(\lambda).
+$$
+
+## Modelo de regresión lineal simple con distribuciones a priori
+
+Distribución de los datos
+
+$$
+Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
+$$
+
+Distribución a priori de los parámetros
+
+\begin{align*}
+\beta_0 & \sim N(\theta_0,\tau_0) \\
+\beta_1 & \sim N(\theta_1,\tau_1) \\
+\sigma & \sim \text{Exp}(\lambda)
+\end{align*}
+
+---
+
+:::{#exm-regresion-lineal-simple}
+Para modelizar la relación entre el peso y la estatura, podemos utilizar un modelo de regresión lineal simple con las siguientes distribuciones a priori para los parámetros del modelo:
+
+\begin{align*}
+\beta_0' & \sim N(70, 10) \\
+\beta_1 & \sim N(2, 1) \\
+\sigma & \sim \text{Exp}(0.5)
+\end{align*}
+
+En este caso hemos cambiado $\beta_0$, que sería el peso de una persona de estatura cero, algo que no tiene sentido en nuestro caso, por un término independiente centrado, $\beta_0'$, que representa el peso de una típico de una persona de estatura media.
+
+- $\beta_0'$, que sería el peso de una persona de estatura media, podemos asumir que está entre 45 y 95 kg (media de 70 kg y desviación típica de 10 kg).
+- $\beta_1$, que sería el incremento en peso por unidad de estatura, podemos asumir que no es negativo y podría estar entre 0 y 4 kg/cm (media de 2 kg/cm y desviación típica de 1 kg/cm).
+- $\sigma$, que mide la variabilidad de los pesos para personas de la misma estatura, no puede ser negativa y parece razonable también asumir un rango de desviaciones típicas entre 0 y 10 kg.
+:::
+
+## Validación de las distribuciones a priori
+
+Cuando utilicemos distribuciones a priori informativas, es importante validar que estas distribuciones reflejan realmente la información previa que tenemos sobre los parámetros del modelo. Para ello, podemos simular valores de los parámetros a partir de las distribuciones a priori y comprobar que estos valores son razonables.
+
+:::{#exm-validacion-distribuciones-priori}
+Para validar las distribuciones a priori del ejemplo anterior, podemos simular 100 valores de $\beta_0'$, $\beta_1$ y $\sigma^2$ a partir de sus distribuciones a priori.
+
+```{r}
+#| output: false
+library(rstan)
+set.seed(123)
+modelo <- "
+data {
+  int<lower=1> n;   // número de simulaciones (100)
+}
+
+generated quantities {
+  real beta0 = normal_rng(70, 10);      
+  real beta1 = normal_rng(1.5, 0.5);        
+  real sigma = exponential_rng(0.5);   
+}
+"
+prior <- stan(model_code = modelo, data = list(n = 100), iter = 200, chains = 1, algorithm = "Fixed_param")
+```
+:::
+
+---
+
+A continuación, podemos representar gráficamente los valores simulados de cada uno de los parámetros para comprobar que estos valores son razonables.
+
+```{r}
+library(tidyverse)
+library(tidybayes)
+prior |> 
+  spread_draws(beta0, beta1, sigma) |> 
+  expand_grid(x = seq(120, 220, length.out = 2)) |>
+  mutate(y = beta0 + beta1 * (x - 170)) |>
+  ggplot(aes(x = x, y = y, group = .draw)) +
+  geom_line(color = myblue, alpha = 0.2) +
+  labs(title = "100 posibles rectas regresión a priori", x = "Estatura (cm)", y = "Peso (kg)")
+```
+
+## Simulaciones de las distribuciones a posteriori
+
+Una vez validadas las distribuciones a priori, podemos ajustar el modelo de regresión lineal simple a los datos utilizando el método de inferencia bayesiana, que nos permitirá obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.
+
+:::{#exm-simulaciones-distribuciones-posteriori}
+
+Veamos cómo ajustar el modelo de regresión lineal simple a los datos de los pesos y las estaturas.
+
+```r
+modelo <- "
+  data {
+    int<lower = 0> n;
+    vector[n] Y;
+    vector[n] X;
+  }
+  parameters {
+    real beta0;
+    real beta1;
+    real<lower = 0> sigma;
+  }
+  model {
+    Y ~ normal(beta0 + beta1 * X, sigma);
+    beta0 ~ normal(70, 10);
+    beta1 ~ normal(1.5, 0.5);
+    sigma ~ exponential(0.5);
+  }
+"
+post <- stan(model_code = modelo, 
+    data = list(n = nrow(df), Y = df$peso, X = df$estatura), 
+    chains = 4, iter = 5000*2, seed = 84735)
+```
+:::
+
+## Simulaciones de las distribuciones a posteriori con el paquete `rstamarm`
+
+Aunque ya hemos visto como ajustar un modelo de regresión directamente con `rstan`, la definición del modelo en el lenguaje de programación de Stan puede resultar algo compleja, especialmente para modelos más elaborados. Para facilitar el ajuste de modelos de regresión lineal y generalizada utilizando inferencia bayesiana, podemos utilizar el paquete `rstamarm`, que proporciona una interfaz más sencilla para ajustar estos modelos.
+En particular, utilizaremos la función `stan_glm()` para ajustar el modelo de regresión lineal simple a los datos.
+
+:::{.callout-note}
+## `stan_glm()`
+
+Realiza un ajuste de un modelo de regresión lineal generalizado mediante inferencia bayesiana. 
+
+Parámetros: 
+
+- `formula`: fórmula que especifica el modelo de regresión lineal generalizado a ajustar. Permite especificar el modelo de regresión de forma sencilla, utilizando una sintaxis similar a la función `glm()` del paquete `stats`.
+- `data`: conjunto de datos que se utilizará para ajustar el modelo de regresión lineal generalizado.
+- `family`: familia de distribuciones que se utilizará para modelar la variable dependiente. Para un modelo de regresión lineal simple, se utiliza la familia `gaussian()`, que asume que la variable dependiente sigue una distribución normal.
+- `prior`: distribución a priori del coeficiente de regresión (la pendiente).
+- `prior_intercept`: distribución a priori del término independiente.
+- `prior_aux`: distribución a priori de la desviación típica del término de error.
+:::
+
+---
+
+:::{#exm-ajuste-regresion-lineal-simple}
+Veamos cómo ajustar el modelo de regresión lineal simple a los datos de los pesos y las estaturas utilizando la función `stan_glm()` 
+
+```{r}
+#| output: false
+library(rstanarm)
+set.seed(123)
+post <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
+                   prior = normal(1.5, 0.5),
+                   prior_intercept = normal(70, 10),
+                   prior_aux = exponential(0.5),
+                   iter = 5000*2, chains = 4, seed = 123)
+```
+:::
+
+---
+
+A continuación analizamos las cadenas de Markov generadas por el ajuste del modelo.
+
+```{r}
+#| output-location: column
+library(bayesplot)
+mcmc_trace(post, size = 0.1)
+```
+```{r}
+#| output-location: column
+mcmc_dens_overlay(post)
+```
+
+Se observa que las cadenas de Markov de los tres parámetros son estables y convergentes.
+
+---
+
+```{r}
+#| output-location: column
+neff_ratio(post) |> kable(col.names = "Neff Ratio")
+```
+
+```{r}
+#| output-location: column
+rhat(post) |> kable(col.names = "Rhat")
+```
+
+Se observa que el número efectivo de simulaciones es alto para los tres parámetros, y que el valor de $\hat{R}$ es casi 1, lo que indica que las cadenas de Markov han convergido correctamente.
+
+## Intervalos de credibilidad de los parámetros
+
+Al igual que vimos en el capítulo anterior, podemos describir las distribuciones a posteriori simuladas mediante estadísticos de tendencia central y mediante intervalos de credibilidad. 
+
+:::{#exm-intervalos-credibilidad-regresion-lineal-simple}
+Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre la estatura.
+
+```{r}
+library(tidybayes)
+post |>
+  gather_draws(`(Intercept)`, estatura, sigma) |>
+  mean_qi(.width = 0.9) |> 
+  kable()
+```
+
+Según esto, por cada centímetro más de estatura se espera un incremento en el peso de entre 0.64 y 0.95 kg. 
+:::
+
+## Dibujo de las rectas de regresión a posteriori
+
+Recordemos que lo que obtenemos es una muestra aleatoria de la distribución a posteriori de los parámetros, obtenida mediante cadenas de Markov. Cada caso de la muestra definie una recta de regresión distinta, y todas ellas reflejan la incertidumbre sobre el modelo de regresión lineal
+
+Podemos dibujar algunas de estas rectas para darnos una idea visual de cómo es el ajuste.
+
+:::{#exm-rectas-regresion-posteriori}
+Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros.
+
+```{r}
+#| output-location: column
+df |>
+  add_fitted_draws(post, n = 50) |>
+  ggplot(aes(x = estatura, y = peso)) +
+  geom_point(data = df, color = myblue) +
+  geom_line(aes(y = .value, group = .draw), color = myred, alpha = 0.2) +
+  labs(x = "Estatura", y = "Peso") +
+  theme_minimal()
+```
+:::
+
+## Contraste de hipótesis sobre los coeficientes de regresión
+
+En Estadística frecuentista, después de ajustar un modelo de regresión lineal, es habitual realizar el contraste de hipótesis sobre los coeficientes de regresión 
+
+::::{.columns}
+::: {.column width="50%"}
+Contraste sobre el término independiente
+
+\begin{align*}
+H_0: & \beta_0 = 0 \\
+H_1: & \beta_0 \neq 0
+\end{align*}
+:::
+
+::: {.column width="50%"}
+Contraste sobre la pendiente
+
+\begin{align*}
+H_0: & \beta_1 = 0 \\
+H_1: & \beta_1 \neq 0   
+\end{align*}
+
+:::
+::::
+
+Estos contrastes se realizan con el test t de Student, que se basa en la distribución t de Student, y que nos permite obtener un $p$-valor para cada uno de los coeficientes de regresión, que nos indica la probabilidad de obtener un valor tan extremo como el observado si la hipótesis nula fuera cierta.
+
+En cambio, en Estadística bayesiana, el contraste de hipótesis sobre los coeficientes de regresión se realiza mediante la comparación de las distribuciones a posteriori de los parámetros con un valor nulo o con un valor específico.
+
+---
+
+:::{#exm-contraste-hipotesis-regresion-lineal-simple}
+Veamos cómo realizar el contraste de hipótesis bayesiano para ver si la pendiente del modelo de regresión lineal del peso sobre la estatura es positiva.
+
+\begin{align*}
+H_0: & \beta_1 > 0 \\
+H_1: & \beta_1 \leq 0
+\end{align*}
+
+```{r}
+library(tidybayes)
+post |>
+  spread_draws(estatura) |>
+  summarise(prob = mean(estatura > 0)) |>
+  kable(col.names = "P(β1 > 0)")
+```
+
+Es decir, podemos afirmar casi con total certeza que la pendiente del modelo de regresión lineal del peso sobre la estatura es positiva, lo que indica que a mayor estatura, mayor peso.
+:::
+
+## Predicciones con modelos de regresión
+
+Una de las principales utilidades de los modelos de regresión es la posibilidad de realizar predicciones sobre nuevos casos a partir de los valores de las variables independientes.
+
+Para realizar predicciones con un modelo de regresión bayesiano, es necesario obtener la distribución a posteriori de la variable dependiente $Y$ para cada nuevo caso, a partir de las distribuciones a posteriori de los parámetros del modelo y de los valores de las variables independientes para ese caso. En la generación de la distribución a posteriori de la predicción hay que tener en cuenta la incertidumbre tanto de los parámetros del modelo como del término de error $\varepsilon$. De nuevo tenemos dos fuentes de variabilidad:
+
+- Variabilidad de los parámetros del modelo. Esta variabilidad se refleja en las distribuciones a posteriori de los parámetros del modelo, que se han obtenido a partir de la simulación mediante cadenas de Markov.
+- Variabilidad en el muestreo. Es la variabilidad asociada al término de error que viene dada por el parámetro $\sigma$ del modelo, que también tiene una distribución a posteriori obtenida a partir de la simulación mediante cadenas de Markov.
+
+## Generación de predicciones 
+
+Teniendo en cuenta estas dos fuentes de variabilidad, podemos obtener la distribución a posteriori de la predicción mediante el muestreo simulado de la distribución 
+
+$$
+\hat{Y}^i|\beta_0,\beta_1,\sigma \sim N(\beta_0^i + \beta_1^i \hat{X}, \sigma^i),
+$$
+
+donde $\hat{X}$ es el valor de la variable independiente para el nuevo caso, y $\beta_0^i$, $\beta_1^i$ y $\sigma^i$ son los valores simulados de los parámetros del modelo en la iteración $i$ de las cadenas de Markov.
+
+Para ello podemos usar la funcción `add_fitted_draws()` del paquete `tidybayes`.
+
+:::{.callout-note}
+## `add_fitted_draws()`
+Realiza una predicción para un nuevo caso a partir de las distribuciones a priori de los parámetros del modelo.
+
+Parámetros:
+
+- `newdata`: conjunto de datos con los valores de las variables independientes para el nuevo caso. 
+- `model`: modelo de regresión ajustado mediante inferencia bayesiana, que contiene las distribuciones a posteriori de los parámetros del modelo.
+:::
+
+---
+
+:::{#exm-predicciones-regresion-lineal-simple}
+Veamos cómo obtener la distribución a posteriori de la predicción del peso para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.
+
+```{r}
+library(tidybayes)
+df_nuevos <- tibble(estatura = 180)
+post_pred <- add_fitted_draws(df_nuevos, post)
+post_pred
+```
+:::
+
+---
+
+Y una vez que tenemos la distribución a posteriori de la predicción, podemos describirla mediante su media y su intervalo de credibilidad como es habitual.
+
+```{r}
+post_pred |> 
+  spread_draws(.value) |>
+  mean_qi(.width = 0.9) |>
+  kable()
+```
+
+Es decir, para una persona de estatura 180 cm, el peso esperado es de entre 70 y 81.5 kg, con una probabilidad del 90%.
+
+## Evaluación de modelos de regresión
+
+Todos los modelos de regresión son aproximaciones de la realidad, y por tanto, es importante evaluar la calidad del ajuste de un modelo a los datos, sobre todo si queremos hacer predicciones con ese modelo.
+
+
+
+Para ello, existen diferentes métricas de evaluación de modelos de regresión, como el error cuadrático medio (MSE), el coeficiente de determinación ($R^2$), el criterio de información de Akaike (AIC), el criterio de información bayesiano (BIC), etc.
+
+## {background-color= .myblue}
+
+:::{.main-title}
+Regresión lineal múltiple
+:::
+
+## Regresión lineal múltiple
+
+Cuando la variable dependiente $Y$ depende de varias variables independientes $X_1, X_2, \ldots, X_p$, se habla de _regresión lineal múltiple_:
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon, \quad \varepsilon \sim N(0, \sigma).
+$$
+
+---
+
+:::{#exm-regresion-multiple-frecuentista}
+Ajustamos el modelo de regresión lineal múltiple del peso sobre la estatura y el sexo utilizando mínimos cuadrados.
+
+```{r}
+#| output-location: column
+modelo_multiple_freq <- lm(peso ~ estatura + sexo, data = df)
+summary(modelo_multiple_freq)
+```
+:::
+
+---
+
+:::{#exm-regresion-multiple-bayesiana}
+Ajustamos el mismo modelo mediante inferencia bayesiana con `stan_glm()`.
+
+```{r}
+#| output: false
+library(rstanarm)
+set.seed(123)
+post_multiple <- stan_glm(
+  peso ~ estatura + sexo,
+  data = df,
+  family = gaussian(),
+  prior = normal(location = c(1.5, 5), scale = c(0.5, 5)),
+  prior_intercept = normal(70, 10),
+  prior_aux = exponential(0.5),
+  iter = 5000 * 2, chains = 4, seed = 123
+)
+```
+:::
+
+---
+
+```{r}
+mcmc_trace(post_multiple)
+```
+
+---
+
+```{r}
+mcmc_dens_overlay(post_multiple)
+```
+
+---
+
+```{r}
+neff_ratio(post_multiple)
+rhat(post_multiple)
+```
+
+

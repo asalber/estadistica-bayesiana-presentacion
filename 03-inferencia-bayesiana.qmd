@@ -1,6 +1,6 @@
 ---
 title: "Inferencia Bayesiana"
-subtitle: "Estimación de parámetros, contraste de hipótesis y predicciones"
+subtitle: "Estimación de parámetros, intervalos de credibilidad, contraste de hipótesis y predicciones"
 author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ceu.es) [{{< fa brands linkedin >}}](https://www.linkedin.com/in/asalber/) [{{< fa home >}}](https://aprendeconalf.es)"
 logo: img/logos/sticker-estadistica-bayesiana-r.png
 # title-slide-attributes:
