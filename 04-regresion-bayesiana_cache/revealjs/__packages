@@ -16,3 +16,5 @@ tidybayes
 Rcpp
 rstanarm
 bayesplot
+bayesrules
+yardstick

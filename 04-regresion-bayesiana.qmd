@@ -5,7 +5,7 @@ author: "Alfredo Sánchez Alberca &nbsp; [{{< fa envelope >}}](mailto:asalber@ce
 logo: img/logos/sticker-estadistica-bayesiana-r.png
 # title-slide-attributes:
 #     #data-background-color: black
-#     data-background-image: img/prompt-julia.png
+#     data-background-image: img/prompt-julia.pngr
 #     data-background-size: contain
 fig-align: center
 filters:
@@ -300,7 +300,7 @@ prior |>
   expand_grid(x = seq(120, 220, length.out = 2)) |>
   mutate(y = beta0 + beta1 * (x - 170)) |>
   ggplot(aes(x = x, y = y, group = .draw)) +
-  geom_line(color = myblue, alpha = 0.2) +
+  geom_line(color = myred, alpha = 0.2) +
   labs(title = "100 posibles rectas regresión a priori", x = "Estatura (cm)", y = "Peso (kg)")
 ```
 
@@ -366,12 +366,16 @@ Veamos cómo ajustar el modelo de regresión lineal simple a los datos de los pe
 #| output: false
 library(rstanarm)
 set.seed(123)
-post <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
-                   prior = normal(1.5, 0.5),
-                   prior_intercept = normal(70, 10),
-                   prior_aux = exponential(0.5),
-                   iter = 5000*2, chains = 4, seed = 123)
+modelo1 <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
+  prior = normal(1.5, 0.5),
+  prior_intercept = normal(70, 10),
+  prior_aux = exponential(0.5),
+  iter = 5000*2, chains = 4, seed = 123)
 ```
+:::
+
+:::{.callout-warning}
+La función `stan_glm` asume que el término independiente está centrado en la media de la variable independiente, por lo que el término independiente $\beta_0$ representa el peso medio de una persona de estatura media, y no el peso de una persona de estatura cero.
 :::
 
 ---
@@ -381,11 +385,11 @@ A continuación analizamos las cadenas de Markov generadas por el ajuste del mod
 ```{r}
 #| output-location: column
 library(bayesplot)
-mcmc_trace(post, size = 0.1)
+mcmc_trace(modelo1, size = 0.1)
 ```
 ```{r}
 #| output-location: column
-mcmc_dens_overlay(post)
+mcmc_dens_overlay(modelo1)
 ```
 
 Se observa que las cadenas de Markov de los tres parámetros son estables y convergentes.
@@ -394,15 +398,38 @@ Se observa que las cadenas de Markov de los tres parámetros son estables y conv
 
 ```{r}
 #| output-location: column
-neff_ratio(post) |> kable(col.names = "Neff Ratio")
+neff_ratio(modelo1) |> t() |>  kable()
 ```
 
 ```{r}
 #| output-location: column
-rhat(post) |> kable(col.names = "Rhat")
+rhat(modelo1) |> t() |>  kable()
 ```
 
 Se observa que el número efectivo de simulaciones es alto para los tres parámetros, y que el valor de $\hat{R}$ es casi 1, lo que indica que las cadenas de Markov han convergido correctamente.
+
+## Distribuciones a priori por defecto
+
+Cuando no tengamos evidencias fundadas sobre los posibles valores de los parámetros, es mejor utilizar distribuciones a priori poco informativas. La función `stan_glm` utiliza por defecto distribuciones a priori poco informativas para los parámetros del modelo, cuando se indica la opción `autoscale = TRUE` en las distribuciones a priori.
+
+---
+
+:::{#exm-distribuciones-priori-por-defecto}
+Veamos qué distribuciones a priori propone `stan_glm()` para los parámetros del modelo de regresión lineal simple del peso sobre la estatura.
+
+```{r}
+#| output: false
+modelo_2 <- stan_glm(peso ~ estatura, data = df, family = gaussian(), 
+  prior_intercept = normal(0, 2.5, autoscale = TRUE), 
+  prior = normal(0, 2.5, autoscale = TRUE),
+  prior_aux = exponential(1, autoscale = TRUE),
+  iter = 5000*2, chains = 4, seed = 123)
+```
+
+```{r}
+prior_summary(modelo_2)
+```
+:::
 
 ## Intervalos de credibilidad de los parámetros
 
@@ -413,7 +440,7 @@ Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las di
 
 ```{r}
 library(tidybayes)
-post |>
+modelo1 |>
   gather_draws(`(Intercept)`, estatura, sigma) |>
   mean_qi(.width = 0.9) |> 
   kable()
@@ -434,10 +461,10 @@ Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la sim
 ```{r}
 #| output-location: column
 df |>
-  add_fitted_draws(post, n = 50) |>
+  add_epred_draws(modelo1, ndraws = 50, value = "Predicción_media") |>
   ggplot(aes(x = estatura, y = peso)) +
   geom_point(data = df, color = myblue) +
-  geom_line(aes(y = .value, group = .draw), color = myred, alpha = 0.2) +
+  geom_line(aes(y = Predicción_media, group = .draw), color = myred, alpha = 0.2) +
   labs(x = "Estatura", y = "Peso") +
   theme_minimal()
 ```
@@ -484,7 +511,7 @@ H_1: & \beta_1 \leq 0
 
 ```{r}
 library(tidybayes)
-post |>
+modelo1 |>
   spread_draws(estatura) |>
   summarise(prob = mean(estatura > 0)) |>
   kable(col.names = "P(β1 > 0)")
@@ -497,66 +524,325 @@ Es decir, podemos afirmar casi con total certeza que la pendiente del modelo de 
 
 Una de las principales utilidades de los modelos de regresión es la posibilidad de realizar predicciones sobre nuevos casos a partir de los valores de las variables independientes.
 
-Para realizar predicciones con un modelo de regresión bayesiano, es necesario obtener la distribución a posteriori de la variable dependiente $Y$ para cada nuevo caso, a partir de las distribuciones a posteriori de los parámetros del modelo y de los valores de las variables independientes para ese caso. En la generación de la distribución a posteriori de la predicción hay que tener en cuenta la incertidumbre tanto de los parámetros del modelo como del término de error $\varepsilon$. De nuevo tenemos dos fuentes de variabilidad:
+A la hora de hacer predicciones con un modelo de regresión, es importante tener en cuenta que existen dos fuentes de variabilidad que afectan a la predicción:
 
-- Variabilidad de los parámetros del modelo. Esta variabilidad se refleja en las distribuciones a posteriori de los parámetros del modelo, que se han obtenido a partir de la simulación mediante cadenas de Markov.
-- Variabilidad en el muestreo. Es la variabilidad asociada al término de error que viene dada por el parámetro $\sigma$ del modelo, que también tiene una distribución a posteriori obtenida a partir de la simulación mediante cadenas de Markov.
+- **Variabilidad de los parámetros del modelo**. Esta variabilidad se refleja en las distribuciones a posteriori de los parámetros del modelo, que se han obtenido a partir de la simulación mediante cadenas de Markov.
+- **Variabilidad en el muestreo**. Es la variabilidad asociada al término de error que viene dada por el parámetro $\sigma$ del modelo, que también tiene una distribución a posteriori obtenida a partir de la simulación mediante cadenas de Markov.
 
-## Generación de predicciones 
+## Tipos de predicciones
 
-Teniendo en cuenta estas dos fuentes de variabilidad, podemos obtener la distribución a posteriori de la predicción mediante el muestreo simulado de la distribución 
+Dado un nuevo caso con un valor concreto de la variable independiente $\hat{x}$, podemos estar interesados en dos tipos de predicciones:
+
+- **Predicción de la media** de la variable dependiente para ese caso $E[Y|\hat{X}]$. Esta predicción se obtiene a partir de la distribución a posteriori de los parámetros del modelo, y refleja la incertidumbre sobre el valor de la media de $Y$ para ese caso. _Solo tiene en cuenta la variabilidad de los parámetros del modelo, pero no tiene en cuenta la variabilidad en el muestreo._
+  
+- **Predicción de un nuevo valor** de la variable dependiente para ese caso $Y|\hat{X}$. Esta predicción se obtiene a partir de la distribución a posteriori de los parámetros del modelo y de la distribución del término de error, y refleja la incertidumbre sobre el valor de $Y$ para ese caso. _Tiene en cuenta tanto la variabilidad de los parámetros del modelo como la variabilidad en el muestreo._
+
+## Predicción de la media de la variable dependiente para un nuevo caso
+
+Para predecir la media de la variable dependiente para un nuevo caso, basta con tener en cuenta que 
 
 $$
-\hat{Y}^i|\beta_0,\beta_1,\sigma \sim N(\beta_0^i + \beta_1^i \hat{X}, \sigma^i),
+E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 $$
 
-donde $\hat{X}$ es el valor de la variable independiente para el nuevo caso, y $\beta_0^i$, $\beta_1^i$ y $\sigma^i$ son los valores simulados de los parámetros del modelo en la iteración $i$ de las cadenas de Markov.
+por lo que podemos generar la distribución a posteriori de la predicción de la media de $Y$ para ese caso aplicando esta fórmula a cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov.
 
-Para ello podemos usar la funcción `add_fitted_draws()` del paquete `tidybayes`.
+Para ello podemos utilizar la función `epred_draws` del paquete `tidybayes`.
 
 :::{.callout-note}
-## `add_fitted_draws()`
-Realiza una predicción para un nuevo caso a partir de las distribuciones a priori de los parámetros del modelo.
+## `epred_draws`
+
+Genera una simulación de la distribución a posteriori de la predicción de la media de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
 
 Parámetros:
 
-- `newdata`: conjunto de datos con los valores de las variables independientes para el nuevo caso. 
-- `model`: modelo de regresión ajustado mediante inferencia bayesiana, que contiene las distribuciones a posteriori de los parámetros del modelo.
+- `modelo1`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+- `newdata`: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.
 :::
 
 ---
 
 :::{#exm-predicciones-regresion-lineal-simple}
-Veamos cómo obtener la distribución a posteriori de la predicción del peso para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.
+Veamos cómo obtener la distribución a posteriori de la predicción del peso medio para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.
+
+```{r}
+datos_nuevos <- tibble(estatura = c(180))
+post_pred_media_180 <- epred_draws(modelo1, newdata = datos_nuevos, value = "Predicción_media")
+post_pred_media_180
+```
+:::
+
+---
+
+Aunque podríamos haber obtenido lo mismo con el siguiente código.
 
 ```{r}
 library(tidybayes)
-df_nuevos <- tibble(estatura = 180)
-post_pred <- add_fitted_draws(df_nuevos, post)
-post_pred
+modelo1 |> 
+  spread_draws(`(Intercept)`, estatura) |>
+  mutate(Prediccion_media = `(Intercept)` + estatura * 180)
 ```
-:::
 
 ---
 
 Y una vez que tenemos la distribución a posteriori de la predicción, podemos describirla mediante su media y su intervalo de credibilidad como es habitual.
 
 ```{r}
-post_pred |> 
-  spread_draws(.value) |>
-  mean_qi(.width = 0.9) |>
+mean_qi(post_pred_media_180, .width = 0.9) |>
   kable()
 ```
 
-Es decir, para una persona de estatura 180 cm, el peso esperado es de entre 70 y 81.5 kg, con una probabilidad del 90%.
+Es decir, para una persona de estatura 180 cm, el peso medio estaría entre 77 y 81.4 kg, con una probabilidad del 90%.
+
+## Predicción de un nuevo valor de la variable dependiente para un nuevo caso
+
+Para predecir un nuevo valor de la variable dependiente para un nuevo caso, debemos tener en cuenta tanto la variabilidad de los parámetros del modelo como la variabilidad en el muestreo, por lo que la distribución a posteriori de la predicción será
+
+$$
+Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
+$$
+
+Así pues, para una muestra aleatoria de esta distribución, basta con generar una simulación de esta distribución para cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov. 
+
+\begin{align*}
+\beta_{0,1}, \beta_{1,1}, \sigma_1 &\longrightarrow \hat{y}_1 = \text{rnorm}(1, \beta_{0,1} + \beta_{1,1} \hat{x}, \sigma_1) \\
+\beta_{0,2}, \beta_{1,2}, \sigma_2 &\longrightarrow \hat{y}_2 = \text{rnorm}(1, \beta_{0,2} + \beta_{1,2} \hat{x}, \sigma_2) \\
+&\vdots \\
+\beta_{0,n}, \beta_{1,n}, \sigma_n &\longrightarrow \hat{y}_n = \text{rnorm}(1, \beta_{0,n} + \beta_{1,n} \hat{x}, \sigma_n) \\
+\end{align*}
+
+---
+
+Aunque no es complicado simular esta muestra con R, podemos aprovechar la función `predicted_draws` del paquete `tidybayes`.
+
+:::{.callout-note}
+## `predicted_draws`
+
+Genera una simulación de la distribución a posteriori de la predicción de un nuevo valor de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+
+Parámetros:
+
+- `newdata`: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.
+
+- `modelo1`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+:::
+
+---
+
+:::{#exm-prediccion-nuevo-valor-regresion-lineal-simple}
+
+Veamos cómo obtener la distribución a posteriori de la predicción de un nuevo valor del peso para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.
+
+
+```{r}
+post_pred_180 <- predicted_draws(modelo1, newdata = datos_nuevos, value = "Predicción")
+mean_qi(post_pred_180, .width = 0.9) |> kable()
+```
+
+Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.6 y 101.6 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.
+
+```{r}
+#| output-location: column
+ggplot(post_pred_180, aes(x = Predicción)) +
+  stat_halfeye(.width = 0.9, fill = myblue, alpha = 0.5) +
+  labs(x = "Peso (kg)", y = "Densidad")
+```
+:::
+
+---
+
+En la siguiente gráfica se puede apreciar sobre el digrama de dispersión el intervalo de credibilidad para la predicción media (en verde) y para la predicción de un nuevo valor (en rojo) para una persona de estatura 180 cm.
+
+```{r}
+#| echo: false
+ggplot(df, aes(x = estatura, y = peso)) +
+  geom_point(color = myblue) +
+  stat_pointinterval(
+    data = post_pred_180,
+    aes(x = estatura, y = Predicción),
+    .width = 0.9, color = myred, size = 5
+  ) +
+  stat_pointinterval(
+    data = post_pred_media_180,
+    aes(x = estatura, y = Predicción_media),
+    .width = 0.9, color = mygreen, size = 5,
+  ) +
+  labs(x = "Estatura (cm)", y = "Peso (kg)") +
+  theme_minimal()
+```
 
 ## Evaluación de modelos de regresión
 
 Todos los modelos de regresión son aproximaciones de la realidad, y por tanto, es importante evaluar la calidad del ajuste de un modelo a los datos, sobre todo si queremos hacer predicciones con ese modelo.
 
+La manera más lógica de evaluar la calidad del ajuste de un modelo de regresión es comparar las predicciones del modelo con los valores observados en los datos, y medir la discrepancia entre ambos.
+
+Para ello, primero debemos obtener las distribuciones a posteriori de las predicciones para cada uno de los casos de la muestra. Como ya hemos visto esto podemos hacerlo con la función `predicted_draws()` del paquete `tidybayes`.
+
+---
+
+:::{#exm-evaluacion-modelo-regresion}
+Veamos cómo obtener los intervalos de credibilidad de las predicciones para cada una de las estaturas del conjunto de datos, utilizando el modelo de regresión lineal simple ajustado anteriormente.
+
+```{r}
+post_pred <- predicted_draws(modelo1, newdata = df, value = "Predicción")
+ggplot(post_pred, aes(x = estatura, y = Predicción)) +
+  stat_pointinterval(.width = c(0.5, 0.95), color = myred) +
+  geom_point(data = df, aes(y = peso), color = myblue) +
+  labs(x = "Estatura (cm)", y = "Peso (kg)")
+```
+:::
+
+## Métricas de evaluación 
+
+Una vez hemos generado las distribuciones a posteriori de las predicciones para cada uno de los casos de la muestra, podemos usar las siguientes métricas para evaluar la precisión de las predicciones del modelo:
+
+- **Error absoluto mediano (MAE)**. Es la mediana de los valores absolutos de las diferencias entre los valores observados y los valores predichos por el modelo.
+
+$$
+MAE = \mbox{Mediana}\{|y_i - \hat{y}_i|\}
+$$
+
+- **Error absoluto mediano tipificado ($MAE_t$)**. Es la mediana de los valores absolutos de las diferencias entre los valores observados y los valores predichos por el modelo, tipificados por la desviación típica de los valores observados.
+
+$$
+MAE_t = \mbox{Mediana}\left\{\frac{|y_i - \hat{y}_i|}{\sigma_y}\right\}
+$$
+
+---
+
+- **Raíz del Error cuadrático medio (RMSE)**. Es la media de los cuadrados de las diferencias entre los valores observados y los valores predichos por el modelo. 
+
+$$ 
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+$$
+
+- **Cobertura de los intervalos de credibilidad de las predicciones**. Es la proporción de casos de la muestra para los que el valor observado se encuentra dentro del intervalo de credibilidad de las predicciones del modelo. Se puede hacer para distintos niveles de credibilidad, por ejemplo, 50%, 90% y 95%.
 
 
-Para ello, existen diferentes métricas de evaluación de modelos de regresión, como el error cuadrático medio (MSE), el coeficiente de determinación ($R^2$), el criterio de información de Akaike (AIC), el criterio de información bayesiano (BIC), etc.
+- **Coeficiente de determinación bayesiano $R^2$**. Es la proporción de la variabilidad total de los valores observados que es explicada por el modelo de regresión.
+
+$$
+R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}(y - \hat{y})}
+$$
+
+---
+
+Existen diferentes paquetes de R que permiten calcular estas métricas de evaluación de modelos de regresión. 
+
+Para calcular el error absoluto mediano, el error absoluto mediano tipificado y los intervalos de cobertura, podemos usar la función `prediction_summary()` del paquete [`bayesrules`](https://bayes-rules.github.io/bayesrules/docs/).
+
+:::{.callout-note}
+## `prediction_summary`
+
+Devuelve el error absoluto mediano, el error absoluto mediano tipificado y los intervalos de cobertura de las predicciones de un modelo de regresión bayesiano.
+
+Parámetros:
+
+- `model`: modelo de regresión bayesiano ajustado con `stan_glm`.
+- `data`: conjunto de datos con los valores de la variable dependiente y las variables independientes.
+- `prob_inner`: nivel de credibilidad para los intervalos de cobertura. Por defecto 50%.
+- `prob_outer`: nivel de credibilidad para los intervalos de cobertura. Por defecto 90%.
+:::
+
+---
+
+:::{#exm-metricas-evaluacion-modelo-regresion-1}
+Veamos cómo calcular el error absoluto mediano, el error absoluto mediano tipificado y los intervalos de cobertura de las predicciones del modelo de regresión lineal simple ajustado anteriormente.
+
+```{r}
+library(bayesrules)
+prediction_summary(modelo1, data = df, prob_outer = 0.9) |> kable()
+```
+
+En los 200 individuos de la muestra, el peso observado se encuentra típicamente a 9.3 kg de distancia de la media de la distribución predictiva correspondiente a su estatura, o a 0.68 desviaciones típicas. Además, el 50% de los pesos caen dentro del intervalo de credibilidad del 50% y el 91.5% caen dentro del intervalo de credibilidad del 90% de la distribución predictiva correspondiente a su estatura. 
+:::
+
+---
+
+Y para calcular el coeficiente de determinación bayesiano $R^2$, podemos usar la función `bayes_R2()` del paquete [`rstanarm`](https://mc-stan.org/rstanarm/reference/bayes_R2.html).
+
+:::{.callout-note}
+## `bayes_R2`
+
+Calcula la distribución a posteriori del coeficiente de determinación bayesiano $R^2$ de un modelo de regresión bayesiano ajustado con `stan_glm`.
+
+Parámetros:
+
+- `object`: modelo de regresión bayesiano ajustado con `stan_glm`.
+:::
+
+---
+
+:::{#exm-metricas-evaluacion-modelo-regresion-2}
+Veamos cómo calcular la distribución a posteriori del coeficiente de determinación bayesiano $R^2$ del modelo de regresión lineal simple ajustado anteriormente.
+
+```{r}
+library(rstanarm)
+bayes_R2(modelo1) |>
+  mean_qi(.width = 0.9) |>
+  kable(col.names = c("R² medio", ".lower", ".upper", ".width", ".point", ".interval"))
+```
+La media de la distribución a posteriori del coeficiente de determinación bayesiano es 0.25, lo que indica que el modelo de regresión lineal explica alrededor del 25% de la variabilidad del peso, o teniendo en cuenta el intervalo de credibilidad, entre el 16.8% y el 32.5% de la variabilidad del peso con una probabilidad del 90%.     
+:::
+
+## Evaluación del modelo de regresión en datos nuevos
+
+En general, un modelo de regresión ajustado a un conjunto de datos se ajustará mejor a esos datos que a otros datos nuevos. Este problema se conoce como _sobreajuste_ (_overfitting_).
+
+Cuando hay sobreajuste de un modelo de regresión, las medidas de precisión del modelo evaluadas sobre el propio conjunto de datos sobreestiman la capacidad predictiva del modelo, por lo que es importante evaluar la capacidad de predicción del modelo en datos nuevos. Para ello se suele dividir el conjunto de datos en dos subconjuntos:
+
+- **Conjunto de entrenamiento**. Se utiliza para ajustar el modelo de regresión y obtener las distribuciones a posteriori de los parámetros del modelo.
+- **Conjunto de prueba**. Se utiliza para evaluar la precisión del modelo. 
+
+Esta división permite ajustar el modelo de regresión a partir del conjunto de entrenamiento y evaluar la precisión del modelo en el conjunto de prueba, que no se ha utilizado para ajustar el modelo.
+
+## Validación cruzada
+
+Realizar la evaluación de un modelo de regresión con un conjunto de datos nuevos, sin duda dará una estimación más realista de la precisión predictiva del modelo. Para que esta estimación sea más fiable, es recomendable repetir el proceso varias veces con distintos conjuntos de entrenamiento y prueba, y calcular la media de las métricas de evaluación obtenidas en cada repetición.
+
+La _validación cruzada_ se basa en esta idea y consiste en dividir el conjunto de datos en $k$ subconjuntos llamados _pliegues_ (_folds_), y realizar $k$ iteraciones. En cada iteración se reserva uno de los $k$ subonjuntos como conjunto de prueba y se ajusta el modelo de regresión con los $k-1$ subconjuntos restantes, que forman el conjunto de entrenamiento. En cada iteración se calculan las métricas de evaluación del modelo en el conjunto de prueba, y al final se calcula la media de estas métricas a lo largo de las $k$ iteraciones.
+
+---
+
+![Validación cruzada con 4 pliegues](/img/04-regresion-bayesiana/validacion-cruzada)
+
+---
+
+Para realizar la evalucación de un modelo de regresión mediante validación cruzada, podemos utilizar la función `prediction_summary_cv` del paquete [`bayesrules`](https://bayes-rules.github.io/bayesrules/docs/).
+
+:::{.callout-note}
+## `prediction_summary_cv`
+
+Devuelve el error absoluto mediano, el error absoluto mediano tipificado y los intervalos de cobertura de las predicciones de un modelo de regresión bayesiano mediante validación cruzada.
+
+Parámetros:
+
+- `model`: modelo de regresión bayesiano ajustado con `stan_glm`.
+- `data`: datos de entrenamiento.
+- `k`: número de pliegues para la validación cruzada.
+- `prob_inner`: nivel de credibilidad para los intervalos de cobertura menores. Por defecto 50%.
+- `prob_outer`: nivel de credibilidad para los intervalos de cobertura mayores. Por defecto 90%.
+:::
+
+---
+
+:::{#exm-metricas-evaluacion-modelo-regresion-cv}
+Veamos cómo realizar la evaluación del modelo de regresión lineal simple del peso sobre la estatura mediante validación cruzada con 10 pliegues.
+
+```{r}
+set.seed(123)
+eval_cv <- prediction_summary_cv(model = modelo1, data = df, k = 5, prob_outer = 0.9)
+eval_cv$folds |> kable()
+```
+
+```{r}
+eval_cv$cv |> kable()
+```
+:::
+
+Si comparamos estas métricas con las obtenidas anteriormente sin validación cruzada, vemos que la precisión es un poco menor, pero más realista.
+
 
 ## {background-color= .myblue}
 
@@ -572,56 +858,360 @@ $$
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon, \quad \varepsilon \sim N(0, \sigma).
 $$
 
+El procedimiento para ajustar un modelo de regresión lineal múltiple mediante inferencia bayesiana es el mismo que para un modelo de regresión lineal simple, solo que con más parámetros a estimar y de los que debemos especificar sus distribuciones a priori
+
 ---
 
-:::{#exm-regresion-multiple-frecuentista}
-Ajustamos el modelo de regresión lineal múltiple del peso sobre la estatura y el sexo utilizando mínimos cuadrados.
-
-```{r}
-#| output-location: column
-modelo_multiple_freq <- lm(peso ~ estatura + sexo, data = df)
-summary(modelo_multiple_freq)
-```
+:::{#exr-regresion-multiple}
+¿Qué modelo de regresión lineal múltiple ajustarías para modelizar el peso de una persona en función de su estatura y su sexo? ¿Qué distribuciones a priori utilizarías para los parámetros del modelo?
 :::
 
+<details>
+<summary>Solución</summary>
+Antes de nada, puesto que el sexo es una variable categórica, debemos codificarla como variable númerica para poder introducirla en el modelo de regresión múltiple. Como en este caso solo hay dos categorías posibles, podemos usar el 0 para hombres y 1 para mujeres.
+
+Si llamamos $X_1$ a la estatura y $X_2$ al sexo, el modelo de regresión lineal múltiple sería:
+
+$$
+Y|\beta_0, \beta_1, \beta_2, \sigma \sim N(\beta_0 + \beta_1 X_1 + \beta_2 X_2, \sigma)
+$$
+
+De esta manera, para cada categoría de sexo, el modelo de regresión lineal múltiple nos da una recta de regresión distinta:
+
+::::{.columns}
+::: {.column width="50%"}
+Recta de regresión de hombres ($X_2 = 0$)
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \varepsilon
+$$
+:::
+
+::: {.column width="50%"}
+Recta de regresión de mujeres ($X_2 = 1$)
+
+$$
+Y = (\beta_0 + \beta_2) + \beta_1 X_1 + \varepsilon
+$$
+:::
+::::
+</details>
+
 ---
 
-:::{#exm-regresion-multiple-bayesiana}
-Ajustamos el mismo modelo mediante inferencia bayesiana con `stan_glm()`.
+<details>
+<summary>Solución (continuación)</summary>
+Este modelo asume que la pendiente de la recta de regresión es la misma para hombres y mujeres, pero que el término independiente es distinto. 
+
+Para las distribuciones a priori de los parámetros $\beta_0, \beta_1$ y $\sigma$, podemos utilizar las mismas distribuciones a priori que en el modelo de regresión lineal simple. 
+
+Y para  la distribución a priori de $\beta_2$ podemos usar una distribución normal que refleje la diferencia de peso entre hombres y mujeres, que sabemos por experiencia que es positiva. Por ejemplo, $\beta_2 \sim N(-10, 5)$, que refleja que la diferencia de peso entre hombres y mujeres de la misma estatura es de unos 10 kg, con una desviación típica de 5 kg.
+</details>
+
+## Evaluación de las distribuciones a priori
+
+Como ya vimos con los modelos de regresión simple, antes de hacer el ajuste del modelo, conviene evaluar las distribuciones a priori de los parámetros del modelo para comprobar que son razonables. Para ello podemos simular valores de los parámetros a partir de sus distribuciones a priori y dibujar las rectas de regresión correspondientes.
+
+Recordemos que podemos usar la misma función `stan_glm` para simular las distribuciones a priori de los parámetros del modelo, añadiendo la opción `prior_PD = TRUE`.
+
+---
+
+:::{#exm-evaluacion-distribuciones-priori-regresion-multiple}
+Veamos cómo simular las distribuciones a priori de los parámetros del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo. 
 
 ```{r}
 #| output: false
 library(rstanarm)
 set.seed(123)
-post_multiple <- stan_glm(
+modelo2_prior <- stan_glm(
   peso ~ estatura + sexo,
   data = df,
   family = gaussian(),
-  prior = normal(location = c(1.5, 5), scale = c(0.5, 5)),
   prior_intercept = normal(70, 10),
+  prior = normal(location = c(1.5, -10), scale = c(0.5, 5)),
   prior_aux = exponential(0.5),
-  iter = 5000 * 2, chains = 4, seed = 123
+  chains = 4, iter = 5000 * 2, seed = 123,
+  prior_PD = TRUE
 )
 ```
+:::
+
+:::{.callout-warning}
+La función `stan_glm` realiza la codificación de las variables categóricas de forma automática y asigna el código 0 a la primera categoría alfabéticamente y el código 1 a la segunda categoría.
+:::
+
+---
+
+A continuación podemos dibujar algunas de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a priori de los parámetros del modelo para ver si son razonables.
+
+```{r}
+df |>
+  add_epred_draws(modelo2_prior, ndraws = 50, value = "Predicción_media") |>
+  ggplot(aes(x = estatura, y = peso, color = sexo)) +
+  geom_line(aes(y = Predicción_media, group = paste(sexo, .draw)), alpha = 0.2) +
+  labs(x = "Estatura", y = "Peso") +
+  theme_minimal()
+```
+
+## Ajuste del modelo de regresión lineal múltiple
+
+Una vez que hemos evaluado las distribuciones a priori de los parámetros del modelo y hemos comprobado que son razonables, podemos ajustar el modelo de regresión lineal múltiple a los datos.
+
+En realidad no hace falta especificar de nuevo las distribuciones a priori de los parámetros del modelo. Basta con usar la función `update` pasándole el modelo anterior con la opción `prior_PD = FALSE`, para que se ajusten las distribuciones a posteriori de los parámetros del modelo a partir de los datos.
+
+:::{#exm-ajuste-regresion-multiple}
+Para ajustar el modelo de regresión lineal múltiple del peso sobre la estatura y el sexo, basta con usar el siguiente código.
+
+```{r}
+#| output: false
+modelo2 <- update(modelo2_prior, prior_PD = FALSE)
+```
+:::
+
+
+---
+
+```{r}
+mcmc_trace(modelo2, size = 0.1)
+```
+
+---
+
+```{r}
+mcmc_dens_overlay(modelo2)
+```
+
+Observando las trazas y las distribuciones de las cadenas de Markov, se puede ver que las cadenas son estables y convergentes.
+
+---
+
+```{r}
+neff_ratio(modelo2) |> t() |> kable()
+rhat(modelo2) |> t() |> kable()
+```
+
+El número efectivo de simulaciones es razonablemente alto para los tres parámetros, y el valor de $\hat{R}$ es casi 1, lo que indica que las cadenas de Markov han convergido correctamente.
+
+## Intervalos de credibilidad de los parámetros
+
+:::{#exm-intervalos-credibilidad-regresion-lineal-multiple}
+Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre la estatura y el sexo.
+
+```{r}
+library(tidybayes)
+modelo2 |> 
+  gather_draws(`(Intercept)`, estatura, sexoM, sigma) |>
+  mean_qi(.width = 0.9) |> 
+  kable()
+```
+
+Se observa que cuando se controla por el sexo, por cada centímetro más de estatura se espera un incremento en el peso de entre 0.02 y 0.39 kg, tanto para hombres como para mujeres. Por otro lado, cuando se controla por la estatura, se espera que las mujeres pesen entre 13.6 y 20.5 kg menos que los hombres.
+:::
+
+
+## Dibujo de las rectas de regresión a posteriori
+
+:::{#exm-rectas-regresion-posteriori-multiple}
+Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo.
+
+```{r}
+#| output-location: column
+df |>
+  add_epred_draws(modelo2, ndraws = 50, value = "Predicción_media") |>
+  ggplot(aes(x = estatura, y = peso, color = sexo)) +
+  geom_point(data = df) +
+  geom_line(aes(y = Predicción_media, group = paste(sexo, .draw)), alpha = 0.2) +
+  labs(x = "Estatura", y = "Peso") +
+  theme_minimal()
+```
+
+Se observa claramente que hay una relación positiva entre la estatura y el peso, aunque de menor magnitud que en el modelo de regresión simple, y que las mujeres tienen un peso medio menor que los hombres para la misma estatura, lo que es consistente con la experiencia.
+:::
+
+## Predicciones del modelo de regresión múltiple
+
+:::{#exm-distribucion-predictiva-regresion-multiple}
+Veamos cómo obtener la distribución a posteriori de la predicción del peso para una un hombre y una mujer de estatura 160 cm, utilizando el modelo de regresión lineal múltiple ajustado anteriormente.
+
+```{r}
+datos_nuevos <- tibble(estatura = c(160,160), sexo = c("H","M"))
+post_pred_160<- predicted_draws(modelo2, newdata = datos_nuevos, value = "Predicción")
+mean_qi(post_pred_160, .width = 0.9) |> kable()
+```
+
+Un hombre de 160 cm tendría un peso entre 59.2 y 98.6 kg con una probabilidad del 90%, mientras que una mujer de la misma estatura tendría un peso entre 42.1 y 81.2 kg. 
 :::
 
 ---
 
 ```{r}
-mcmc_trace(post_multiple)
+predicted_draws(modelo2, newdata = tibble(estatura = c(160,160), sexo = c("H", "M")), value = "Predicción") |>
+  ggplot(aes(x = Predicción, y = sexo, color = sexo)) +
+  stat_halfeye(.width = c(0.5, 0.9), fill = "gray90") +
+  scale_y_discrete(labels = c("H" = "Hombre", "M" = "Mujer")) +
+  labs(
+    title = "Distribuciones de las predicciones del peso para personas de estatura 160 cm",
+    x = "Peso (kg)", y = "Sexo"
+  ) +
+  theme_minimal()
 ```
+## Distribuciones predictivas del modelo de regresión múltiple
+
+:::{#exm-distribuciones-predictivas-regresion-multiple}
+Veamos cómo obtener las distribuciones a posteriori de las predicciones del peso para todas las personas de la muestra, utilizando el modelo de regresión lineal múltiple ajustado anteriormente.
+
+```{r}
+#| output-location: column
+post_pred <- predicted_draws(modelo2, newdata = df, value = "Predicción")
+ggplot(post_pred, aes(x = estatura, y = Predicción, color = sexo)) +
+  stat_pointinterval(.width = c(0.5, 0.95), position = position_dodge(width = 0.5)) +
+  geom_point(data = df, aes(y = peso), position = position_dodge(width = 0.5)) +
+  labs(x = "Estatura (cm)", y = "Peso (kg)") +
+  theme_minimal()
+```
+:::
+
+## Evaluación del modelo de regresión múltiple
+
+:::{#exm-evaluacion-regresion-multiple}
+Veamos cómo obtener las métricas de evaluación del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo mediante validación cruzada con 10 pliegues.
+
+```{r}
+set.seed(123)
+eval_cv <- prediction_summary_cv(model = modelo2, data = df, k = 10, prob_outer = 0.9)
+eval_cv$cv |> kable()
+```
+
+Podemos observar que el error absoluto mediano ha disminuido en 1.13 kg, lo que indica que el modelo de regresión múltiple es ligeramente mejor que el modelo de regresión simple, pero la inclusión de la variable sexo no mejora mucho la precisión del modelo.
+:::
 
 ---
 
+Veamos ahora cuánto vale el coeficiente de determinación bayesiano.
+
 ```{r}
-mcmc_dens_overlay(post_multiple)
+bayes_R2(modelo2) |>
+  mean_qi(.width = 0.9) |>
+  kable(col.names = c("R² medio", ".lower", ".upper", ".width", ".point", ".interval"))
 ```
+
+Podemos observar que el modelo de regresión múltiple explica alrededor del 42% de la variabilidad del peso, por lo que explica mejor la variabilidad del peso que el modelo de regresión simple.
+
+## Comparación de modelos de regresión
+
+En general, cuantas más variables independientes agreguemos a un modelo de regresión múltiple, mayor será el coeficiente de determinación ya que la variabilidad no explicada por el modelo disminuirá. No obstante, esto no significa que el modelo sea mejor, ya que al aumentar el número de variables independientes, también aumentará el sobreajuste al conjunto de entrenamiento.
+
+Para comparar la capacidad predictiva de distintos modelos de regresión, podemos utilizar la métrica de la _densidad logarítmica predictiva esperada_ (ELPD), que penaliza la complejidad del modelo y nos permite comparar modelos de regresión con distinto número de variables independientes.
+
+## Densidad logarítmica predictiva esperada (ELPD) 
+
+Esta métrica mide el logaritmo de la densidad predictiva puntual de los valores observados en los datos de prueba, según la distribución predictiva del modelo ajustado a los datos de entrenamiento.
+
+Normalmente se utiliza validación cruzada de $n$ pliegues, conocida como _leave-one-out cross-validation_ (LOO-CV), de manera que se realiza una iteración por cada caso de la muestra, reservando ese caso como conjunto de prueba y ajustando el modelo con el resto de los casos como conjunto de entrenamiento.
+
+Para cada caso $y_i$ de la muestra $(y_1, y_2, ..., y_n)$, se calcula el logaritmo de la densidad predictiva de $y_i$ según la distribución predictiva del modelo ajustado a los datos de la muestra menos $y_i$:
+
+$$
+\mbox{lpg}_i = \log p(y_i|y_{-i}) = \log \int p(y_i|\theta)p(\theta|y_{-i})d\theta,
+$$
+
+donde $y_{-i}$ es el conjunto de datos sin el caso $y_i$, $p(y_i|\theta)$ es la densidad predictiva esperada para el valor $y_i$ dado los parámetros del modelo $\theta$, y $p(\theta|y_{-i})$ es la distribución a posteriori de los parámetros del modelo ajustado a los datos de entrenamiento. 
 
 ---
 
+Finalmente, la densidad logarítmica predictiva esperada (ELPD) se calcula como la suma de los logaritmos de las densidades predictivas de todos los casos de la muestra.
+
+:::{#def-elpd}
+## Densidad logarítmica predictiva esperada (ELPD)
+Dada una muestra de datos $(y_1, y_2, ..., y_n)$, la _densidad logarítmica predictiva esperada_ (ELPD) de un modelo de regresión con parámetros $\theta$, ajustado a los datos de entrenamiento mediante validación cruzada LOO-CV se define como
+
+$$
+\mbox{elpd} = \sum_{i=1}^n \log p(y_i|y_{-i}) = \sum_{i=1}^n \log \int p(y_i|\theta)p(\theta|y_{-i})d\theta,
+$$
+
+donde $y_{-i}$ es el conjunto de datos sin el caso $y_i$, $p(y_i|\theta)$ es la densidad predictiva esperada para el valor $y_i$ dado los parámetros del modelo $\theta$, y $p(\theta|y_{-i})$ es la distribución a posteriori de los parámetros del modelo ajustado a los datos de entrenamiento. 
+:::
+
+Cuanto mayor sea el valor de la ELPD, mejor será la capacidad predictiva del modelo, por lo que podemos comparar distintos modelos de regresión mediante esta métrica.
+
+---
+
+Podemos calcular la ELPD de un modelo de regresión bayesiano ajustado con `stan_glm` mediante la función `loo` del paquete [`rstanarm`](https://mc-stan.org/loo/reference/loo.html).
+
+:::{.callout-note}
+## `loo`
+
+Calcula la densidad logarítmica predictiva esperada (ELPD) de un modelo de regresión bayesiano ajustado con `stan_glm` mediante validación cruzada LOO-CV.
+
+Parámetros: 
+
+- `x`: modelo de regresión bayesiano ajustado con `stan_glm`.
+:::
+
+---
+
+:::{#exm-elpd-regresion-lineal}
+Vamos a calcular la ELPD del modelo de regresión lineal simple y del modelo de regresión lineal múltiple ajustados anteriormente, para comparar su capacidad predictiva.
+
+
 ```{r}
-neff_ratio(post_multiple)
-rhat(post_multiple)
+#| output-location: column
+# ELPD del modelo de regresión lineal simple
+loo(modelo1)$estimates[1,] |> t() |> kable()
 ```
 
+```{r}
+#| output-location: column
+# ELPD del modelo de regresión lineal múltiple
+loo(modelo2)$estimates[1,] |> t() |> kable()
+```
 
+La diferencia de ELPD entre ambos modelos es 
+
+$$
+\Delta \mbox{ELPD} = -781.8 - (-810.5) = 28.7,
+$$
+
+La diferencia no se interpreta en términos absolutos sino en relación a su error estándar. 
+:::
+
+---
+
+La función `loo_compare` del paquete [`rstanarm`](https://mc-stan.org/loo/reference/loo_compare.html) permite comparar la ELPD de varios modelos de regresión bayesianos ajustados con `stan_glm`.
+
+:::{.callout-note}
+## `loo_compare`
+
+Compara la densidad logarítmica predictiva esperada (ELPD) de varios modelos de regresión bayesianos ajustados con `stan_glm`.
+
+Parámetros:
+
+- `x`: lista de ELDPs de los modelos a comparar calculados con `loo`.
+:::
+
+---
+
+:::{#exm-comparacion-elpd-regresion-lineal}
+Veamos cómo comparar la ELPD de los modelos de regresión lineal simple y múltiple ajustados anteriormente.
+
+```{r}
+#| output-location: column
+loo1 <- loo(modelo1)
+loo2 <- loo(modelo2)
+loo_compare(loo1, loo2)[,c("elpd_diff", "se_diff")] |> kable()
+```
+
+En este caso la diferencia tipificada de ELDP es
+
+$$
+\frac{\Delta \mbox{ELPD}}{\mbox{SE}(\mbox{ELPD})} = \frac{28.7}{6.2} \approx 4.7
+$$
+:::
+
+Se suele utilizar la regla de Vehtari:
+
+- $\Delta \mbox{ELPD} / \mbox{SE}(\mbox{ELPD}) < 2 \rightarrow$ Diferencia no sustancial.
+- $2\leq \Delta \mbox{ELPD} / \mbox{SE}(\mbox{ELPD}) < 4 \rightarrow$ Diferencia moderada.
+- $\geq 4 \rightarrow$ Diferencia sustancial.
+
+En este caso podemos decir que el modelo de regresión múltiple es sustancialmente mejor que el modelo de regresión simple.
