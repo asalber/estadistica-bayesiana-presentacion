@@ -35,7 +35,11 @@ $$f_i = \frac{n_i}{n}$$
 ---
 
 :::{#exm-frecuencias-absolutas-relativas}
-Si tomamos una muestra aleatoria de 10 personas y 6 mujeres, entonces la frecuencia absoluta de mujeres es $n_i=6$ y la frecuencia relativa es $f_i=6/10=0.6$.
+Si tomamos una muestra aleatoria de 10 personas y 6 mujeres, entonces la frecuencia absoluta de mujeres es $n_i=6$ y la frecuencia relativa es 
+
+$$
+f_i= \frac{6}{10}=0.6.
+$$
 :::
 
 ## Distribuciones de frecuencias
@@ -97,7 +101,7 @@ df |>
 ---
 
 :::{#exr-tabla-frecuencias}
-El conjunto de datos `neonatos` contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.
+El conjunto de datos [`neonatos`](https://raw.githubusercontent.com/asalber/estadistica-bayesiana-presentacion/refs/heads/main/datos/neonatos.csv) contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.
 
 a. Crear una tabla de frecuencias absolutas y relativas para la variable `sexo`.
 a. Crear una tabla de frecuencias absolutas y relativas para la variable `tabaco`.

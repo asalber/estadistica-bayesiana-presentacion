@@ -24,7 +24,7 @@ Estructuras de datos, distribuciones, tablas y gráficos.
 ::: {.event data-label="Martes"}
 [**Introducción a la estadística bayesiana**](02-regla-bayes.html){.mypurple}
 Regla de Bayes. Distribuciones a priori, funciones de verosimilitud y distribuciones a posteriori.
-::
+:::
 
 ::: {.event data-label="Miércoles"}
 [**Inferencia bayesiana**](03-inferencia-bayesiana.html){.mypurple}

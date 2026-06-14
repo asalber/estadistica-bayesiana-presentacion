@@ -6,7 +6,7 @@
 <script src="03-inferencia-bayesiana_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="03-inferencia-bayesiana_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="03-inferencia-bayesiana_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="03-inferencia-bayesiana_files/libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="03-inferencia-bayesiana_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="03-inferencia-bayesiana_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="03-inferencia-bayesiana_files/libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
@@ -61,51 +61,49 @@
         -khtml-user-select: none; -moz-user-select: none;
         -ms-user-select: none; user-select: none;
         padding: 0 4px; width: 4em;
+        color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
     div.sourceCode
-      { color: #383a42;  }
+      { color: #003b4f; background-color: #f1f3f5; }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #383a42; } /* Normal */
-    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
-    code span.an { color: #50a14f; } /* Annotation */
-    code span.at { color: #a626a4; } /* Attribute */
-    code span.bn { color: #986801; } /* BaseN */
-    code span.bu { color: #a626a4; } /* BuiltIn */
-    code span.cf { color: #a626a4; } /* ControlFlow */
-    code span.ch { color: #50a14f; } /* Char */
-    code span.cn { color: #986801; } /* Constant */
-    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
-    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
-    code span.do { color: #e45649; } /* Documentation */
-    code span.dt { color: #a626a4; } /* DataType */
-    code span.dv { color: #986801; } /* DecVal */
-    code span.er { color: #f44747; text-decoration: underline; } /* Error */
-    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
-    code span.fl { color: #986801; } /* Float */
-    code span.fu { color: #4078f2; } /* Function */
-    code span.im { color: #50a14f; } /* Import */
-    code span.in { color: #c45b00; } /* Information */
-    code span.kw { color: #a626a4; } /* Keyword */
-    code span.op { color: #a626a4; } /* Operator */
-    code span.ot { color: #27ae60; } /* Other */
-    code span.pp { color: #a626a4; } /* Preprocessor */
-    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
-    code span.sc { color: #0184bc; } /* SpecialChar */
-    code span.ss { color: #da4453; } /* SpecialString */
-    code span.st { color: #50a14f; } /* String */
-    code span.va { color: #e45649; } /* Variable */
-    code span.vs { color: #da4453; } /* VerbatimString */
-    code span.wa { color: #da4453; } /* Warning */
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="03-inferencia-bayesiana_files/libs/revealjs/dist/theme/quarto-9715cb218e2c2db493bf0991103ad162.css">
+  <link rel="stylesheet" href="03-inferencia-bayesiana_files/libs/revealjs/dist/theme/quarto-310361485e3443f230591f918f692d18.css">
   <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-  <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="03-inferencia-bayesiana_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -196,36 +194,47 @@
   </style>
 </head>
 <body class="quarto-light">
-<script src="mathjax-config.js"></script>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="center">
-      <img class="title-logo" src="img/logos/sticker-estadistica-bayesiana-r.png" width="250" style="float:right">
-        <p class="subtitle">Estimación de parámetros, contraste de hipótesis y predicciones</p>
-      <h1 class="title">Inferencia Bayesiana</h1>
-      <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
-        
-  </section>
-<section id="section" class="title-slide slide level2 myblue center" data-background-color="">
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Inferencia Bayesiana</h1>
+  <p class="subtitle">Estimación de parámetros, intervalos de credibilidad, contraste de hipótesis y predicciones</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a> 
+</div>
+</div>
+</div>
+
+</section>
+<section id="section" class="slide level2 myblue" data-background-color="">
 <h2></h2>
 <div class="main-title">
 <p>Estimación de parámetros</p>
 </div>
 </section>
-
-<section>
-<section id="estimación-frecuentista" class="title-slide slide level2 center">
+<section id="estimación-frecuentista" class="slide level2">
 <h2>Estimación frecuentista</h2>
 <p>En Estadística frecuentista, la una estimación de un parámetro desconocido es un valor que se obtiene a partir de la muestra observada y que se utiliza como una aproximación del valor real del parámetro.</p>
 <p>La función que se aplica a la muestra para obtener la estimación se llama estimador.</p>
-
-<img data-src="img/03-inferencia-bayesiana/estimador-estimacion.svg" class="r-stretch quarto-figure-center"><p class="caption">Estimación frecuentista</p></section>
-<section id="estimación-puntual-y-por-intervalos" class="slide level3">
-<h3>Estimación puntual y por intervalos</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/03-inferencia-bayesiana/estimador-estimacion.png"></p>
+<figcaption>Estimación frecuentista</figcaption>
+</figure>
+</div>
+<h3 id="estimación-puntual-y-por-intervalos">Estimación puntual y por intervalos</h3>
 <p>La estimación de un parámetro puede ser puntual (un único valor) o por intervalos (intervalos de confianza).</p>
-
-<img data-src="img/03-inferencia-bayesiana/estimacion-puntual-intervalo.svg" class="r-stretch quarto-figure-center"><p class="caption">Estimación puntual y por intervalos</p><div id="def-intervalo-confiana" class="theorem definition">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/03-inferencia-bayesiana/estimacion-puntual-intervalo.png"></p>
+<figcaption>Estimación puntual y por intervalos</figcaption>
+</figure>
+</div>
+<div id="def-intervalo-confiana" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 1 (Intervalo de confianza)</strong></span> Dados dos estimadores <span class="math inline">\(li(x)\)</span> y <span class="math inline">\(ls(x)\)</span>, se dice que el intervalo <span class="math inline">\([li(x), ls(x)]\)</span> es un <em>intervalo de confianza</em> para el parámetro <span class="math inline">\(\theta\)</span> con nivel de confianza <span class="math inline">\(1-\alpha\)</span> si se cumple que</p>
 <p><span class="math display">\[
 P(li(X) \leq \theta \leq ls(X)) = 1-\alpha
@@ -235,16 +244,19 @@ P(li(X) \leq \theta \leq ls(X)) = 1-\alpha
 <div class="centered">
 <p><em>¿Cómo se interpreta un intervalo de confianza?</em></p>
 </div>
-</section>
-<section id="interpretación-de-un-intervalo-de-confianza" class="slide level3">
-<h3>Interpretación de un intervalo de confianza</h3>
+<h3 id="interpretación-de-un-intervalo-de-confianza">Interpretación de un intervalo de confianza</h3>
 <p>Si repitiéramos el experimento infinitas veces y construyéramos un intervalo de cada muestra, el 95% de esos intervalos hipotéticos contendrían el verdadero <span class="math inline">\(\theta\)</span>.</p>
-
-<img data-src="img/03-inferencia-bayesiana/intervalos-confianza.svg" class="r-stretch quarto-figure-center"><p class="caption">Simulación de 100 intervalos de confianza</p><div class="centered">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/03-inferencia-bayesiana/intervalos-confianza.png"></p>
+<figcaption>Simulación de 100 intervalos de confianza</figcaption>
+</figure>
+</div>
+<div class="centered">
 <p><em>Esta interpretación es contrafactual y genera muchos errores.</em></p>
 </div>
-</section></section>
-<section id="estimación-bayesiana" class="title-slide slide level2 center">
+</section>
+<section id="estimación-bayesiana" class="slide level2">
 <h2>Estimación bayesiana</h2>
 <p>En Estadística bayesiana, la estimación de un parámetro desconocido es la propia distribución a posteriori del parámetro. La distribución a posteriori refleja la incertidumbre sobre el valor del parámetro después de haber observado los datos.</p>
 <p>La distribución a posteriori se suele describir con distintas medidas:</p>
@@ -254,9 +266,7 @@ P(li(X) \leq \theta \leq ls(X)) = 1-\alpha
 <li>Medidas de dispersión: Varianza, desviación típica o intervalo de credibilidad.</li>
 </ul>
 </section>
-
-<section>
-<section id="intervalo-de-credibilidad" class="title-slide slide level2 center">
+<section id="intervalo-de-credibilidad" class="slide level2">
 <h2>Intervalo de credibilidad</h2>
 <div id="def-intervalo-credibilidad" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 2 (Intervalo de credibilidad)</strong></span> Dada una distribución a posteriori de un parámetro <span class="math inline">\(\theta|x\)</span>, un intervalo de credibilidad con nivel <span class="math inline">\(1-\alpha\)</span> es un intervalo <span class="math inline">\([li, ls]\)</span> tal que <span class="math display">\[
@@ -269,39 +279,39 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </div>
 <p>Habitualmente, para construir un intervalo de credibilidad <span class="math inline">\(1-\alpha\%\)</span> se suele tomar los percentiles <span class="math inline">\(\alpha/2\)</span> y <span class="math inline">\(1-\alpha/2\)</span> de la distribución a posteriori.</p>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exm-intervalos-credibilidad" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 1</strong></span> Para estimar la prevalencia de la hipertensión en mayores de 18 años usamos un modelo Beta-Binomial con prior <span class="math inline">\(\mbox{Beta}(4, 6)\)</span>. Si tomamos una muestra de 200 personas y encontramos 70 con hipertensión, veamos cómo obtener el intervalo de credibilidad del 90% para la prevalencia.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">data</span></span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
-<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n; // tamaño de la muestra</span></span>
-<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; k; // número de éxitos</span></span>
-<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">parameters</span></span>
-<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
-<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p; // prevalencia de la hipertensión</span></span>
-<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb1-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">model</span></span>
-<span id="cb1-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
-<span id="cb1-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ beta(4, 6); // prior</span></span>
-<span id="cb1-15"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  k ~ binomial(n, p); // verosimilitud</span></span>
-<span id="cb1-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb1-17"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb1-18"><a href="" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">k =</span> <span class="dv">70</span>), </span>
-<span id="cb1-19"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(rstan)</span>
+<span id="cb1-2"><a href=""></a>modelo <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb1-3"><a href=""></a><span class="st">data</span></span>
+<span id="cb1-4"><a href=""></a><span class="st">{</span></span>
+<span id="cb1-5"><a href=""></a><span class="st">  int&lt;lower=0&gt; n; // tamaño de la muestra</span></span>
+<span id="cb1-6"><a href=""></a><span class="st">  int&lt;lower=0&gt; k; // número de éxitos</span></span>
+<span id="cb1-7"><a href=""></a><span class="st">}</span></span>
+<span id="cb1-8"><a href=""></a><span class="st">parameters</span></span>
+<span id="cb1-9"><a href=""></a><span class="st">{</span></span>
+<span id="cb1-10"><a href=""></a><span class="st">  real&lt;lower=0, upper=1&gt; p; // prevalencia de la hipertensión</span></span>
+<span id="cb1-11"><a href=""></a><span class="st">}</span></span>
+<span id="cb1-12"><a href=""></a><span class="st">model</span></span>
+<span id="cb1-13"><a href=""></a><span class="st">{</span></span>
+<span id="cb1-14"><a href=""></a><span class="st">  p ~ beta(4, 6); // prior</span></span>
+<span id="cb1-15"><a href=""></a><span class="st">  k ~ binomial(n, p); // verosimilitud</span></span>
+<span id="cb1-16"><a href=""></a><span class="st">}</span></span>
+<span id="cb1-17"><a href=""></a><span class="st">"</span></span>
+<span id="cb1-18"><a href=""></a>post <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">k =</span> <span class="dv">70</span>), </span>
+<span id="cb1-19"><a href=""></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(post, <span class="at">pars =</span> <span class="st">"p"</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))<span class="sc">$</span>summary <span class="sc">|&gt;</span> </span>
-<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-2"><a href=""></a><span class="fu">summary</span>(post, <span class="at">pars =</span> <span class="st">"p"</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))<span class="sc">$</span>summary <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -342,7 +352,7 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <p>Podemos obtener también el intervalo de credibilidad con las funciones <code>spread_draws</code> y <code>mean_qi</code> del paquete <a href="https://mjskay.github.io/tidybayes/index.html"><code>tidybayes</code></a>.</p>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -382,14 +392,14 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(p, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb3-2"><a href=""></a>post <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href=""></a>  <span class="fu">mean_qi</span>(p, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -415,9 +425,7 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </table>
 </div>
 </div>
-</section>
-<section id="dibujo-de-los-intervalos-de-credibilidad" class="slide level3">
-<h3>Dibujo de los intervalos de credibilidad</h3>
+<h3 id="dibujo-de-los-intervalos-de-credibilidad">Dibujo de los intervalos de credibilidad</h3>
 <p>Podemos usar la función <code>mcmc_intervals</code> del paquete <code>bayesplot</code> para dibujar los intervalos de credibilidad de la distribución a posteriori.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -441,19 +449,19 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exm-dibujo-intervalos-credibilidad" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 2</strong></span> Veamos cómo dibujar los intervalos de credibilidad calculados en el ejemplo anterior para la prevalencia de la hipertensión.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_intervals</span>(post, <span class="at">pars =</span> <span class="st">"p"</span>, </span>
-<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>, </span>
-<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">"mean"</span>) <span class="sc">+</span> </span>
-<span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Intervalo de credibilidad del 90% para la prevalencia de la hipertensión"</span>) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-2"><a href=""></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb4-3"><a href=""></a><span class="fu">mcmc_intervals</span>(post, <span class="at">pars =</span> <span class="st">"p"</span>, </span>
+<span id="cb4-4"><a href=""></a>  <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>, </span>
+<span id="cb4-5"><a href=""></a>  <span class="at">point_est =</span> <span class="st">"mean"</span>) <span class="sc">+</span> </span>
+<span id="cb4-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Intervalo de credibilidad del 90% para la prevalencia de la hipertensión"</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href=""></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -465,7 +473,7 @@ P(\theta \in [li, ls]|x) = 1-\alpha.
 </div></div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exr-intervalos-credibilidad" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 1</strong></span> Los datos históricos del sistema de vigilancia epidemiológica sugieren que la incidencia de la tuberculosis en una población está entre 8 y 15 casos por cada 100.000 habitantes-año. Si en el último año se han registrado 48 nuevos casos en una población de 300.000 habitantes, ¿cuál es el intervalo de credibilidad del 95% para la incidencia de la tuberculosis en esa población?</p>
@@ -476,25 +484,25 @@ Tras el calibrado de la distribución Gamma para ajustarla a la variabilidad de 
 Solución
 </summary>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; y; // número de casos de tuberculosis</span></span>
-<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb5-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; lambda; // incidencia</span></span>
-<span id="cb5-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb5-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ poisson(lambda); // función de verosimilitud</span></span>
-<span id="cb5-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda ~ gamma(27.5, 2.5); // distribución a priori</span></span>
-<span id="cb5-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb5-13"><a href="" aria-hidden="true" tabindex="-1"></a>post_lambda <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, </span>
-<span id="cb5-14"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> <span class="dv">48</span><span class="sc">/</span><span class="dv">3</span>), </span>
-<span id="cb5-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>modelo <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb5-2"><a href=""></a><span class="st">data {</span></span>
+<span id="cb5-3"><a href=""></a><span class="st">  int&lt;lower=0&gt; y; // número de casos de tuberculosis</span></span>
+<span id="cb5-4"><a href=""></a><span class="st">}</span></span>
+<span id="cb5-5"><a href=""></a><span class="st">parameters {</span></span>
+<span id="cb5-6"><a href=""></a><span class="st">  real&lt;lower=0&gt; lambda; // incidencia</span></span>
+<span id="cb5-7"><a href=""></a><span class="st">}</span></span>
+<span id="cb5-8"><a href=""></a><span class="st">model {</span></span>
+<span id="cb5-9"><a href=""></a><span class="st">  y ~ poisson(lambda); // función de verosimilitud</span></span>
+<span id="cb5-10"><a href=""></a><span class="st">  lambda ~ gamma(27.5, 2.5); // distribución a priori</span></span>
+<span id="cb5-11"><a href=""></a><span class="st">}</span></span>
+<span id="cb5-12"><a href=""></a><span class="st">"</span></span>
+<span id="cb5-13"><a href=""></a>post_lambda <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, </span>
+<span id="cb5-14"><a href=""></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> <span class="dv">48</span><span class="sc">/</span><span class="dv">3</span>), </span>
+<span id="cb5-15"><a href=""></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </details>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <details>
 <summary>
@@ -502,11 +510,11 @@ Solución (continuación)
 </summary>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_lambda <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(lambda, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb6-2"><a href=""></a>post_lambda <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href=""></a>  <span class="fu">mean_qi</span>(lambda, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -535,13 +543,13 @@ Solución (continuación)
 </div></div>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_intervals</span>(post_lambda, <span class="at">pars =</span> <span class="st">"lambda"</span>, </span>
-<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>, </span>
-<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">"mean"</span>) <span class="sc">+</span> </span>
-<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Intervalo de credibilidad del 95% para la incidencia de la tuberculosis"</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href=""></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb7-3"><a href=""></a><span class="fu">mcmc_intervals</span>(post_lambda, <span class="at">pars =</span> <span class="st">"lambda"</span>, </span>
+<span id="cb7-4"><a href=""></a>  <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>, </span>
+<span id="cb7-5"><a href=""></a>  <span class="at">point_est =</span> <span class="st">"mean"</span>) <span class="sc">+</span> </span>
+<span id="cb7-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Intervalo de credibilidad del 95% para la incidencia de la tuberculosis"</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href=""></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -552,15 +560,14 @@ Solución (continuación)
 </div>
 </div></div>
 </details>
-</section></section>
-<section id="section-1" class="title-slide slide level2 myblue center" data-background-color="">
+</section>
+<section id="section-1" class="slide level2 myblue" data-background-color="">
 <h2></h2>
 <div class="main-title">
 <p>Contrastes de hipótesis</p>
 </div>
 </section>
-
-<section id="hipótesis-estadística" class="title-slide slide level2 center">
+<section id="hipótesis-estadística" class="slide level2">
 <h2>Hipótesis estadística</h2>
 <div id="def-hipotesis-estadistica" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 3 (Hipótesis estadística)</strong></span> Una <em>hipótesis estadística</em> es cualquier afirmación o conjetura que determina, total o parcialmente, la distribución de una o varias variables de la población.</p>
@@ -570,8 +577,7 @@ Solución (continuación)
 <p><span class="theorem-title"><strong>Ejemplo 3</strong></span> Para valorar la gravedad de una epidemia de gripe, podríamos estar interesados en contrastar si la incidencia por cada 100000 personas-día es mayor de 20.</p>
 </div>
 </section>
-
-<section id="contrastes-de-hipótesis-paramétricos-en-estadística-frecuentista" class="title-slide slide level2 center">
+<section id="contrastes-de-hipótesis-paramétricos-en-estadística-frecuentista" class="slide level2">
 <h2>Contrastes de hipótesis paramétricos en Estadística frecuentista</h2>
 <p>En Estadística frecuentista un contraste de hipótesis se realiza eligiendo entre dos hipótesis antagónicas:</p>
 <ul>
@@ -607,8 +613,7 @@ Solución (continuación)
 </tbody>
 </table>
 </section>
-
-<section id="errores-en-la-toma-de-decisiones" class="title-slide slide level2 center">
+<section id="errores-en-la-toma-de-decisiones" class="slide level2">
 <h2>Errores en la toma de decisiones</h2>
 <p>En un contraste de hipótesis frecuentista, se pueden cometer dos tipos de errores:</p>
 <ul>
@@ -643,8 +648,7 @@ Solución (continuación)
 </table>
 <p>La probabilidad de cometer un error de tipo I se conoce como <span class="math inline">\(p\)</span>-valor.</p>
 </section>
-
-<section id="aceptación-o-rechazo-de-la-hipótesis-nula" class="title-slide slide level2 center">
+<section id="aceptación-o-rechazo-de-la-hipótesis-nula" class="slide level2">
 <h2>Aceptación o rechazo de la hipótesis nula</h2>
 <p>La decisión sobre la aceptación o rechazo de la hipótesis nula se basa en el cálculo de un estadístico de prueba a partir de la muestra observada y su comparación con una distribución de referencia bajo la hipótesis nula.</p>
 <p>El <span class="math inline">\(p\)</span>-valor es la probabilidad de obtener un valor del estadístico de prueba tan extremo o más extremo que el observado, asumiendo que la hipótesis nula es cierta.</p>
@@ -670,8 +674,7 @@ Solución (continuación)
 <p>donde <span class="math inline">\(\alpha\)</span> es el <em>nivel de significación</em>, que es la probabilidad máxima de cometer un error de tipo I que estamos dispuestos a aceptar.</p>
 <p>Habitualmente se suele tomar <span class="math inline">\(\alpha = 0.05\)</span>, por lo que la metodología para decidir entre <span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_1\)</span> favorece <span class="math inline">\(H_0\)</span>, que es la hipótesis conservadora, y solo se rechaza <span class="math inline">\(H_0\)</span> si la evidencia en contra de <span class="math inline">\(H_0\)</span> es suficientemente fuerte.</p>
 </section>
-
-<section id="interpretación-de-la-decisión" class="title-slide slide level2 center">
+<section id="interpretación-de-la-decisión" class="slide level2">
 <h2>Interpretación de la decisión</h2>
 <p>Cuando el <span class="math inline">\(p\)</span>-valor es menor que <span class="math inline">\(\alpha\)</span>, se rechaza la hipótesis nula y se concluye que hay suficiente evidencia para apoyar la hipótesis alternativa.</p>
 <div class="centered">
@@ -682,8 +685,7 @@ Solución (continuación)
 <p>De nuevo esta interpretación es contrafactual y genera muchos errores.</p>
 </div>
 </section>
-
-<section id="hipótesis-bayesianas" class="title-slide slide level2 center">
+<section id="hipótesis-bayesianas" class="slide level2">
 <h2>Hipótesis bayesianas</h2>
 <p>En Estadística bayesiana, las hipótesis se pueden formular de manera más flexible, ya que no es necesario que la hipótesis nula asigne un valor concreto al parámetro. Normalmente la hipótesis nula suele plantear un intervalo de valores para el parámetro, mientras que la alternativa contempla el resto de valores.</p>
 <div class="colums">
@@ -704,9 +706,7 @@ H_1: \theta &lt; \theta_0
 \end{align*}\]</span></p>
 </div></div>
 </section>
-
-<section>
-<section id="contrastes-de-hipótesis-bayesianos" class="title-slide slide level2 center">
+<section id="contrastes-de-hipótesis-bayesianos" class="slide level2">
 <h2>Contrastes de hipótesis bayesianos</h2>
 <p>En Estadística bayesiana, un contraste de hipótesis se realiza de manera mucho más natural calculando la probabilidad a posteriori de las hipótesis que se quieren contrastar.</p>
 <p><span class="math display">\[
@@ -724,7 +724,7 @@ P(\theta_1\leq \theta \leq \theta_2)
 <p><em>Esta metodología no da ventaja a ninguna de las hipótesis.</em></p>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exm-contraste-hipotesis-bayesiano" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 4</strong></span> En el ejemplo de la prevalencia de la hipertensión, podríamos estar interesados en contrastar si la prevalencia es mayor que el 30%. Para ello, habría que calcular la probabilidad</p>
@@ -734,10 +734,10 @@ P(p &gt; 0.3|x) = \int_{0.3}^{1} f(p|x) \, dp
 <p>que puede aproximarse con el siguiente código.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>post <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -756,7 +756,7 @@ P(p &gt; 0.3|x) = \int_{0.3}^{1} f(p|x) \, dp
 </div></div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exr-contraste-hipotesis-bayesiano" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 2</strong></span> En el ejemplo de la incidencia de la tuberculosis, realizar el contraste para ver si la incidencia es mayor que el 15% por cada 100.000 habitantes-año.</p>
@@ -771,10 +771,10 @@ H_0: \lambda &gt; 15 \quad  \quad H_1: \lambda \leq 15
 \]</span></p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_lambda <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(lambda <span class="sc">&gt;</span> <span class="dv">15</span>)) <span class="sc">|&gt;</span>  </span>
-<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>post_lambda <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href=""></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(lambda <span class="sc">&gt;</span> <span class="dv">15</span>)) <span class="sc">|&gt;</span>  </span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -794,7 +794,7 @@ H_0: \lambda &gt; 15 \quad  \quad H_1: \lambda \leq 15
 En este caso la probabilidad de que la incidencia sea mayor que el 15% es menor que 0.1, por lo que parece razonable rechazar la hipótesis nula y aceptar al hipótesis alternativa de que la incidencia de tuberculosis es menor o igual al 15% por cada 100.000 habitantes-año.
 </details>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exr-contraste-hipotesis-bayesiano-2" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 3</strong></span> ¿Cómo plantearías el contraste para ver si la incidencia es del 18%</p>
@@ -808,10 +808,10 @@ H_0: \lambda = 18 \quad  \quad H_1: \lambda \neq 18
 \]</span></p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_lambda <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(lambda, <span class="at">.width =</span> <span class="fl">0.99</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>post_lambda <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href=""></a>  <span class="fu">mean_qi</span>(lambda, <span class="at">.width =</span> <span class="fl">0.99</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -840,8 +840,8 @@ H_0: \lambda = 18 \quad  \quad H_1: \lambda \neq 18
 </div></div>
 El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de 8 a 17.8 casos por cada 100.000 habitantes-año, por lo que rechazamos la hipótesis nula de que la incidencia es del 18% al no ser compatible con los datos observados, ya que el valor de 18 no está dentro del intervalo de credibilidad.
 </details>
-</section></section>
-<section id="odds-a-posteriori" class="title-slide slide level2 center">
+</section>
+<section id="odds-a-posteriori" class="slide level2">
 <h2>Odds a posteriori</h2>
 <p>En los contrastes bayesianos resulta habitual comparar la probabilidad a posteriori de las hipótesis a través de las odds a posteriori, que se definen como</p>
 <p><span class="math display">\[
@@ -852,10 +852,10 @@ El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de
 <p><span class="theorem-title"><strong>Ejemplo 5</strong></span> En el ejemplo de la prevalencia de la hipertensión, podríamos calcular las odds a posteriori de que la prevalencia sea mayor que el 30% con el siguiente código.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">odds =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>) <span class="sc">/</span> <span class="fu">mean</span>(p <span class="sc">&lt;=</span> <span class="fl">0.3</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>post <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">odds =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>) <span class="sc">/</span> <span class="fu">mean</span>(p <span class="sc">&lt;=</span> <span class="fl">0.3</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -875,9 +875,7 @@ El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de
 </div>
 <p>Esto quiere decir que la hipótesis nula es casi 17 veces más probable que la alternativa.</p>
 </section>
-
-<section>
-<section id="factor-de-bayes" class="title-slide slide level2 center">
+<section id="factor-de-bayes" class="slide level2">
 <h2>Factor de Bayes</h2>
 <p>En ocasiones interesa comparar la odds de la hipótesis nula según la distribución a posteriori con la odds de la hipótesis nula según la distribución a priori. Para ello se utiliza el <em>factor de Bayes</em>.</p>
 <div id="def-factor-bayes" class="theorem definition">
@@ -893,18 +891,18 @@ El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de
 <li>Si <span class="math inline">\(\mbox{BF} &gt; 1\)</span>, la plausibilidad de <span class="math inline">\(H_0\)</span> ha aumentado tras observar los datos, es decir, los datos aportan más evidencia a favor de <span class="math inline">\(H_0\)</span> que de <span class="math inline">\(H_1\)</span>.</li>
 </ul>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exm-factor-bayes" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 6</strong></span> En el ejemplo de la prevalencia de la hipertensión, podríamos calcular el factor de Bayes de que la prevalencia sea mayor que el 30% con el siguiente código.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">odds_prior =</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.3</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">/</span> <span class="fu">pbeta</span>(<span class="fl">0.3</span>, <span class="dv">4</span>, <span class="dv">6</span>),</span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">odds_post =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>) <span class="sc">/</span> <span class="fu">mean</span>(p <span class="sc">&lt;=</span> <span class="fl">0.3</span>), </span>
-<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">BF =</span> odds_post <span class="sc">/</span> odds_prior) <span class="sc">|&gt;</span></span>
-<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>post <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href=""></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">odds_prior =</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.3</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">/</span> <span class="fu">pbeta</span>(<span class="fl">0.3</span>, <span class="dv">4</span>, <span class="dv">6</span>),</span>
+<span id="cb12-4"><a href=""></a>            <span class="at">odds_post =</span> <span class="fu">mean</span>(p <span class="sc">&gt;</span> <span class="fl">0.3</span>) <span class="sc">/</span> <span class="fu">mean</span>(p <span class="sc">&lt;=</span> <span class="fl">0.3</span>), </span>
+<span id="cb12-5"><a href=""></a>            <span class="at">BF =</span> odds_post <span class="sc">/</span> odds_prior) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -928,7 +926,7 @@ El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de
 <p>En este caso, el factor de Bayes es de aproximadamente 6.2, es decir, los datos multiplican por 6.2 las odds a favor de H_0, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula (que la prevalencia es mayor que el 30%) que a favor de la alternativa (que la prevalencia es menor o igual al 30%).</p>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exr-factor-bayes" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 4</strong></span> En el ejemplo de la incidencia de la tuberculosis, calcular el factor de Bayes de que la incidencia sea mayor que el 15% por cada 100.000 habitantes-año.</p>
@@ -939,12 +937,12 @@ Solución
 </summary>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_lambda <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">odds_prior =</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pgamma</span>(<span class="dv">15</span>, <span class="fl">27.5</span>, <span class="fl">2.5</span>)) <span class="sc">/</span> <span class="fu">pgamma</span>(<span class="dv">15</span>, <span class="fl">27.5</span>, <span class="fl">2.5</span>),</span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">odds_post =</span> <span class="fu">mean</span>(lambda <span class="sc">&gt;</span> <span class="dv">15</span>) <span class="sc">/</span> <span class="fu">mean</span>(lambda <span class="sc">&lt;=</span> <span class="dv">15</span>),</span>
-<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">BF =</span> odds_post <span class="sc">/</span> odds_prior) <span class="sc">|&gt;</span></span>
-<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>post_lambda <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href=""></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">odds_prior =</span> (<span class="dv">1</span><span class="sc">-</span> <span class="fu">pgamma</span>(<span class="dv">15</span>, <span class="fl">27.5</span>, <span class="fl">2.5</span>)) <span class="sc">/</span> <span class="fu">pgamma</span>(<span class="dv">15</span>, <span class="fl">27.5</span>, <span class="fl">2.5</span>),</span>
+<span id="cb13-4"><a href=""></a>            <span class="at">odds_post =</span> <span class="fu">mean</span>(lambda <span class="sc">&gt;</span> <span class="dv">15</span>) <span class="sc">/</span> <span class="fu">mean</span>(lambda <span class="sc">&lt;=</span> <span class="dv">15</span>),</span>
+<span id="cb13-5"><a href=""></a>            <span class="at">BF =</span> odds_post <span class="sc">/</span> odds_prior) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -967,15 +965,14 @@ Solución
 </div></div>
 Las odds a posteriori son de aproximadamente 0,1 lo que indica que la hipótesis alternativa es 10 veces más probable que la hipótesis nula. No obstante, el factor de Bayes es de 2.6 lo que indica que los datos han multiplicado por 2.6 las odds a favor de la hipótesis nula, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula que de la alternativa.
 </details>
-</section></section>
-<section id="section-2" class="title-slide slide level2 myblue center" data-background-color="">
+</section>
+<section id="section-2" class="slide level2 myblue" data-background-color="">
 <h2></h2>
 <div class="main-title">
 <p>Predicciones</p>
 </div>
 </section>
-
-<section id="predicciones-en-estadística-frecuentista" class="title-slide slide level2 center">
+<section id="predicciones-en-estadística-frecuentista" class="slide level2">
 <h2>Predicciones en Estadística frecuentista</h2>
 <p>En estadística frecuentista las predicciones suelen ser puntuales, es decir, se obtiene un único valor como predicción para una nueva observación de la variable de interés. Este valor suele ser una medida de tendencia central de la distribución de la variable determinada por los parámetros estimados a partir de la muestra observada.</p>
 <ul>
@@ -984,8 +981,7 @@ Las odds a posteriori son de aproximadamente 0,1 lo que indica que la hipótesis
 <li><strong>Moda</strong>: Es el valor más frecuente en la variable. Es una medida de tendencia central que puede ser útil para variables categóricas o discretas, pero no es tan informativa para variables continuas.</li>
 </ul>
 </section>
-
-<section id="predicciones-en-estadística-bayesiana" class="title-slide slide level2 center">
+<section id="predicciones-en-estadística-bayesiana" class="slide level2">
 <h2>Predicciones en Estadística bayesiana</h2>
 <p>Para realizar predicciones en Estadística bayesiana no solo debemos tener en cuenta la incertidumbre sobre la variable que queremos predecir, sino también la incertidumbre sobre los parámetros que describen la distribución de esa variable. En general tendremos varias fuentes de variabilidad:</p>
 <ul>
@@ -993,9 +989,7 @@ Las odds a posteriori son de aproximadamente 0,1 lo que indica que la hipótesis
 <li><strong>Variabilidad de los parámetros</strong>: Es la variabilidad que se produce al estimar los parámetros que describen la distribución de la variable que queremos predecir. Esta variabilidad se refleja en la distribución a posteriori de los parámetros. Por ejemplo, en el caso de la variable que mide el número de personas con hipertensión en una muestra de 10 personas, la variabilidad de los parámetros se refleja en la distribución a posteriori de <span class="math inline">\(p\)</span>.</li>
 </ul>
 </section>
-
-<section>
-<section id="distribución-predictiva-posterior" class="title-slide slide level2 center">
+<section id="distribución-predictiva-posterior" class="slide level2">
 <h2>Distribución predictiva posterior</h2>
 <p>Estas dos fuentes de variabilidad deben combinarse a la hora de hacer predicciones, es decir, si <span class="math inline">\(\tilde{X}\)</span> representa la variable a predecir, la probabilidad de obtener una predicción <span class="math inline">\(\tilde X=\tilde x\)</span> es la suma de la verosimilitud de <span class="math inline">\(f(\tilde x|\theta)\)</span> ponderada por la probabilidad de <span class="math inline">\(\theta\)</span> dada por la distribución a posteriori <span class="math inline">\(f(\theta|x)\)</span>, para cada valor de <span class="math inline">\(\theta\)</span>.</p>
 <p>Esto da origen a una nueva distribución sobre los datos futuros.</p>
@@ -1007,24 +1001,20 @@ P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\th
 <p>donde <span class="math inline">\(f(\tilde x|\theta)\)</span> es la función de verosimilitud de la nueva observación <span class="math inline">\(\tilde x\)</span> dada el parámetro <span class="math inline">\(\theta\)</span>.</p>
 </div>
 </section>
-<section class="slide level3">
-
-</section></section>
-<section>
-<section id="simulación-de-la-distribución-predictiva-posterior" class="title-slide slide level2 center">
+<section id="simulación-de-la-distribución-predictiva-posterior" class="slide level2">
 <h2>Simulación de la distribución predictiva posterior</h2>
 <p>Para simular la distribución predictiva posterior, basta con simular una muestra de valores de <span class="math inline">\(\theta\)</span> a partir de la distribución a posteriori <span class="math inline">\(f(\theta|x)\)</span> y luego simular un valor de <span class="math inline">\(\tilde{X}\)</span> a partir de la función de verosimilitud <span class="math inline">\(f(\tilde x|\theta)\)</span>, para cada uno de los valores de <span class="math inline">\(\theta\)</span> simulados.</p>
 <div id="exm-simulacion-distribucion-predictiva-posterior" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 7</strong></span> En el ejemplo de la prevalencia de la hipertensión, podríamos simular la distribución predictiva posterior del número de personas con hipertensión en una nueva muestra de 10 personas con el siguiente código.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="ot">&lt;-</span> post <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span>  <span class="co"># Extraemos las muestras de la distribución a posteriori de p.</span></span>
-<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generamos 1 predicción para cada p obtenido en la muestra (20000 en total).</span></span>
-<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p))  <span class="sc">|&gt;</span> </span>
-<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(p, pred)</span>
-<span id="cb14-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(post_pred, <span class="dv">5</span>) <span class="sc">|&gt;</span>  <span class="co"># Mostramos las 5 primeras predicciones.</span></span>
-<span id="cb14-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>post_pred <span class="ot">&lt;-</span> post <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href=""></a>  <span class="fu">spread_draws</span>(p) <span class="sc">|&gt;</span>  <span class="co"># Extraemos las muestras de la distribución a posteriori de p.</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="co"># Generamos 1 predicción para cada p obtenido en la muestra (20000 en total).</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> p))  <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href=""></a>  <span class="fu">select</span>(p, pred)</span>
+<span id="cb14-6"><a href=""></a><span class="fu">head</span>(post_pred, <span class="dv">5</span>) <span class="sc">|&gt;</span>  <span class="co"># Mostramos las 5 primeras predicciones.</span></span>
+<span id="cb14-7"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -1062,18 +1052,18 @@ P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\th
 <p>Solo se muestran las 5 primeras predicciones de las 20000 obtenidas por simulación.</p>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <p>Podemos dibujar el diagrama de barras la distribución predictiva posterior.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pred)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución de predicciones.</span></span>
-<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución predictiva posterior del número de personas con hipertensión en una nueva muestra de 10 personas"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>post_pred <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pred)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href=""></a>  <span class="co"># Diagrama de barras de la distribución de predicciones.</span></span>
+<span id="cb15-4"><a href=""></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb15-5"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución predictiva posterior del número de personas con hipertensión en una nueva muestra de 10 personas"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
+<span id="cb15-7"><a href=""></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1083,9 +1073,8 @@ P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\th
 </div>
 </div>
 </div></div>
-</section></section>
-<section>
-<section id="resumen-de-la-distribución-predictiva-posterior" class="title-slide slide level2 center">
+</section>
+<section id="resumen-de-la-distribución-predictiva-posterior" class="slide level2">
 <h2>Resumen de la distribución predictiva posterior</h2>
 <p>Como hemos visto, de nuevo la predicción que obtenemos no es un valor puntual, sino toda una distribución que refleja la incertidumbre de valores posibles.</p>
 <p>Si necesitamos predecir un valor puntual podemos calcular cualquier medida de tendencia central sobre esta distribución, aunque es mejor dar un intervalo de credibilidad para la predicción.</p>
@@ -1093,12 +1082,12 @@ P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\th
 <p><span class="theorem-title"><strong>Ejemplo 8</strong></span> Continuando con el ejemplo anterior, calcularemos la media, desviación típica e intervalo de credibilidad del 90% de la distribución predictiva posterior.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(pred), </span>
-<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(pred), </span>
-<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">li =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.05</span>), </span>
-<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">ls =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.95</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>post_pred <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(pred), </span>
+<span id="cb16-3"><a href=""></a>            <span class="at">sd =</span> <span class="fu">sd</span>(pred), </span>
+<span id="cb16-4"><a href=""></a>            <span class="at">li =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.05</span>), </span>
+<span id="cb16-5"><a href=""></a>            <span class="at">ls =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.95</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -1123,7 +1112,7 @@ P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\th
 </div></div>
 </div>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <div id="exr-resumen-distribucion-predictiva-posterior" class="theorem exercise">
 <p><span class="theorem-title"><strong>Ejercicio 5</strong></span> Dibujar la distribución predictiva posterior del número de casos de tuberculosis en una nueva muestra de 10000 personas del ejemplo anterior, y dar un resumen de esta distribución con la media, desviación típica e intervalo de credibilidad del 95%.</p>
@@ -1134,18 +1123,18 @@ Solución
 </summary>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_lambda <span class="ot">&lt;-</span> post_lambda <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span>  <span class="co"># Extraemos las muestras de la distribución a posteriori de lambda.</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generamos 1 predicción para cada lambda obtenido en la muestra (20000 en total).</span></span>
-<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">rpois</span>(<span class="fu">n</span>(), <span class="at">lambda =</span> lambda <span class="sc">/</span> <span class="dv">10</span>))  <span class="sc">|&gt;</span> </span>
-<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lambda, pred)</span>
-<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_lambda <span class="sc">|&gt;</span></span>
-<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pred)) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Diagrama de barras de la distribución de predicciones.</span></span>
-<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
-<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución predictiva posterior del número de casos de tuberculosis en una nueva muestra de 10000 personas"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
-<span id="cb17-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>post_pred_lambda <span class="ot">&lt;-</span> post_lambda <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href=""></a>  <span class="fu">spread_draws</span>(lambda) <span class="sc">|&gt;</span>  <span class="co"># Extraemos las muestras de la distribución a posteriori de lambda.</span></span>
+<span id="cb17-3"><a href=""></a>  <span class="co"># Generamos 1 predicción para cada lambda obtenido en la muestra (20000 en total).</span></span>
+<span id="cb17-4"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">rpois</span>(<span class="fu">n</span>(), <span class="at">lambda =</span> lambda <span class="sc">/</span> <span class="dv">10</span>))  <span class="sc">|&gt;</span> </span>
+<span id="cb17-5"><a href=""></a>  <span class="fu">select</span>(lambda, pred)</span>
+<span id="cb17-6"><a href=""></a>post_pred_lambda <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pred)) <span class="sc">+</span></span>
+<span id="cb17-8"><a href=""></a>  <span class="co"># Diagrama de barras de la distribución de predicciones.</span></span>
+<span id="cb17-9"><a href=""></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))), <span class="at">fill =</span> myblue) <span class="sc">+</span></span>
+<span id="cb17-10"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb17-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución predictiva posterior del número de casos de tuberculosis en una nueva muestra de 10000 personas"</span>, <span class="at">y =</span> <span class="st">"Frecuencia relativa"</span>) <span class="sc">+</span></span>
+<span id="cb17-12"><a href=""></a>  <span class="fu">theme_gray</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -1157,7 +1146,7 @@ Solución
 </div></div>
 </details>
 </section>
-<section class="slide level3">
+<section class="slide level2">
 
 <details>
 <summary>
@@ -1165,12 +1154,12 @@ Solución (continuación)
 </summary>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_lambda <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(pred), </span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(pred), </span>
-<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">li =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.025</span>), </span>
-<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">ls =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.975</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>post_pred_lambda <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(pred), </span>
+<span id="cb18-3"><a href=""></a>            <span class="at">sd =</span> <span class="fu">sd</span>(pred), </span>
+<span id="cb18-4"><a href=""></a>            <span class="at">li =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.025</span>), </span>
+<span id="cb18-5"><a href=""></a>            <span class="at">ls =</span> <span class="fu">quantile</span>(pred, <span class="fl">0.975</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href=""></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -1195,12 +1184,12 @@ Solución (continuación)
 </div></div>
 </details>
 
-</section></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/logos/sticker-estadistica-bayesiana-r.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p><a href="https://aprendeconalf.es/estadistica-bayesiana-presentacion/" class="uri">https://aprendeconalf.es/estadistica-bayesiana-presentacion/</a></p>
+
 </div>
 </div></div>
 
@@ -1211,7 +1200,6 @@ Solución (continuación)
   <script src="03-inferencia-bayesiana_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="03-inferencia-bayesiana_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="03-inferencia-bayesiana_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1233,8 +1221,7 @@ Solución (continuación)
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1255,7 +1242,7 @@ Solución (continuación)
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1296,7 +1283,7 @@ Solución (continuación)
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1360,10 +1347,10 @@ Solución (continuación)
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'convex',
+        transition: 'none',
 
         // Transition speed (default/fast/slow)
-        transitionSpeed: 'fast',
+        transitionSpeed: 'default',
 
         // Transition style for full page slide backgrounds
         // (none/fade/slide/convex/concave/zoom)
@@ -1388,7 +1375,7 @@ Solución (continuación)
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1405,7 +1392,7 @@ Solución (continuación)
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
           RevealMath,
           RevealNotes,

@@ -1,5 +1,6 @@
 project:
   output-dir: "docs"
+  resources: "datos"
 
 lang: es
 
