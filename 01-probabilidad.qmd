@@ -1479,10 +1479,10 @@ Cuando selección de los valores se hace de manera independiente y con la misma 
 
 ## Muestreo en variables aleatorias discretas 
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria discreta con un número finito de valores, se puede usar la función `sample()` de R.  
+Para realizar un muestreo aleatorio simple de una variable aleatoria discreta con un número finito de valores, se puede usar la función `sample` de R.  
 
 :::{.callout-note}
-## `sample()`
+## `sample`
 
 Devuelve una muestra aleatoria de los elementos de un vector dado, con o sin reemplazamiento, y con probabilidades asociadas a cada elemento.
 
@@ -1522,10 +1522,10 @@ sample(x, size = 10, prob = p, replace = TRUE)
 
 ## Muestreo en el modelo de distribución Binomial
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución binomial, se puede usar la función `rbinom()` de R.
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución binomial, se puede usar la función `rbinom` de R.
 
 :::{.callout-note}
-## `rbinom()`
+## `rbinom`
 
 Devuelve una muestra aleatoria de una distribución Binomial.
 
@@ -1591,12 +1591,80 @@ ggplot(df, aes(x = x)) +
   theme_minimal()
 ```
 
-## Muestreo aleatorio simple de una distribución de Poisson
+---
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función `rpois()` de R.
+
+## Muestreo aleatorio simple de una distribución Geométrica
+
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución Geométrica, se puede usar la función `rgeom` de R.
 
 :::{.callout-note}
-## `rpois()`
+## `rgeom`
+
+Devuelve una muestra aleatoria de una distribución Geométrica.
+
+Parámetros:
+
+- `n`: tamaño de la muestra.
+- `prob`: probabilidad de éxito en cada ensayo.
+:::
+
+---
+
+:::{#exm-muestreo-aleatorio-simple-distribucion-geometrica}
+
+Se sabe que la probabilidad de que un paciente responda favorablemente a un tratamiento es del 30%. Vamos a realizar un muestreo aleatorio simple de tamaño 20 del número de pacientes tratados hasta obtener el primer éxito.
+
+```{r}
+#| output-location: column
+set.seed(123) # Para reproducibilidad
+p <- 0.3 # Probabilidad de éxito
+# Muestreo aleatorio simple de la distribución geométrica
+df <- tibble(x = rgeom(n = 20, prob = p))
+# Distribución geométrica teórica
+x_max <- max(df$x)
+df_geom <- tibble(x = 0:x_max, p = dgeom(0:x_max, prob = p))
+ggplot(df, aes(x = x)) +
+  # Diagrama de barras de la distribución muestral
+  geom_bar(aes(y = after_stat(count / sum(count))), fill = myblue, width = 0.2) +
+  # Distribución de probabilidad del modelo geométrico
+  geom_point(data = df_geom, aes(x = x, y = p), color = myred, size = 2) +
+  scale_x_continuous(breaks = 0:x_max) +
+  labs(title = "Muestreo aleatorio simple de G(0.3)",
+       x = "Número de fracasos antes del primer éxito", y = "Frecuencia relativa / Probabilidad") +
+  theme_minimal()
+```
+
+Para tamaños muestrales pequeños, la distribución de frecuencias muestral es muy diferente a la distribución de probabilidad del modelo Geométrico $G(0.3)$
+:::
+
+---
+
+Pero para tamaños muestrales grandes, la distribución de frecuencias del muestreo se aproxima a la distribución de probabilidad del modelo Geométrico $G(0.3)$.
+
+```{r}
+#| output-location: column
+df <- tibble(x = rgeom(n = 10000, prob = p))
+x_max <- max(df$x)
+df_geom <- tibble(x = 0:x_max, p = dgeom(0:x_max, prob = p))
+ggplot(df, aes(x = x)) +
+  # Diagrama de barras de la distribución muestral
+  geom_bar(aes(y = after_stat(count / sum(count))), fill = myblue, width = 0.2) +
+  # Distribución de probabilidad del modelo geométrico
+  geom_point(data = df_geom, aes(x = x, y = p), color = myred, size = 2) +
+  scale_x_continuous(breaks = 0:x_max) +
+  labs(title = "Muestreo aleatorio simple de G(0.3)",
+       x = "Número de fracasos antes del primer éxito", y = "Frecuencia relativa / Probabilidad") +
+  theme_minimal()
+```
+
+
+## Muestreo aleatorio simple de una distribución de Poisson
+
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución de Poisson, se puede usar la función `rpois` de R.
+
+:::{.callout-note}
+## `rpois`
 
 Devuelve una muestra aleatoria de una distribución de Poisson.
 
@@ -1652,13 +1720,77 @@ ggplot(df, aes(x = x)) +
        x = "Número de infartos", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
+---
 
-## Muestreo aletorio de una distribución Uniforme Continua
+:::{#exr-muestreo-aleatorio-simple-distribucion-binomial}
+En una población hay un 30% de personas fumadoras. Se sabe que la prevalencia de cáncer de pulmón en fumadores es del 10% y en no fumadores del 1%. 
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función `runif()` de R.
+a. Obtener una muestra aleatoria tamaño 20 del número de personas con cáncer en una muestra de 100 fumadores y dibujar la distribución de frecuencias.
+
+a. Obtener una muestra aleatoria de tamaño 20 del número de personas con cáncer en una muestra de 100 no fumadores y dibujar la distribución de frecuencias.
+
+a. Obtener una muestra aleatoria de tamaño 20 del número de personas con cáncer en una muestra de 100 personas de la población general y dibujar la distribución de frecuencias.
+
+a. Obtener una muestra aleatoria de tamaño 10000 del número de personas con cáncer en una muestra de 100 personas de la población general y dibujar la distribución de frecuencias.
+:::
+
+---
+
+<details>
+<summary>Solución</summary>
+
+```{r}
+#| output-location: column
+set.seed(123)
+tibble(x = rbinom(n = 20, size = 100, prob = 0.1)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas con cáncer en 100 fumadores",
+       x = "Número de personas fumadoras con cáncer", y = "Frecuencia relativa")
+```
+
+```{r}
+#| output-location: column
+tibble(x = rbinom(n = 20, size = 100, prob = 0.01)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas con cáncer en 100 no fumadores",
+       x = "Número de personas no fumadoras con cáncer", y = "Frecuencia relativa")
+```
+</details>
+
+---
+
+<details>
+<summary>Solución (continuación)</summary>
+
+```{r}
+#| output-location: column
+  tibble(p = sample(c(0.1, 0.01), size = 20, prob = c(0.3, 0.7), replace = TRUE)) |> # Probabilidad de cáncer según fumador o no fumador
+    mutate(x = rbinom(n = n(), size = 100, prob = p)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas con cáncer en 100 fumadores",
+       x = "Número de personas fumadoras con cáncer", y = "Frecuencia relativa")
+```
+
+```{r}
+#| output-location: column
+tibble(p = sample(c(0.1, 0.01), size = 10000, prob = c(0.3, 0.7), replace = TRUE)) |>  # Probabilidad de cáncer según fumador o no fumador
+  mutate(x = rbinom(n = n(), size = 100, prob = p)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas con cáncer en 100 fumadores",
+       x = "Número de personas fumadoras con cáncer", y = "Frecuencia relativa")
+```
+</details>
+
+## Muestreo aleatorio de una distribución Uniforme Continua
+
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución uniforme continua, se puede usar la función `runif` de R.
 
 :::{.callout-note}
-## `runif()`
+## `runif`
 
 Devuelve una muestra aleatoria de una distribución uniforme continua.
 
@@ -1715,10 +1847,10 @@ ggplot(df, aes(x = x)) +
 
 ## Muestreo aleatorio simple de una distribución Beta
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función `rbeta()` de R.
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución beta, se puede usar la función `rbeta` de R.
 
 :::{.callout-note}
-## `rbeta()`
+## `rbeta`
 
 Devuelve una muestra aleatoria de una distribución beta.
 
@@ -1788,10 +1920,10 @@ ggplot(df, aes(x = x)) +
 
 ## Muestreo aleatorio simple de una distribución Normal
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución normal, se puede usar la función `rnorm()` de R.
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución normal, se puede usar la función `rnorm` de R.
 
 :::{.callout-note}
-## `rnorm()`
+## `rnorm`
 
 Devuelve una muestra aleatoria de una distribución normal.
 
@@ -1871,10 +2003,10 @@ ggplot(df, aes(x = x)) +
 
 ## Muestreo aleatorio simple de una distribución Exponencial
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución exponencial, se puede usar la función `rexp()` de R.
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución exponencial, se puede usar la función `rexp` de R.
 
 :::{.callout-note}
-## `rexp()`
+## `rexp`
 
 Devuelve una muestra aleatoria de una distribución exponencial.
 
@@ -1943,10 +2075,10 @@ ggplot(df, aes(x = x)) +
 
 ## Muestreo aleatorio simple de una distribución Gamma
 
-Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución gamma, se puede usar la función `rgamma()` de R.
+Para realizar un muestreo aleatorio simple de una variable aleatoria con distribución gamma, se puede usar la función `rgamma` de R.
 
 :::{.callout-note}
-## `rgamma()`
+## `rgamma`
 
 Devuelve una muestra aleatoria de una distribución gamma.
 
@@ -2023,3 +2155,69 @@ ggplot(df, aes(x = x)) +
        x = "Tiempo hasta el tercer contagio", y = "Densidad") +
   theme_minimal()
 ```
+
+---
+
+:::{#exr-muestreo-aleatorio-simple-distribucion-poisson}
+La tasa diaria de personas que acuden a un especialista en un hospital sigue una distribución normal de media 10 y desviación típica 2 personas.
+
+a. Obtener una muestra aleatoria de 30 días del número de personas que acuden al especialista tomando una tasa de 10 y dibujar la distribución de frecuencias.
+
+a. Obtener una muestra aleatoria de 30 días del número de personas que acuden al especialista y dibujar la distribución de frecuencias.
+
+a. Obtener una muestra aleatoria de 10000 días del número de personas que acuden al especialista tomando una tasa de 10 y dibujar la distribución de frecuencias. 
+
+a. Obtener una muestra aleatoria de 10000 días del número de personas que acuden al especialista y dibujar la distribución de frecuencias.
+:::
+
+---
+
+<details>
+<summary>Solución</summary>
+```{r}
+#| output-location: column
+set.seed(123)
+lambda <- 10
+tibble(x = rpois(n = 30, lambda = lambda)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas que acuden al especialista en 30 días con tasa de 10",
+       x = "Número de personas", y = "Frecuencia relativa")
+```
+
+```{r}
+#| output-location: column
+tibble(lambda = rnorm(n = 30, mean = 10, sd = 2)) |> 
+  mutate(x = rpois(n = n(), lambda = lambda)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas que acuden al especialista en 30 días",
+       x = "Número de personas", y = "Frecuencia relativa")
+```
+</details>
+
+---
+
+<details>
+<summary>Solución (continuación)</summary>
+```{r}
+#| output-location: column
+set.seed(123)
+lambda <- 10
+tibble(x = rpois(n = 10000, lambda = lambda)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas que acuden al especialista en 10000 días con tasa de 10",
+       x = "Número de personas", y = "Frecuencia relativa")
+```
+
+```{r}
+#| output-location: column
+tibble(lambda = rnorm(n = 10000, mean = 10, sd = 2)) |> 
+  mutate(x = rpois(n = n(), lambda = lambda)) |> 
+  ggplot(aes(x = x, y = after_stat(prop))) +
+  stat_count(fill = myblue, width = 0.2) +
+  labs(title = "Distribución del número de personas que acuden al especialista en 10000 días",
+       x = "Número de personas", y = "Frecuencia relativa")
+```
+</details>
