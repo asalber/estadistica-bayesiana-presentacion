@@ -6,7 +6,7 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/quarto-contrib/timeline-0.1.0/timeline.js"></script>
 <link href="index_files/libs/quarto-contrib/timeline-0.1.0/timeline.css" rel="stylesheet">
 <link href="index_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
@@ -36,10 +36,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-310361485e3443f230591f918f692d18.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-9715cb218e2c2db493bf0991103ad162.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -130,22 +132,17 @@
   </style>
 </head>
 <body class="quarto-light">
+<script src="mathjax-config.js"></script>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Curso de Estadística Bayesiana con R</h1>
-
-<div class="quarto-title-authors">
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a> 
-</div>
-</div>
-</div>
-
-</section>
-<section id="contenido-del-curso" class="slide level2">
+<section id="title-slide" class="center">
+      <img class="title-logo" src="img/logos/sticker-estadistica-bayesiana-r.png" width="250" style="float:right">
+        <h1 class="title">Curso de Estadística Bayesiana con R</h1>
+      <p class="author">Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-solid fa-envelope" aria-label="envelope"></i></a> <a href="https://www.linkedin.com/in/asalber/"><i class="fa-brands fa-linkedin" aria-label="linkedin"></i></a> <a href="https://aprendeconalf.es"><i class="fa-solid fa-home" aria-label="home"></i></a></p>
+        
+  </section>
+<section id="contenido-del-curso" class="title-slide slide level2 center">
 <h2>Contenido del curso</h2>
 <div class="timeline tl-label-panel">
 <div class="event" data-label="Lunes">
@@ -168,7 +165,8 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
 </div>
 </div>
 </section>
-<section id="licencia" class="slide level2">
+
+<section id="licencia" class="title-slide slide level2 center">
 <h2>Licencia</h2>
 <p>Esta obra está bajo una licencia Reconocimiento – No comercial – Compartir b ajo la misma licencia 3.0 España de Creative Commons. Para ver una copia de esta licencia, visite <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/es/">https://creativecommons.org/licenses/by-nc-sa/3.0/es/</a>.</p>
 <p>Con esta licencia eres libre de:</p>
@@ -191,7 +189,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/logos/sticker-estadistica-bayesiana-r.png" class="slide-logo"></p>
 <div class="footer footer-default">
-
+<p><a href="https://aprendeconalf.es/estadistica-bayesiana-presentacion/" class="uri">https://aprendeconalf.es/estadistica-bayesiana-presentacion/</a></p>
 </div>
 </div></div>
 
@@ -202,6 +200,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
   <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -223,7 +222,8 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -244,7 +244,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -285,7 +285,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'linear',
+        navigationMode: 'default',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -349,10 +349,10 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'convex',
 
         // Transition speed (default/fast/slow)
-        transitionSpeed: 'default',
+        transitionSpeed: 'fast',
 
         // Transition style for full page slide backgrounds
         // (none/fade/slide/convex/concave/zoom)
@@ -377,7 +377,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -394,7 +394,7 @@ Alfredo Sánchez Alberca &nbsp; <a href="mailto:asalber@ceu.es"><i class="fa-sol
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,

@@ -72,7 +72,7 @@ df |>
 
 ```{r}
 # Diagrama de barras
-df |> ggplot(aes(x=hijos)) +
+df |> ggplot(aes(x = hijos)) +
   geom_bar(width = 0.2, fill = myblue) +
   theme_minimal() +
   labs(title = "Distribución de frecuencias", 
@@ -101,18 +101,65 @@ df |>
 ---
 
 :::{#exr-tabla-frecuencias}
-El conjunto de datos [`neonatos`](https://raw.githubusercontent.com/asalber/estadistica-bayesiana-presentacion/refs/heads/main/datos/neonatos.csv) contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.
+El conjunto de datos [`neonatos`](https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/neonatos.csv) contiene información sobre 320 recién nacidos en varios hospitales de una ciudad.
 
 a. Crear una tabla de frecuencias absolutas y relativas para la variable `sexo`.
 a. Crear una tabla de frecuencias absolutas y relativas para la variable `tabaco`.
 a. Representar gráficamente la distribución de frecuencias absolutas de la variable `tabaco`.
 a. Crear una tabla de frecuencias absolutas y relativas para la variable `apgar1`.
 a. Representar gráficamente la distribución de frecuencias relativas de la variable `apgar1`.
-::: 
+:::
+
+---
+
+<details>
+<summary>Solución</summary>
+```{r}
+#| output-location: column
+library(tidyverse)
+library(janitor)
+df_neonatos <- read_csv("https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/neonatos.csv")
+tabyl(df_neonatos, sexo) |> kable()
+```
+
+```{r}
+#| output-location: column
+tabyl(df_neonatos, tabaco) |> kable()
+```
+
+```{r}
+#| output-location: column
+df_neonatos |> ggplot(aes(x = tabaco)) +
+  stat_count(width = 0.2, fill = myblue) +
+  theme_minimal() +
+  labs(title = "Distribución de frecuencias", 
+       x = "Tabaco", y = "Frecuencia absoluta")
+```
+</details>
+
+---
+
+<details>
+<summary>Solución (continuación)</summary>
+
+```{r}
+#| output-location: column
+tabyl(df_neonatos, apgar1) |> kable()
+```
+
+```{r}
+#| output-location: column
+df_neonatos |> ggplot(aes(x = apgar1, y = after_stat(prop))) +
+  stat_count(width = 0.2, fill = myblue) +
+  theme_minimal() +
+  labs(title = "Distribución de frecuencias", 
+       x = "Apgar 1", y = "Frecuencia absoluta")
+```
+</details>
 
 ## Distribuciones de frecuencias bidimensionales
 
-Cuando se tienen dos variables, es posible organizar sus frecuencias en una tabla de contingencia, que muestra para cada combinación de valores de las variables su frecuencia absoluta o relativa.
+Cuando se tienen dos variables, es posible organizar sus frecuencias en una _tabla de contingencia_, que muestra para cada combinación de valores de las variables su frecuencia absoluta o relativa.
 
 ---
 
@@ -124,13 +171,23 @@ Sexo y grupo sanguíneo de una muestra de 30 personas.
 # Data frame sexo y grupo sanguíneo
 df <- tibble(
   sexo = rep(c("Hombre","Mujer"),
-             c(14,16)),
+             c(16,14)),
   grupo = c(rep("0",3), rep("A",8), rep("B",4), rep("AB",1),
             rep("0",2), rep("A",6), rep("B",4), rep("AB",2))
 )
-# Tabla de frecuencias
+# Tabla bidimensional de frecuencias absolutas
 df |> 
   tabyl(grupo, sexo) |> 
+  kable()
+```
+
+```{r}
+#| output-location: column
+# Tabla bidimensional de frecuencias relativas
+df |> 
+  tabyl(grupo, sexo) |> 
+  adorn_percentages("all") |> 
+  adorn_pct_formatting() |> 
   kable()
 ```
 :::
@@ -171,6 +228,29 @@ a. Crear una tabla de frecuencias absolutas bidimensional para las variables `ed
 a. Crear una tabla de frecuencias relativas bidimensional para las variables `tabaco` y `apgar1` para cada grupo de `edad`.
 :::
 
+---
+
+<details>
+<summary>Solución</summary>
+
+```{r}
+#| output-location: column
+df_neonatos |>
+  tabyl(edad, tabaco) |>
+  adorn_totals(c("row", "col")) |>
+  kable()
+```
+
+```{r}
+df_neonatos |>
+  tabyl(tabaco, apgar1, edad) |>
+  adorn_percentages("all") |> 
+  adorn_pct_formatting() |>
+  kable()
+```
+
+</details>
+
 ## Distribuciones de frecuencias condicionales
 
 Cada fila o columna de una tabla de contingencia es una distribución de frecuencias condicional que muestra la frecuencia absoluta o relativa de cada valor de una variable para un valor fijo de la otra variable.
@@ -186,7 +266,7 @@ library(kableExtra)
 df |>
   tabyl(grupo, sexo) |>
   kable() |>
-  column_spec(2, color = myred)
+  column_spec(2, color = myblue)
 ```
 
 ```{r}
@@ -195,7 +275,7 @@ df |>
 df |>
   tabyl(grupo, sexo) |>
   kable() |>
-  row_spec(2, color = myred)
+  row_spec(2, color = myblue)
 ```
 :::
 
@@ -211,6 +291,14 @@ filter(df, sexo == "Mujer") |>
   kable()
 ```
 
+Y este para todas las categorías del `sexo`.
+```{r}
+df |> 
+  split(~sexo) |>
+  map(~tabyl(.x, grupo)) |>
+  kable()
+```
+
 ---
 
 :::{#exr-distribuciones-condicionales}
@@ -218,8 +306,44 @@ El conjunto de datos `neonatos` contiene información sobre 320 recién nacidos 
 
 a. Crear las tablas de frecuencias condicionales de `tabaco` para cada grupo de `edad`.
 a. Crear las tablas de frecuencias condicionales del `apgar1` para cada grupo de `tabaco`.
-a. Crear la tabla de frecuencias condicional del `apgar1` para hijos de madres fumadoras menos de 20 años.
+a. Crear la tabla de frecuencias condicional del `apgar1` para hijos de madres fumadoras de menos de 20 años.
 :::
+
+---
+
+<details>
+<summary>Solución</summary>
+
+```{r}
+#| output-location: column
+df_neonatos |>
+  split(~edad) |>
+  map(~tabyl(.x, tabaco)) |>
+  kable()
+```
+
+```{r}
+df_neonatos |>
+  split(~tabaco) |>
+  map(~tabyl(.x, apgar1)) |>
+  kable()
+```
+
+</details>
+
+---
+
+<details>
+<summary>Solución</summary>
+
+```{r}
+#| output-location: column
+filter(df_neonatos, tabaco == "Si", edad  == "menor de 20") |> 
+  tabyl(apgar1) |>
+  kable()
+```
+
+</details>
 
 ## {background-color="#0099CC"}
 
