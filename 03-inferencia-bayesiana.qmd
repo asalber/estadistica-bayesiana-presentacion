@@ -210,7 +210,7 @@ Los datos históricos del sistema de vigilancia epidemiológica sugieren que la 
 
 <details>
 Tras el calibrado de la distribución Gamma para ajustarla a la variabilidad de $\lambda$, utilizaremos una distribución a priori $\mbox{Gamma}(27.5, 2.5)$.
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 ```{r}
 #| output: false
 modelo <- "
@@ -234,7 +234,7 @@ post_lambda <- stan(model_code = modelo,
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 ```{r}
 #| output-location: column
 library(tidybayes)
@@ -421,7 +421,7 @@ En el ejemplo de la incidencia de la tuberculosis, realizar el contraste para ve
 :::
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 $$
 H_0: \lambda > 15 \quad  \quad H_1: \lambda \leq 15
 $$
@@ -444,7 +444,7 @@ En este caso la probabilidad de que la incidencia sea mayor que el 15% es menor 
 :::
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 
 $$
 H_0: \lambda = 18 \quad  \quad H_1: \lambda \neq 18
@@ -528,7 +528,7 @@ En el ejemplo de la incidencia de la tuberculosis, calcular el factor de Bayes d
 :::
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 ```{r}
 #| output-location: column
 post_lambda |>
@@ -647,7 +647,7 @@ Dibujar la distribución predictiva posterior del número de casos de tuberculos
 :::
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 ```{r}
 #| output-location: column
 post_pred_lambda <- post_lambda |>
@@ -668,7 +668,7 @@ post_pred_lambda |>
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 ```{r}
 #| output-location: column
 post_pred_lambda |>

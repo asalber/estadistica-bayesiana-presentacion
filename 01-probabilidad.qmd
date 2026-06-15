@@ -113,7 +113,7 @@ a. Representar gráficamente la distribución de frecuencias relativas de la var
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 ```{r}
 #| output-location: column
 library(tidyverse)
@@ -140,7 +140,7 @@ df_neonatos |> ggplot(aes(x = tabaco)) +
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 
 ```{r}
 #| output-location: column
@@ -231,7 +231,7 @@ a. Crear una tabla de frecuencias relativas bidimensional para las variables `ta
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 
 ```{r}
 #| output-location: column
@@ -312,7 +312,7 @@ a. Crear la tabla de frecuencias condicional del `apgar1` para hijos de madres f
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 
 ```{r}
 #| output-location: column
@@ -334,7 +334,7 @@ df_neonatos |>
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 
 ```{r}
 #| output-location: column
@@ -1587,6 +1587,35 @@ df_gamma_inv |>
   theme(strip.text = element_text(size = 11))
 ```
 
+---
+
+:::{#exr-test-distribuciones}
+¿Qué tipo de distribución de probabilidad utilizarías para modelar las siguientes variables aleatorias:
+
+a.  Número de casos de gripe por semana.
+a.  Eficacia de una vacuna.
+a.  Tiempo entre hospitalizaciones de un paciente con insuficiencia cardíaca.
+a.  Número de lesiones de acné por dm² de piel en una persona.
+a.  Nivel de glucosa en sangre de un paciente diabético.
+a.  Número de contactos hasta el primer contagio en una cade de transmisión.
+a.  Tasa de incidencia de la gripe por semana.
+:::
+
+---
+
+<details>
+<summary>Solución</summary>
+
+a.  Poisson.
+a.  Beta.
+a.  Exponencial.
+a.  Poisson.
+a.  Normal.
+a.  Geométrica.
+a.  Gamma.
+
+</details>
+
 ## {background-color= .myblue}
 
 ::: {.main-title}
@@ -1643,6 +1672,34 @@ p <- c(0.8, 0.2)
 sample(x, size = 10, prob = p, replace = TRUE)
 ```
 :::
+
+---
+
+Otra opción, para tomar muestars aleatorias de un data frame es la función `slice_sample` del paquete [`dplyr`](https://dplyr.tidyverse.org/).
+
+:::{.callout-note}
+## `slice_sample`
+
+Devuelve una muestra aleatoria de tamaño de un data frame o tibble.
+
+Parámetros:
+
+- `.data`: data frame o tibble del que se quiere tomar la muestra.
+- `n`: número de filas a muestrear.
+- `weight_by`: nombre de la columna que contiene las probabilidades asociadas a cada fila. Si no se especifica, se asume que todas las filas tienen la misma probabilidad.
+- `replace`: un valor `TRUE` indica que el muestreo es con reemplazo, mientras que un valor `FALSE` implica que el muestreo es sin reemplazo.
+:::
+
+---
+
+El mismo ejemplo de antes podemos replicarlo con este código.
+
+```{r}
+set.seed(123)
+library(dplyr)
+tibble(x = c("C", "X"), p = c(0.8, 0.2)) |>
+  slice_sample(n = 10, weight_by = p, replace = TRUE)
+```
 
 ## Muestreo en el modelo de distribución Binomial
 
@@ -1714,9 +1771,6 @@ ggplot(df, aes(x = x)) +
        x = "Número de fumadores", y = "Frecuencia relativa / Probabilidad") +
   theme_minimal()
 ```
-
----
-
 
 ## Muestreo aleatorio simple de una distribución Geométrica
 
@@ -1861,7 +1915,7 @@ a. Obtener una muestra aleatoria de tamaño 10000 del número de personas con c�
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 
 ```{r}
 #| output-location: column
@@ -1886,7 +1940,7 @@ tibble(x = rbinom(n = 20, size = 100, prob = 0.01)) |>
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 
 ```{r}
 #| output-location: column
@@ -2297,7 +2351,7 @@ a. Obtener una muestra aleatoria de 10000 días del número de personas que acud
 ---
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 ```{r}
 #| output-location: column
 set.seed(123)
@@ -2323,7 +2377,7 @@ tibble(lambda = rnorm(n = 30, mean = 10, sd = 2)) |>
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 ```{r}
 #| output-location: column
 set.seed(123)

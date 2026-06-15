@@ -188,7 +188,17 @@
     "left",
     "right",
     "ldots",
-    "cdots"
+    "cdots",
+    "theta",
+    "tau",
+    "lambda",
+    "mu",
+    "sigma",
+    "alpha",
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon"
   ],
   "ignoreRegExpList": [
     "```[\\s\\S]*?```",

@@ -167,6 +167,44 @@ a.  Si aplicamos el test de cribado a una persona y da positivo, ¿cuál es la p
 a.  Si aplicamos a una persona el test de cribado primero y luego el otro test y ambos dan positivo, ¿cuál es la probabilidad de que esté enferma? ¿Qué diagnosticaríamos?
 :::
 
+---
+
+<details>
+<summary>**Solución**</summary>
+
+a.  Para cribado se prioriza alta sensibilidad (detectar todos los enfermos, minimizando falsos negativos), por lo que es el test $A$ es mejor para cribado. Su baja especificidad (80%) produce falsos positivos, pero estos se filtran con una prueba confirmatoria posterior.
+
+a.  Probabilidad de enfermedad tras test $A$ positivo. Por el teorema de Bayes
+
+    \begin{align*}
+    P(E \mid +_A) 
+    &= \frac{P(+_A \mid E)\cdot P(E)}{P(+_A \mid E)\cdot P(E) + P(+_A \mid \bar{E})\cdot P(\bar{E})} \\
+    &= \frac{0.98 \times 0.01}{0.98 \times 0.01 + 0.20 \times 0.99} = \frac{0.0098}{0.2078} \approx 0.047
+    \end{align*}
+
+    Como $P(E|+_A) = 0.047 < 0.5$, diagnosticaríamos sano (aunque derivaríamos a confirmación).
+</details>
+
+---
+
+<details>
+<summary>**Solución** (continuación)</summary>
+
+a.  Probabilidad tras test $A$ positivo y luego test $B$ positivo. 
+
+    Ahora usamos $P(E|+_A) = 0.0472$ en lugar de $P(E)=0.01$ como nueva probabilidad a priori (esto es clave) y aplicamos Bayes con el test $B$:
+
+    \begin{align*} 
+    P(E \mid +_A, +_B) 
+    &= \frac{P(+_B \mid E)\cdot P(E \mid +_A)}{P(+_B \mid E)\cdot P(E \mid +_A) + P(+_B \mid \bar{E})\cdot P(\bar{E} \mid +_A)} \\
+    &= \frac{0.75 \times 0.0472}{0.75 \times 0.0472 + 0.01 \times 0.9528} \\
+    &= \frac{0.0354}{0.0354 + 0.00953} = \frac{0.0354}{0.04493} \approx 0.788.
+    \end{align*}
+
+    Como $P(E|+_A,+_B) = 0.78 > 0.5$, diagnosticaríamos enfermo.
+
+</details>
+
 ## Regla de Bayes
 
 En terminología bayesiana, si $H$ representa una hipótesis y $D$ representa los datos observados, entonces el teorema de Bayes se puede expresar como la siguiente regla de actualización de la probabilidad de la hipótesis $H$ dada la evidencia $D$:
@@ -232,7 +270,7 @@ $$
 L(E|+) = P(+|E) = 0.9 \quad \mbox{y} \quad L(\overline{E}|+) = P(+|\overline{E}) = 1 - 0.95 = 0.05.
 $$
 
-En este caso, la hipótesis $E$ es mucho más compatible con la evidencia que la hipótesis $\overline{E}$.
+En este caso, la hipótesis $E$ es mucho más compatible con la evidencia $+$ que la hipótesis $\overline{E}$.
 :::
 
 ### Interpretación de la función de verosimilitud
@@ -308,8 +346,11 @@ Podemos simular el procedimiento de actualización de la probabilidad de una hip
 Obtener una muestra aleatoria de tamaño $n=10000$ de la distribución a priori de la hipótesis $H$ con probabilidades $P(E)=0.1$ y $P(\overline{E})=0.9$ y representar gráficamente la distribución muestral.
 :::
 
+---
+
 <details>
 <summary>**Solución**</summary>
+
 ```{r}
 #| output-location: column
 library(tidyverse)
@@ -318,12 +359,12 @@ prior <- c(0.1, 0.9)  # P(E) y P(No E)
 set.seed(123)  # Para reproducibilidad
 n <- 10000  # Tamaño de la muestra
 # Muestreo de la distribución a priori
-muestra_prior <- sample_n(df_H, size = n, weight = prior, replace = TRUE)
+muestra_prior <- slice_sample(df_H, n = n, weight_by = prior, replace = TRUE)
 # Diagrama de barras de la distribución de frecuencias
 ggplot(muestra_prior, aes(x = hipótesis)) +
-  geom_bar(fill = myblue) +
+  stat_count(fill = myblue) +
   labs(title = "Muestra aleatoria de la distribución a priori",
-       x = "Hipótesis", y = "Frecuencia") +
+       x = "Hipótesis", y = "Frecuencia absoluta") +
   theme_minimal()
 ```
 </details>
@@ -337,10 +378,9 @@ muestra_prior <- muestra_prior |>
   mutate(test = ifelse(runif(n()) < ifelse(hipótesis == "E", 0.9, 0.05), "+", "-"))
 # Diagrama de barras de la distribución de frecuencias del test
 ggplot(muestra_prior, aes(x = hipótesis, fill = test)) +
-  geom_bar(position = "fill") +
-  scale_y_continuous(labels = scales::percent) +
+  stat_count(position = "stack") +
   labs(title = "Distribución de frecuencias del resultado del test",
-       x = "Hipótesis", y = "Frecuencia relativa") +
+       x = "Hipótesis", y = "Frecuencia absoluta") +
   theme_minimal()
 ```
 
@@ -353,8 +393,8 @@ Una vez tenemos la distribución conjunta, podemos obtener una muestra de la dis
 # Filtrar casos con test positivos
 muestra_posterior <- muestra_prior |> filter(test == "+")
 # Diagrama de barras de la distribución de frecuencias de la muestra a posteriori
-ggplot(muestra_posterior, aes(x = hipótesis, y = after_stat(count / sum(count)))) +
-  geom_bar(fill = myblue) +
+ggplot(muestra_posterior, aes(x = hipótesis, y = after_stat(prop), group = 1)) +
+  stat_count(fill = myblue) +
   labs(title = "Muestra aleatoria de la distribución a posteriori",
        x = "Hipótesis", y = "Frecuencia relativa") +
   theme_minimal()
@@ -368,12 +408,92 @@ Como se puede observar, la distribución de frecuencias a posteriori coincide co
 Se dispone de dos test $A$ y $B$ para diagnosticar una enfermedad con una prevalencia del 1% en la población.
 El test $A$ tiene una sensibilidad del 98% y una especificidad del 80%, mientras que el test $B$ tiene una sensibilidad del 75% y una especificidad del 99%.
 
-a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución a priori de la hipótesis.
-a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución conjunta de las hipótesis y el resultado del test A.
-a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test A ha resultado positivo.
-a.  Obtener una muestra aleatoria de la distribución conjunta de las hipótesis y el resultado del test B.
-a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test B ha resultado positivo.
+a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución a priori de la hipótesis. Y representa gráficamente la distribución.
+a.  Obtener una muestra aleatoria de tamaño 100000 de la distribución conjunta de las hipótesis y el resultado del test A y representa gráficamente la distribución.
+a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test A ha resultado positivo y representa gráficamente la distribución.
+a.  Obtener una muestra aleatoria de la distribución conjunta de las hipótesis y el resultado del test B y representa gráficamente la distribución.
+a.  Obtener una muestra aleatoria de la distribución a posteriori de las hipótesis dada la evidencia de que el test B ha resultado positivo y representa gráficamente la distribución.
 :::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output-location: column
+df_H = tibble(hipótesis = c("Enfermo", "Sano"))  # Hipótesis
+prior <- c(0.01, 0.99)  # P(E) y P(No E)
+set.seed(123)  # Para reproducibilidad
+n <- 100000  # Tamaño de la muestra
+# Muestreo de la distribución a priori
+muestra_prior <- slice_sample(df_H, n = n, weight_by = prior, replace = TRUE)
+muestra_prior |> ggplot(aes(x = hipótesis)) +
+  stat_count(fill = myblue) +
+  labs(title = "Distribución a priori", x = "Hipótesis", y = "Frecuencia absoluta")
+```
+
+```{r}
+#| output-location: column
+# Muetreo de la distribución conjunta.
+muestra_prior <- muestra_prior |>
+  mutate(test = ifelse(runif(n()) < ifelse(hipótesis == "Enfermo", 0.98, 0.2), "+", "-"))
+ggplot(muestra_prior, aes(x = hipótesis, fill = test)) +
+  stat_count(position = "stack") +
+  labs(title = "Distribución de frecuencias del resultado del test",
+       x = "Hipótesis", y = "Frecuencia absoluta") +
+  theme_minimal()
+```
+
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+
+```{r}
+#| output-location: column
+# Filtrar casos con test positivos
+muestra_posterior <- muestra_prior |> filter(test == "+")
+ggplot(muestra_posterior, aes(x = hipótesis, y = after_stat(prop), group = 1)) +
+  stat_count(fill = myblue) +
+  labs(title = "Muestra aleatoria de la distribución a posteriori",
+       x = "Hipótesis", y = "Frecuencia relativa") +
+  theme_minimal()
+```
+
+```{r}
+#| output-location: column
+# Muetreo de la distribución conjunta.
+muestra_prior2 <- muestra_posterior |>
+  mutate(test = ifelse(runif(n()) < ifelse(hipótesis == "Enfermo", 0.75, 0.01), "+", "-"))
+ggplot(muestra_prior2, aes(x = hipótesis, fill = test)) +
+  stat_count(position = "stack") +
+  labs(title = "Distribución de frecuencias del resultado del test",
+       x = "Hipótesis", y = "Frecuencia absoluta") +
+  theme_minimal()
+```
+
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+
+```{r}
+#| output-location: column
+# Filtrar casos con test positivos
+muestra_posterior <- muestra_prior2 |> filter(test == "+")
+ggplot(muestra_posterior, aes(x = hipótesis, y = after_stat(prop), group = 1)) +
+  stat_count(fill = myblue) +
+  labs(title = "Muestra aleatoria de la distribución a posteriori",
+       x = "Hipótesis", y = "Frecuencia relativa") +
+  theme_minimal()
+```
+
+</details>
 
 ## Distribuciones conjugadas
 
@@ -401,7 +521,7 @@ $$
 
 :::{#exm-distribucion-conjugada-beta-binomial}
 Supongamos que queremos estimar la proporción de fumadores en nuestra ciudad tenemos una distribución a priori de $p$ dada por una distribución Beta con parámetros $\alpha=2$ y $\beta=5$, es decir, $p\sim \mbox{Beta}(2, 5)$.
-Si tomamos una muestra aleatoria de $n=30$ personas y observamos que $k=10$ de ellas son fumadoras, entonces la distribución a posteriori de $p$ dado $X=30$ es
+Si tomamos una muestra aleatoria de $n=30$ personas y observamos que $k=10$ de ellas son fumadoras, entonces la distribución a posteriori de $p$ dado $X=10$ es
 
 $$
 p|X=10 \sim \mbox{Beta}(2+10, 5+30-10) = \mbox{Beta}(12, 25).
@@ -413,23 +533,23 @@ $$
 Si $\lambda \sim \mbox{Gamma}(\alpha, \beta)$ sigue una distribución Gamma de parámetros $\alpha$ y $\beta$, y $X\sim \mbox{P}(\lambda)$ sigue una distribución Poisson con parámetro $\lambda$, entonces la distribución a posteriori de $\lambda$ dado $X=k$ es también una distribución Gamma,
 
 $$
-\lambda|\{X=k\} \sim \mbox{Gamma}(\alpha+k, \beta+1).
+\lambda|X=k \sim \mbox{Gamma}(\alpha+k, \beta+1).
 $$
 
 Si se toman $n$ muestras independientes de la misma distribución Poisson $P(\lambda)$, entonces la distribución a posteriori de $\lambda$ dado $X_1=x_1,\ldots,X_n=x_n$ es también una distribución Gamma,
 
 $$
-\lambda|\{X_1=x_1,\ldots,X_n=x_n\} \sim \mbox{Gamma}\left(\alpha+\sum_{i=1}^n x_i, \beta+n\right).
+\lambda|X_1=x_1,\ldots,X_n=x_n \sim \mbox{Gamma}\left(\alpha+\sum_{i=1}^n x_i, \beta+n\right).
 $$
 
 ---
 
 :::{#exm-distribucion-conjugada-gamma-poisson}
 Supongamos que queremos estimar la tasa de nacimientos diarios en una ciudad. Tenemos una distribución a priori de $\lambda$ dada por una distribución Gamma con parámetros $\alpha=2$ y $\beta=5$, es decir, $\lambda \sim \mbox{Gamma}(2, 5)$.
-Si observamos que en una muestra de 5 días se han producido $X_1=10, X_2=8, X_3=9, X_4=11, X_5=7$ eventos, entonces la distribución a posteriori de $\lambda$ es
+Si observamos que en una muestra de 5 días se han producido $X_1=10, X_2=8, X_3=9, X_4=11, X_5=7$ nacimientos, entonces la distribución a posteriori de $\lambda$ es
 
 \begin{align*}
-\lambda |\{X_1=10, X_2=8, X_3=9, X_4=11, X_5=7\} 
+\lambda |X_1=10, X_2=8, X_3=9, X_4=11, X_5=7 
 &\sim \mbox{Gamma}(2+10+8+9+11+7, 5+5) \\
 &= \mbox{Gamma}(47, 10).
 \end{align*}
@@ -437,7 +557,7 @@ Si observamos que en una muestra de 5 días se han producido $X_1=10, X_2=8, X_3
 
 ## Distribución conjugada Normal-Normal
 
-Si $\mu \sim N(\theta, \tau^2)$ sigue una distribución Normal de media $\theta$ y varianza $\tau^2$, y $X\sim N(\mu, \sigma^2)$ sigue una distribución Normal con media $\mu$ y varianza $\sigma^2$, entonces la distribución a posteriori de $\mu$ dado $X=x$ es también una distribución Normal,
+Si $\mu \sim N(\theta, \tau)$ sigue una distribución Normal de media $\theta$ y varianza $\tau^2$, y $X\sim N(\mu, \sigma)$ sigue una distribución Normal con media $\mu$ y varianza $\sigma^2$, entonces la distribución a posteriori de $\mu$ dado $X=x$ es también una distribución Normal,
 
 $$
 \mu|X=x \sim N\left(\frac{\frac{\theta}{\tau^2}+\frac{x}{\sigma^2}}{\frac{1}{\tau^2}+\frac{1}{\sigma^2}}, \frac{1}{\frac{1}{\tau^2}+\frac{1}{\sigma^2}}\right)
@@ -454,7 +574,7 @@ Si se toman $n$ muestras independientes de la misma distribución Normal $N(\mu,
 ---
 
 :::{#exm-distribucion-conjugada-normal-normal}
-Supongamos que el peso perdido con una dieta sigue una distribución normal $N(\mu, 4) y queremos estimar el peso medio $\mu$ perdido con la dieta. Tenemos una distribución a priori de $\mu$ dada por una distribución Normal con media $\theta=10$ y varianza $\tau^2=1$, es decir, $\mu \sim N(10, 1)$.
+Supongamos que el peso perdido con una dieta sigue una distribución normal $N(\mu, 2)$ y queremos estimar el peso medio $\mu$ perdido con la dieta. Tenemos una distribución a priori de $\mu$ dada por una distribución Normal con media $\theta=10$ y varianza $\tau^2=1$, es decir, $\mu \sim N(10, 1)$.
 Si tomanos una muestra aleatoria de $n=20$ personas que han seguido la dieta y observamos que el peso medio perdido es $\bar{x}=8$, entonces la distribución a posteriori de $\mu$ es
 
 $$
@@ -466,7 +586,7 @@ $$
 
 Un modelo bayesiano es un modelo estadístico que incorpora la incertidumbre sobre los parámetros desconocidos a través de distribuciones de probabilidad a priori, y que utiliza la regla de Bayes para actualizar estas distribuciones a posteriori a medida que se va obteniendo nueva información a través de los datos observados.
 
-Los modelos bayesianos puedon considerarse _modelos de aprendizaje autmático_ puesto que aprenden distribuciones con la experiencia que se va adquiriendo a través de los datos observados.
+Los modelos bayesianos pueden considerarse _modelos de aprendizaje automático_ puesto que aprenden distribuciones con la experiencia que se va adquiriendo a través de los datos observados.
 
 ## Elementos de un modelo bayesiano
 
@@ -486,7 +606,7 @@ Dependiendo de la naturaleza de las hipótesis o parámetros desconocidos, el es
 
 - **Distribuciones a priori continuas**. Se utilizan cuando el espacio de hipótesis es continuo, es decir, las hipótesis o parámetros desconocidos pueden tomar cualquier valor dentro de un intervalo o región del espacio, como por ejemplo el caso de la estimación de la media o una proporción de una población.
 
-## Distribuciones de los datos observados condicionados por las hipótesis
+## Distribuciones de los datos observados condicionadas por las hipótesis
 
 Del mismo modo, dependiendo de la naturaleza de los datos observados, la función de verosimilitud puede modelarse mediante distribuciones de probabilidad discretas o continuas.
 
@@ -563,7 +683,7 @@ plot_beta(alpha = 30, beta = 60) +
 :::{#exr-modelo-beta-binomial-2}
 Tras realizar un nuevo sondeo en la nuestra ciudad hemos observado que en una muestra de 100 personas, 20 son fumadoras.
 
-¿Cuál es la función de verosimilitud para un proporción de fumadores en la ciudad $\theta$?
+¿Cuál es la función de verosimilitud para una proporción de fumadores en la ciudad $\theta$?
 :::
 
 <details>
@@ -710,7 +830,8 @@ Para ver si esta distribución simulada se parece a la distribución teórica $B
 #| output-location: column
 set.seed(123)
 # Muestra aleatoria de tamaño 10000
-muestra_posterior <- sample_n(df_posterior, size = 10000, weight = posterior, replace = TRUE)
+muestra_posterior <- slice_sample(df_posterior, n = 10000, weight_by
+ = posterior, replace = TRUE)
 # Histograma de la muestra a posteriori
 ggplot(muestra_posterior, aes(x = θ)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 0.01, alpha = 0.7, fill = myblue, color = "white") +
@@ -952,16 +1073,20 @@ $$
 
 y después $Y_2$
 
-$$
-f(\theta|Y_1,Y_2) = \frac{\frac{f(\theta)L(\theta|Y_1)}{P(Y_1)}L(\theta|Y_2)}{P(Y_2)} = \frac{f(\theta)L(\theta|Y_1)L(\theta|Y_2)}{P(Y_1)P(Y_2)} = \frac{f(\theta)L(\theta|Y_2)L(\theta|Y_1)}{P(Y_2)P(Y_1)} = f(\theta|Y_2,Y_1).
-$$
+\begin{align*}
+f(\theta|Y_1,Y_2) 
+&= \frac{\frac{f(\theta)L(\theta|Y_1)}{P(Y_1)}L(\theta|Y_2)}{P(Y_2)} 
+= \frac{f(\theta)L(\theta|Y_1)L(\theta|Y_2)}{P(Y_1)P(Y_2)} \\ 
+&= \frac{f(\theta)L(\theta|Y_2)L(\theta|Y_1)}{P(Y_2)P(Y_1)} 
+= f(\theta|Y_2,Y_1).
+\end{align*}
 
 ## Modelo Normal-Normal
 
 Cuando el parámetro de interés es una media $\mu$, como por ejemplo el nivel medio de colesterol en sangre, y los datos $X$ siguen una distribución Normal, como por ejemplo el nivel de colesterol en sangre, el modelo bayesiano más utilizado es el modelo Normal-Normal.
 
-- Prior: $\mu \sim N(\theta, \tau^2)$
-- Verosimilitud: $X|\mu \sim N(\mu, \sigma^2)$.
+- Prior: $\mu \sim N(\theta, \tau)$
+- Verosimilitud: $X|\mu \sim N(\mu, \sigma)$.
 
 ---
 
@@ -992,7 +1117,7 @@ Tras realizar un nuevo sondeo hemos observado que en una muestra de 10 personas 
 <details>
 <summary>**Solución**</summary>
 Llamemos $Y$ al nivel de colesterol en sangre.
-Suponiendo que el nivel de colesterol en sangre sigue una distribución Normal con media $\mu$ y desviación típica conocida de 40 mg/dL, es decir, $Y\sim N(\mu, 40^2)$, entonces la función de verosimilitud para el nivel medio de colesterol $\mu$ dado el nivel medio observado en la muestra es
+Suponiendo que el nivel de colesterol en sangre sigue una distribución Normal con media $\mu$ y desviación típica conocida de 40 mg/dL, es decir, $Y\sim N(\mu, 40)$, entonces la función de verosimilitud para el nivel medio de colesterol $\mu$ dado el nivel medio observado en la muestra es
 
 $$
 L(\mu|y) = \frac{1}{(2\pi \sigma^2)^{n/2}} \exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mu)^2\right)
@@ -1171,10 +1296,7 @@ posterior_sim <- stan(model_code = modelo,
 El resultado es una muestra de 4 cadenas de Markov de tamaño 5000 cada una, es decir, un total de 20.000 muestras de la distribución a posteriori de $\lambda$ dado el número de infartos diarios observado en la muestra.
 
 ```{r}
-library(broom.mixed)
-library(knitr)
-tidy(posterior_sim, conf.int = TRUE, conf.level = 0.95) |> 
-kable()
+as.data.frame(posterior_sim) 
 ```
 
 ---
@@ -1183,7 +1305,7 @@ Podemos visualizar la traza cuatro cadenas de Markov generadas con la función `
 
 ```{r}
 library(bayesplot)
-mcmc_trace(posterior_sim, pars = "lambda") +
+mcmc_trace(posterior_sim, pars = "lambda", size = 0.2) +
   labs(title = "Trazas de las cadenas de Markov para λ",
        x = "Iteración", y = "Valor de λ") +
   theme_gray()
@@ -1219,7 +1341,7 @@ mcmc_dens(posterior_sim, pars = "lambda") +
 ---
 
 :::{#exr-stan-rstan}
-Definir un modelo Normal-Normal en Stan para el nivel medio de colesterol en sangre, con una distribución a priori $N(200, 2^2)$ y una función de verosimilitud Normal con desviación estándar conocida de 40 mg/dL, compilarlo y simular el muestreo de la distribución a posteriori dada la muestra de 10 personas con niveles de colesterol 230, 226, 245, 228, 232, 235, 232, 244, 251, 247.
+Definir un modelo Normal-Normal en Stan para el nivel medio de colesterol en sangre, con una distribución a priori $N(200, 2)$ y una función de verosimilitud Normal con desviación estándar conocida de 40 mg/dL, compilarlo y simular el muestreo de la distribución a posteriori dada la muestra de 10 personas con niveles de colesterol 230, 226, 245, 228, 232, 235, 232, 244, 251, 247.
 :::
 
 ---
@@ -1263,7 +1385,7 @@ mcmc_dens(posterior_sim, pars = "mu") +
 
 ## Análisis de las cadenas de Markov
 
-El principal problema de la generación de muestras de la distribución a posteriori mediante cadenas de Markov con MCMC o HMC es que los valores de las cadenas no son independientes. Cada valor de la cadena depende del anterior, y aunque el algoritmo busca que la muestra se ajuste a la distribución de a posteriori, a veces puede fallar y generar muestras poco representativas.
+El principal problema de la generación de muestras de la distribución a posteriori mediante cadenas de Markov con MCMC o HMC es que los valores de las cadenas no son independientes. Cada valor de la cadena depende del anterior, y aunque el algoritmo busca que la muestra se ajuste a la distribución a posteriori, a veces puede fallar y generar muestras poco representativas.
 
 ![Cadenenas de Markov anómalas](img/02-regla-bayes/cadenas-markov-anomalas.png)
 
@@ -1495,7 +1617,7 @@ Aunque ya hemos visto que la elección de la distribución a priori no es releva
 - **No informativas**. Asignan la misma plausibilidad a todos los valores del parámetro, incluso cuando hay valores del parámetro que no tienen sentido. 
 
 - **Poco informativas**. Asignan una probabilidad similar a un amplio rango de valores del parámetro, pero descartan valores que no tienen sentido.
--  
+
 - **Informativas**. Reflejan un conocimiento previo sólido sobre el parámetro de interés, lo que puede ser útil para mejorar la precisión de las estimaciones cuando se dispone de poca información en los datos.
 
 ## Distribuciones a priori no informativas
@@ -1509,7 +1631,7 @@ El caso más extremo es modelo uniforme impropio $f(\theta) \propto 1$, que no e
 **¿Cuándo no usarla?:** No debería usarse con muestras pequeñas, porque el posterior puede ser inestable o producir estimaciones absurdas.
 
 :::{#exm-distribucion-priori-no-informativa}
-Para estimar la tensión arterial sistólica media de una población se utiliza un modelo uniforme $f(\mu) \propto 1$ que asigna la misma plausibilidad a cualquier valor de $\mu>0$
+Para estimar la tensión arterial sistólica media de una población se utiliza un modelo uniforme $f(\mu) \propto 1$ que asigna la misma plausibilidad a cualquier valor de $\mu>0$.
 :::
 
 ## Distribuciones a priori poco informativas

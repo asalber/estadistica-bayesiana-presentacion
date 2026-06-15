@@ -867,7 +867,7 @@ El procedimiento para ajustar un modelo de regresión lineal múltiple mediante 
 :::
 
 <details>
-<summary>Solución</summary>
+<summary>**Solución**</summary>
 Antes de nada, puesto que el sexo es una variable categórica, debemos codificarla como variable númerica para poder introducirla en el modelo de regresión múltiple. Como en este caso solo hay dos categorías posibles, podemos usar el 0 para hombres y 1 para mujeres.
 
 Si llamamos $X_1$ a la estatura y $X_2$ al sexo, el modelo de regresión lineal múltiple sería:
@@ -900,7 +900,7 @@ $$
 ---
 
 <details>
-<summary>Solución (continuación)</summary>
+<summary>**Solución** (continuación)</summary>
 Este modelo asume que la pendiente de la recta de regresión es la misma para hombres y mujeres, pero que el término independiente es distinto. 
 
 Para las distribuciones a priori de los parámetros $\beta_0, \beta_1$ y $\sigma$, podemos utilizar las mismas distribuciones a priori que en el modelo de regresión lineal simple. 
