@@ -100,7 +100,7 @@
     code span.vs { color: #da4453; } /* VerbatimString */
     code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-9715cb218e2c2db493bf0991103ad162.css">
+  <link rel="stylesheet" href="01-probabilidad_files/libs/revealjs/dist/theme/quarto-cc00812e40b81e90b971597c14bea294.css">
   <link href="01-probabilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="01-probabilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -2126,6 +2126,72 @@ E(X) = Var(X) = \lambda.
 <h3>Forma de la distribución de Poisson para distintos valores de <span class="math inline">\(\lambda\)</span></h3>
 
 <img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section></section>
+<section id="resumen-de-distribuciones-discretas-b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612066696c652d706466203e7d7d" class="title-slide slide level2 center">
+<h2>Resumen de distribuciones discretas <a href="./tablas/distribuciones-bayesianas.pdf" class="smaller scrollable"><i class="fa-solid fa-file-pdf" aria-label="file-pdf"></i></a></h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Distribución</th>
+<th style="text-align: center;">Parámetros</th>
+<th style="text-align: center;">Media</th>
+<th style="text-align: center;">Varianza</th>
+<th style="text-align: left;">Usos habituales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bernoulli(<span class="math inline">\(p\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(p \in (0,1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p(1-p)\)</span></td>
+<td style="text-align: left;">Resultado binario individual: test positivo/negativo, vivo/muerto, enfermo/sano.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Binomial(<span class="math inline">\(n, p\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(n \in \mathbb{N},\ p \in (0,1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(np\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(np(1-p)\)</span></td>
+<td style="text-align: left;">Número de éxitos en <span class="math inline">\(n\)</span> ensayos: respondedores a tratamiento, casos en cribado.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Geométrica(<span class="math inline">\(p\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(p \in (0,1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{1}{p}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{1-p}{p^2}\)</span></td>
+<td style="text-align: left;">Ensayos hasta el primer éxito: contactos hasta contagio, consultas hasta diagnóstico.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Binomial negativa(<span class="math inline">\(r, p\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(r &gt; 0,\ p \in (0,1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{r(1-p)}{p}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{r(1-p)}{p^2}\)</span></td>
+<td style="text-align: left;">Conteos sobredispersos: recaídas, reingresos, eventos adversos con varianza &gt; media.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poisson(<span class="math inline">\(\lambda\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\lambda &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: left;">Conteos de eventos raros: casos semanales de enfermedad, llamadas a urgencias.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hipergeométrica(<span class="math inline">\(N, K, n\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(N, K, n \in \mathbb{N}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{nK}{N}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{nK(N-K)(N-n)}{N^2(N-1)}\)</span></td>
+<td style="text-align: left;">Muestreo sin reemplazamiento: prevalencia en poblaciones pequeñas.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
 <section>
 <section id="variables-aleatorias-continuas" class="title-slide slide level2 center">
 <h2>Variables aleatorias continuas</h2>
@@ -2415,7 +2481,115 @@ E(X) = \frac{\beta}{\alpha-1} \quad \mbox {y} \quad Var(X) = \frac{\beta^2}{(\al
 <section id="forma-de-la-distribución-gamma-inversa-para-distintos-valores-de-alpha-y-beta" class="slide level3">
 <h3>Forma de la distribución Gamma Inversa para distintos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span></h3>
 
-<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-43-1.png" width="960" class="r-stretch"></section>
+<img data-src="01-probabilidad_files/figure-revealjs/unnamed-chunk-43-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="resumen-de-distribuciones-continuas-b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612066696c652d706466203e7d7d" class="title-slide slide level2 smaller scrollable center">
+<h2>Resumen de distribuciones continuas <a href="./tablas/distribuciones-bayesianas.pdf"><i class="fa-solid fa-file-pdf" aria-label="file-pdf"></i></a></h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Distribución</th>
+<th style="text-align: center;">Parámetros</th>
+<th style="text-align: center;">Media</th>
+<th style="text-align: center;">Varianza</th>
+<th style="text-align: left;">Usos habituales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Uniforme(<span class="math inline">\(a, b\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(a &lt; b\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{a+b}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{(b-a)^2}{12}\)</span></td>
+<td style="text-align: left;">Prior no informativo sobre parámetros acotados: probabilidades, proporciones.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Beta(<span class="math inline">\(\alpha, \beta\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\alpha, \beta &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha}{\alpha+\beta}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</span></td>
+<td style="text-align: left;">Prior conjugado para proporciones: prevalencia, sensibilidad, especificidad.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dirichlet(<span class="math inline">\(\alpha_1,\ldots,\alpha_k\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\alpha_i &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha_i}{\alpha_0}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha_i(\alpha_0-\alpha_i)}{\alpha_0^2(\alpha_0+1)}\)</span></td>
+<td style="text-align: left;">Prior conjugado para vectores de probabilidad: serotipos, mezclas de poblaciones.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Normal(<span class="math inline">\(\mu, \sigma^2\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\mu \in \mathbb{R},\ \sigma^2 &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mu\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2\)</span></td>
+<td style="text-align: left;">Prior para medias y coeficientes: presión arterial, colesterol, efectos de tratamiento.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(t\)</span> de Student(<span class="math inline">\(\nu, \mu, \sigma^2\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\nu &gt; 0,\ \mu \in \mathbb{R},\ \sigma^2 &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mu\ (\nu &gt; 1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\nu\sigma^2}{\nu-2}\ (\nu &gt; 2)\)</span></td>
+<td style="text-align: left;">Prior robusto con colas pesadas; marginal de <span class="math inline">\(\mu\)</span> en modelo Normal-Inv-Gamma.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cauchy(<span class="math inline">\(\mu, \sigma\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\mu \in \mathbb{R},\ \sigma &gt; 0\)</span></td>
+<td style="text-align: center;">no existe</td>
+<td style="text-align: center;">no existe</td>
+<td style="text-align: left;">Prior de colas muy pesadas para coeficientes en regresión logística.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Exponencial(<span class="math inline">\(\lambda\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\lambda &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{1}{\lambda}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{1}{\lambda^2}\)</span></td>
+<td style="text-align: left;">Prior débilmente informativo para <span class="math inline">\(\sigma\)</span> y <span class="math inline">\(\tau\)</span>; tiempo entre eventos con riesgo constante.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gamma(<span class="math inline">\(\alpha, \beta\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\alpha, \beta &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha}{\beta}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\alpha}{\beta^2}\)</span></td>
+<td style="text-align: left;">Prior conjugado para tasas Poisson: incidencia, mortalidad, <span class="math inline">\(R(t)\)</span>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gamma inversa(<span class="math inline">\(\alpha, \beta\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\alpha, \beta &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\beta}{\alpha-1}\ (\alpha &gt; 1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{\beta^2}{(\alpha-1)^2(\alpha-2)}\ (\alpha &gt; 2)\)</span></td>
+<td style="text-align: left;">Prior conjugado para varianzas <span class="math inline">\(\sigma^2\)</span>; varianza de efectos aleatorios.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lognormal(<span class="math inline">\(\mu, \sigma^2\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\mu \in \mathbb{R},\ \sigma^2 &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(e^{\mu+\sigma^2/2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\left(e^{\sigma^2}-1\right)e^{2\mu+\sigma^2}\)</span></td>
+<td style="text-align: left;">Parámetros positivos asimétricos: dosis, concentraciones, tiempos de supervivencia.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Weibull(<span class="math inline">\(k, \lambda\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(k, \lambda &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\lambda\,\Gamma\!\left(1+\tfrac{1}{k}\right)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\lambda^2\!\left[\Gamma\!\left(1+\tfrac{2}{k}\right)-\Gamma\!\left(1+\tfrac{1}{k}\right)^2\right]\)</span></td>
+<td style="text-align: left;">Modelos de supervivencia: tiempo hasta muerte, recaída o fracaso de tratamiento.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Normal-Inv-Gamma(<span class="math inline">\(\mu_0,\lambda,\alpha,\beta\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\mu_0 \in \mathbb{R},\ \lambda,\alpha,\beta &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\left(\mu_0,\ \dfrac{\beta}{\alpha-1}\right)\)</span></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Prior conjugado conjunto para <span class="math inline">\((\mu, \sigma^2)\)</span>; base de regresión bayesiana.</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section class="slide level3">
 
 <div id="exr-test-distribuciones" class="theorem exercise">

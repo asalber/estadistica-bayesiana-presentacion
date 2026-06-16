@@ -120,7 +120,7 @@ model
   k ~ binomial(n, p); // verosimilitud
 }
 "
-post <- stan(model_code = modelo, data = list(n = 200, k = 70), 
+tension_post <- stan(model_code = modelo, data = list(n = 200, k = 70), 
     chains = 4, iter = 5000*2, seed = 123)
 ```
 :::
@@ -130,7 +130,7 @@ post <- stan(model_code = modelo, data = list(n = 200, k = 70),
 
 ```{r}
 library(knitr)
-summary(post, pars = "p", probs = c(0.05, 0.95))$summary |> 
+summary(tension_post, pars = "p", probs = c(0.05, 0.95))$summary |> 
   kable()
 ```
 
@@ -162,7 +162,7 @@ Parámetros:
 
 ```{r}
 library(tidybayes)
-post |> 
+tension_post |> 
   spread_draws(p) |>
   mean_qi(p, .width = 0.9) |>
   kable()
@@ -194,7 +194,7 @@ Veamos cómo dibujar los intervalos de credibilidad calculados en el ejemplo ant
 #| output-location: column
 library(tidyverse)
 library(bayesplot)
-mcmc_intervals(post, pars = "p", 
+mcmc_intervals(tension_post, pars = "p", 
   prob = 0.5, prob_outer = 0.9, 
   point_est = "mean") + 
   labs(title = "Intervalo de credibilidad del 90% para la prevalencia de la hipertensión") +
@@ -225,7 +225,7 @@ model {
   lambda ~ gamma(27.5, 2.5); // distribución a priori
 }
 "
-post_lambda <- stan(model_code = modelo, 
+tuberculosis_post <- stan(model_code = modelo, 
     data = list(y = 48/3), 
     chains = 4, iter = 5000*2, seed = 123)
 ```
@@ -235,10 +235,11 @@ post_lambda <- stan(model_code = modelo,
 
 <details>
 <summary>**Solución** (continuación)</summary>
+
 ```{r}
 #| output-location: column
 library(tidybayes)
-post_lambda |> 
+tuberculosis_post |> 
   spread_draws(lambda) |>
   mean_qi(lambda, .width = 0.9) |>
   kable()
@@ -248,7 +249,7 @@ post_lambda |>
 #| output-location: column
 library(tidyverse)
 library(bayesplot)
-mcmc_intervals(post_lambda, pars = "lambda", 
+mcmc_intervals(tuberculosis_post, pars = "lambda", 
   prob = 0.5, prob_outer = 0.9, 
   point_est = "mean") + 
   labs(title = "Intervalo de credibilidad del 95% para la incidencia de la tuberculosis") +
@@ -405,7 +406,7 @@ que puede aproximarse con el siguiente código.
 
 ```{r}
 #| output-location: column
-post |>
+tension_post |>
   spread_draws(p) |>
   summarise(prob = mean(p > 0.3)) |> 
   kable()
@@ -415,9 +416,9 @@ post |>
 ---
 
 :::{#exr-contraste-hipotesis-bayesiano}
-En el ejemplo de la incidencia de la tuberculosis, realizar el contraste para ver si la incidencia es mayor que el 15% por cada 100.000 habitantes-año.
+En el ejemplo de la incidencia de la tuberculosis, realizar el contraste para ver si la incidencia es mayor que 15 por cada 100.000 habitantes-año.
 
-¿Cómo plantearías el contraste para ver si la incidencia es del 18%?
+¿Cómo plantearías el contraste para ver si la incidencia es 18?
 :::
 
 <details>
@@ -428,36 +429,33 @@ $$
 
 ```{r}
 #| output-location: column
-post_lambda |>
+tuberculosis_post |>
   spread_draws(lambda) |>
   summarise(prob = mean(lambda > 15)) |>  
   kable()
 ```
 
-En este caso la probabilidad de que la incidencia sea mayor que el 15% es menor que 0.1, por lo que parece razonable rechazar la hipótesis nula y aceptar al hipótesis alternativa de que la incidencia de tuberculosis es menor o igual al 15% por cada 100.000 habitantes-año.
+En este caso la probabilidad de que la incidencia sea mayor que 15 es menor que 0.1, por lo que parece razonable rechazar la hipótesis nula y aceptar al hipótesis alternativa de que la incidencia de tuberculosis es menor o igual al 15% por cada 100.000 habitantes-año.
 </details>
 
 ---
 
-:::{#exr-contraste-hipotesis-bayesiano-2}
-¿Cómo plantearías el contraste para ver si la incidencia es del 18%
-:::
-
 <details>
-<summary>**Solución**</summary>
+<summary>**Solución (continuación)**</summary>
 
+Para ver si la incidencia es 
 $$
 H_0: \lambda = 18 \quad  \quad H_1: \lambda \neq 18
 $$
 ```{r}
 #| output-location: column
-post_lambda |> 
+tuberculosis_post |> 
   spread_draws(lambda) |>
   mean_qi(lambda, .width = 0.99) |>
   kable()
 ```
 
-El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de 8 a 17.8 casos por cada 100.000 habitantes-año, por lo que rechazamos la hipótesis nula de que la incidencia es del 18% al no ser compatible con los datos observados, ya que el valor de 18 no está dentro del intervalo de credibilidad.
+El intervalo de credibilidad del 99% para la incidencia de la tuberculosis va de 8 a 17.8 casos por cada 100.000 habitantes-año, por lo que rechazamos la hipótesis nula de que la incidencia es 18 al no ser compatible con los datos observados, ya que el valor de 18 no está dentro del intervalo de credibilidad.
 </details>
 
 ## Odds a posteriori
@@ -470,12 +468,14 @@ $$
 
 Si las odds a posteriori son mayores que 1, entonces la hipótesis nula es más probable que la alternativa, mientras que si las odds a posteriori son menores que 1, entonces la hipótesis alternativa es más probable que la nula.
 
+---
+
 :::{#exm-odds-posteriori}
 En el ejemplo de la prevalencia de la hipertensión, podríamos calcular las odds a posteriori de que la prevalencia sea mayor que el 30% con el siguiente código.
 
 ```{r}
 #| output-location: column
-post |>
+tension_post |>
   spread_draws(p) |>
   summarise(odds = mean(p > 0.3) / mean(p <= 0.3)) |> 
   kable()
@@ -510,7 +510,7 @@ En el ejemplo de la prevalencia de la hipertensión, podríamos calcular el fact
 
 ```{r}
 #| output-location: column
-post |>
+tension_post |>
   spread_draws(p) |>
   summarise(odds_prior = (1- pbeta(0.3, 4, 6)) / pbeta(0.3, 4, 6),
             odds_post = mean(p > 0.3) / mean(p <= 0.3), 
@@ -518,20 +518,20 @@ post |>
   kable()
 ```
 
-En este caso, el factor de Bayes es de aproximadamente 6.2, es decir, los datos multiplican por 6.2 las odds a favor de H_0, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula (que la prevalencia es mayor que el 30%) que a favor de la alternativa (que la prevalencia es menor o igual al 30%).
+En este caso, el factor de Bayes es de aproximadamente 6.2, es decir, los datos multiplican por 6.2 las odds a favor de la hipótesis nula, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula (que la prevalencia es mayor que el 30%) que a favor de la alternativa (que la prevalencia es menor o igual al 30%).
 :::
 
 ---
 
 :::{#exr-factor-bayes}
-En el ejemplo de la incidencia de la tuberculosis, calcular el factor de Bayes de que la incidencia sea mayor que el 15% por cada 100.000 habitantes-año.
+En el ejemplo de la incidencia de la tuberculosis, calcular el factor de Bayes de que la incidencia sea mayor que 15 por cada 100.000 habitantes-año.
 :::
 
 <details>
 <summary>**Solución**</summary>
 ```{r}
 #| output-location: column
-post_lambda |>
+tuberculosis_post |>
   spread_draws(lambda) |>
   summarise(odds_prior = (1- pgamma(15, 27.5, 2.5)) / pgamma(15, 27.5, 2.5),
             odds_post = mean(lambda > 15) / mean(lambda <= 15),
@@ -539,7 +539,7 @@ post_lambda |>
   kable()
 ```
 
-Las odds a posteriori son de aproximadamente 0,1 lo que indica que la hipótesis alternativa es 10 veces más probable que la hipótesis nula. No obstante, el factor de Bayes es de 2.6 lo que indica que los datos han multiplicado por 2.6 las odds a favor de la hipótesis nula, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula que de la alternativa.
+Las odds a posteriori son de aproximadamente 0.1 lo que indica que la hipótesis alternativa es 10 veces más probable que la hipótesis nula. No obstante, el factor de Bayes es de 2.6 lo que indica que los datos han multiplicado por 2.6 las odds a favor de la hipótesis nula, lo que indica que los datos aportan más evidencia a favor de la hipótesis nula que de la alternativa.
 </details>
 
 
@@ -579,10 +579,8 @@ $$
 P(\tilde{X} = \tilde x|x) = \int_{\Theta} f(\tilde x|\theta) f(\theta|x) \, d\theta
 $$  
 
-donde $f(\tilde x|\theta)$ es la función de verosimilitud de la nueva observación $\tilde x$ dada el parámetro $\theta$.
+donde $f(\tilde x|\theta)$ es la función de verosimilitud de la nueva observación $\tilde x$ dado el parámetro $\theta$.
 :::
-
----
 
 ## Simulación de la distribución predictiva posterior
 
@@ -593,12 +591,12 @@ En el ejemplo de la prevalencia de la hipertensión, podríamos simular la distr
 
 ```{r}
 #| output-location: column
-post_pred <- post |>
+tension_pred <- tension_post |>
   spread_draws(p) |>  # Extraemos las muestras de la distribución a posteriori de p.
   # Generamos 1 predicción para cada p obtenido en la muestra (20000 en total).
   mutate(pred = rbinom(n(), size = 10, prob = p))  |> 
   select(p, pred)
-head(post_pred, 5) |>  # Mostramos las 5 primeras predicciones.
+head(tension_pred, 5) |>  # Mostramos las 5 primeras predicciones.
   kable()
 ```
 
@@ -611,10 +609,10 @@ Podemos dibujar el diagrama de barras la distribución predictiva posterior.
 
 ```{r}
 #| output-location: column
-post_pred |>
-  ggplot(aes(x = pred)) +
+tension_pred |>
+  ggplot(aes(x = pred, y = after_stat(prop))) +
   # Diagrama de barras de la distribución de predicciones.
-  stat_count(aes(y = after_stat(count / sum(count))), fill = myblue) +
+  stat_count(fill = myblue, width = 0.2) +
   scale_x_continuous(breaks = 0:10) +
   labs(title = "Distribución predictiva posterior del número de personas con hipertensión en una nueva muestra de 10 personas", y = "Frecuencia relativa") +
   theme_gray()
@@ -631,7 +629,7 @@ Continuando con el ejemplo anterior, calcularemos la media, desviación típica 
 
 ```{r}
 #| output-location: column
-post_pred |>
+tension_pred |>
   summarise(mean = mean(pred), 
             sd = sd(pred), 
             li = quantile(pred, 0.05), 
@@ -648,20 +646,20 @@ Dibujar la distribución predictiva posterior del número de casos de tuberculos
 
 <details>
 <summary>**Solución**</summary>
+
 ```{r}
 #| output-location: column
-post_pred_lambda <- post_lambda |>
+tuberculosis_pred <- tuberculosis_post |>
   spread_draws(lambda) |>  # Extraemos las muestras de la distribución a posteriori de lambda.
   # Generamos 1 predicción para cada lambda obtenido en la muestra (20000 en total).
   mutate(pred = rpois(n(), lambda = lambda / 10))  |> 
   select(lambda, pred)
-post_pred_lambda |>
-  ggplot(aes(x = pred)) +
+tuberculosis_pred |>
+  ggplot(aes(x = pred, y = after_stat(prop))) +
   # Diagrama de barras de la distribución de predicciones.
-  stat_count(aes(y = after_stat(count / sum(count))), fill = myblue) +
+  stat_count(fill = myblue, width = 0.2) +
   scale_x_continuous(breaks = 0:10) +
-  labs(title = "Distribución predictiva posterior del número de casos de tuberculosis en una nueva muestra de 10000 personas", y = "Frecuencia relativa") +
-  theme_gray()
+  labs(title = "Distribución predictiva posterior del número de casos de tuberculosis en una nueva muestra de 10000 personas", y = "Frecuencia relativa")
 ```
 </details>    
 
@@ -669,9 +667,10 @@ post_pred_lambda |>
 
 <details>
 <summary>**Solución** (continuación)</summary>
+
 ```{r}
 #| output-location: column
-post_pred_lambda |>
+tuberculosis_pred |>
   summarise(mean = mean(pred), 
             sd = sd(pred), 
             li = quantile(pred, 0.025), 

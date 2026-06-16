@@ -1266,7 +1266,7 @@ Compila un programa de Stan y simula el muestreo de la distribución a posterior
 ---
 
 :::{#exm-stan-rstan}
-El siguiente código define un modelo Gamma-Poisson para el número de infartos diarios, con una distribución a priori $\lambda \sim \mbox{Gamma}(10, 2)$ y una función de verosimilitud $L(\lambda|Y)$ Poisson, lo compila y simula el muestreo de la distribución a posteriori.
+El siguiente código define un modelo Gamma-Poisson para la tasa de infartos diarios, con una distribución a priori $\lambda \sim \mbox{Gamma}(10, 2)$ y una función de verosimilitud $L(\lambda|Y)$ Poisson, lo compila y simula el muestreo de la distribución a posteriori.
 
 ```{r}
 #| output: false
@@ -1285,7 +1285,7 @@ model {
   lambda ~ gamma(10, 2); // distribución a priori
 }
 "
-posterior_sim <- stan(model_code = modelo, 
+tasa_infartos_post <- stan(model_code = modelo, 
     data = list(n = 5, y = c(10, 8, 9, 11, 7)), 
     chains = 4, iter = 5000*2, seed = 123)
 ```
@@ -1296,7 +1296,7 @@ posterior_sim <- stan(model_code = modelo,
 El resultado es una muestra de 4 cadenas de Markov de tamaño 5000 cada una, es decir, un total de 20.000 muestras de la distribución a posteriori de $\lambda$ dado el número de infartos diarios observado en la muestra.
 
 ```{r}
-as.data.frame(posterior_sim) 
+as.data.frame(tasa_infartos_post)
 ```
 
 ---
@@ -1305,7 +1305,7 @@ Podemos visualizar la traza cuatro cadenas de Markov generadas con la función `
 
 ```{r}
 library(bayesplot)
-mcmc_trace(posterior_sim, pars = "lambda", size = 0.2) +
+mcmc_trace(tasa_infartos_post, pars = "lambda", size = 0.2) +
   labs(title = "Trazas de las cadenas de Markov para λ",
        x = "Iteración", y = "Valor de λ") +
   theme_gray()
@@ -1318,7 +1318,7 @@ Haciendo un zoom sobre una de estas cadenas podemos observar cómo recorre los d
 
 ```{r}
 #| echo: false
-mcmc_trace(as.array(posterior_sim)[, 1, , drop = FALSE], pars = "lambda", window = c(1, 100)) +
+mcmc_trace(as.array(tasa_infartos_post)[, 1, , drop = FALSE], pars = "lambda", window = c(1, 100)) +
   labs(title = "Zoom sobre una de las cadenas de Markov para λ",
        x = "Iteración", y = "Valor de λ") +
   theme_gray()
@@ -1331,7 +1331,7 @@ Se puede observar que la cadena toma valores entre 5 y11.
 Podemos visualizar la distribución a posteriori de $\lambda$ con la función `mcmc_dens` del paquete `bayesplot`.
 
 ```{r}
-mcmc_dens(posterior_sim, pars = "lambda") +
+mcmc_dens(tasa_infartos_post, pars = "lambda") +
   stat_function(fun = dgamma, args = list(55, 7), color = myred) +
   labs(title = "Distribución a posteriori de λ",
        x = "Tasa de infartos (λ)", y = "Densidad") +
@@ -1364,7 +1364,7 @@ model {
   mu ~ normal(200, 3); // distribución a priori
 }
 "
-posterior_sim <- stan(model_code = modelo, 
+colesterol_post <- stan(model_code = modelo, 
     data = list(n = 10, y = c(230, 226, 245, 228, 232, 235, 232, 244, 251, 247)), 
     chains = 4, iter = 5000*2, seed = 123)
 ```
@@ -1375,7 +1375,7 @@ posterior_sim <- stan(model_code = modelo,
 <details>
 <summary>**Solución (continuación)**</summary>
 ```{r}
-mcmc_dens(posterior_sim, pars = "mu") +
+mcmc_dens(colesterol_post, pars = "mu") +
   stat_function(fun = dnorm, args = list(201.97, sqrt(8.52)), color = myred) +
   labs(title = "Distribución a posteriori de μ",
        x = "Nivel medio de colesterol (μ)", y = "Densidad") +
@@ -1416,9 +1416,9 @@ Parámetros:
 :::{#exm-analisis-traza}
 ```{r}
 #| output-location: column
-mcmc_dens_overlay(posterior_sim, pars = "mu") +
-  labs(title = "Distribución de frecuencias de las trazas de las cadenas de Markov para μ",
-       x = "Nivel medio de colesterol (μ)", 
+mcmc_dens_overlay(tasa_infartos_post, pars = "lambda") +
+  labs(title = "Distribución de frecuencias de las trazas de las cadenas de Markov para λ",
+       x = "Tasa de infartos (λ)", 
        y = "Densidad") +
   theme_gray()
 ```
@@ -1463,8 +1463,8 @@ Parámetros:
 :::{#exm-analisis-autocorrelacion}
 ```{r}
 #| output-location: column
-mcmc_acf(posterior_sim, pars = "mu", lags = 10) +
-  labs(title = "Función de autocorrelación de las muestras generadas por MCMC para μ",
+mcmc_acf(tasa_infartos_post, pars = "lambda", lags = 10) +
+  labs(title = "Función de autocorrelación de las muestras generadas por MCMC para λ",
        x = "Orden o retardo (k)", 
        y = "Autocorrelación (ρ_k)") +
   theme_gray()
@@ -1493,11 +1493,11 @@ Parámetros:
 :::{#exm-analisis-eficiencia}
 ```{r}
 #| output-location: column
-neff_ratio(posterior_sim, pars = "mu")
+neff_ratio(tasa_infartos_post, pars = "lambda")
 ```
 :::
 
-En este caso el número efectivo de muestras independientes es un 36.7% de las muestras generadas. 
+En este caso el número efectivo de muestras independientes es un 37.3% de las muestras generadas. 
 
 ## Análisis de consistencia
 
@@ -1533,11 +1533,54 @@ Veamos cuanto vale la métrica $\hat{R}$ para las cadenas de Markov generadas de
 
 ```{r}
 #| output-location: column
-rhat(posterior_sim, pars = "mu")
+rhat(tasa_infartos_post, pars = "lambda")
 ```
 
 El valor es prácticamente 1, por lo que las 4 cadenas de Markov generadas son consistentes.
 :::
+
+---
+
+:::{#exr-analisis-cadenas-markov}
+Analiza la traza, la autocorrelación, la eficiencia y la consistencia de las cadenas de Markov generadas con Stan para la distribución a posteriori del nivel medio de colesterol en sangre en el ejercicio anterior.
+:::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output-location: column
+# Análisis de la traza
+mcmc_trace(colesterol_post, pars = "mu", size = 0.2) +
+  labs(title = "Trazas de las cadenas de Markov para μ",
+       x = "Iteración", y = "Valor de μ") 
+```
+
+```{r}
+#| output-location: column
+# Análisis de la autocorrelación
+mcmc_acf(colesterol_post, pars = "mu", lags = 10) +
+  labs(title = "Función de autocorrelación de las muestras generadas por MCMC para μ",
+       x = "Orden o retardo (k)", 
+       y = "Autocorrelación (ρ_k)") 
+```
+
+
+```{r}
+#| output-location: column
+# Neff ratio
+neff_ratio(colesterol_post, pars = "mu")
+```
+
+```{r}
+#| output-location: column
+# Rhat
+rhat(colesterol_post, pars = "mu")
+```
+</details>
+     
 
 ## Dependencia de los resultados en la elección de la distribución a priori
 
@@ -1675,23 +1718,23 @@ Para estimar la tensión arterial sistólica media de una población se utiliza 
 | Muchos predictores, selección de variables | `horseshoe(df=1)` |
 | Regresión logística, coeficientes | `normal(0, 2.5)` o `student_t(7, 0, 2.5)` |
 
-## Distribuciones a priori en Epidemiología
+## Distribuciones a priori en Epidemiología {.smaller .scrollable}
 
 | Parámetro | Distribución prior | Parámetros habituales | Conjugada con | Aplicación en epidemiología |
 |---|---|---|---|---|
-| Prevalencia, proporción | Beta(α, β) | Beta(1,1) uniforme · Beta(0.5,0.5) Jeffreys · Beta(2,5) informativa | Binomial / Bernoulli | Prevalencia de enfermedad, tasa de ataque, sensibilidad/especificidad de test |
-| Vector de proporciones | Dirichlet(α₁,…,αₖ) | Dir(1,…,1) uniforme · Dir(0.5,…,0.5) Jeffreys | Multinomial / Categórica | Distribución de serotipos, variantes, grupos de riesgo |
-| Tasa de incidencia, tasa de mortalidad | Gamma(α, β) | Gamma(0.01, 0.01) difusa · Gamma(2, 0.5) débil | Poisson / Exponencial | Incidencia de casos por 100.000 hab., mortalidad, tasa de hospitalización |
-| Número reproductivo R₀, R(t) | Gamma(α, β) | Gamma(1, 0.2) · Gamma(2, 0.5) | Poisson (ecuación renovación) | Transmisibilidad de enfermedades infecciosas, estimación de R(t) |
-| Media poblacional (tensión arterial, colesterol, glucemia) | Normal(μ₀, σ₀²) | N(valor referencia, σ amplio) | Normal (σ² conocida) | Estimación de la media de biomarcadores clínicos |
-| Media y varianza poblacional | Normal-Inv-Gamma(μ₀,λ,α,β) | Hiperparámetros basados en valores de referencia | Normal completa | Biomarcadores con media y varianza desconocidas |
-| Log-odds, coeficiente de regresión logística | Normal(0, σ²) | N(0, 2.5²) Gelman · N(0, 1) estandarizado | — (MCMC) | Factores de riesgo en estudios de casos y controles, OR ajustado |
-| Log-hazard ratio, coeficiente de supervivencia | Normal(0, σ²) | N(0, 2.5²) | — (MCMC) | Análisis de supervivencia: tiempo hasta evento, censura |
-| Desviación típica, varianza residual | half-Normal(0, σ) · half-t(ν,0,σ) | half-N(0,1) · half-t(3,0,1) Gelman | — (MCMC) | Variabilidad residual en regresión, modelos mixtos |
-| Varianza de efectos aleatorios | half-t(ν, 0, σ) · Gamma-Inversa(α,β) | half-t(3,0,1) recomendado · IG(0.01,0.01) clásico | — (MCMC) | Heterogeneidad entre centros, hospitales, regiones en modelos jerárquicos |
-| Correlación entre efectos aleatorios | LKJ(η) | LKJ(1) uniforme · LKJ(2) concentrado | — (MCMC) | Correlación entre interceptos y pendientes en modelos mixtos |
-| Eficacia vacunal (escala log-OR) | Normal(0, σ²) · Beta (escala probabilidad) | N(log(0.5), 0.5²) informativa | — (MCMC) | Ensayos clínicos de vacunas, estudios de efectividad vacunal |
-| Sensibilidad y especificidad de test | Beta(α, β) | Beta(18,2) Se≈90% · Beta(38,2) Sp≈95% | Binomial | Evaluación de pruebas diagnósticas, modelos de misclasificación |
+| Prevalencia, proporción | Beta($\alpha, \beta$) | Beta(1,1) uniforme · Beta(0.5,0.5) Jeffreys · Beta(2,5) informativa | Binomial / Bernoulli | Prevalencia de enfermedad, tasa de ataque, sensibilidad/especificidad de test |
+| Vector de proporciones | Dirichlet($\alpha_1,\ldots,\alpha_k$) | Dir(1,…,1) uniforme · Dir(0.5,…,0.5) Jeffreys | Multinomial / Categórica | Distribución de serotipos, variantes, grupos de riesgo |
+| Tasa de incidencia, tasa de mortalidad | Gamma($\alpha, \beta$) | Gamma(0.01, 0.01) difusa · Gamma(2, 0.5) débil | Poisson / Exponencial | Incidencia de casos por 100.000 hab., mortalidad, tasa de hospitalización |
+| Número reproductivo $R_0$, $R(t)$ | Gamma($\alpha, \beta$) | Gamma(1, 0.2) · Gamma(2, 0.5) | Poisson (ecuación renovación) | Transmisibilidad de enfermedades infecciosas, estimación de $R(t)$ |
+| Media poblacional (tensión arterial, colesterol, glucemia) | Normal($\mu_0, \sigma_0^2$) | N(valor referencia, $\sigma$ amplio) | Normal ($\sigma^2$ conocida) | Estimación de la media de biomarcadores clínicos |
+| Media y varianza poblacional | Normal-Inv-Gamma($\mu_0,\lambda,\alpha,\beta$) | Hiperparámetros basados en valores de referencia | Normal completa | Biomarcadores con media y varianza desconocidas |
+| Log-odds, coeficiente de regresión logística | Normal($0, \sigma^2$) | N($0, 2.5^2$) Gelman · N(0, 1) estandarizado | — (MCMC) | Factores de riesgo en estudios de casos y controles, OR ajustado |
+| Log-hazard ratio, coeficiente de supervivencia | Normal($0, \sigma^2$) | N($0, 2.5^2$) | — (MCMC) | Análisis de supervivencia: tiempo hasta evento, censura |
+| Desviación típica, varianza residual | half-Normal($0, \sigma$) · half-$t(\nu,0,\sigma)$ | half-N(0,1) · half-$t(3,0,1)$ Gelman | — (MCMC) | Variabilidad residual en regresión, modelos mixtos |
+| Varianza de efectos aleatorios | half-$t(\nu, 0, \sigma)$ · Gamma-Inversa($\alpha,\beta$) | half-$t(3,0,1)$ recomendado · IG(0.01,0.01) clásico | — (MCMC) | Heterogeneidad entre centros, hospitales, regiones en modelos jerárquicos |
+| Correlación entre efectos aleatorios | LKJ($\eta$) | LKJ(1) uniforme · LKJ(2) concentrado | — (MCMC) | Correlación entre interceptos y pendientes en modelos mixtos |
+| Eficacia vacunal (escala log-OR) | Normal($0, \sigma^2$) · Beta (escala probabilidad) | N($\log(0.5), 0.5^2$) informativa | — (MCMC) | Ensayos clínicos de vacunas, estudios de efectividad vacunal |
+| Sensibilidad y especificidad de test | Beta($\alpha, \beta$) | Beta(18,2) $Se\approx 90\%$ · Beta(38,2) $Sp\approx 95\%$ | Binomial | Evaluación de pruebas diagnósticas, modelos de misclasificación |
 | Coeficientes en modelos con muchas variables | Horseshoe(df) · Normal(0,1) | horseshoe(df=1) · N(0,1) estandarizado | — (MCMC) | Selección de factores de riesgo, estudios de exposición múltiple |
-| Parámetro de forma Weibull (supervivencia) | Gamma(α, β) · half-Normal | Gamma(1,1) · half-N(0,1) | — (MCMC) | Modelos paramétricos de supervivencia, tiempo hasta recaída o muerte |
-| Fracción atribuible poblacional | Beta(α, β) | Beta(1,1) uniforme · informativa según estudios previos | Binomial | Proporción de casos atribuibles a un factor de riesgo modificable |
+| Parámetro de forma Weibull (supervivencia) | Gamma($\alpha, \beta$) · half-Normal | Gamma(1,1) · half-N(0,1) | — (MCMC) | Modelos paramétricos de supervivencia, tiempo hasta recaída o muerte |
+| Fracción atribuible poblacional | Beta($\alpha, \beta$) | Beta(1,1) uniforme · informativa según estudios previos | Binomial | Proporción de casos atribuibles a un factor de riesgo modificable |

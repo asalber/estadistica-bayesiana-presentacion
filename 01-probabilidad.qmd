@@ -1190,6 +1190,17 @@ df_pois |>
   theme(strip.text = element_text(size = 11))
 ```
 
+## Resumen de distribuciones discretas [{{< fa file-pdf >}}](/tablas/distribuciones-bayesianas.pdf){.smaller .scrollable}
+
+| Distribución | Parámetros | Media | Varianza | Usos habituales |
+|:---|:---:|:---:|:---:|:--------|
+| Bernoulli($p$) | $p \in (0,1)$ | $p$ | $p(1-p)$ | Resultado binario individual: test positivo/negativo, vivo/muerto, enfermo/sano. |
+| Binomial($n, p$) | $n \in \mathbb{N},\ p \in (0,1)$ | $np$ | $np(1-p)$ | Número de éxitos en $n$ ensayos: respondedores a tratamiento, casos en cribado. |
+| Geométrica($p$) | $p \in (0,1)$ | $\dfrac{1}{p}$ | $\dfrac{1-p}{p^2}$ | Ensayos hasta el primer éxito: contactos hasta contagio, consultas hasta diagnóstico. |
+| Binomial negativa($r, p$) | $r > 0,\ p \in (0,1)$ | $\dfrac{r(1-p)}{p}$ | $\dfrac{r(1-p)}{p^2}$ | Conteos sobredispersos: recaídas, reingresos, eventos adversos con varianza > media. |
+| Poisson($\lambda$) | $\lambda > 0$ | $\lambda$ | $\lambda$ | Conteos de eventos raros: casos semanales de enfermedad, llamadas a urgencias. |
+| Hipergeométrica($N, K, n$) | $N, K, n \in \mathbb{N}$ | $\dfrac{nK}{N}$ | $\dfrac{nK(N-K)(N-n)}{N^2(N-1)}$ | Muestreo sin reemplazamiento: prevalencia en poblaciones pequeñas. |
+
 ## Variables aleatorias continuas
 
 :::{#def-funcion-densidad}
@@ -1586,6 +1597,23 @@ df_gamma_inv |>
   theme_minimal() +
   theme(strip.text = element_text(size = 11))
 ```
+
+## Resumen de distribuciones continuas [{{< fa file-pdf >}}](/tablas/distribuciones-bayesianas.pdf) {.smaller .scrollable}
+
+| Distribución | Parámetros | Media | Varianza | Usos habituales |
+|:---|:---:|:---:|:---:|:--------|
+| Uniforme($a, b$) | $a < b$ | $\dfrac{a+b}{2}$ | $\dfrac{(b-a)^2}{12}$ | Prior no informativo sobre parámetros acotados: probabilidades, proporciones. |
+| Beta($\alpha, \beta$) | $\alpha, \beta > 0$ | $\dfrac{\alpha}{\alpha+\beta}$ | $\dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ | Prior conjugado para proporciones: prevalencia, sensibilidad, especificidad. |
+| Dirichlet($\alpha_1,\ldots,\alpha_k$) | $\alpha_i > 0$ | $\dfrac{\alpha_i}{\alpha_0}$ | $\dfrac{\alpha_i(\alpha_0-\alpha_i)}{\alpha_0^2(\alpha_0+1)}$ | Prior conjugado para vectores de probabilidad: serotipos, mezclas de poblaciones. |
+| Normal($\mu, \sigma^2$) | $\mu \in \mathbb{R},\ \sigma^2 > 0$ | $\mu$ | $\sigma^2$ | Prior para medias y coeficientes: presión arterial, colesterol, efectos de tratamiento. |
+| $t$ de Student($\nu, \mu, \sigma^2$) | $\nu > 0,\ \mu \in \mathbb{R},\ \sigma^2 > 0$ | $\mu\ (\nu > 1)$ | $\dfrac{\nu\sigma^2}{\nu-2}\ (\nu > 2)$ | Prior robusto con colas pesadas; marginal de $\mu$ en modelo Normal-Inv-Gamma. |
+| Cauchy($\mu, \sigma$) | $\mu \in \mathbb{R},\ \sigma > 0$ | no existe | no existe | Prior de colas muy pesadas para coeficientes en regresión logística. |
+| Exponencial($\lambda$) | $\lambda > 0$ | $\dfrac{1}{\lambda}$ | $\dfrac{1}{\lambda^2}$ | Prior débilmente informativo para $\sigma$ y $\tau$; tiempo entre eventos con riesgo constante. |
+| Gamma($\alpha, \beta$) | $\alpha, \beta > 0$ | $\dfrac{\alpha}{\beta}$ | $\dfrac{\alpha}{\beta^2}$ | Prior conjugado para tasas Poisson: incidencia, mortalidad, $R(t)$. |
+| Gamma inversa($\alpha, \beta$) | $\alpha, \beta > 0$ | $\dfrac{\beta}{\alpha-1}\ (\alpha > 1)$ | $\dfrac{\beta^2}{(\alpha-1)^2(\alpha-2)}\ (\alpha > 2)$ | Prior conjugado para varianzas $\sigma^2$; varianza de efectos aleatorios. |
+| Lognormal($\mu, \sigma^2$) | $\mu \in \mathbb{R},\ \sigma^2 > 0$ | $e^{\mu+\sigma^2/2}$ | $\left(e^{\sigma^2}-1\right)e^{2\mu+\sigma^2}$ | Parámetros positivos asimétricos: dosis, concentraciones, tiempos de supervivencia. |
+| Weibull($k, \lambda$) | $k, \lambda > 0$ | $\lambda\,\Gamma\!\left(1+\tfrac{1}{k}\right)$ | $\lambda^2\!\left[\Gamma\!\left(1+\tfrac{2}{k}\right)-\Gamma\!\left(1+\tfrac{1}{k}\right)^2\right]$ | Modelos de supervivencia: tiempo hasta muerte, recaída o fracaso de tratamiento. |
+| Normal-Inv-Gamma($\mu_0,\lambda,\alpha,\beta$) | $\mu_0 \in \mathbb{R},\ \lambda,\alpha,\beta > 0$ | $\left(\mu_0,\ \dfrac{\beta}{\alpha-1}\right)$ | — | Prior conjugado conjunto para $(\mu, \sigma^2)$; base de regresión bayesiana. |
 
 ---
 

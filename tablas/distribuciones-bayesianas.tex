@@ -1,0 +1,243 @@
+\documentclass[a4paper,10pt]{article}
+
+% ── Paquetes ────────────────────────────────────────────────────────────────
+\usepackage[a4paper, top=2.2cm, bottom=2cm, left=1.8cm, right=1.8cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{helvet}       % fuente sans-serif Helvetica
+\usepackage{sectsty}      % personalizar fuente de secciones
+
+% ── Encabezados de sección en sans-serif ─────────────────────────────────────
+\allsectionsfont{\sffamily\bfseries}
+
+% ── Colores ──────────────────────────────────────────────────────────────────
+\definecolor{headerDisc}{HTML}{0C447C}
+\definecolor{headerCont}{HTML}{085041}
+\definecolor{rowlight}{HTML}{F4F8FC}
+\definecolor{rowlight2}{HTML}{F0F7F4}
+\definecolor{urlcolor}{HTML}{666666}
+\definecolor{titlecolor}{HTML}{111111}
+\definecolor{bordercolor}{HTML}{CCCCCC}
+
+% ── Encabezado y pie ────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[R]{\small\color{urlcolor}\url{https://aprendeconalf.es}}
+\fancyfoot[C]{\small\color{urlcolor}Pág. \thepage}
+
+% ── Hiperenlaces ─────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  urlcolor=urlcolor,
+  linkcolor=urlcolor
+}
+
+% ── Columnas personalizadas para tablas ──────────────────────────────────────
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ── Separación de filas ───────────────────────────────────────────────────────
+\renewcommand{\arraystretch}{1.55}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── Título ───────────────────────────────────────────────────────────────────
+{\Large\sffamily\bfseries\color{titlecolor}
+  Distribuciones de probabilidad en estadística bayesiana}
+
+\smallskip
+{\small\color{urlcolor}
+  Principales familias discretas y continuas · parámetros, media, varianza y usos}
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\bigskip
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection*{\color{titlecolor}Distribuciones discretas}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\noindent
+\begin{tabular}{%
+  L{2.6cm}  % Distribución — alineada a la izquierda
+  C{2.8cm}  % Parámetros
+  C{1.8cm}  % Media
+  C{2.6cm}  % Varianza
+  L{6.0cm}  % Usos
+}
+\rowcolor{headerDisc}
+\color{white}\textbf{Distribución} &
+\color{white}\textbf{Parámetros} &
+\color{white}\textbf{Media} &
+\color{white}\textbf{Varianza} &
+\color{white}\textbf{Usos habituales} \\
+\toprule
+
+\rowcolor{white}
+$\text{Bernoulli}(p)$ &
+$p \in (0,1)$ &
+$p$ &
+$p(1-p)$ &
+Resultado binario: test $+/-$, vivo/muerto, enfermo/sano \\
+
+\rowcolor{rowlight}
+$\text{Binomial}(n,p)$ &
+$n \in \mathbb{N},\; p \in (0,1)$ &
+$np$ &
+$np(1-p)$ &
+Éxitos en $n$ ensayos: respondedores a tratamiento, casos en cribado \\
+
+\rowcolor{white}
+$\text{Geométrica}(p)$ &
+$p \in (0,1)$ &
+$\dfrac{1}{p}$ &
+$\dfrac{1-p}{p^2}$ &
+Ensayos hasta el 1er éxito: contactos hasta contagio, consultas hasta diagnóstico \\
+
+\rowcolor{rowlight}
+$\text{Bin. neg.}(r,p)$ &
+$r > 0,\; p \in (0,1)$ &
+$\dfrac{r(1-p)}{p}$ &
+$\dfrac{r(1-p)}{p^2}$ &
+Conteos sobredispersos: recaídas, reingresos, eventos adversos con varianza $>$ media \\
+
+\rowcolor{white}
+$\text{Poisson}(\lambda)$ &
+$\lambda > 0$ &
+$\lambda$ &
+$\lambda$ &
+Eventos raros: casos semanales de enfermedad, llamadas a urgencias \\
+
+\rowcolor{rowlight}
+$\text{Hipergeo.}(N,K,n)$ &
+$N,K,n \in \mathbb{N}$ &
+$\dfrac{nK}{N}$ &
+$\dfrac{nK(N-K)(N-n)}{N^2(N-1)}$ &
+Muestreo sin reemplazamiento: prevalencia en poblaciones pequeñas \\
+
+\bottomrule
+\end{tabular}
+
+\bigskip
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection*{\color{titlecolor}Distribuciones continuas}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\noindent
+\begin{tabular}{%
+  L{2.6cm}  % Distribución — alineada a la izquierda
+  C{2.8cm}  % Parámetros
+  C{2.0cm}  % Media
+  C{3.2cm}  % Varianza
+  L{5.2cm}  % Usos
+}
+\rowcolor{headerCont}
+\color{white}\textbf{Distribución} &
+\color{white}\textbf{Parámetros} &
+\color{white}\textbf{Media} &
+\color{white}\textbf{Varianza} &
+\color{white}\textbf{Usos habituales} \\
+\toprule
+
+\rowcolor{white}
+$\text{Uniforme}(a,b)$ &
+$a < b$ &
+$\dfrac{a+b}{2}$ &
+$\dfrac{(b-a)^2}{12}$ &
+Prior no informativo para parámetros acotados: probabilidades, proporciones \\
+
+\rowcolor{rowlight2}
+$\text{Beta}(\alpha,\beta)$ &
+$\alpha,\beta > 0$ &
+$\dfrac{\alpha}{\alpha+\beta}$ &
+$\dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ &
+Prior conjugado para proporciones: prevalencia, sensibilidad, especificidad \\
+
+\rowcolor{white}
+$\text{Dirichlet}(\alpha_i)$ &
+$\alpha_i > 0$ &
+$\dfrac{\alpha_i}{\alpha_0}$ &
+$\dfrac{\alpha_i(\alpha_0-\alpha_i)}{\alpha_0^2(\alpha_0+1)}$ &
+Prior conjugado para vectores de probabilidad: serotipos, mezclas de poblaciones \\
+
+\rowcolor{rowlight2}
+$\text{Normal}(\mu,\sigma^2)$ &
+$\mu\in\mathbb{R},\;\sigma^2>0$ &
+$\mu$ &
+$\sigma^2$ &
+Prior para medias y coeficientes: presión arterial, colesterol, efectos de tratamiento \\
+
+\rowcolor{white}
+$t(\nu,\mu,\sigma^2)$ &
+$\nu>0,\;\mu\in\mathbb{R},\;\sigma^2>0$ &
+$\mu\;(\nu>1)$ &
+$\dfrac{\nu\sigma^2}{\nu-2}\;(\nu>2)$ &
+Prior robusto con colas pesadas; marginal de $\mu$ en modelo Normal-Inv-Gamma \\
+
+\rowcolor{rowlight2}
+$\text{Cauchy}(\mu,\sigma)$ &
+$\mu\in\mathbb{R},\;\sigma>0$ &
+no existe &
+no existe &
+Prior de colas muy pesadas para coeficientes en regresión logística \\
+
+\rowcolor{white}
+$\text{Exponencial}(\lambda)$ &
+$\lambda > 0$ &
+$\dfrac{1}{\lambda}$ &
+$\dfrac{1}{\lambda^2}$ &
+Prior débilmente informativo para $\sigma$ y $\tau$; tiempo entre eventos con riesgo constante \\
+
+\rowcolor{rowlight2}
+$\text{Gamma}(\alpha,\beta)$ &
+$\alpha,\beta > 0$ &
+$\dfrac{\alpha}{\beta}$ &
+$\dfrac{\alpha}{\beta^2}$ &
+Prior conjugado para tasas Poisson: incidencia, mortalidad, $R(t)$ \\
+
+\rowcolor{white}
+$\text{Gamma}^{-1}(\alpha,\beta)$ &
+$\alpha,\beta > 0$ &
+$\dfrac{\beta}{\alpha-1}\;(\alpha>1)$ &
+$\dfrac{\beta^2}{(\alpha-1)^2(\alpha-2)}\;(\alpha>2)$ &
+Prior conjugado para varianzas $\sigma^2$; varianza de efectos aleatorios \\
+
+\rowcolor{rowlight2}
+$\text{Lognormal}(\mu,\sigma^2)$ &
+$\mu\in\mathbb{R},\;\sigma^2>0$ &
+$e^{\mu+\sigma^2/2}$ &
+$(e^{\sigma^2}-1)e^{2\mu+\sigma^2}$ &
+Parámetros positivos asimétricos: dosis, concentraciones, tiempos de supervivencia \\
+
+\rowcolor{white}
+$\text{Weibull}(k,\lambda)$ &
+$k,\lambda > 0$ &
+$\lambda\,\Gamma\!\left(1+\tfrac{1}{k}\right)$ &
+$\lambda^2\!\left[\Gamma\!\left(1+\tfrac{2}{k}\right) - \Gamma\!\left(1+\tfrac{1}{k}\right)^{\!2}\right]$ &
+Modelos de supervivencia: tiempo hasta muerte, recaída o fracaso de tratamiento \\
+
+\rowcolor{rowlight2}
+$\text{NIGamma}(\mu_0,\lambda,\alpha,\beta)$ &
+$\mu_0\in\mathbb{R},\;\lambda,\alpha,\beta>0$ &
+$\left(\mu_0,\;\dfrac{\beta}{\alpha-1}\right)$ &
+--- &
+Prior conjugado conjunto para $(\mu, \sigma^2)$; base de la regresión bayesiana \\
+
+\bottomrule
+\end{tabular}
+
+\end{document}

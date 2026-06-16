@@ -161,6 +161,14 @@ section[data-background-color="#2C3E6B"] {
   overflow-x: hidden;   /* quita la barra de scroll exterior */
 }
 
+/* Quarto solo aplica height:100% a slides sin la clase .center, pero todas
+   nuestras diapositivas llevan .center (centrado vertical por defecto de
+   reveal.js). Sin esa altura, overflow-y:auto de .scrollable no tiene nada
+   que recortar y el contenido se desborda en vez de generar scroll. */
+.reveal .slide.scrollable {
+  height: 100%;
+}
+
 
 
 .reveal pre code {
