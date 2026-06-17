@@ -39,7 +39,7 @@ $$
 Y = f(X) + \varepsilon,
 $$
 
-donde $f(X)$ es una función de $X$ que describe la relación entre $Y$ y $X$, y $\varepsilon$ es un término de error que refleja la variabilidad de $Y$ que no se explica por $X$, y que se asume que sigue una distribución normal con media cero y varianza $\sigma^2$,
+donde $f(X)$ es una función de $X$ que describe la relación entre $Y$ y $X$, y $\varepsilon$ es un término de error que refleja la variabilidad de $Y$ que no se explica por $X$, y que se asume que sigue una distribución normal con media cero y desviación típica $\sigma$,
 
 $$
 \varepsilon \sim \mathcal{N}(0, \sigma).
@@ -56,7 +56,7 @@ Para analizar la relación entre dos variables cuantitativas, debemos estudiar l
 ---
 
 :::{#exm-diagrama-dispersion}
-El conjunto de datos `peso-estatura` contiene el peso y la estatura de una muestra de 200 personas mayores de 18 años. El siguiente código muestra el diagrama de dispersión de peso frente a estatura.
+El conjunto de datos [`peso-estatura`](https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/peso-estatura.csv) contiene el peso y la estatura de una muestra de 200 personas mayores de 18 años. El siguiente código muestra el diagrama de dispersión de peso frente a estatura.
 
 ```{r}
 #| output-location: column
@@ -197,7 +197,7 @@ En Estadística bayesiana, los dos coeficientes del modelo $\beta_0$ y $\beta_1$
 Si asumimos que el término de error $\varepsilon$ sigue una distribución normal, entonces tenemos el modelo
 
 $$
-Y_i|\beta_0, \beta_1, \sigma^2 \sim N(\beta_0 + \beta_1 x_i, \sigma).
+Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 $$
 
 Al igual que para otros parámetros, asignaremos una distribución a priori a cada uno de los coeficientes, así como a la desviación típica $\sigma$ del término de error, y actualizaremos estas distribuciones a priori con los datos para obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.
@@ -255,7 +255,7 @@ Para modelizar la relación entre el peso y la estatura, podemos utilizar un mod
 \sigma & \sim \text{Exp}(0.5)
 \end{align*}
 
-En este caso hemos cambiado $\beta_0$, que sería el peso de una persona de estatura cero, algo que no tiene sentido en nuestro caso, por un término independiente centrado, $\beta_0'$, que representa el peso de una típico de una persona de estatura media.
+En este caso hemos cambiado $\beta_0$, que sería el peso de una persona de estatura 0, algo que no tiene sentido en nuestro caso, por un término independiente centrado, $\beta_0'$, que representa el peso típico de una persona de estatura media.
 
 - $\beta_0'$, que sería el peso de una persona de estatura media, podemos asumir que está entre 45 y 95 kg (media de 70 kg y desviación típica de 10 kg).
 - $\beta_1$, que sería el incremento en peso por unidad de estatura, podemos asumir que no es negativo y podría estar entre 0 y 4 kg/cm (media de 2 kg/cm y desviación típica de 1 kg/cm).
@@ -266,8 +266,12 @@ En este caso hemos cambiado $\beta_0$, que sería el peso de una persona de esta
 
 Cuando utilicemos distribuciones a priori informativas, es importante validar que estas distribuciones reflejan realmente la información previa que tenemos sobre los parámetros del modelo. Para ello, podemos simular valores de los parámetros a partir de las distribuciones a priori y comprobar que estos valores son razonables.
 
+Podemos usar la función `stan` del paquete `rstan` para simular valores de los parámetros a partir de sus distribuciones a priori, utilizando la opción `algorithm = "Fixed_param"` para indicar que no queremos ajustar el modelo a los datos, sino sólo simular valores de los parámetros a partir de sus distribuciones a priori.
+
+---
+
 :::{#exm-validacion-distribuciones-priori}
-Para validar las distribuciones a priori del ejemplo anterior, podemos simular 100 valores de $\beta_0'$, $\beta_1$ y $\sigma^2$ a partir de sus distribuciones a priori.
+Para validar las distribuciones a priori del ejemplo anterior, podemos simular 100 valores de $\beta_0'$, $\beta_1$ y $\sigma$ a partir de sus distribuciones a priori.
 
 ```{r}
 #| output: false
@@ -284,7 +288,8 @@ generated quantities {
   real sigma = exponential_rng(0.5);   
 }
 "
-prior <- stan(model_code = modelo, data = list(n = 100), iter = 200, chains = 1, algorithm = "Fixed_param")
+prior <- stan(model_code = modelo, data = list(n = 100), 
+    chains = 1, iter = 200,  algorithm = "Fixed_param")
 ```
 :::
 
@@ -306,7 +311,13 @@ prior |>
 
 ## Simulaciones de las distribuciones a posteriori
 
-Una vez validadas las distribuciones a priori, podemos ajustar el modelo de regresión lineal simple a los datos utilizando el método de inferencia bayesiana, que nos permitirá obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.
+Una vez validadas las distribuciones a priori, tenemos que definir la función de verosimilitud para los parámetros del modelo $L(\beta_0, \beta_1, \sigma|X,Y)$, y finalmente, aplicar la regla de Bayes para obtener las distribuciones a posteriori de los parámetros del modelo.
+
+$$
+f(\beta_0, \beta_1, \sigma | X, Y) \propto  f(\beta_0, \beta_1, \sigma) * L(\beta_0, \beta_1, \sigma|X,Y) 
+$$
+
+---
 
 :::{#exm-simulaciones-distribuciones-posteriori}
 
@@ -339,8 +350,7 @@ post <- stan(model_code = modelo,
 
 ## Simulaciones de las distribuciones a posteriori con el paquete `rstamarm`
 
-Aunque ya hemos visto como ajustar un modelo de regresión directamente con `rstan`, la definición del modelo en el lenguaje de programación de Stan puede resultar algo compleja, especialmente para modelos más elaborados. Para facilitar el ajuste de modelos de regresión lineal y generalizada utilizando inferencia bayesiana, podemos utilizar el paquete `rstamarm`, que proporciona una interfaz más sencilla para ajustar estos modelos.
-En particular, utilizaremos la función `stan_glm()` para ajustar el modelo de regresión lineal simple a los datos.
+Aunque ya hemos visto como ajustar un modelo de regresión directamente con `rstan`, la definición del modelo en el lenguaje de programación de Stan puede resultar algo compleja, especialmente para modelos más elaborados. Para facilitar el ajuste de modelos de regresión lineal y generalizada, podemos utilizar la función `stan_glm()` del paquete [`rstanarm`](https://mc-stan.org/rstanarm/articles/rstanarm.html), que proporciona una interfaz más sencilla para ajustar estos modelos de regresión bayesianos.
 
 :::{.callout-note}
 ## `stan_glm()`
@@ -366,7 +376,7 @@ Veamos cómo ajustar el modelo de regresión lineal simple a los datos de los pe
 #| output: false
 library(rstanarm)
 set.seed(123)
-modelo1 <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
+modelo_peso_estatura <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
   prior = normal(1.5, 0.5),
   prior_intercept = normal(70, 10),
   prior_aux = exponential(0.5),
@@ -375,7 +385,7 @@ modelo1 <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
 :::
 
 :::{.callout-warning}
-La función `stan_glm` asume que el término independiente está centrado en la media de la variable independiente, por lo que el término independiente $\beta_0$ representa el peso medio de una persona de estatura media, y no el peso de una persona de estatura cero.
+La función `stan_glm` asume que el término independiente está centrado en la media de la variable independiente, por lo que el término independiente $\beta_0$ representa el peso medio de una persona de estatura media, y no el peso de una persona de estatura 0.
 :::
 
 ---
@@ -385,11 +395,11 @@ A continuación analizamos las cadenas de Markov generadas por el ajuste del mod
 ```{r}
 #| output-location: column
 library(bayesplot)
-mcmc_trace(modelo1, size = 0.1)
+mcmc_trace(modelo_peso_estatura, size = 0.1)
 ```
 ```{r}
 #| output-location: column
-mcmc_dens_overlay(modelo1)
+mcmc_dens_overlay(modelo_peso_estatura)
 ```
 
 Se observa que las cadenas de Markov de los tres parámetros son estables y convergentes.
@@ -398,12 +408,12 @@ Se observa que las cadenas de Markov de los tres parámetros son estables y conv
 
 ```{r}
 #| output-location: column
-neff_ratio(modelo1) |> t() |>  kable()
+neff_ratio(modelo_peso_estatura) |> t() |>  kable()
 ```
 
 ```{r}
 #| output-location: column
-rhat(modelo1) |> t() |>  kable()
+rhat(modelo_peso_estatura) |> t() |>  kable()
 ```
 
 Se observa que el número efectivo de simulaciones es alto para los tres parámetros, y que el valor de $\hat{R}$ es casi 1, lo que indica que las cadenas de Markov han convergido correctamente.
@@ -419,7 +429,7 @@ Veamos qué distribuciones a priori propone `stan_glm()` para los parámetros de
 
 ```{r}
 #| output: false
-modelo_2 <- stan_glm(peso ~ estatura, data = df, family = gaussian(), 
+modelo_peso_estatura_2 <- stan_glm(peso ~ estatura, data = df, family = gaussian(), 
   prior_intercept = normal(0, 2.5, autoscale = TRUE), 
   prior = normal(0, 2.5, autoscale = TRUE),
   prior_aux = exponential(1, autoscale = TRUE),
@@ -427,20 +437,67 @@ modelo_2 <- stan_glm(peso ~ estatura, data = df, family = gaussian(),
 ```
 
 ```{r}
-prior_summary(modelo_2)
+prior_summary(modelo_peso_estatura_2)
 ```
 :::
 
+---
+
+:::{#exr-ajuste-regresion-lineal-simple}
+Utilizar la función `stan_glm()` para realizar un ajuste del modelo de regresión del peso sobre el sexo usando el conjunto de datos [`peso-estatura`](https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/peso-estatura.csv) y distribuciones a priori poco informativas para los parámetros del modelo. ¿Qué distribuciones a priori propone `stan_glm()` para los parámetros del modelo?
+¿Qué representan los parámetros del modelo?
+:::
+
+:::{.callout-tip}
+Cuando la variable independiente es categórica `stan_glm()` crea automáticamente una o varias variables indicadoras (dummy) tomando una categoría como referencia. Por ejemplo en el caso del sexo, toma H como referencia y le asigna el valor 0, mientras que a M le asignar el valor 1.
+:::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output: false
+modelo_peso_sexo <- stan_glm(peso ~ sexo, data = df, family = gaussian(),
+  prior_intercept = normal(0, 2.5, autoscale = TRUE),
+  prior = normal(0, 2.5, autoscale = TRUE),
+  prior_aux = exponential(1, autoscale = TRUE),
+  chains = 4, iter = 5000*2, seed = 123)
+```
+
+```{r}
+prior_summary(modelo_peso_sexo)
+```
+
+</details>
+
 ## Intervalos de credibilidad de los parámetros
 
-Al igual que vimos en el capítulo anterior, podemos describir las distribuciones a posteriori simuladas mediante estadísticos de tendencia central y mediante intervalos de credibilidad. 
+Al igual que vimos en el capítulo anterior, podemos describir las distribuciones a posteriori simuladas mediante estadísticos de tendencia central y mediante intervalos de credibilidad.
+
+Para extraer las muestras de las distribuciones de los parámetros generadas por `stan_glm`, podemos utilizar la 
+función `gather_draws` del paquete `tidybayes`. 
+
+:::{.callout-note}
+## `gather_draws`
+
+Devuelve un data frame con las muestras de los parámetros en formato _tidy_, es decir, con una fila por cada simulación de cada parámetro.
+
+Parámetros:
+
+- `modelo`: modelo ajustado con `stan_glm()`.
+- `...`: nombres de los parámetros que se quieren extraer. 
+:::
+
+---
 
 :::{#exm-intervalos-credibilidad-regresion-lineal-simple}
 Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre la estatura.
 
 ```{r}
 library(tidybayes)
-modelo1 |>
+modelo_peso_estatura |>
   gather_draws(`(Intercept)`, estatura, sigma) |>
   mean_qi(.width = 0.9) |> 
   kable()
@@ -449,11 +506,44 @@ modelo1 |>
 Según esto, por cada centímetro más de estatura se espera un incremento en el peso de entre 0.64 y 0.95 kg. 
 :::
 
+---
+
+:::{#exr-intervalos-credibilidad-regresion-lineal-simple}
+Obtener los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre el sexo. ¿Cómo se interpretarían?
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+modelo_peso_sexo |>
+  gather_draws(`(Intercept)`, sexoM, sigma) |>
+  mean_qi(.width = 0.9) |>
+  kable()
+```
+
+Con una probabilidad del 90%, el peso medio de los hombres está entre 80.78 y 84.93 kg, mientras que el peso medio de las mujeres sería entre 17.83 y 23.42 kg menor que el de los hombres.
+</details>
+
 ## Dibujo de las rectas de regresión a posteriori
 
 Recordemos que lo que obtenemos es una muestra aleatoria de la distribución a posteriori de los parámetros, obtenida mediante cadenas de Markov. Cada caso de la muestra definie una recta de regresión distinta, y todas ellas reflejan la incertidumbre sobre el modelo de regresión lineal
 
-Podemos dibujar algunas de estas rectas para darnos una idea visual de cómo es el ajuste.
+Podemos dibujar algunas de estas rectas para darnos una idea visual de cómo es el ajuste. Para ello podemos utilizar la función `add_epred_draws` del paquete `tidybayes`.
+
+:::{.callout-note}
+## `add_epred_draws`
+
+Añade al conjunto de datos original las predicciones de un modelo de regresión bayesiano ajustado con `stan_glm()`.
+
+Parámetros:
+
+- `modelo`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+- `ndraws`: número de simulaciones de la distribución a posteriori de la predicción que se quieren generar.
+- `value`: nombre de la columna donde se guardarán las predicciones.
+:::
+
+---
 
 :::{#exm-rectas-regresion-posteriori}
 Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros.
@@ -461,7 +551,7 @@ Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la sim
 ```{r}
 #| output-location: column
 df |>
-  add_epred_draws(modelo1, ndraws = 50, value = "Predicción_media") |>
+  add_epred_draws(modelo_peso_estatura, ndraws = 50, value = "Predicción_media") |>
   ggplot(aes(x = estatura, y = peso)) +
   geom_point(data = df, color = myblue) +
   geom_line(aes(y = Predicción_media, group = .draw), color = myred, alpha = 0.2) +
@@ -511,7 +601,7 @@ H_1: & \beta_1 \leq 0
 
 ```{r}
 library(tidybayes)
-modelo1 |>
+modelo_peso_estatura |>
   spread_draws(estatura) |>
   summarise(prob = mean(estatura > 0)) |>
   kable(col.names = "P(β1 > 0)")
@@ -519,6 +609,31 @@ modelo1 |>
 
 Es decir, podemos afirmar casi con total certeza que la pendiente del modelo de regresión lineal del peso sobre la estatura es positiva, lo que indica que a mayor estatura, mayor peso.
 :::
+
+---
+
+:::{#exr-intervalos-credibilidad-regresion-lineal-simple}
+Realizar un contraste de comparación de medias para ver si el peso medio de los hombres es mayor que el de las mujeres, y calcular la probabilidad de que esto sea cierto a partir de las distribuciones a posteriori de los parámetros del modelo.
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+Para el contraste de comparación de medias, la hipótesis de interés es:
+
+$$H_0: \mu_H > \mu_M \iff \beta_1 < 0$$
+
+La probabilidad a posteriori de que el peso medio de los hombres sea mayor que el de las mujeres se calcula como la proporción de muestras de la distribución a posteriori en que $\beta_1 < 0$:
+
+```{r}
+modelo_peso_sexo |>
+  spread_draws(`(Intercept)`, sexoM) |>
+  summarise(prob_H_mayor_M = mean(sexoM < 0)) |>
+  kable()
+```
+
+</details>  
+
 
 ## Predicciones con modelos de regresión
 
@@ -547,17 +662,18 @@ $$
 
 por lo que podemos generar la distribución a posteriori de la predicción de la media de $Y$ para ese caso aplicando esta fórmula a cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov.
 
-Para ello podemos utilizar la función `epred_draws` del paquete `tidybayes`.
+Para ello podemos usar la función `epred_draws` del paquete `tidybayes`.
 
 :::{.callout-note}
 ## `epred_draws`
 
-Genera una simulación de la distribución a posteriori de la predicción de la media de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+Genera una simulación de la distribución a posteriori de la predicción de la media de la variable dependiente para un nuevo caso, a partir de un modelo de regresión bayesiano ajustado con `stan_glm()`.
 
 Parámetros:
 
-- `modelo1`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+- `modelo`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
 - `newdata`: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.
+- `value`: nombre de la columna donde se guardarán las predicciones.
 :::
 
 ---
@@ -567,7 +683,7 @@ Veamos cómo obtener la distribución a posteriori de la predicción del peso me
 
 ```{r}
 datos_nuevos <- tibble(estatura = c(180))
-post_pred_media_180 <- epred_draws(modelo1, newdata = datos_nuevos, value = "Predicción_media")
+post_pred_media_180 <- epred_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción_media")
 post_pred_media_180
 ```
 :::
@@ -578,7 +694,7 @@ Aunque podríamos haber obtenido lo mismo con el siguiente código.
 
 ```{r}
 library(tidybayes)
-modelo1 |> 
+modelo_peso_estatura |> 
   spread_draws(`(Intercept)`, estatura) |>
   mutate(Prediccion_media = `(Intercept)` + estatura * 180)
 ```
@@ -602,7 +718,7 @@ $$
 Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 $$
 
-Así pues, para una muestra aleatoria de esta distribución, basta con generar una simulación de esta distribución para cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov. 
+Así pues, para obtener una muestra aleatoria de esta distribución, basta con generar una simulación de esta distribución para cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov. 
 
 \begin{align*}
 \beta_{0,1}, \beta_{1,1}, \sigma_1 &\longrightarrow \hat{y}_1 = \text{rnorm}(1, \beta_{0,1} + \beta_{1,1} \hat{x}, \sigma_1) \\
@@ -618,13 +734,15 @@ Aunque no es complicado simular esta muestra con R, podemos aprovechar la funci�
 :::{.callout-note}
 ## `predicted_draws`
 
-Genera una simulación de la distribución a posteriori de la predicción de un nuevo valor de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+Genera una simulación de la distribución a posteriori de la predicción de un nuevo valor de la variable dependiente para un nuevo caso, a partir de un modelo de regresión bayesiano ajustado con `stan_glm()`.
 
 Parámetros:
 
-- `newdata`: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.
+- `modelo`: distribución a posteriori de los parámetros del modelo obtenida mediante `stan_glm()`.
 
-- `modelo1`: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.
+- `newdata`: nuevos casos para los que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.
+
+- `value`: nombre de la columna donde se guardarán las predicciones.
 :::
 
 ---
@@ -635,11 +753,11 @@ Veamos cómo obtener la distribución a posteriori de la predicción de un nuevo
 
 
 ```{r}
-post_pred_180 <- predicted_draws(modelo1, newdata = datos_nuevos, value = "Predicción")
+post_pred_180 <- predicted_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción")
 mean_qi(post_pred_180, .width = 0.9) |> kable()
 ```
 
-Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.6 y 101.6 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.
+Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.9 y 102.1 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.
 
 ```{r}
 #| output-location: column
@@ -671,6 +789,54 @@ ggplot(df, aes(x = estatura, y = peso)) +
   theme_minimal()
 ```
 
+---
+
+:::{#exr-predicciones-regresion-lineal-simple}
+Realizar la predicción de la media y de un nuevo valor del peso para un hombre y para una mujer utilizando el modelo de regresión del peso sobre el sexo. Calcular los intervalos de credibilidad del 90% para cada una de las predicciones y representarlas gráficamente sobre el diagrama de dispersión de los datos.
+:::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+datos_nuevos_sexo <- tibble(sexo = c("H", "M"))
+post_pred_media_sexo <- epred_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción_media")
+mean_qi(post_pred_media_sexo, .width = 0.9) |> kable()
+```
+
+```{r}
+post_pred_sexo <- predicted_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción")
+mean_qi(post_pred_sexo, .width = 0.9) |> kable()
+```
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+
+```{r}
+#| output-location: column
+ggplot() +
+  geom_jitter(data = df, aes(x = sexo, y = peso), color = myblue, alpha = 0.4, width = 0.1) +
+  stat_pointinterval(
+    data = post_pred_media_sexo,
+    aes(x = sexo, y = Predicción_media),
+    .width = 0.9, color = mygreen, linewidth = 3, size = 5
+  ) +
+  stat_pointinterval(
+    data = post_pred_sexo,
+    aes(x = sexo, y = Predicción),
+    .width = 0.9, color = myred, linewidth = 1, size = 3
+  ) +
+  labs(x = "Sexo", y = "Peso (kg)") +
+  theme_minimal()
+```
+
+</details>
+
 ## Evaluación de modelos de regresión
 
 Todos los modelos de regresión son aproximaciones de la realidad, y por tanto, es importante evaluar la calidad del ajuste de un modelo a los datos, sobre todo si queremos hacer predicciones con ese modelo.
@@ -685,7 +851,7 @@ Para ello, primero debemos obtener las distribuciones a posteriori de las predic
 Veamos cómo obtener los intervalos de credibilidad de las predicciones para cada una de las estaturas del conjunto de datos, utilizando el modelo de regresión lineal simple ajustado anteriormente.
 
 ```{r}
-post_pred <- predicted_draws(modelo1, newdata = df, value = "Predicción")
+post_pred <- predicted_draws(modelo_peso_estatura, newdata = df, value = "Predicción")
 ggplot(post_pred, aes(x = estatura, y = Predicción)) +
   stat_pointinterval(.width = c(0.5, 0.95), color = myred) +
   geom_point(data = df, aes(y = peso), color = myblue) +
@@ -752,7 +918,7 @@ Veamos cómo calcular el error absoluto mediano, el error absoluto mediano tipif
 
 ```{r}
 library(bayesrules)
-prediction_summary(modelo1, data = df, prob_outer = 0.9) |> kable()
+prediction_summary(modelo_peso_estatura, data = df, prob_outer = 0.9) |> kable()
 ```
 
 En los 200 individuos de la muestra, el peso observado se encuentra típicamente a 9.3 kg de distancia de la media de la distribución predictiva correspondiente a su estatura, o a 0.68 desviaciones típicas. Además, el 50% de los pesos caen dentro del intervalo de credibilidad del 50% y el 91.5% caen dentro del intervalo de credibilidad del 90% de la distribución predictiva correspondiente a su estatura. 
@@ -779,7 +945,7 @@ Veamos cómo calcular la distribución a posteriori del coeficiente de determina
 
 ```{r}
 library(rstanarm)
-bayes_R2(modelo1) |>
+bayes_R2(modelo_peso_estatura) |>
   mean_qi(.width = 0.9) |>
   kable(col.names = c("R² medio", ".lower", ".upper", ".width", ".point", ".interval"))
 ```
@@ -832,7 +998,7 @@ Veamos cómo realizar la evaluación del modelo de regresión lineal simple del 
 
 ```{r}
 set.seed(123)
-eval_cv <- prediction_summary_cv(model = modelo1, data = df, k = 5, prob_outer = 0.9)
+eval_cv <- prediction_summary_cv(model = modelo_peso_estatura, data = df, k = 5, prob_outer = 0.9)
 eval_cv$folds |> kable()
 ```
 
@@ -1157,7 +1323,7 @@ Vamos a calcular la ELPD del modelo de regresión lineal simple y del modelo de 
 ```{r}
 #| output-location: column
 # ELPD del modelo de regresión lineal simple
-loo(modelo1)$estimates[1,] |> t() |> kable()
+loo(modelo_peso_estatura)$estimates[1,] |> t() |> kable()
 ```
 
 ```{r}
@@ -1196,7 +1362,7 @@ Veamos cómo comparar la ELPD de los modelos de regresión lineal simple y múlt
 
 ```{r}
 #| output-location: column
-loo1 <- loo(modelo1)
+loo1 <- loo(modelo_peso_estatura)
 loo2 <- loo(modelo2)
 loo_compare(loo1, loo2)[,c("elpd_diff", "se_diff")] |> kable()
 ```

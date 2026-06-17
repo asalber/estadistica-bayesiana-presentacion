@@ -100,7 +100,7 @@
     code span.vs { color: #da4453; } /* VerbatimString */
     code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="04-regresion-bayesiana_files/libs/revealjs/dist/theme/quarto-9715cb218e2c2db493bf0991103ad162.css">
+  <link rel="stylesheet" href="04-regresion-bayesiana_files/libs/revealjs/dist/theme/quarto-cc00812e40b81e90b971597c14bea294.css">
   <link href="04-regresion-bayesiana_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="04-regresion-bayesiana_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="04-regresion-bayesiana_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -221,7 +221,7 @@
 <p><span class="math display">\[
 Y = f(X) + \varepsilon,
 \]</span></p>
-<p>donde <span class="math inline">\(f(X)\)</span> es una función de <span class="math inline">\(X\)</span> que describe la relación entre <span class="math inline">\(Y\)</span> y <span class="math inline">\(X\)</span>, y <span class="math inline">\(\varepsilon\)</span> es un término de error que refleja la variabilidad de <span class="math inline">\(Y\)</span> que no se explica por <span class="math inline">\(X\)</span>, y que se asume que sigue una distribución normal con media cero y varianza <span class="math inline">\(\sigma^2\)</span>,</p>
+<p>donde <span class="math inline">\(f(X)\)</span> es una función de <span class="math inline">\(X\)</span> que describe la relación entre <span class="math inline">\(Y\)</span> y <span class="math inline">\(X\)</span>, y <span class="math inline">\(\varepsilon\)</span> es un término de error que refleja la variabilidad de <span class="math inline">\(Y\)</span> que no se explica por <span class="math inline">\(X\)</span>, y que se asume que sigue una distribución normal con media cero y desviación típica <span class="math inline">\(\sigma\)</span>,</p>
 <p><span class="math display">\[
 \varepsilon \sim \mathcal{N}(0, \sigma).
 \]</span></p>
@@ -236,7 +236,7 @@ Y = f(X) + \varepsilon,
 <section class="slide level3">
 
 <div id="exm-diagrama-dispersion" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 1</strong></span> El conjunto de datos <code>peso-estatura</code> contiene el peso y la estatura de una muestra de 200 personas mayores de 18 años. El siguiente código muestra el diagrama de dispersión de peso frente a estatura.</p>
+<p><span class="theorem-title"><strong>Ejemplo 1</strong></span> El conjunto de datos <a href="https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/peso-estatura.csv"><code>peso-estatura</code></a> contiene el peso y la estatura de una muestra de 200 personas mayores de 18 años. El siguiente código muestra el diagrama de dispersión de peso frente a estatura.</p>
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -486,7 +486,7 @@ y = \bar{y} + \frac{\sigma_{xy}}{\sigma_x^2}(x-\bar{x}),
 <p>En Estadística bayesiana, los dos coeficientes del modelo <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> son dos parámetros más del modelo, que tienen asociada una distribución que refleja la incertidumbre sobre su valor.</p>
 <p>Si asumimos que el término de error <span class="math inline">\(\varepsilon\)</span> sigue una distribución normal, entonces tenemos el modelo</p>
 <p><span class="math display">\[
-Y_i|\beta_0, \beta_1, \sigma^2 \sim N(\beta_0 + \beta_1 x_i, \sigma).
+Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 \]</span></p>
 <p>Al igual que para otros parámetros, asignaremos una distribución a priori a cada uno de los coeficientes, así como a la desviación típica <span class="math inline">\(\sigma\)</span> del término de error, y actualizaremos estas distribuciones a priori con los datos para obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.</p>
 </section>
@@ -539,7 +539,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 \beta_1 &amp; \sim N(2, 1) \\
 \sigma &amp; \sim \text{Exp}(0.5)
 \end{align*}\]</span></p>
-<p>En este caso hemos cambiado <span class="math inline">\(\beta_0\)</span>, que sería el peso de una persona de estatura cero, algo que no tiene sentido en nuestro caso, por un término independiente centrado, <span class="math inline">\(\beta_0'\)</span>, que representa el peso de una típico de una persona de estatura media.</p>
+<p>En este caso hemos cambiado <span class="math inline">\(\beta_0\)</span>, que sería el peso de una persona de estatura 0, algo que no tiene sentido en nuestro caso, por un término independiente centrado, <span class="math inline">\(\beta_0'\)</span>, que representa el peso típico de una persona de estatura media.</p>
 <ul>
 <li><span class="math inline">\(\beta_0'\)</span>, que sería el peso de una persona de estatura media, podemos asumir que está entre 45 y 95 kg (media de 70 kg y desviación típica de 10 kg).</li>
 <li><span class="math inline">\(\beta_1\)</span>, que sería el incremento en peso por unidad de estatura, podemos asumir que no es negativo y podría estar entre 0 y 4 kg/cm (media de 2 kg/cm y desviación típica de 1 kg/cm).</li>
@@ -551,8 +551,12 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <section id="validación-de-las-distribuciones-a-priori" class="title-slide slide level2 center">
 <h2>Validación de las distribuciones a priori</h2>
 <p>Cuando utilicemos distribuciones a priori informativas, es importante validar que estas distribuciones reflejan realmente la información previa que tenemos sobre los parámetros del modelo. Para ello, podemos simular valores de los parámetros a partir de las distribuciones a priori y comprobar que estos valores son razonables.</p>
+<p>Podemos usar la función <code>stan</code> del paquete <code>rstan</code> para simular valores de los parámetros a partir de sus distribuciones a priori, utilizando la opción <code>algorithm = "Fixed_param"</code> para indicar que no queremos ajustar el modelo a los datos, sino sólo simular valores de los parámetros a partir de sus distribuciones a priori.</p>
+</section>
+<section class="slide level3">
+
 <div id="exm-validacion-distribuciones-priori" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 5</strong></span> Para validar las distribuciones a priori del ejemplo anterior, podemos simular 100 valores de <span class="math inline">\(\beta_0'\)</span>, <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\sigma^2\)</span> a partir de sus distribuciones a priori.</p>
+<p><span class="theorem-title"><strong>Ejemplo 5</strong></span> Para validar las distribuciones a priori del ejemplo anterior, podemos simular 100 valores de <span class="math inline">\(\beta_0'\)</span>, <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\sigma\)</span> a partir de sus distribuciones a priori.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
 <span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -567,7 +571,8 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <span id="cb5-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  real sigma = exponential_rng(0.5);   </span></span>
 <span id="cb5-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb5-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb5-14"><a href="" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">100</span>), <span class="at">iter =</span> <span class="dv">200</span>, <span class="at">chains =</span> <span class="dv">1</span>, <span class="at">algorithm =</span> <span class="st">"Fixed_param"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-14"><a href="" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> modelo, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">100</span>), </span>
+<span id="cb5-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">1</span>, <span class="at">iter =</span> <span class="dv">200</span>,  <span class="at">algorithm =</span> <span class="st">"Fixed_param"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -587,9 +592,16 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 
 </div>
 <img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section></section>
+<section>
 <section id="simulaciones-de-las-distribuciones-a-posteriori" class="title-slide slide level2 center">
 <h2>Simulaciones de las distribuciones a posteriori</h2>
-<p>Una vez validadas las distribuciones a priori, podemos ajustar el modelo de regresión lineal simple a los datos utilizando el método de inferencia bayesiana, que nos permitirá obtener las distribuciones a posteriori de cada uno de los parámetros del modelo.</p>
+<p>Una vez validadas las distribuciones a priori, tenemos que definir la función de verosimilitud para los parámetros del modelo <span class="math inline">\(L(\beta_0, \beta_1, \sigma|X,Y)\)</span>, y finalmente, aplicar la regla de Bayes para obtener las distribuciones a posteriori de los parámetros del modelo.</p>
+<p><span class="math display">\[
+f(\beta_0, \beta_1, \sigma | X, Y) \propto  f(\beta_0, \beta_1, \sigma) * L(\beta_0, \beta_1, \sigma|X,Y)
+\]</span></p>
+</section>
+<section class="slide level3">
+
 <div id="exm-simulaciones-distribuciones-posteriori" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 6</strong></span> Veamos cómo ajustar el modelo de regresión lineal simple a los datos de los pesos y las estaturas.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="st">"</span></span>
@@ -614,12 +626,11 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <span id="cb7-20"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">nrow</span>(df), <span class="at">Y =</span> df<span class="sc">$</span>peso, <span class="at">X =</span> df<span class="sc">$</span>estatura), </span>
 <span id="cb7-21"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">84735</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-
+</section></section>
 <section>
 <section id="simulaciones-de-las-distribuciones-a-posteriori-con-el-paquete-rstamarm" class="title-slide slide level2 center">
 <h2>Simulaciones de las distribuciones a posteriori con el paquete <code>rstamarm</code></h2>
-<p>Aunque ya hemos visto como ajustar un modelo de regresión directamente con <code>rstan</code>, la definición del modelo en el lenguaje de programación de Stan puede resultar algo compleja, especialmente para modelos más elaborados. Para facilitar el ajuste de modelos de regresión lineal y generalizada utilizando inferencia bayesiana, podemos utilizar el paquete <code>rstamarm</code>, que proporciona una interfaz más sencilla para ajustar estos modelos. En particular, utilizaremos la función <code>stan_glm()</code> para ajustar el modelo de regresión lineal simple a los datos.</p>
+<p>Aunque ya hemos visto como ajustar un modelo de regresión directamente con <code>rstan</code>, la definición del modelo en el lenguaje de programación de Stan puede resultar algo compleja, especialmente para modelos más elaborados. Para facilitar el ajuste de modelos de regresión lineal y generalizada, podemos utilizar la función <code>stan_glm()</code> del paquete <a href="https://mc-stan.org/rstanarm/articles/rstanarm.html"><code>rstanarm</code></a>, que proporciona una interfaz más sencilla para ajustar estos modelos de regresión bayesianos.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -650,7 +661,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(peso <span class="sc">~</span> estatura, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_estatura <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(peso <span class="sc">~</span> estatura, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
 <span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="fl">1.5</span>, <span class="fl">0.5</span>),</span>
 <span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">70</span>, <span class="dv">10</span>),</span>
 <span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="fl">0.5</span>),</span>
@@ -666,7 +677,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <p><strong>Advertencia</strong></p>
 </div>
 <div class="callout-content">
-<p>La función <code>stan_glm</code> asume que el término independiente está centrado en la media de la variable independiente, por lo que el término independiente <span class="math inline">\(\beta_0\)</span> representa el peso medio de una persona de estatura media, y no el peso de una persona de estatura cero.</p>
+<p>La función <code>stan_glm</code> asume que el término independiente está centrado en la media de la variable independiente, por lo que el término independiente <span class="math inline">\(\beta_0\)</span> representa el peso medio de una persona de estatura media, y no el peso de una persona de estatura 0.</p>
 </div>
 </div>
 </div>
@@ -677,7 +688,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <div class="cell columns column-output-location">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(modelo1, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(modelo_peso_estatura, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -689,7 +700,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 </div></div>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens_overlay</span>(modelo1)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens_overlay</span>(modelo_peso_estatura)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -705,7 +716,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">neff_ratio</span>(modelo1) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">neff_ratio</span>(modelo_peso_estatura) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -728,7 +739,7 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 </div></div>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rhat</span>(modelo1) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rhat</span>(modelo_peso_estatura) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -761,16 +772,16 @@ Y_i|\beta_0, \beta_1, \sigma \sim N(\beta_0 + \beta_1 x_i, \sigma).
 <div id="exm-distribuciones-priori-por-defecto" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 8</strong></span> Veamos qué distribuciones a priori propone <code>stan_glm()</code> para los parámetros del modelo de regresión lineal simple del peso sobre la estatura.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_2 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(peso <span class="sc">~</span> estatura, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">gaussian</span>(), </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_estatura_2 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(peso <span class="sc">~</span> estatura, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">gaussian</span>(), </span>
 <span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>), </span>
 <span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(modelo_2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(modelo_peso_estatura_2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Priors for model 'modelo_2' 
+<pre><code>Priors for model 'modelo_peso_estatura_2' 
 ------
 Intercept (after predictors centered)
   Specified prior:
@@ -794,18 +805,101 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section class="slide level3">
+
+<div id="exr-ajuste-regresion-lineal-simple" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 1</strong></span> Utilizar la función <code>stan_glm()</code> para realizar un ajuste del modelo de regresión del peso sobre el sexo usando el conjunto de datos <a href="https://aprendeconalf.es/estadistica-bayesiana-presentacion/datos/peso-estatura.csv"><code>peso-estatura</code></a> y distribuciones a priori poco informativas para los parámetros del modelo. ¿Qué distribuciones a priori propone <code>stan_glm()</code> para los parámetros del modelo? ¿Qué representan los parámetros del modelo?</p>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ayuda</strong></p>
+</div>
+<div class="callout-content">
+<p>Cuando la variable independiente es categórica <code>stan_glm()</code> crea automáticamente una o varias variables indicadoras (dummy) tomando una categoría como referencia. Por ejemplo en el caso del sexo, toma H como referencia y le asigna el valor 0, mientras que a M le asignar el valor 1.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_sexo <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(peso <span class="sc">~</span> sexo, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(modelo_peso_sexo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Priors for model 'modelo_peso_sexo' 
+------
+Intercept (after predictors centered)
+  Specified prior:
+    ~ normal(location = 0, scale = 2.5)
+  Adjusted prior:
+    ~ normal(location = 0, scale = 39)
+
+Coefficients
+  Specified prior:
+    ~ normal(location = 0, scale = 2.5)
+  Adjusted prior:
+    ~ normal(location = 0, scale = 79)
+
+Auxiliary (sigma)
+  Specified prior:
+    ~ exponential(rate = 1)
+  Adjusted prior:
+    ~ exponential(rate = 0.064)
+------
+See help('prior_summary.stanreg') for more details</code></pre>
+</div>
+</div>
+</details>
 </section></section>
+<section>
 <section id="intervalos-de-credibilidad-de-los-parámetros" class="title-slide slide level2 center">
 <h2>Intervalos de credibilidad de los parámetros</h2>
 <p>Al igual que vimos en el capítulo anterior, podemos describir las distribuciones a posteriori simuladas mediante estadísticos de tendencia central y mediante intervalos de credibilidad.</p>
+<p>Para extraer las muestras de las distribuciones de los parámetros generadas por <code>stan_glm</code>, podemos utilizar la función <code>gather_draws</code> del paquete <code>tidybayes</code>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>gather_draws</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve un data frame con las muestras de los parámetros en formato <em>tidy</em>, es decir, con una fila por cada simulación de cada parámetro.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>modelo</code>: modelo ajustado con <code>stan_glm()</code>.</li>
+<li><code>...</code>: nombres de los parámetros que se quieren extraer.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <div id="exm-intervalos-credibilidad-regresion-lineal-simple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 9</strong></span> Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre la estatura.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura, sigma) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_estatura <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura, sigma) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -863,34 +957,126 @@ See help('prior_summary.stanreg') for more details</code></pre>
 <p>Según esto, por cada centímetro más de estatura se espera un incremento en el peso de entre 0.64 y 0.95 kg.</p>
 </div>
 </section>
+<section class="slide level3">
 
+<div id="exr-intervalos-credibilidad-regresion-lineal-simple" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 2</strong></span> Obtener los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre el sexo. ¿Cómo se interpretarían?</p>
+</div>
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_sexo <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, sexoM, sigma) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">.variable</th>
+<th style="text-align: right;">.value</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">82.84897</td>
+<td style="text-align: right;">80.77726</td>
+<td style="text-align: right;">84.92759</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexoM</td>
+<td style="text-align: right;">-20.61104</td>
+<td style="text-align: right;">-23.42480</td>
+<td style="text-align: right;">-17.82881</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sigma</td>
+<td style="text-align: right;">11.92269</td>
+<td style="text-align: right;">10.95815</td>
+<td style="text-align: right;">12.96286</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+Con una probabilidad del 90%, el peso medio de los hombres está entre 80.78 y 84.93 kg, mientras que el peso medio de las mujeres sería entre 17.83 y 23.42 kg menor que el de los hombres.
+</details>
+</section></section>
+<section>
 <section id="dibujo-de-las-rectas-de-regresión-a-posteriori" class="title-slide slide level2 center">
 <h2>Dibujo de las rectas de regresión a posteriori</h2>
 <p>Recordemos que lo que obtenemos es una muestra aleatoria de la distribución a posteriori de los parámetros, obtenida mediante cadenas de Markov. Cada caso de la muestra definie una recta de regresión distinta, y todas ellas reflejan la incertidumbre sobre el modelo de regresión lineal</p>
-<p>Podemos dibujar algunas de estas rectas para darnos una idea visual de cómo es el ajuste.</p>
+<p>Podemos dibujar algunas de estas rectas para darnos una idea visual de cómo es el ajuste. Para ello podemos utilizar la función <code>add_epred_draws</code> del paquete <code>tidybayes</code>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>add_epred_draws</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Añade al conjunto de datos original las predicciones de un modelo de regresión bayesiano ajustado con <code>stan_glm()</code>.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>modelo</code>: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</li>
+<li><code>ndraws</code>: número de simulaciones de la distribución a posteriori de la predicción que se quieren generar.</li>
+<li><code>value</code>: nombre de la columna donde se guardarán las predicciones.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <div id="exm-rectas-regresion-posteriori" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 10</strong></span> Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo1, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="at">color =</span> myblue) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> .draw), <span class="at">color =</span> myred, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo_peso_estatura, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="at">color =</span> myblue) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> .draw), <span class="at">color =</span> myred, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-19-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></div>
 </div>
-</section>
-
+</section></section>
 <section>
 <section id="contraste-de-hipótesis-sobre-los-coeficientes-de-regresión" class="title-slide slide level2 center">
 <h2>Contraste de hipótesis sobre los coeficientes de regresión</h2>
@@ -921,11 +1107,11 @@ H_0: &amp; \beta_1 &gt; 0 \\
 H_1: &amp; \beta_1 \leq 0
 \end{align*}\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(estatura) <span class="sc">|&gt;</span></span>
-<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(estatura <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="st">"P(β1 &gt; 0)"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_estatura <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(estatura) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob =</span> <span class="fu">mean</span>(estatura <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="st">"P(β1 &gt; 0)"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -943,6 +1129,40 @@ H_1: &amp; \beta_1 \leq 0
 </div>
 <p>Es decir, podemos afirmar casi con total certeza que la pendiente del modelo de regresión lineal del peso sobre la estatura es positiva, lo que indica que a mayor estatura, mayor peso.</p>
 </div>
+</section>
+<section class="slide level3">
+
+<div id="exr-intervalos-credibilidad-regresion-lineal-simple" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 3</strong></span> Realizar un contraste de comparación de medias para ver si el peso medio de los hombres es mayor que el de las mujeres, y calcular la probabilidad de que esto sea cierto a partir de las distribuciones a posteriori de los parámetros del modelo.</p>
+</div>
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<p>Para el contraste de comparación de medias, la hipótesis de interés es:</p>
+<p><span class="math display">\[H_0: \mu_H &gt; \mu_M \iff \beta_1 &lt; 0\]</span></p>
+<p>La probabilidad a posteriori de que el peso medio de los hombres sea mayor que el de las mujeres se calcula como la proporción de muestras de la distribución a posteriori en que <span class="math inline">\(\beta_1 &lt; 0\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_sexo <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, sexoM) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob_H_mayor_M =</span> <span class="fu">mean</span>(sexoM <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">prob_H_mayor_M</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
 </section></section>
 <section id="predicciones-con-modelos-de-regresión" class="title-slide slide level2 center">
 <h2>Predicciones con modelos de regresión</h2>
@@ -971,7 +1191,7 @@ H_1: &amp; \beta_1 \leq 0
 E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 \]</span></p>
 <p>por lo que podemos generar la distribución a posteriori de la predicción de la media de <span class="math inline">\(Y\)</span> para ese caso aplicando esta fórmula a cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov.</p>
-<p>Para ello podemos utilizar la función <code>epred_draws</code> del paquete <code>tidybayes</code>.</p>
+<p>Para ello podemos usar la función <code>epred_draws</code> del paquete <code>tidybayes</code>.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -981,11 +1201,12 @@ E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 <p><strong><code>epred_draws</code></strong></p>
 </div>
 <div class="callout-content">
-<p>Genera una simulación de la distribución a posteriori de la predicción de la media de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</p>
+<p>Genera una simulación de la distribución a posteriori de la predicción de la media de la variable dependiente para un nuevo caso, a partir de un modelo de regresión bayesiano ajustado con <code>stan_glm()</code>.</p>
 <p>Parámetros:</p>
 <ul>
-<li><code>modelo1</code>: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</li>
+<li><code>modelo</code>: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</li>
 <li><code>newdata</code>: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.</li>
+<li><code>value</code>: nombre de la columna donde se guardarán las predicciones.</li>
 </ul>
 </div>
 </div>
@@ -996,9 +1217,9 @@ E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 <div id="exm-predicciones-regresion-lineal-simple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 12</strong></span> Veamos cómo obtener la distribución a posteriori de la predicción del peso medio para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a>datos_nuevos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">180</span>))</span>
-<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_media_180 <span class="ot">&lt;-</span> <span class="fu">epred_draws</span>(modelo1, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción_media"</span>)</span>
-<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_media_180</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a>datos_nuevos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">180</span>))</span>
+<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_media_180 <span class="ot">&lt;-</span> <span class="fu">epred_draws</span>(modelo_peso_estatura, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción_media"</span>)</span>
+<span id="cb24-3"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_media_180</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20,000 × 6
 # Groups:   estatura, .row [1]
@@ -1023,10 +1244,10 @@ E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 
 <p>Aunque podríamos haber obtenido lo mismo con el siguiente código.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura) <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Prediccion_media =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">+</span> estatura <span class="sc">*</span> <span class="dv">180</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_peso_estatura <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Prediccion_media =</span> <span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span> <span class="sc">+</span> estatura <span class="sc">*</span> <span class="dv">180</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20,000 × 6
    .chain .iteration .draw `(Intercept)` estatura Prediccion_media
@@ -1049,8 +1270,8 @@ E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 
 <p>Y una vez que tenemos la distribución a posteriori de la predicción, podemos describirla mediante su media y su intervalo de credibilidad como es habitual.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_media_180, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_media_180, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -1099,7 +1320,7 @@ E[Y|\hat{x}] = \beta_0 + \beta_1\hat{x},
 <p><span class="math display">\[
 Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 \]</span></p>
-<p>Así pues, para una muestra aleatoria de esta distribución, basta con generar una simulación de esta distribución para cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov.</p>
+<p>Así pues, para obtener una muestra aleatoria de esta distribución, basta con generar una simulación de esta distribución para cada una de las simulaciones de los parámetros del modelo obtenidas mediante las cadenas de Markov.</p>
 <p><span class="math display">\[\begin{align*}
 \beta_{0,1}, \beta_{1,1}, \sigma_1 &amp;\longrightarrow \hat{y}_1 = \text{rnorm}(1, \beta_{0,1} + \beta_{1,1} \hat{x}, \sigma_1) \\
 \beta_{0,2}, \beta_{1,2}, \sigma_2 &amp;\longrightarrow \hat{y}_2 = \text{rnorm}(1, \beta_{0,2} + \beta_{1,2} \hat{x}, \sigma_2) \\
@@ -1119,11 +1340,12 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 <p><strong><code>predicted_draws</code></strong></p>
 </div>
 <div class="callout-content">
-<p>Genera una simulación de la distribución a posteriori de la predicción de un nuevo valor de la variable dependiente para un nuevo caso, a partir de la distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</p>
+<p>Genera una simulación de la distribución a posteriori de la predicción de un nuevo valor de la variable dependiente para un nuevo caso, a partir de un modelo de regresión bayesiano ajustado con <code>stan_glm()</code>.</p>
 <p>Parámetros:</p>
 <ul>
-<li><p><code>newdata</code>: nuevo caso para el que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.</p></li>
-<li><p><code>modelo1</code>: distribución a posteriori de los parámetros del modelo obtenida mediante las cadenas de Markov.</p></li>
+<li><p><code>modelo</code>: distribución a posteriori de los parámetros del modelo obtenida mediante <code>stan_glm()</code>.</p></li>
+<li><p><code>newdata</code>: nuevos casos para los que se quiere realizar la predicción, especificado como un data frame con las mismas variables independientes que el modelo de regresión.</p></li>
+<li><p><code>value</code>: nombre de la columna donde se guardarán las predicciones.</p></li>
 </ul>
 </div>
 </div>
@@ -1134,8 +1356,8 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 <div id="exm-prediccion-nuevo-valor-regresion-lineal-simple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 13</strong></span> Veamos cómo obtener la distribución a posteriori de la predicción de un nuevo valor del peso para una persona de estatura 180 cm, utilizando el modelo de regresión lineal simple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_180 <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo1, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
-<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_180, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_180 <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo_peso_estatura, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
+<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_180, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -1164,9 +1386,9 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 <tr class="odd">
 <td style="text-align: right;">180</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">79.2324</td>
-<td style="text-align: right;">56.71124</td>
-<td style="text-align: right;">101.6955</td>
+<td style="text-align: right;">79.31403</td>
+<td style="text-align: right;">56.86489</td>
+<td style="text-align: right;">102.0955</td>
 <td style="text-align: right;">0.9</td>
 <td style="text-align: left;">mean</td>
 <td style="text-align: left;">qi</td>
@@ -1175,17 +1397,17 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 </table>
 </div>
 </div>
-<p>Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.6 y 101.6 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.</p>
+<p>Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.9 y 102.1 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred_180, <span class="fu">aes</span>(<span class="at">x =</span> Predicción)) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fl">0.9</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Peso (kg)"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred_180, <span class="fu">aes</span>(<span class="at">x =</span> Predicción)) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fl">0.9</span>, <span class="at">fill =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Peso (kg)"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-26-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1196,7 +1418,159 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 
 <p>En la siguiente gráfica se puede apreciar sobre el digrama de dispersión el intervalo de credibilidad para la predicción media (en verde) y para la predicción de un nuevo valor (en rojo) para una persona de estatura 180 cm.</p>
 
-<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
+<section class="slide level3">
+
+<div id="exr-predicciones-regresion-lineal-simple" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 4</strong></span> Realizar la predicción de la media y de un nuevo valor del peso para un hombre y para una mujer utilizando el modelo de regresión del peso sobre el sexo. Calcular los intervalos de credibilidad del 90% para cada una de las predicciones y representarlas gráficamente sobre el diagrama de dispersión de los datos.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a>datos_nuevos_sexo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sexo =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>))</span>
+<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_media_sexo <span class="ot">&lt;-</span> <span class="fu">epred_draws</span>(modelo_peso_sexo, <span class="at">newdata =</span> datos_nuevos_sexo, <span class="at">value =</span> <span class="st">"Predicción_media"</span>)</span>
+<span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_media_sexo, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 24%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sexo</th>
+<th style="text-align: right;">.row</th>
+<th style="text-align: right;">Predicción_media</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">H</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">82.84897</td>
+<td style="text-align: right;">80.77726</td>
+<td style="text-align: right;">84.92759</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">62.23793</td>
+<td style="text-align: right;">60.38337</td>
+<td style="text-align: right;">64.10886</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_sexo <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo_peso_sexo, <span class="at">newdata =</span> datos_nuevos_sexo, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
+<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_sexo, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sexo</th>
+<th style="text-align: right;">.row</th>
+<th style="text-align: right;">Predicción</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">H</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">82.85949</td>
+<td style="text-align: right;">63.30231</td>
+<td style="text-align: right;">102.45972</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">62.19614</td>
+<td style="text-align: right;">42.33077</td>
+<td style="text-align: right;">81.86533</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+</section>
+<section class="slide level3">
+
+<details>
+<summary>
+<strong>Solución (continuación)</strong>
+</summary>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> sexo, <span class="at">y =</span> peso), <span class="at">color =</span> myblue, <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(</span>
+<span id="cb33-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> post_pred_media_sexo,</span>
+<span id="cb33-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> sexo, <span class="at">y =</span> Predicción_media),</span>
+<span id="cb33-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.width =</span> <span class="fl">0.9</span>, <span class="at">color =</span> mygreen, <span class="at">linewidth =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="dv">5</span></span>
+<span id="cb33-7"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(</span>
+<span id="cb33-9"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> post_pred_sexo,</span>
+<span id="cb33-10"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> sexo, <span class="at">y =</span> Predicción),</span>
+<span id="cb33-11"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.width =</span> <span class="fl">0.9</span>, <span class="at">color =</span> myred, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb33-12"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sexo"</span>, <span class="at">y =</span> <span class="st">"Peso (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-30-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</details>
+</section></section>
 <section>
 <section id="evaluación-de-modelos-de-regresión" class="title-slide slide level2 center">
 <h2>Evaluación de modelos de regresión</h2>
@@ -1209,15 +1583,15 @@ Y|\hat{x},\beta_0,\beta_1,\sigma \sim N(\beta_0 + \beta_1 \hat{x}, \sigma),
 <div id="exm-evaluacion-modelo-regresion" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 14</strong></span> Veamos cómo obtener los intervalos de credibilidad de las predicciones para cada una de las estaturas del conjunto de datos, utilizando el modelo de regresión lineal simple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo1, <span class="at">newdata =</span> df, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
-<span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred, <span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> Predicción)) <span class="sc">+</span></span>
-<span id="cb26-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.95</span>), <span class="at">color =</span> myred) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">y =</span> peso), <span class="at">color =</span> myblue) <span class="sc">+</span></span>
-<span id="cb26-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura (cm)"</span>, <span class="at">y =</span> <span class="st">"Peso (kg)"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo_peso_estatura, <span class="at">newdata =</span> df, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred, <span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> Predicción)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.95</span>), <span class="at">color =</span> myred) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">y =</span> peso), <span class="at">color =</span> myblue) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura (cm)"</span>, <span class="at">y =</span> <span class="st">"Peso (kg)"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-24-1.png" width="960"></p>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1287,8 +1661,8 @@ R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}
 <div id="exm-metricas-evaluacion-modelo-regresion-1" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 15</strong></span> Veamos cómo calcular el error absoluto mediano, el error absoluto mediano tipificado y los intervalos de cobertura de las predicciones del modelo de regresión lineal simple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
-<span id="cb27-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">prediction_summary</span>(modelo1, <span class="at">data =</span> df, <span class="at">prob_outer =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
+<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">prediction_summary</span>(modelo_peso_estatura, <span class="at">data =</span> df, <span class="at">prob_outer =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1301,8 +1675,8 @@ R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">9.344791</td>
-<td style="text-align: right;">0.6799458</td>
+<td style="text-align: right;">9.326715</td>
+<td style="text-align: right;">0.6812318</td>
 <td style="text-align: right;">0.5</td>
 <td style="text-align: right;">0.915</td>
 </tr>
@@ -1339,10 +1713,10 @@ R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}
 <div id="exm-metricas-evaluacion-modelo-regresion-2" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 16</strong></span> Veamos cómo calcular la distribución a posteriori del coeficiente de determinación bayesiano <span class="math inline">\(R^2\)</span> del modelo de regresión lineal simple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
-<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bayes_R2</span>(modelo1) <span class="sc">|&gt;</span></span>
-<span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb28-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"R² medio"</span>, <span class="st">".lower"</span>, <span class="st">".upper"</span>, <span class="st">".width"</span>, <span class="st">".point"</span>, <span class="st">".interval"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bayes_R2</span>(modelo_peso_estatura) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"R² medio"</span>, <span class="st">".lower"</span>, <span class="st">".upper"</span>, <span class="st">".width"</span>, <span class="st">".point"</span>, <span class="st">".interval"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1422,9 +1796,9 @@ R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}
 <div id="exm-metricas-evaluacion-modelo-regresion-cv" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 17</strong></span> Veamos cómo realizar la evaluación del modelo de regresión lineal simple del peso sobre la estatura mediante validación cruzada con 10 pliegues.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv <span class="ot">&lt;-</span> <span class="fu">prediction_summary_cv</span>(<span class="at">model =</span> modelo1, <span class="at">data =</span> df, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>)</span>
-<span id="cb29-3"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>folds <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv <span class="ot">&lt;-</span> <span class="fu">prediction_summary_cv</span>(<span class="at">model =</span> modelo_peso_estatura, <span class="at">data =</span> df, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>)</span>
+<span id="cb37-3"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>folds <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1477,7 +1851,7 @@ R^2_{\mbox{Bayes}} = \frac{\mbox{Var}(\hat{y})}{\mbox{Var}(\hat{y}) + \mbox{Var}
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>cv <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>cv <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1521,11 +1895,11 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon, \q
 <section class="slide level3">
 
 <div id="exr-regresion-multiple" class="theorem exercise">
-<p><span class="theorem-title"><strong>Ejercicio 1</strong></span> ¿Qué modelo de regresión lineal múltiple ajustarías para modelizar el peso de una persona en función de su estatura y su sexo? ¿Qué distribuciones a priori utilizarías para los parámetros del modelo?</p>
+<p><span class="theorem-title"><strong>Ejercicio 5</strong></span> ¿Qué modelo de regresión lineal múltiple ajustarías para modelizar el peso de una persona en función de su estatura y su sexo? ¿Qué distribuciones a priori utilizarías para los parámetros del modelo?</p>
 </div>
 <details>
 <summary>
-Solución
+<strong>Solución</strong>
 </summary>
 <p>Antes de nada, puesto que el sexo es una variable categórica, debemos codificarla como variable númerica para poder introducirla en el modelo de regresión múltiple. Como en este caso solo hay dos categorías posibles, podemos usar el 0 para hombres y 1 para mujeres.</p>
 <p>Si llamamos <span class="math inline">\(X_1\)</span> a la estatura y <span class="math inline">\(X_2\)</span> al sexo, el modelo de regresión lineal múltiple sería:</p>
@@ -1551,7 +1925,7 @@ Y = (\beta_0 + \beta_2) + \beta_1 X_1 + \varepsilon
 
 <details>
 <summary>
-Solución (continuación)
+<strong>Solución</strong> (continuación)
 </summary>
 <p>Este modelo asume que la pendiente de la recta de regresión es la misma para hombres y mujeres, pero que el término independiente es distinto.</p>
 <p>Para las distribuciones a priori de los parámetros <span class="math inline">\(\beta_0, \beta_1\)</span> y <span class="math inline">\(\sigma\)</span>, podemos utilizar las mismas distribuciones a priori que en el modelo de regresión lineal simple.</p>
@@ -1569,18 +1943,18 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <div id="exm-evaluacion-distribuciones-priori-regresion-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 18</strong></span> Veamos cómo simular las distribuciones a priori de los parámetros del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
-<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2_prior <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(</span>
-<span id="cb31-4"><a href="" aria-hidden="true" tabindex="-1"></a>  peso <span class="sc">~</span> estatura <span class="sc">+</span> sexo,</span>
-<span id="cb31-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
-<span id="cb31-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
-<span id="cb31-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">70</span>, <span class="dv">10</span>),</span>
-<span id="cb31-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">scale =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">5</span>)),</span>
-<span id="cb31-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="fl">0.5</span>),</span>
-<span id="cb31-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>,</span>
-<span id="cb31-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_PD =</span> <span class="cn">TRUE</span></span>
-<span id="cb31-12"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2_prior <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(</span>
+<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a>  peso <span class="sc">~</span> estatura <span class="sc">+</span> sexo,</span>
+<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb39-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">70</span>, <span class="dv">10</span>),</span>
+<span id="cb39-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">scale =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">5</span>)),</span>
+<span id="cb39-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="fl">0.5</span>),</span>
+<span id="cb39-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>,</span>
+<span id="cb39-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_PD =</span> <span class="cn">TRUE</span></span>
+<span id="cb39-12"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -1601,15 +1975,15 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 
 <p>A continuación podemos dibujar algunas de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a priori de los parámetros del modelo para ver si son razonables.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo2_prior, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
-<span id="cb32-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> <span class="fu">paste</span>(sexo, .draw)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb32-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo2_prior, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
+<span id="cb40-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> <span class="fu">paste</span>(sexo, .draw)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-37-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="ajuste-del-modelo-de-regresión-lineal-múltiple" class="title-slide slide level2 center">
 <h2>Ajuste del modelo de regresión lineal múltiple</h2>
@@ -1618,29 +1992,29 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <div id="exm-ajuste-regresion-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 19</strong></span> Para ajustar el modelo de regresión lineal múltiple del peso sobre la estatura y el sexo, basta con usar el siguiente código.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo2_prior, <span class="at">prior_PD =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo2_prior, <span class="at">prior_PD =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
 <section class="slide level3">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(modelo2, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(modelo2, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-39-1.png" width="960" class="r-stretch"></section>
 <section class="slide level3">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens_overlay</span>(modelo2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens_overlay</span>(modelo2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"><p>Observando las trazas y las distribuciones de las cadenas de Markov, se puede ver que las cadenas son estables y convergentes.</p>
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-40-1.png" width="960" class="r-stretch"><p>Observando las trazas y las distribuciones de las cadenas de Markov, se puede ver que las cadenas son estables y convergentes.</p>
 </section>
 <section class="slide level3">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">neff_ratio</span>(modelo2) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">neff_ratio</span>(modelo2) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1661,7 +2035,7 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rhat</span>(modelo2) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rhat</span>(modelo2) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1690,11 +2064,11 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <div id="exm-intervalos-credibilidad-regresion-lineal-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 20</strong></span> Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros ajustados en el modelo de regresión del peso sobre la estatura y el sexo.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="sc">|&gt;</span> </span>
-<span id="cb38-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura, sexoM, sigma) <span class="sc">|&gt;</span></span>
-<span id="cb38-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb38-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb46-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, estatura, sexoM, sigma) <span class="sc">|&gt;</span></span>
+<span id="cb46-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -1768,18 +2142,18 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <p><span class="theorem-title"><strong>Ejemplo 21</strong></span> Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo2, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
-<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
-<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> <span class="fu">paste</span>(sexo, .draw)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
-<span id="cb39-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo2, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"Predicción_media"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> peso, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
+<span id="cb47-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción_media, <span class="at">group =</span> <span class="fu">paste</span>(sexo, .draw)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura"</span>, <span class="at">y =</span> <span class="st">"Peso"</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-36-1.png" width="960"></p>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-43-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1794,9 +2168,9 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <div id="exm-distribucion-predictiva-regresion-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 22</strong></span> Veamos cómo obtener la distribución a posteriori de la predicción del peso para una un hombre y una mujer de estatura 160 cm, utilizando el modelo de regresión lineal múltiple ajustado anteriormente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a>datos_nuevos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">160</span>,<span class="dv">160</span>), <span class="at">sexo =</span> <span class="fu">c</span>(<span class="st">"H"</span>,<span class="st">"M"</span>))</span>
-<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_160<span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
-<span id="cb40-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_160, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a>datos_nuevos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">160</span>,<span class="dv">160</span>), <span class="at">sexo =</span> <span class="fu">c</span>(<span class="st">"H"</span>,<span class="st">"M"</span>))</span>
+<span id="cb48-2"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred_160<span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> datos_nuevos, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
+<span id="cb48-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean_qi</span>(post_pred_160, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -1856,35 +2230,35 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <section class="slide level3">
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">160</span>,<span class="dv">160</span>), <span class="at">sexo =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>)), <span class="at">value =</span> <span class="st">"Predicción"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Predicción, <span class="at">y =</span> sexo, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
-<span id="cb41-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.9</span>), <span class="at">fill =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
-<span id="cb41-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"H"</span> <span class="ot">=</span> <span class="st">"Hombre"</span>, <span class="st">"M"</span> <span class="ot">=</span> <span class="st">"Mujer"</span>)) <span class="sc">+</span></span>
-<span id="cb41-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb41-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribuciones de las predicciones del peso para personas de estatura 160 cm"</span>,</span>
-<span id="cb41-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Peso (kg)"</span>, <span class="at">y =</span> <span class="st">"Sexo"</span></span>
-<span id="cb41-8"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> <span class="fu">tibble</span>(<span class="at">estatura =</span> <span class="fu">c</span>(<span class="dv">160</span>,<span class="dv">160</span>), <span class="at">sexo =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>)), <span class="at">value =</span> <span class="st">"Predicción"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Predicción, <span class="at">y =</span> sexo, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
+<span id="cb49-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.9</span>), <span class="at">fill =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
+<span id="cb49-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"H"</span> <span class="ot">=</span> <span class="st">"Hombre"</span>, <span class="st">"M"</span> <span class="ot">=</span> <span class="st">"Mujer"</span>)) <span class="sc">+</span></span>
+<span id="cb49-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb49-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribuciones de las predicciones del peso para personas de estatura 160 cm"</span>,</span>
+<span id="cb49-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Peso (kg)"</span>, <span class="at">y =</span> <span class="st">"Sexo"</span></span>
+<span id="cb49-8"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb49-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-38-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-45-1.png" width="960" class="r-stretch"></section></section>
 <section id="distribuciones-predictivas-del-modelo-de-regresión-múltiple" class="title-slide slide level2 center">
 <h2>Distribuciones predictivas del modelo de regresión múltiple</h2>
 <div id="exm-distribuciones-predictivas-regresion-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 23</strong></span> Veamos cómo obtener las distribuciones a posteriori de las predicciones del peso para todas las personas de la muestra, utilizando el modelo de regresión lineal múltiple ajustado anteriormente.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> df, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
-<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred, <span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> Predicción, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
-<span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.95</span>), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb42-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">y =</span> peso), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb42-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura (cm)"</span>, <span class="at">y =</span> <span class="st">"Peso (kg)"</span>) <span class="sc">+</span></span>
-<span id="cb42-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a>post_pred <span class="ot">&lt;-</span> <span class="fu">predicted_draws</span>(modelo2, <span class="at">newdata =</span> df, <span class="at">value =</span> <span class="st">"Predicción"</span>)</span>
+<span id="cb50-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post_pred, <span class="fu">aes</span>(<span class="at">x =</span> estatura, <span class="at">y =</span> Predicción, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
+<span id="cb50-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pointinterval</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.95</span>), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb50-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">y =</span> peso), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb50-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estatura (cm)"</span>, <span class="at">y =</span> <span class="st">"Peso (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb50-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-39-1.png" width="960"></p>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-46-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1898,9 +2272,9 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <div id="exm-evaluacion-regresion-multiple" class="theorem example">
 <p><span class="theorem-title"><strong>Ejemplo 24</strong></span> Veamos cómo obtener las métricas de evaluación del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo mediante validación cruzada con 10 pliegues.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb43-2"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv <span class="ot">&lt;-</span> <span class="fu">prediction_summary_cv</span>(<span class="at">model =</span> modelo2, <span class="at">data =</span> df, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>)</span>
-<span id="cb43-3"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>cv <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv <span class="ot">&lt;-</span> <span class="fu">prediction_summary_cv</span>(<span class="at">model =</span> modelo2, <span class="at">data =</span> df, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">prob_outer =</span> <span class="fl">0.9</span>)</span>
+<span id="cb51-3"><a href="" aria-hidden="true" tabindex="-1"></a>eval_cv<span class="sc">$</span>cv <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -1929,9 +2303,9 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 
 <p>Veamos ahora cuánto vale el coeficiente de determinación bayesiano.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bayes_R2</span>(modelo2) <span class="sc">|&gt;</span></span>
-<span id="cb44-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb44-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"R² medio"</span>, <span class="st">".lower"</span>, <span class="st">".upper"</span>, <span class="st">".width"</span>, <span class="st">".point"</span>, <span class="st">".interval"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bayes_R2</span>(modelo2) <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"R² medio"</span>, <span class="st">".lower"</span>, <span class="st">".upper"</span>, <span class="st">".width"</span>, <span class="st">".point"</span>, <span class="st">".interval"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -2015,8 +2389,8 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <p><span class="theorem-title"><strong>Ejemplo 25</strong></span> Vamos a calcular la ELPD del modelo de regresión lineal simple y del modelo de regresión lineal múltiple ajustados anteriormente, para comparar su capacidad predictiva.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># ELPD del modelo de regresión lineal simple</span></span>
-<span id="cb45-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo</span>(modelo1)<span class="sc">$</span>estimates[<span class="dv">1</span>,] <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># ELPD del modelo de regresión lineal simple</span></span>
+<span id="cb53-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo</span>(modelo_peso_estatura)<span class="sc">$</span>estimates[<span class="dv">1</span>,] <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -2037,8 +2411,8 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 </div></div>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># ELPD del modelo de regresión lineal múltiple</span></span>
-<span id="cb46-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo</span>(modelo2)<span class="sc">$</span>estimates[<span class="dv">1</span>,] <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># ELPD del modelo de regresión lineal múltiple</span></span>
+<span id="cb54-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo</span>(modelo2)<span class="sc">$</span>estimates[<span class="dv">1</span>,] <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -2091,9 +2465,9 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <p><span class="theorem-title"><strong>Ejemplo 26</strong></span> Veamos cómo comparar la ELPD de los modelos de regresión lineal simple y múltiple ajustados anteriormente.</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a>loo1 <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo1)</span>
-<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a>loo2 <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo2)</span>
-<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo1, loo2)[,<span class="fu">c</span>(<span class="st">"elpd_diff"</span>, <span class="st">"se_diff"</span>)] <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="" aria-hidden="true" tabindex="-1"></a>loo1 <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo_peso_estatura)</span>
+<span id="cb55-2"><a href="" aria-hidden="true" tabindex="-1"></a>loo2 <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo2)</span>
+<span id="cb55-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo1, loo2)[,<span class="fu">c</span>(<span class="st">"elpd_diff"</span>, <span class="st">"se_diff"</span>)] <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -2111,7 +2485,7 @@ Y para la distribución a priori de <span class="math inline">\(\beta_2\)</span>
 <td style="text-align: right;">0.000000</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">modelo1</td>
+<td style="text-align: left;">modelo_peso_estatura</td>
 <td style="text-align: right;">-28.6676</td>
 <td style="text-align: right;">6.156593</td>
 </tr>
