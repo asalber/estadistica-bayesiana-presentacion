@@ -2871,6 +2871,935 @@ Y|\beta_0,\beta_1,\beta_2,\beta_3,\sigma \sim N(\beta_0 + \beta_1 X_1+ \beta_2 X
 \]</span></p>
 <p>por lo que no hay una diferencia sustancial entre los dos modelos.</p>
 </details>
+</section></section>
+<section id="section-2" class="title-slide slide level2 myblue center" data-background-color="">
+<h2></h2>
+<div class="main-title">
+<p>Regresión logística</p>
+</div>
+</section>
+
+<section id="variables-dependientes-categóricas" class="title-slide slide level2 center">
+<h2>Variables dependientes categóricas</h2>
+<p>En todos los modelos de regresión que hemos visto hasta ahora, la variable dependiente <span class="math inline">\(Y\)</span> era una variable cuantitativa continua (el peso). Sin embargo, en muchos problemas la variable dependiente es <em>categórica</em>, y lo que queremos modelizar es la <em>probabilidad</em> de que ocurra un determinado suceso.</p>
+<p>En el ámbito de la Epidemiología, por ejemplo, es muy habitual querer estudiar la probabilidad de que una persona padezca una enfermedad (variable dependiente dicotómica: enfermo / sano) en función de una serie de factores de riesgo (edad, sexo, índice de masa corporal, hábitos, etc.).</p>
+<p>En estos casos, la variable dependiente <span class="math inline">\(Y\)</span> es una variable dicotómica que toma dos valores:</p>
+<p><span class="math display">\[
+Y = \begin{cases} 1 &amp; \text{si la persona padece la enfermedad,} \\ 0 &amp; \text{si la persona no la padece.} \end{cases}
+\]</span></p>
+<p>Un modelo de regresión lineal no es adecuado en este caso, ya que podría predecir valores de <span class="math inline">\(Y\)</span> por debajo de 0 o por encima de 1, que no tendrían sentido como probabilidades.</p>
+</section>
+
+<section id="el-modelo-de-regresión-logística" class="title-slide slide level2 center">
+<h2>El modelo de regresión logística</h2>
+<p>Cuando la variable dependiente <span class="math inline">\(Y\)</span> es dicotómica, asumimos que sigue una distribución de <strong>Bernoulli</strong> con probabilidad de éxito <span class="math inline">\(\pi_i\)</span> (la probabilidad de padecer la enfermedad para el individuo <span class="math inline">\(i\)</span>),</p>
+<p><span class="math display">\[
+Y_i \mid \pi_i \sim \text{Bernoulli}(\pi_i).
+\]</span></p>
+<p>El objetivo es modelizar la probabilidad <span class="math inline">\(\pi_i\)</span> en función de las variables independientes. Como <span class="math inline">\(\pi_i\)</span> debe estar entre 0 y 1, no podemos modelizarla directamente con una combinación lineal de las variables independientes. En su lugar, modelizamos una transformación de <span class="math inline">\(\pi_i\)</span> conocida como <em>logaritmo de las odds</em> (<em>log-odds</em> o <em>logit</em>):</p>
+<p><span class="math display">\[
+\text{logit}(\pi_i) = \log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 x_i,
+\]</span></p>
+<p>ya que cociente <span class="math inline">\(\frac{\pi_i}{1-\pi_i}\)</span> es la <em>odds</em> de padecer la enfermedad y expresa cuántas veces es más probable padecer la enfermedad que no padecerla.</p>
+</section>
+
+<section id="la-función-logística" class="title-slide slide level2 center">
+<h2>La función logística</h2>
+<p>Despejando <span class="math inline">\(\pi_i\)</span> de la ecuación anterior, obtenemos la <em>función logística</em> (de ahí el nombre del modelo), que transforma cualquier valor real del predictor lineal en una probabilidad entre 0 y 1:</p>
+<p><span class="math display">\[
+\pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_i)}}.
+\]</span></p>
+
+<img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-60-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>La función logística tiene forma de S (curva sigmoide), es creciente y siempre toma valores entre 0 y 1, por lo que es ideal para modelizar probabilidades.</p>
+</section>
+
+<section id="interpretación-de-los-coeficientes" class="title-slide slide level2 center">
+<h2>Interpretación de los coeficientes</h2>
+<p>A diferencia de la regresión lineal, en la regresión logística los coeficientes se interpretan en la escala de las <em>odds</em>:</p>
+<ul>
+<li><p><strong>Término independiente <span class="math inline">\(\beta_0\)</span></strong>. Es el logaritmo de la odds de padecer la enfermedad cuando <span class="math inline">\(X = 0\)</span>. Es decir, <span class="math inline">\(e^{\beta_0}\)</span> es la odds base.</p></li>
+<li><p><strong>Pendiente <span class="math inline">\(\beta_1\)</span></strong>. Es el cambio en el logaritmo de la odds por cada unidad que se incrementa <span class="math inline">\(X\)</span>. Más útil es su exponencial <span class="math inline">\(e^{\beta_1}\)</span>, conocida como <em>razón de odds</em> (<em>odds ratio</em>), que indica por qué factor se multiplica la odds de padecer la enfermedad por cada unidad que aumenta <span class="math inline">\(X\)</span>.</p>
+<ul>
+<li>Si <span class="math inline">\(e^{\beta_1} &gt; 1\)</span>, la variable <span class="math inline">\(X\)</span> es un <strong>factor de riesgo</strong> (aumenta la probabilidad de enfermedad).</li>
+<li>Si <span class="math inline">\(e^{\beta_1} &lt; 1\)</span>, la variable <span class="math inline">\(X\)</span> es un <strong>factor de protección</strong> (disminuye la probabilidad de enfermedad).</li>
+<li>Si <span class="math inline">\(e^{\beta_1} = 1\)</span>, la variable <span class="math inline">\(X\)</span> no influye en la probabilidad de enfermedad.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="consrucción-del-modelo-de-regresión-logística" class="title-slide slide level2 center">
+<h2>Consrucción del modelo de regresión logística</h2>
+<p>El modelo de regresión logística se especifica como</p>
+<p><span class="math display">\[\begin{align*}
+Y_i \mid \beta_0, \beta_1 &amp; \sim \text{Bernoulli}(\pi_i) \\
+\text{logit}(\pi_i) &amp; = \beta_0 + \beta_1 x_i
+\end{align*}\]</span></p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Advertencia</strong></p>
+</div>
+<div class="callout-content">
+<p>Obsérvese que, a diferencia de la regresión lineal, no hay un parámetro <span class="math inline">\(\sigma\)</span> para la desviación típica del error, ya que la variabilidad de una distribución de Bernoulli queda determinada por su probabilidad <span class="math inline">\(\pi_i\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Como siempre, asignaremos distribuciones a priori a los coeficientes del modelo, y las actualizaremos con los datos para obtener las distribuciones a posteriori.</p>
+</section>
+
+<section>
+<section id="distribuciones-a-priori-de-los-parámetros" class="title-slide slide level2 center">
+<h2>Distribuciones a priori de los parámetros</h2>
+<p>Puesto que <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> son parámetros de localización que pueden tomar cualquier valor real (están en la escala logarítmica de las odds), y por tanto, una distribución a priori adecuada para ambos es la distribución normal:</p>
+<p><span class="math display">\[\begin{align*}
+\beta_0 &amp; \sim N(\theta_0, \tau_0) \\
+\beta_1 &amp; \sim N(\theta_1, \tau_1)
+\end{align*}\]</span></p>
+<p>Conviene tener presente que, al estar en la escala <em>logit</em>, valores aparentemente pequeños de los coeficientes pueden corresponder a cambios grandes en la probabilidad. Por ejemplo, una distribución a priori <span class="math inline">\(\beta_1 \sim N(0, 0.5)\)</span> ya es bastante informativa, pues asume que la razón de ventajas <span class="math inline">\(e^{\beta_1}\)</span> está, con un 95% de probabilidad, aproximadamente entre <span class="math inline">\(e^{-1} \approx 0.37\)</span> y <span class="math inline">\(e^{1} \approx 2.72\)</span>.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-datos-diabetes" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 28</strong></span> Supongamos que queremos estudiar la <strong>prevalencia de diabetes tipo 2</strong> en una población adulta en función de la edad. Para ello disponemos de los datos de una cohorte de 250 personas en las que se ha registrado su edad y si padecen o no diabetes.</p>
+<p>Para este ejemplo simularemos los datos a partir de un modelo conocido, lo que nos permitirá comprobar después que el modelo bayesiano es capaz de recuperar la prevalencia real.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb65-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb65-3"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb65-4"><a href="" aria-hidden="true" tabindex="-1"></a>edad <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">runif</span>(n, <span class="dv">30</span>, <span class="dv">85</span>))</span>
+<span id="cb65-5"><a href="" aria-hidden="true" tabindex="-1"></a>imc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="dv">27</span>, <span class="dv">4</span>), <span class="dv">1</span>)</span>
+<span id="cb65-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo real: logit(pi) = -9 + 0.07 * edad + 0.12 * imc</span></span>
+<span id="cb65-7"><a href="" aria-hidden="true" tabindex="-1"></a>prob_real <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="dv">9</span> <span class="sc">+</span> <span class="fl">0.07</span> <span class="sc">*</span> edad <span class="sc">+</span> <span class="fl">0.12</span> <span class="sc">*</span> imc)</span>
+<span id="cb65-8"><a href="" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> prob_real)</span>
+<span id="cb65-9"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">edad =</span> edad, <span class="at">imc =</span> imc, <span class="at">diabetes =</span> diabetes)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>La <em>prevalencia</em> es la proporción de individuos de la población que padecen la enfermedad. En la muestra, la prevalencia observada es</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">prevalencia =</span> <span class="fu">mean</span>(diabetes)) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">prevalencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.184</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Podemos representar gráficamente la presencia de diabetes frente a la edad. Como la variable dependiente solo toma los valores 0 y 1, añadimos un pequeño ruido vertical (<em>jitter</em>) para visualizar mejor la densidad de puntos.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> edad, <span class="at">y =</span> diabetes)) <span class="sc">+</span></span>
+<span id="cb67-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">color =</span> myblue) <span class="sc">+</span></span>
+<span id="cb67-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Edad (años)"</span>, <span class="at">y =</span> <span class="st">"Diabetes (0 = No, 1 = Sí)"</span>) <span class="sc">+</span></span>
+<span id="cb67-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-63-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level3">
+
+<p>En este contexto, optaremos por utilizar distribuciones a priori poco informativas para los parámetros del modelo, de manera que los datos tengan un peso importante en la estimación de las distribuciones a posteriori.</p>
+<p>Para <span class="math inline">\(\beta_0\)</span> asumimos una distribución normal con media -1.5 y desviación típica 1.5, lo que implica que la odds de padecer diabetes es baja para una persona de edad media.</p>
+<p><span class="math display">\[
+\beta_0 \sim N(-1.5, 1.5)
+\]</span></p>
+<p>Para <span class="math inline">\(\beta_1\)</span> asumimos una distribución normal con media 0 y desviación típica 0.5, lo que implica que el efecto de la edad sobre la probabilidad de padecer diabetes es moderado y de signo desconocido.</p>
+<p><span class="math display">\[
+\beta_1 \sim N(0, 0.5)
+\]</span></p>
+</section></section>
+<section id="ajuste-del-modelo-de-regresión-logística-bayesiana" class="title-slide slide level2 center">
+<h2>Ajuste del modelo de regresión logística bayesiana</h2>
+<p>Para ajustar un modelo de regresión logística bayesiano usamos de nuevo la función <code>stan_glm</code> del paquete <code>rstanarm</code>, pero esta vez indicando la familia <code>binomial()</code>, que utiliza por defecto la función de enlace <em>logit</em>.</p>
+</section>
+
+<section>
+<section id="validación-de-las-distribuciones-a-priori-1" class="title-slide slide level2 center">
+<h2>Validación de las distribuciones a priori</h2>
+<p>Como hicimos con la regresión lineal, antes de ajustar el modelo conviene comprobar que las distribuciones a priori son razonables. Para ello ajustamos el modelo con la opción <code>prior_PD = TRUE</code>, que simula los parámetros a partir de las distribuciones a priori sin usar los datos.</p>
+<div id="exm-ajuste-regresion-logistica-prior" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 29</strong></span> Veamos comó obtener las distribuciones a priori del modelo de regresión logística de la probabilidad de diabetes sobre la edad.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb68-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb68-3"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes_prior <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(</span>
+<span id="cb68-4"><a href="" aria-hidden="true" tabindex="-1"></a>  diabetes <span class="sc">~</span> edad, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">binomial</span>(),</span>
+<span id="cb68-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb68-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb68-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>,</span>
+<span id="cb68-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_PD =</span> <span class="cn">TRUE</span></span>
+<span id="cb68-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Podemos dibujar algunas de las curvas logísticas generadas a partir de las distribuciones a priori para comprobar que cubren un rango razonable de posibilidades.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb69-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">edad =</span> <span class="fu">seq</span>(<span class="dv">30</span>, <span class="dv">85</span>, <span class="at">length.out =</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb69-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo_diabetes_prior, <span class="at">ndraws =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="st">"prob"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb69-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> edad, <span class="at">y =</span> prob, <span class="at">group =</span> .draw)) <span class="sc">+</span></span>
+<span id="cb69-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> myred, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb69-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"100 curvas logísticas a priori"</span>,</span>
+<span id="cb69-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Edad (años)"</span>, <span class="at">y =</span> <span class="st">"Probabilidad de diabetes"</span>) <span class="sc">+</span></span>
+<span id="cb69-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-65-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Las curvas a priori contemplan tanto relaciones crecientes como decrecientes con la edad, y cubren todo el rango de probabilidades, lo que indica que las distribuciones a priori son poco informativas y razonables.</p>
+</section></section>
+<section>
+<section id="ajuste-de-las-distribuciones-a-posteriori" class="title-slide slide level2 center">
+<h2>Ajuste de las distribuciones a posteriori</h2>
+<p>Una vez validadas las distribuciones a priori, ajustamos el modelo a los datos. De nuevo, basta con actualizar el modelo anterior con la opción <code>prior_PD = FALSE</code>.</p>
+<div id="exm-ajuste-regresion-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 30</strong></span> Veamos cómo ajustar el modelo de regresión logística a los datos de diabetes y</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo_diabetes_prior, <span class="at">prior_PD =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Comprobamos la convergencia de las cadenas de Markov.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb71-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(modelo_diabetes, <span class="at">size =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-67-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens_overlay</span>(modelo_diabetes)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-68-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Se observa que las trazas de las cadenas de Markov son estables y convergentes.</p>
+</section>
+<section class="slide level3">
+
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">neff_ratio</span>(modelo_diabetes) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">(Intercept)</th>
+<th style="text-align: right;">edad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.35125</td>
+<td style="text-align: right;">0.37115</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+<p>Se observa que la proporción efectiva de muestras aleatorias es razonable para ambos parámetros.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rhat</span>(modelo_diabetes) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">(Intercept)</th>
+<th style="text-align: right;">edad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1.000412</td>
+<td style="text-align: right;">1.000317</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+<p>Las cadenas son estables y convergentes, y el valor de <span class="math inline">\(\hat{R}\)</span> es prácticamente 1 para ambos parámetros.</p>
+</section></section>
+<section id="intervalos-de-credibilidad" class="title-slide slide level2 center">
+<h2>Intervalos de credibilidad</h2>
+<div id="exm-intervalos-credibilidad-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 31</strong></span> Obtenemos la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes <span class="sc">|&gt;</span></span>
+<span id="cb75-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, edad) <span class="sc">|&gt;</span></span>
+<span id="cb75-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb75-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">.variable</th>
+<th style="text-align: right;">.value</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-5.7656811</td>
+<td style="text-align: right;">-7.2786113</td>
+<td style="text-align: right;">-4.3930719</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">edad</td>
+<td style="text-align: right;">0.0686002</td>
+<td style="text-align: right;">0.0480311</td>
+<td style="text-align: right;">0.0907883</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>El coeficiente de la edad es positivo, lo que indica que a mayor edad mayor probabilidad de diabetes.</p>
+</div>
+</section>
+
+<section id="razón-de-odds" class="title-slide slide level2 center">
+<h2>Razón de odds</h2>
+<p>Para interpretarlo mejor, calculamos la razón de odds <span class="math inline">\(e^{\beta_1}\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes <span class="sc">|&gt;</span></span>
+<span id="cb76-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(edad) <span class="sc">|&gt;</span></span>
+<span id="cb76-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">odds_ratio =</span> <span class="fu">exp</span>(.value)) <span class="sc">|&gt;</span></span>
+<span id="cb76-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(odds_ratio, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb76-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.variable</th>
+<th style="text-align: right;">odds_ratio</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">edad</td>
+<td style="text-align: right;">1.0711</td>
+<td style="text-align: right;">1.049203</td>
+<td style="text-align: right;">1.095037</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Es decir, por cada año más de edad, la odds de padecer diabetes se multiplica por aproximadamente 1.07 (un incremento del 7% en la odds por año), y de acuerdo al intervalo de credibilidad estaría entre el 1.05 y 1.1 con una probabilidad del 90%.</p>
+</section>
+
+<section id="la-curva-logística-a-posteriori" class="title-slide slide level2 center">
+<h2>La curva logística a posteriori</h2>
+<p>Cada muestra de la distribución a posteriori de los parámetros define una curva logística distinta. Podemos dibujar algunas de ellas sobre los datos para visualizar el ajuste y la incertidumbre.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">edad =</span> <span class="fu">seq</span>(<span class="dv">30</span>, <span class="dv">85</span>, <span class="at">length.out =</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb77-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo_diabetes, <span class="at">ndraws =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="st">"prob"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb77-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> edad, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb77-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> .draw), <span class="at">color =</span> myred, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb77-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">y =</span> diabetes), <span class="at">height =</span> <span class="fl">0.03</span>,</span>
+<span id="cb77-6"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">color =</span> myblue) <span class="sc">+</span></span>
+<span id="cb77-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Edad (años)"</span>, <span class="at">y =</span> <span class="st">"Probabilidad de diabetes"</span>) <span class="sc">+</span></span>
+<span id="cb77-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-73-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Se observa claramente cómo la probabilidad de padecer diabetes aumenta con la edad, siguiendo una curva en forma de S.</p>
+</section>
+
+<section id="estimación-de-la-prevalencia" class="title-slide slide level2 center">
+<h2>Estimación de la prevalencia</h2>
+<p>Ya hemos visto que la estimación de un parámetro en Estadística bayesiana es su propia distribución a posteriori, aunque habitualmente la describiremos mediante su media o mediana y los intervalos de credibilidad para el parámetro.</p>
+<div id="exm-prevalencia-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 32</strong></span> Para estimar la prevalancia de la diabetes calculamos, para cada muestra de la distribución a posteriori, la probabilidad media de diabetes en toda la muestra.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb78-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_epred_draws</span>(modelo_diabetes, <span class="at">value =</span> <span class="st">"prob"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb78-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw) <span class="sc">|&gt;</span></span>
+<span id="cb78-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prevalencia =</span> <span class="fu">mean</span>(prob)) <span class="sc">|&gt;</span></span>
+<span id="cb78-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(prevalencia, <span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb78-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">prevalencia</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.1873307</td>
+<td style="text-align: right;">0.1500819</td>
+<td style="text-align: right;">0.2259585</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>La prevalencia estimada de diabetes en la población es de aproximadamente el 18.7%, con un intervalo de credibilidad del 90% que va del 15% al 22.6%.</p>
+</div>
+</section>
+
+<section>
+<section id="predicción-de-la-probabilidad-para-nuevos-casos" class="title-slide slide level2 center">
+<h2>Predicción de la probabilidad para nuevos casos</h2>
+<p>Para predecir la probabilidad media de padecer la enfermedad de nuevos individuos, usamos la función <code>epred_draws</code>, que genera la distribución a posteriori de la probabilidad <span class="math inline">\(\pi\)</span> para cada nuevo caso.</p>
+<div id="exm-prediccion-probabilidad-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 33</strong></span> Veamos la probabilidad de padecer diabetes para personas de 40, 60 y 80 años.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="" aria-hidden="true" tabindex="-1"></a>nuevos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">edad =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>))</span>
+<span id="cb79-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">epred_draws</span>(modelo_diabetes, <span class="at">newdata =</span> nuevos, <span class="at">value =</span> <span class="st">"prob"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb79-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb79-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">edad</th>
+<th style="text-align: right;">.row</th>
+<th style="text-align: right;">prob</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0494743</td>
+<td style="text-align: right;">0.0241763</td>
+<td style="text-align: right;">0.0815658</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1629089</td>
+<td style="text-align: right;">0.1206937</td>
+<td style="text-align: right;">0.2077878</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.4320676</td>
+<td style="text-align: right;">0.3343698</td>
+<td style="text-align: right;">0.5338063</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Mientras que para una persona de 40 años la probabilidad de padecer diabetes es baja (entre 0.02 y 0.08), para una de 80 años es considerablemente mayor (entre 0.33 y 0.53).</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Podemos representar gráficamente estas distribuciones a posteriori de la probabilidad.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">epred_draws</span>(modelo_diabetes, <span class="at">newdata =</span> nuevos, <span class="at">value =</span> <span class="st">"prob"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb80-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">edad =</span> <span class="fu">factor</span>(edad)) <span class="sc">|&gt;</span></span>
+<span id="cb80-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> prob, <span class="at">y =</span> edad, <span class="at">fill =</span> edad)) <span class="sc">+</span></span>
+<span id="cb80-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fl">0.9</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb80-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Probabilidad de diabetes"</span>, <span class="at">y =</span> <span class="st">"Edad (años)"</span>) <span class="sc">+</span></span>
+<span id="cb80-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb80-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-regresion-bayesiana_files/figure-revealjs/unnamed-chunk-76-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="clasificación-de-nuevos-casos" class="title-slide slide level2 center">
+<h2>Clasificación de nuevos casos</h2>
+<p>Además de predecir la probabilidad de padecer la enfermedad, a menudo queremos <em>clasificar</em> a cada individuo en una de las dos categorías (enfermo / sano). Para ello fijamos un <em>umbral de clasificación</em> (<em>cutoff</em>), de manera que si la probabilidad estimada supera ese umbral clasificamos al individuo como enfermo.</p>
+<p>El umbral más habitual es 0.5, pero puede ajustarse en función del coste relativo de los errores: en cribados de enfermedades graves se suele bajar el umbral para no dejar pasar posibles enfermos (aumentar la sensibilidad).</p>
+<p>Para obtener las clases predichas usamos <code>predicted_draws</code>, que simula valores 0/1 de la distribución de Bernoulli para cada caso. La proporción de unos es una estimación de la probabilidad.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-clasificacion-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 34</strong></span> Clasifiquemos a las personas de 40, 60 y 80 años usando un umbral de 0.4.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">predicted_draws</span>(modelo_diabetes, <span class="at">newdata =</span> nuevos, <span class="at">value =</span> <span class="st">"clase"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb81-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(edad) <span class="sc">|&gt;</span></span>
+<span id="cb81-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">prob_diabetes =</span> <span class="fu">mean</span>(clase)) <span class="sc">|&gt;</span></span>
+<span id="cb81-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clasificacion =</span> <span class="fu">if_else</span>(prob_diabetes <span class="sc">&gt;</span> <span class="fl">0.4</span>, <span class="st">"Enfermo"</span>, <span class="st">"Sano"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb81-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">edad</th>
+<th style="text-align: right;">prob_diabetes</th>
+<th style="text-align: left;">clasificacion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.05070</td>
+<td style="text-align: left;">Sano</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.16340</td>
+<td style="text-align: left;">Sano</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.42795</td>
+<td style="text-align: left;">Enfermo</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Con el umbral de 0.4, solo las personas de 80 años serían clasificadas como enfermas.</p>
+</div>
+</section></section>
+<section id="evaluación-del-modelo-matriz-de-confusión" class="title-slide slide level2 center">
+<h2>Evaluación del modelo: matriz de confusión</h2>
+<p>Para evaluar la capacidad de clasificación del modelo, comparamos las clases predichas con las clases observadas en los datos, construyendo una <strong>matriz de confusión</strong> que clasifica cada caso como:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Verdadero positivo (VP)</strong>: enfermo clasificado como enfermo.</li>
+<li><strong>Verdadero negativo (VN)</strong>: sano clasificado como sano.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Falso positivo (FP)</strong>: sano clasificado como enfermo.</li>
+<li><strong>Falso negativo (FN)</strong>: enfermo clasificado como sano.</li>
+</ul>
+</div></div>
+<p>A partir de la matriz de confusión se calculan las siguientes métricas:</p>
+<ul>
+<li><strong>Sensibilidad</strong> <span class="math inline">\(= \dfrac{VP}{VP + FN}\)</span>: proporción de enfermos correctamente clasificados.</li>
+<li><strong>Especificidad</strong> <span class="math inline">\(= \dfrac{VN}{VN + FP}\)</span>: proporción de sanos correctamente clasificados.</li>
+<li><strong>Exactitud</strong> (<em>accuracy</em>) <span class="math inline">\(= \dfrac{VP + VN}{VP + VN + FP + FN}\)</span>: proporción total de aciertos.</li>
+</ul>
+</section>
+
+<section>
+<section id="cálculo-de-las-métricas-de-clasificación" class="title-slide slide level2 center">
+<h2>Cálculo de las métricas de clasificación</h2>
+<p>Para calcular la matriz de confusión y las métricas de clasificación de un modelo de regresión logística bayesiano, podemos usar la función <code>classification_summary</code> del paquete <code>bayesrules</code>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>classification_summary</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve la matriz de confusión y las métricas de sensibilidad, especificidad y exactitud de un modelo de clasificación bayesiano.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>model</code>: modelo ajustado con <code>stan_glm</code>.</li>
+<li><code>data</code>: conjunto de datos con la variable dependiente y las variables independientes.</li>
+<li><code>cutoff</code>: umbral de clasificación. Por defecto 0.5.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-evaluacion-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 35</strong></span> Calculemos la matriz de confusión y las métricas de clasificación del modelo de regresión logística de la diabetes sobre la edad, con un umbral de 0.4.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
+<span id="cb82-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb82-3"><a href="" aria-hidden="true" tabindex="-1"></a>clasificacion <span class="ot">&lt;-</span> <span class="fu">classification_summary</span>(<span class="at">model =</span> modelo_diabetes, <span class="at">data =</span> df, <span class="at">cutoff =</span> <span class="fl">0.4</span>)</span>
+<span id="cb82-4"><a href="" aria-hidden="true" tabindex="-1"></a>clasificacion<span class="sc">$</span>confusion_matrix <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">y</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">187</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="" aria-hidden="true" tabindex="-1"></a>clasificacion<span class="sc">$</span>accuracy_rates <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sensitivity</td>
+<td style="text-align: right;">0.0222222</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">specificity</td>
+<td style="text-align: right;">0.9853659</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overall_accuracy</td>
+<td style="text-align: right;">0.8120000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>La exactitud global es alta, pero observamos que la sensibilidad es baja: con el umbral de 0.4 el modelo clasifica bien a los sanos (especificidad alta), pero deja sin detectar a muchos enfermos. Esto es habitual cuando la enfermedad es poco prevalente.</p>
+</div>
+</section></section>
+<section id="ajuste-del-umbral-de-clasificación" class="title-slide slide level2 center">
+<h2>Ajuste del umbral de clasificación</h2>
+<p>Cuando interesa detectar el mayor número posible de enfermos (por ejemplo, en un cribado), podemos bajar el umbral de clasificación para aumentar la sensibilidad, a costa de reducir la especificidad.</p>
+<div id="exm-umbral-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 36</strong></span> Repitamos la evaluación bajando el umbral a 0.2.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb84-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">classification_summary</span>(<span class="at">model =</span> modelo_diabetes, <span class="at">data =</span> df, <span class="at">cutoff =</span> <span class="fl">0.2</span>)<span class="sc">$</span>accuracy_rates <span class="sc">|&gt;</span></span>
+<span id="cb84-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sensitivity</td>
+<td style="text-align: right;">0.7333333</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">specificity</td>
+<td style="text-align: right;">0.6975610</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overall_accuracy</td>
+<td style="text-align: right;">0.7040000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Al bajar el umbral, la sensibilidad aumenta (detectamos más enfermos), pero la especificidad disminuye (clasificamos como enfermos a más sanos). La elección del umbral depende del coste relativo de los falsos positivos y los falsos negativos.</p>
+</div>
+</section>
+
+<section>
+<section id="evaluación-mediante-validación-cruzada" class="title-slide slide level2 center">
+<h2>Evaluación mediante validación cruzada</h2>
+<p>Al igual que en la regresión lineal, las métricas calculadas sobre el propio conjunto de datos tienden a ser optimistas debido al sobreajuste. Para obtener una estimación más realista usamos <strong>validación cruzada</strong> con la función <code>classification_summary_cv</code> del paquete <code>bayesrules</code>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>classification_summary_cv</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Devuelve las métricas de clasificación de un modelo bayesiano mediante validación cruzada.</p>
+<p>Parámetros:</p>
+<ul>
+<li><code>model</code>: modelo ajustado con <code>stan_glm</code>.</li>
+<li><code>data</code>: conjunto de datos.</li>
+<li><code>k</code>: número de pliegues.</li>
+<li><code>cutoff</code>: umbral de clasificación. Por defecto 0.5.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-evaluacion-cv-logistica" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 37</strong></span> Evaluemos el modelo mediante validación cruzada con 10 pliegues.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb85-2"><a href="" aria-hidden="true" tabindex="-1"></a>cv_diabetes <span class="ot">&lt;-</span> <span class="fu">classification_summary_cv</span>(<span class="at">model =</span> modelo_diabetes, <span class="at">data =</span> df, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">cutoff =</span> <span class="fl">0.4</span>)</span>
+<span id="cb85-3"><a href="" aria-hidden="true" tabindex="-1"></a>cv_diabetes<span class="sc">$</span>cv <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">sensitivity</th>
+<th style="text-align: right;">specificity</th>
+<th style="text-align: right;">overall_accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.1958333</td>
+<td style="text-align: right;">0.9076722</td>
+<td style="text-align: right;">0.792</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Las métricas obtenidas por validación cruzada son ligeramente peores que las obtenidas sobre el conjunto de entrenamiento, lo que da una idea más realista de la capacidad predictiva del modelo sobre datos nuevos.</p>
+</div>
+</section></section>
+<section id="section-3" class="title-slide slide level2 myblue center" data-background-color="">
+<h2></h2>
+<div class="main-title">
+<p>Regresión logística múltiple</p>
+</div>
+</section>
+
+<section>
+<section id="regresión-logística-múltiple" class="title-slide slide level2 center">
+<h2>Regresión logística múltiple</h2>
+<p>Al igual que en la regresión lineal, podemos incluir varias variables independientes en el modelo de regresión logística para mejorar la predicción de la probabilidad de padecer la enfermedad:</p>
+<p><span class="math display">\[
+\text{logit}(\pi_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_p x_{pi}.
+\]</span></p>
+<p>Cada coeficiente <span class="math inline">\(\beta_j\)</span> se interpreta como el cambio en el logaritmo de la odds por cada unidad que aumenta la variable <span class="math inline">\(X_j\)</span>, manteniendo constantes las demás variables, y su exponencial <span class="math inline">\(e^{\beta_j}\)</span> es la razón de odds ajustada por el resto de factores de riesgo.</p>
+</section>
+<section class="slide level3">
+
+<div id="exr-regresion-logistica-multiple" class="theorem exercise">
+<p><span class="theorem-title"><strong>Ejercicio 10</strong></span> Ajustar un modelo de regresión logística múltiple para predecir la probabilidad de padecer diabetes en función de la edad y del índice de masa corporal (IMC), usando el conjunto de datos simulado anteriormente. Comparar su capacidad predictiva con la del modelo que solo incluye la edad mediante la ELPD.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<details>
+<summary>
+<strong>Solución</strong>
+</summary>
+<p>Ajustamos el modelo de regresión logística múltiple añadiendo el IMC como variable independiente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb86-2"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes_imc <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(</span>
+<span id="cb86-3"><a href="" aria-hidden="true" tabindex="-1"></a>  diabetes <span class="sc">~</span> edad <span class="sc">+</span> imc, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">binomial</span>(),</span>
+<span id="cb86-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb86-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb86-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span></span>
+<span id="cb86-7"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="" aria-hidden="true" tabindex="-1"></a>modelo_diabetes_imc <span class="sc">|&gt;</span></span>
+<span id="cb87-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="st">`</span><span class="at">(Intercept)</span><span class="st">`</span>, edad, imc) <span class="sc">|&gt;</span></span>
+<span id="cb87-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb87-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">.variable</th>
+<th style="text-align: right;">.value</th>
+<th style="text-align: right;">.lower</th>
+<th style="text-align: right;">.upper</th>
+<th style="text-align: right;">.width</th>
+<th style="text-align: left;">.point</th>
+<th style="text-align: left;">.interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-9.3779220</td>
+<td style="text-align: right;">-12.3025425</td>
+<td style="text-align: right;">-6.6186382</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">edad</td>
+<td style="text-align: right;">0.0745930</td>
+<td style="text-align: right;">0.0522112</td>
+<td style="text-align: right;">0.0987754</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">imc</td>
+<td style="text-align: right;">0.1139061</td>
+<td style="text-align: right;">0.0375163</td>
+<td style="text-align: right;">0.1912513</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: left;">qi</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Tanto la edad como el IMC tienen coeficientes positivos, lo que indica que ambos son factores de riesgo para la diabetes.</p>
+</details>
+</section>
+<section class="slide level3">
+
+<details>
+<summary>
+<strong>Solución (continuación)</strong>
+</summary>
+<p>Comparamos los dos modelos mediante la ELPD usando validación cruzada LOO-CV.</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="" aria-hidden="true" tabindex="-1"></a>loo_edad <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo_diabetes)</span>
+<span id="cb88-2"><a href="" aria-hidden="true" tabindex="-1"></a>loo_edad_imc <span class="ot">&lt;-</span> <span class="fu">loo</span>(modelo_diabetes_imc)</span>
+<span id="cb88-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo_edad, loo_edad_imc)[, <span class="fu">c</span>(<span class="st">"elpd_diff"</span>, <span class="st">"se_diff"</span>)] <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">elpd_diff</th>
+<th style="text-align: right;">se_diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">modelo_diabetes_imc</td>
+<td style="text-align: right;">0.000000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">modelo_diabetes</td>
+<td style="text-align: right;">-2.990543</td>
+<td style="text-align: right;">14.1705</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div>
+<p>El modelo que incluye el IMC tiene una ELPD mayor, lo que indica que la inclusión del IMC mejora la capacidad predictiva del modelo, algo coherente con el hecho de que generamos los datos a partir de un modelo que dependía tanto de la edad como del IMC.</p>
+</details>
 
 </section></section>
     </div>

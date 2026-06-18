@@ -1550,3 +1550,540 @@ $$
 por lo que no hay una diferencia sustancial entre los dos modelos.
 
 </details>
+
+## {background-color= .myblue}
+
+:::{.main-title}
+Regresión logística
+:::
+
+## Variables dependientes categóricas
+
+En todos los modelos de regresión que hemos visto hasta ahora, la variable dependiente $Y$ era una variable cuantitativa continua (el peso). Sin embargo, en muchos problemas la variable dependiente es _categórica_, y lo que queremos modelizar es la _probabilidad_ de que ocurra un determinado suceso.
+
+En el ámbito de la Epidemiología, por ejemplo, es muy habitual querer estudiar la probabilidad de que una persona padezca una enfermedad (variable dependiente dicotómica: enfermo / sano) en función de una serie de factores de riesgo (edad, sexo, índice de masa corporal, hábitos, etc.).
+
+En estos casos, la variable dependiente $Y$ es una variable dicotómica que toma dos valores:
+
+$$
+Y = \begin{cases} 1 & \text{si la persona padece la enfermedad,} \\ 0 & \text{si la persona no la padece.} \end{cases}
+$$
+
+Un modelo de regresión lineal no es adecuado en este caso, ya que podría predecir valores de $Y$ por debajo de 0 o por encima de 1, que no tendrían sentido como probabilidades.
+
+## El modelo de regresión logística
+
+Cuando la variable dependiente $Y$ es dicotómica, asumimos que sigue una distribución de **Bernoulli** con probabilidad de éxito $\pi_i$ (la probabilidad de padecer la enfermedad para el individuo $i$),
+
+$$
+Y_i \mid \pi_i \sim \text{Bernoulli}(\pi_i).
+$$
+
+El objetivo es modelizar la probabilidad $\pi_i$ en función de las variables independientes. Como $\pi_i$ debe estar entre 0 y 1, no podemos modelizarla directamente con una combinación lineal de las variables independientes. En su lugar, modelizamos una transformación de $\pi_i$ conocida como _logaritmo de las odds_ (_log-odds_ o _logit_):
+
+$$
+\text{logit}(\pi_i) = \log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 x_i,
+$$
+
+ya que cociente $\frac{\pi_i}{1-\pi_i}$ es la _odds_ de padecer la enfermedad y expresa cuántas veces es más probable padecer la enfermedad que no padecerla.
+
+## La función logística
+
+Despejando $\pi_i$ de la ecuación anterior, obtenemos la _función logística_ (de ahí el nombre del modelo), que transforma cualquier valor real del predictor lineal en una probabilidad entre 0 y 1:
+
+$$
+\pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_i)}}.
+$$
+
+```{r}
+#| echo: false
+#| fig-align: center
+library(tidyverse)
+tibble(x = seq(-10, 10, 0.1)) |>
+  mutate(pi = plogis(x)) |>
+  ggplot(aes(x = x, y = pi)) +
+  geom_line(color = myblue, linewidth = 1.2) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", color = mygray) +
+  labs(title = "Función logística", x = expression(beta[0] + beta[1] * x), y = expression(pi)) +
+  theme_minimal()
+```
+
+La función logística tiene forma de S (curva sigmoide), es creciente y siempre toma valores entre 0 y 1, por lo que es ideal para modelizar probabilidades.
+
+## Interpretación de los coeficientes
+
+A diferencia de la regresión lineal, en la regresión logística los coeficientes se interpretan en la escala de las _odds_:
+
+- **Término independiente $\beta_0$**. Es el logaritmo de la odds de padecer la enfermedad cuando $X = 0$. Es decir, $e^{\beta_0}$ es la odds base.
+
+- **Pendiente $\beta_1$**. Es el cambio en el logaritmo de la odds por cada unidad que se incrementa $X$. Más útil es su exponencial $e^{\beta_1}$, conocida como _razón de odds_ (_odds ratio_), que indica por qué factor se multiplica la odds de padecer la enfermedad por cada unidad que aumenta $X$.
+
+  - Si $e^{\beta_1} > 1$, la variable $X$ es un **factor de riesgo** (aumenta la probabilidad de enfermedad).
+  - Si $e^{\beta_1} < 1$, la variable $X$ es un **factor de protección** (disminuye la probabilidad de enfermedad).
+  - Si $e^{\beta_1} = 1$, la variable $X$ no influye en la probabilidad de enfermedad.
+
+## Consrucción del modelo de regresión logística
+
+El modelo de regresión logística se especifica como 
+
+\begin{align*}
+Y_i \mid \beta_0, \beta_1 & \sim \text{Bernoulli}(\pi_i) \\
+\text{logit}(\pi_i) & = \beta_0 + \beta_1 x_i
+\end{align*}
+
+:::{.callout-warning}
+Obsérvese que, a diferencia de la regresión lineal, no hay un parámetro $\sigma$ para la desviación típica del error, ya que la variabilidad de una distribución de Bernoulli queda determinada por su probabilidad $\pi_i$.
+:::
+
+Como siempre, asignaremos distribuciones a priori a los coeficientes del modelo, y las actualizaremos con los datos para obtener las distribuciones a posteriori.
+
+## Distribuciones a priori de los parámetros
+
+Puesto que $\beta_0$ y $\beta_1$ son parámetros de localización que pueden tomar cualquier valor real (están en la escala logarítmica de las odds), y por tanto, una distribución a priori adecuada para ambos es la distribución normal:
+
+\begin{align*}
+\beta_0 & \sim N(\theta_0, \tau_0) \\
+\beta_1 & \sim N(\theta_1, \tau_1)
+\end{align*}
+
+Conviene tener presente que, al estar en la escala _logit_, valores aparentemente pequeños de los coeficientes pueden corresponder a cambios grandes en la probabilidad. Por ejemplo, una distribución a priori $\beta_1 \sim N(0, 0.5)$ ya es bastante informativa, pues asume que la razón de ventajas $e^{\beta_1}$ está, con un 95% de probabilidad, aproximadamente entre $e^{-1} \approx 0.37$ y $e^{1} \approx 2.72$.
+
+---
+
+:::{#exm-datos-diabetes}
+Supongamos que queremos estudiar la **prevalencia de diabetes tipo 2** en una población adulta en función de la edad. Para ello disponemos de los datos de una cohorte de 250 personas en las que se ha registrado su edad y si padecen o no diabetes.
+
+Para este ejemplo simularemos los datos a partir de un modelo conocido, lo que nos permitirá comprobar después que el modelo bayesiano es capaz de recuperar la prevalencia real.
+
+```{r}
+library(tidyverse)
+set.seed(123)
+n <- 250
+edad <- round(runif(n, 30, 85))
+imc <- round(rnorm(n, 27, 4), 1)
+# Modelo real: logit(pi) = -9 + 0.07 * edad + 0.12 * imc
+prob_real <- plogis(-9 + 0.07 * edad + 0.12 * imc)
+diabetes <- rbinom(n, size = 1, prob = prob_real)
+df <- tibble(edad = edad, imc = imc, diabetes = diabetes)
+```
+:::
+
+---
+
+La _prevalencia_ es la proporción de individuos de la población que padecen la enfermedad. En la muestra, la prevalencia observada es
+
+```{r}
+df |> summarise(prevalencia = mean(diabetes)) |> kable()
+```
+
+Podemos representar gráficamente la presencia de diabetes frente a la edad. Como la variable dependiente solo toma los valores 0 y 1, añadimos un pequeño ruido vertical (_jitter_) para visualizar mejor la densidad de puntos.
+
+```{r}
+#| output-location: column
+ggplot(df, aes(x = edad, y = diabetes)) +
+  geom_jitter(height = 0.05, alpha = 0.4, color = myblue) +
+  labs(x = "Edad (años)", y = "Diabetes (0 = No, 1 = Sí)") +
+  theme_minimal()
+```
+
+---
+
+En este contexto, optaremos por utilizar distribuciones a priori poco informativas para los parámetros del modelo, de manera que los datos tengan un peso importante en la estimación de las distribuciones a posteriori.
+
+Para $\beta_0$ asumimos una distribución normal con media -1.5 y desviación típica 1.5, lo que implica que la odds de padecer diabetes es baja para una persona de edad media. 
+
+$$
+\beta_0 \sim N(-1.5, 1.5)
+$$
+
+Para $\beta_1$ asumimos una distribución normal con media 0 y desviación típica 0.5, lo que implica que el efecto de la edad sobre la probabilidad de padecer diabetes es moderado y de signo desconocido.
+
+$$
+\beta_1 \sim N(0, 0.5)
+$$
+
+## Ajuste del modelo de regresión logística bayesiana
+
+Para ajustar un modelo de regresión logística bayesiano usamos de nuevo la función `stan_glm` del paquete `rstanarm`, pero esta vez indicando la familia `binomial()`, que utiliza por defecto la función de enlace _logit_.
+
+
+## Validación de las distribuciones a priori
+
+Como hicimos con la regresión lineal, antes de ajustar el modelo conviene comprobar que las distribuciones a priori son razonables. Para ello ajustamos el modelo con la opción `prior_PD = TRUE`, que simula los parámetros a partir de las distribuciones a priori sin usar los datos.
+
+:::{#exm-ajuste-regresion-logistica-prior}
+Veamos comó obtener las distribuciones a priori del modelo de regresión logística de la probabilidad de diabetes sobre la edad.
+
+```{r}
+#| output: false
+library(rstanarm)
+set.seed(123)
+modelo_diabetes_prior <- stan_glm(
+  diabetes ~ edad, data = df, family = binomial(),
+  prior_intercept = normal(-1.5, 1.5),
+  prior = normal(0, 0.5),
+  chains = 4, iter = 5000 * 2, seed = 123,
+  prior_PD = TRUE
+)
+```
+
+:::
+
+---
+
+Podemos dibujar algunas de las curvas logísticas generadas a partir de las distribuciones a priori para comprobar que cubren un rango razonable de posibilidades.
+
+```{r}
+#| output-location: column
+library(tidybayes)
+tibble(edad = seq(30, 85, length.out = 50)) |>
+  add_epred_draws(modelo_diabetes_prior, ndraws = 100, value = "prob") |>
+  ggplot(aes(x = edad, y = prob, group = .draw)) +
+  geom_line(color = myred, alpha = 0.2) +
+  labs(title = "100 curvas logísticas a priori",
+       x = "Edad (años)", y = "Probabilidad de diabetes") +
+  theme_minimal()
+```
+
+Las curvas a priori contemplan tanto relaciones crecientes como decrecientes con la edad, y cubren todo el rango de probabilidades, lo que indica que las distribuciones a priori son poco informativas y razonables.
+
+## Ajuste de las distribuciones a posteriori
+
+Una vez validadas las distribuciones a priori, ajustamos el modelo a los datos. De nuevo, basta con actualizar el modelo anterior con la opción `prior_PD = FALSE`.
+
+:::{#exm-ajuste-regresion-logistica}
+Veamos cómo ajustar el modelo de regresión logística a los datos de diabetes y 
+```{r}
+#| output: false
+modelo_diabetes <- update(modelo_diabetes_prior, prior_PD = FALSE)
+```
+:::
+
+---
+
+Comprobamos la convergencia de las cadenas de Markov.
+
+```{r}
+#| output-location: column
+library(bayesplot)
+mcmc_trace(modelo_diabetes, size = 0.2)
+```
+
+```{r}
+#| output-location: column
+mcmc_dens_overlay(modelo_diabetes)
+```
+
+Se observa que las trazas de las cadenas de Markov son estables y convergentes.
+
+---
+
+```{r}
+#| output-location: column
+neff_ratio(modelo_diabetes) |> t() |> kable()
+```
+
+Se observa que la proporción efectiva de muestras aleatorias es razonable para ambos parámetros.  
+
+```{r}
+#| output-location: column
+rhat(modelo_diabetes) |> t() |> kable()
+```
+
+Las cadenas son estables y convergentes, y el valor de $\hat{R}$ es prácticamente 1 para ambos parámetros.
+
+## Intervalos de credibilidad 
+
+:::{#exm-intervalos-credibilidad-logistica}
+Obtenemos la media y los intervalos de credibilidad del 90% de las distribuciones a posteriori de los parámetros.
+
+```{r}
+modelo_diabetes |>
+  gather_draws(`(Intercept)`, edad) |>
+  mean_qi(.width = 0.9) |>
+  kable()
+```
+
+El coeficiente de la edad es positivo, lo que indica que a mayor edad mayor probabilidad de diabetes. 
+:::
+
+## Razón de odds
+
+Para interpretarlo mejor, calculamos la razón de odds $e^{\beta_1}$.
+
+```{r}
+modelo_diabetes |>
+  gather_draws(edad) |>
+  mutate(odds_ratio = exp(.value)) |>
+  mean_qi(odds_ratio, .width = 0.9) |>
+  kable()
+```
+
+Es decir, por cada año más de edad, la odds de padecer diabetes se multiplica por aproximadamente 1.07 (un incremento del 7% en la odds por año), y de acuerdo al intervalo de credibilidad estaría entre el 1.05 y 1.1 con una probabilidad del 90%.
+
+## La curva logística a posteriori
+
+Cada muestra de la distribución a posteriori de los parámetros define una curva logística distinta. Podemos dibujar algunas de ellas sobre los datos para visualizar el ajuste y la incertidumbre.
+
+```{r}
+#| output-location: column
+tibble(edad = seq(30, 85, length.out = 100)) |>
+  add_epred_draws(modelo_diabetes, ndraws = 50, value = "prob") |>
+  ggplot(aes(x = edad, y = prob)) +
+  geom_line(aes(group = .draw), color = myred, alpha = 0.2) +
+  geom_jitter(data = df, aes(y = diabetes), height = 0.03,
+              alpha = 0.3, color = myblue) +
+  labs(x = "Edad (años)", y = "Probabilidad de diabetes") +
+  theme_minimal()
+```
+
+Se observa claramente cómo la probabilidad de padecer diabetes aumenta con la edad, siguiendo una curva en forma de S.
+
+## Estimación de la prevalencia
+
+Ya hemos visto que la estimación de un parámetro en Estadística bayesiana es su propia distribución a posteriori, aunque habitualmente la describiremos mediante su media o mediana y los intervalos de credibilidad para el parámetro.
+
+:::{#exm-prevalencia-logistica}
+
+Para estimar la prevalancia de la diabetes calculamos, para cada muestra de la distribución a posteriori, la probabilidad media de diabetes en toda la muestra.
+
+```{r}
+df |>
+  add_epred_draws(modelo_diabetes, value = "prob") |>
+  group_by(.draw) |>
+  summarise(prevalencia = mean(prob)) |>
+  mean_qi(prevalencia, .width = 0.9) |>
+  kable()
+```
+
+La prevalencia estimada de diabetes en la población es de aproximadamente el 18.7%, con un intervalo de credibilidad del 90% que va del 15% al 22.6%.
+:::
+
+## Predicción de la probabilidad para nuevos casos
+
+Para predecir la probabilidad media de padecer la enfermedad de nuevos individuos, usamos la función `epred_draws`, que genera la distribución a posteriori de la probabilidad $\pi$ para cada nuevo caso.
+
+:::{#exm-prediccion-probabilidad-logistica}
+Veamos la probabilidad de padecer diabetes para personas de 40, 60 y 80 años.
+
+```{r}
+nuevos <- tibble(edad = c(40, 60, 80))
+epred_draws(modelo_diabetes, newdata = nuevos, value = "prob") |>
+  mean_qi(.width = 0.9) |>
+  kable()
+```
+
+Mientras que para una persona de 40 años la probabilidad de padecer diabetes es baja (entre 0.02 y 0.08), para una de 80 años es considerablemente mayor (entre 0.33 y 0.53).
+:::
+
+---
+
+Podemos representar gráficamente estas distribuciones a posteriori de la probabilidad.
+
+```{r}
+#| output-location: column
+epred_draws(modelo_diabetes, newdata = nuevos, value = "prob") |>
+  mutate(edad = factor(edad)) |>
+  ggplot(aes(x = prob, y = edad, fill = edad)) +
+  stat_halfeye(.width = 0.9, alpha = 0.6) +
+  labs(x = "Probabilidad de diabetes", y = "Edad (años)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Clasificación de nuevos casos
+
+Además de predecir la probabilidad de padecer la enfermedad, a menudo queremos _clasificar_ a cada individuo en una de las dos categorías (enfermo / sano). Para ello fijamos un _umbral de clasificación_ (_cutoff_), de manera que si la probabilidad estimada supera ese umbral clasificamos al individuo como enfermo.
+
+El umbral más habitual es 0.5, pero puede ajustarse en función del coste relativo de los errores: en cribados de enfermedades graves se suele bajar el umbral para no dejar pasar posibles enfermos (aumentar la sensibilidad).
+
+Para obtener las clases predichas usamos `predicted_draws`, que simula valores 0/1 de la distribución de Bernoulli para cada caso. La proporción de unos es una estimación de la probabilidad.
+
+---
+
+:::{#exm-clasificacion-logistica}
+Clasifiquemos a las personas de 40, 60 y 80 años usando un umbral de 0.4.
+
+```{r}
+predicted_draws(modelo_diabetes, newdata = nuevos, value = "clase") |>
+  group_by(edad) |>
+  summarise(prob_diabetes = mean(clase)) |>
+  mutate(clasificacion = if_else(prob_diabetes > 0.4, "Enfermo", "Sano")) |>
+  kable()
+```
+
+Con el umbral de 0.4, solo las personas de 80 años serían clasificadas como enfermas.
+:::
+
+## Evaluación del modelo: matriz de confusión
+
+Para evaluar la capacidad de clasificación del modelo, comparamos las clases predichas con las clases observadas en los datos, construyendo una **matriz de confusión** que clasifica cada caso como:
+
+::::{.columns}
+::: {.column width="50%"}
+- **Verdadero positivo (VP)**: enfermo clasificado como enfermo.
+- **Verdadero negativo (VN)**: sano clasificado como sano.
+:::
+
+::: {.column width="50%"}
+- **Falso positivo (FP)**: sano clasificado como enfermo.
+- **Falso negativo (FN)**: enfermo clasificado como sano.
+:::
+::::
+
+A partir de la matriz de confusión se calculan las siguientes métricas:
+
+- **Sensibilidad** $= \dfrac{VP}{VP + FN}$: proporción de enfermos correctamente clasificados.
+- **Especificidad** $= \dfrac{VN}{VN + FP}$: proporción de sanos correctamente clasificados.
+- **Exactitud** (_accuracy_) $= \dfrac{VP + VN}{VP + VN + FP + FN}$: proporción total de aciertos.
+
+## Cálculo de las métricas de clasificación
+
+Para calcular la matriz de confusión y las métricas de clasificación de un modelo de regresión logística bayesiano, podemos usar la función `classification_summary` del paquete `bayesrules`.
+
+:::{.callout-note}
+## `classification_summary`
+
+Devuelve la matriz de confusión y las métricas de sensibilidad, especificidad y exactitud de un modelo de clasificación bayesiano.
+
+Parámetros:
+
+- `model`: modelo ajustado con `stan_glm`.
+- `data`: conjunto de datos con la variable dependiente y las variables independientes.
+- `cutoff`: umbral de clasificación. Por defecto 0.5.
+:::
+
+---
+
+:::{#exm-evaluacion-logistica}
+Calculemos la matriz de confusión y las métricas de clasificación del modelo de regresión logística de la diabetes sobre la edad, con un umbral de 0.4.
+
+```{r}
+library(bayesrules)
+set.seed(123)
+clasificacion <- classification_summary(model = modelo_diabetes, data = df, cutoff = 0.4)
+clasificacion$confusion_matrix |> kable()
+```
+
+```{r}
+clasificacion$accuracy_rates |> kable()
+```
+
+La exactitud global es alta, pero observamos que la sensibilidad es baja: con el umbral de 0.4 el modelo clasifica bien a los sanos (especificidad alta), pero deja sin detectar a muchos enfermos. Esto es habitual cuando la enfermedad es poco prevalente.
+:::
+
+## Ajuste del umbral de clasificación
+
+Cuando interesa detectar el mayor número posible de enfermos (por ejemplo, en un cribado), podemos bajar el umbral de clasificación para aumentar la sensibilidad, a costa de reducir la especificidad.
+
+:::{#exm-umbral-logistica}
+Repitamos la evaluación bajando el umbral a 0.2.
+
+```{r}
+set.seed(123)
+classification_summary(model = modelo_diabetes, data = df, cutoff = 0.2)$accuracy_rates |>
+  kable()
+```
+
+Al bajar el umbral, la sensibilidad aumenta (detectamos más enfermos), pero la especificidad disminuye (clasificamos como enfermos a más sanos). La elección del umbral depende del coste relativo de los falsos positivos y los falsos negativos.
+:::
+
+## Evaluación mediante validación cruzada
+
+Al igual que en la regresión lineal, las métricas calculadas sobre el propio conjunto de datos tienden a ser optimistas debido al sobreajuste. Para obtener una estimación más realista usamos **validación cruzada** con la función `classification_summary_cv` del paquete `bayesrules`.
+
+:::{.callout-note}
+## `classification_summary_cv`
+
+Devuelve las métricas de clasificación de un modelo bayesiano mediante validación cruzada.
+
+Parámetros:
+
+- `model`: modelo ajustado con `stan_glm`.
+- `data`: conjunto de datos.
+- `k`: número de pliegues.
+- `cutoff`: umbral de clasificación. Por defecto 0.5.
+:::
+
+---
+
+:::{#exm-evaluacion-cv-logistica}
+Evaluemos el modelo mediante validación cruzada con 10 pliegues.
+
+```{r}
+set.seed(123)
+cv_diabetes <- classification_summary_cv(model = modelo_diabetes, data = df, k = 10, cutoff = 0.4)
+cv_diabetes$cv |> kable()
+```
+
+Las métricas obtenidas por validación cruzada son ligeramente peores que las obtenidas sobre el conjunto de entrenamiento, lo que da una idea más realista de la capacidad predictiva del modelo sobre datos nuevos.
+:::
+
+## {background-color= .myblue}
+
+:::{.main-title}
+Regresión logística múltiple
+:::
+
+## Regresión logística múltiple
+
+Al igual que en la regresión lineal, podemos incluir varias variables independientes en el modelo de regresión logística para mejorar la predicción de la probabilidad de padecer la enfermedad:
+
+$$
+\text{logit}(\pi_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_p x_{pi}.
+$$
+
+Cada coeficiente $\beta_j$ se interpreta como el cambio en el logaritmo de la odds por cada unidad que aumenta la variable $X_j$, manteniendo constantes las demás variables, y su exponencial $e^{\beta_j}$ es la razón de odds ajustada por el resto de factores de riesgo.
+
+---
+
+:::{#exr-regresion-logistica-multiple}
+Ajustar un modelo de regresión logística múltiple para predecir la probabilidad de padecer diabetes en función de la edad y del índice de masa corporal (IMC), usando el conjunto de datos simulado anteriormente. Comparar su capacidad predictiva con la del modelo que solo incluye la edad mediante la ELPD.
+:::
+
+---
+
+<details>
+<summary>**Solución**</summary>
+
+Ajustamos el modelo de regresión logística múltiple añadiendo el IMC como variable independiente.
+
+```{r}
+#| output: false
+set.seed(123)
+modelo_diabetes_imc <- stan_glm(
+  diabetes ~ edad + imc, data = df, family = binomial(),
+  prior_intercept = normal(-1.5, 1.5),
+  prior = normal(0, 0.5),
+  chains = 4, iter = 5000 * 2, seed = 123
+)
+```
+
+```{r}
+modelo_diabetes_imc |>
+  gather_draws(`(Intercept)`, edad, imc) |>
+  mean_qi(.width = 0.9) |>
+  kable()
+```
+
+Tanto la edad como el IMC tienen coeficientes positivos, lo que indica que ambos son factores de riesgo para la diabetes.
+
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+
+Comparamos los dos modelos mediante la ELPD usando validación cruzada LOO-CV.
+
+```{r}
+#| output-location: column
+loo_edad <- loo(modelo_diabetes)
+loo_edad_imc <- loo(modelo_diabetes_imc)
+loo_compare(loo_edad, loo_edad_imc)[, c("elpd_diff", "se_diff")] |> kable()
+```
+
+El modelo que incluye el IMC tiene una ELPD mayor, lo que indica que la inclusión del IMC mejora la capacidad predictiva del modelo, algo coherente con el hecho de que generamos los datos a partir de un modelo que dependía tanto de la edad como del IMC.
+
+</details>
