@@ -1015,7 +1015,7 @@ El modelo geométrico se utiliza para modelar el número de fracasos  necesarios
 
 **Estadísticos**
 $$
-E(X) = \frac{1}{p} \quad \mbox{y} \quad Var(X) = \frac{1-p}{p^2}.
+E(X) = \frac{1-p}{p} \quad \mbox{y} \quad Var(X) = \frac{1-p}{p^2}.
 $$
 
 ---

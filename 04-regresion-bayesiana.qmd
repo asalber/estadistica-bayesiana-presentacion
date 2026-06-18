@@ -683,8 +683,8 @@ Veamos cómo obtener la distribución a posteriori de la predicción del peso me
 
 ```{r}
 datos_nuevos <- tibble(estatura = c(180))
-post_pred_media_180 <- epred_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción_media")
-post_pred_media_180
+pred_media_180 <- epred_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción_media")
+pred_media_180
 ```
 :::
 
@@ -704,7 +704,7 @@ modelo_peso_estatura |>
 Y una vez que tenemos la distribución a posteriori de la predicción, podemos describirla mediante su media y su intervalo de credibilidad como es habitual.
 
 ```{r}
-mean_qi(post_pred_media_180, .width = 0.9) |>
+mean_qi(pred_media_180, .width = 0.9) |>
   kable()
 ```
 
@@ -753,15 +753,15 @@ Veamos cómo obtener la distribución a posteriori de la predicción de un nuevo
 
 
 ```{r}
-post_pred_180 <- predicted_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción")
-mean_qi(post_pred_180, .width = 0.9) |> kable()
+pred_180 <- predicted_draws(modelo_peso_estatura, newdata = datos_nuevos, value = "Predicción")
+mean_qi(pred_180, .width = 0.9) |> kable()
 ```
 
 Es decir, el rango de pesos factibles para una persona de estatura 180 cm estaría entre 56.9 y 102.1 kg, con una probabilidad del 90%, aunque evidentemente no todos los valores de esta distribución son igualmente probables, por lo que a veces es más útil representar gráficamente esta distribución para tener una idea visual de la predicción.
 
 ```{r}
 #| output-location: column
-ggplot(post_pred_180, aes(x = Predicción)) +
+ggplot(pred_180, aes(x = Predicción)) +
   stat_halfeye(.width = 0.9, fill = myblue, alpha = 0.5) +
   labs(x = "Peso (kg)", y = "Densidad")
 ```
@@ -772,16 +772,16 @@ ggplot(post_pred_180, aes(x = Predicción)) +
 En la siguiente gráfica se puede apreciar sobre el digrama de dispersión el intervalo de credibilidad para la predicción media (en verde) y para la predicción de un nuevo valor (en rojo) para una persona de estatura 180 cm.
 
 ```{r}
-#| echo: false
+#| output-location: column
 ggplot(df, aes(x = estatura, y = peso)) +
   geom_point(color = myblue) +
   stat_pointinterval(
-    data = post_pred_180,
+    data = pred_180,
     aes(x = estatura, y = Predicción),
     .width = 0.9, color = myred, size = 5
   ) +
   stat_pointinterval(
-    data = post_pred_media_180,
+    data = pred_media_180,
     aes(x = estatura, y = Predicción_media),
     .width = 0.9, color = mygreen, size = 5,
   ) +
@@ -802,13 +802,13 @@ Realizar la predicción de la media y de un nuevo valor del peso para un hombre 
 
 ```{r}
 datos_nuevos_sexo <- tibble(sexo = c("H", "M"))
-post_pred_media_sexo <- epred_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción_media")
-mean_qi(post_pred_media_sexo, .width = 0.9) |> kable()
+pred_media_sexo <- epred_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción_media")
+mean_qi(pred_media_sexo, .width = 0.9) |> kable()
 ```
 
 ```{r}
-post_pred_sexo <- predicted_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción")
-mean_qi(post_pred_sexo, .width = 0.9) |> kable()
+pred_sexo <- predicted_draws(modelo_peso_sexo, newdata = datos_nuevos_sexo, value = "Predicción")
+mean_qi(pred_sexo, .width = 0.9) |> kable()
 ```
 </details>
 
@@ -819,15 +819,15 @@ mean_qi(post_pred_sexo, .width = 0.9) |> kable()
 
 ```{r}
 #| output-location: column
-ggplot() +
-  geom_jitter(data = df, aes(x = sexo, y = peso), color = myblue, alpha = 0.4, width = 0.1) +
+ggplot(df, aes(x = sexo, y = peso)) +
+  geom_jitter(color = myblue, alpha = 0.4, width = 0.1) +
   stat_pointinterval(
-    data = post_pred_media_sexo,
+    data = pred_media_sexo,
     aes(x = sexo, y = Predicción_media),
     .width = 0.9, color = mygreen, linewidth = 3, size = 5
   ) +
   stat_pointinterval(
-    data = post_pred_sexo,
+    data = pred_sexo,
     aes(x = sexo, y = Predicción),
     .width = 0.9, color = myred, linewidth = 1, size = 3
   ) +
@@ -921,7 +921,7 @@ library(bayesrules)
 prediction_summary(modelo_peso_estatura, data = df, prob_outer = 0.9) |> kable()
 ```
 
-En los 200 individuos de la muestra, el peso observado se encuentra típicamente a 9.3 kg de distancia de la media de la distribución predictiva correspondiente a su estatura, o a 0.68 desviaciones típicas. Además, el 50% de los pesos caen dentro del intervalo de credibilidad del 50% y el 91.5% caen dentro del intervalo de credibilidad del 90% de la distribución predictiva correspondiente a su estatura. 
+En los 200 individuos de la muestra, el peso observado se encuentra típicamente a 9.3 kg de distancia de la mediana de la distribución predictiva correspondiente a su estatura, o a 0.68 desviaciones típicas. Además, el 50% de los pesos caen dentro del intervalo de credibilidad del 50% y el 91.5% caen dentro del intervalo de credibilidad del 90% de la distribución predictiva correspondiente a su estatura. 
 :::
 
 ---
@@ -952,6 +952,37 @@ bayes_R2(modelo_peso_estatura) |>
 La media de la distribución a posteriori del coeficiente de determinación bayesiano es 0.25, lo que indica que el modelo de regresión lineal explica alrededor del 25% de la variabilidad del peso, o teniendo en cuenta el intervalo de credibilidad, entre el 16.8% y el 32.5% de la variabilidad del peso con una probabilidad del 90%.     
 :::
 
+---
+
+:::{#exr-metricas-evaluacion-modelo-regresion}
+Calcular las métricas de evaluación del modelo de regresión del peso sobre el sexo. ¿Qué conclusiones se pueden extraer de estas métricas?
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+prediction_summary(modelo_peso_sexo, data = df, prob_outer = 0.9) |> kable()
+``` 
+
+El error absoluto mediano es de 8.03 kg, lo que indica que el peso observado se encuentra típicamente a 8.03 kg de distancia de la mediana de la distribución predictiva correspondiente a su sexo, o a 0.67 desviaciones típicas. Además, el 50% de los pesos caen dentro del intervalo de credibilidad del 50% y el 89.5% caen dentro del intervalo de credibilidad del 90% de la distribución predictiva correspondiente a su sexo.
+
+</details>
+
+---
+
+<details>
+<summary>**Solución (continuación)**</summary>
+
+```{r}
+bayes_R2(modelo_peso_sexo) |>
+  mean_qi(.width = 0.9) |>
+  kable(col.names = c("R² medio", ".lower", ".upper", ".width", ".point", ".interval"))
+```
+
+La media de la distribución a posteriori del coeficiente de determinanción es 0.43, lo que indica que el modelo de regresión explica aproximadamente el 43% de la variabilidad del peso, o teniendo en cuenta el intervalo de credibilidad, entre el 34.5% y el 50.1% de la variabilidad del peso con una probabilidad del 90%.
+</details>
+
 ## Evaluación del modelo de regresión en datos nuevos
 
 En general, un modelo de regresión ajustado a un conjunto de datos se ajustará mejor a esos datos que a otros datos nuevos. Este problema se conoce como _sobreajuste_ (_overfitting_).
@@ -975,7 +1006,7 @@ La _validación cruzada_ se basa en esta idea y consiste en dividir el conjunto 
 
 ---
 
-Para realizar la evalucación de un modelo de regresión mediante validación cruzada, podemos utilizar la función `prediction_summary_cv` del paquete [`bayesrules`](https://bayes-rules.github.io/bayesrules/docs/).
+Para realizar la evaluación de un modelo de regresión mediante validación cruzada, podemos utilizar la función `prediction_summary_cv` del paquete [`bayesrules`](https://bayes-rules.github.io/bayesrules/docs/).
 
 :::{.callout-note}
 ## `prediction_summary_cv`
@@ -1009,6 +1040,22 @@ eval_cv$cv |> kable()
 
 Si comparamos estas métricas con las obtenidas anteriormente sin validación cruzada, vemos que la precisión es un poco menor, pero más realista.
 
+---
+
+:::{#exr-metricas-evaluacion-modelo-regresion-cv}
+Realizar la evaluación del modelo de regresión del peso sobre el sexo mediante validación cruzada con 10 pliegues. ¿Qué conclusiones se pueden extraer de estas métricas?
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+set.seed(123)
+eval_cv <- prediction_summary_cv(model = modelo_peso_sexo, data = df, k = 5, prob_outer = 0.9)
+eval_cv$cv |> kable()  
+```
+
+Se observa que el error absoluto mediano es ahora 8.2, ligeramente mayor que el obtenido sin validación cruzada, lo que indica que el modelo de regresión del peso sobre el sexo tiene un ligero sobreajuste a los datos de entrenamiento. 
 
 ## {background-color= .myblue}
 
@@ -1024,7 +1071,7 @@ $$
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon, \quad \varepsilon \sim N(0, \sigma).
 $$
 
-El procedimiento para ajustar un modelo de regresión lineal múltiple mediante inferencia bayesiana es el mismo que para un modelo de regresión lineal simple, solo que con más parámetros a estimar y de los que debemos especificar sus distribuciones a priori
+El procedimiento para ajustar un modelo de regresión lineal múltiple mediante inferencia bayesiana es el mismo que para un modelo de regresión lineal simple, solo que con más parámetros a estimar y de los que debemos especificar sus distribuciones a priori.
 
 ---
 
@@ -1034,7 +1081,7 @@ El procedimiento para ajustar un modelo de regresión lineal múltiple mediante 
 
 <details>
 <summary>**Solución**</summary>
-Antes de nada, puesto que el sexo es una variable categórica, debemos codificarla como variable númerica para poder introducirla en el modelo de regresión múltiple. Como en este caso solo hay dos categorías posibles, podemos usar el 0 para hombres y 1 para mujeres.
+Antes de nada, puesto que el sexo es una variable categórica, debemos codificarla como variable númerica para poder introducirla en el modelo de regresión múltiple (por ejemplo 0 para hombres y 1 para mujeres).
 
 Si llamamos $X_1$ a la estatura y $X_2$ al sexo, el modelo de regresión lineal múltiple sería:
 
@@ -1089,7 +1136,7 @@ Veamos cómo simular las distribuciones a priori de los parámetros del modelo d
 #| output: false
 library(rstanarm)
 set.seed(123)
-modelo2_prior <- stan_glm(
+modelo_peso_estatura_sexo_prior <- stan_glm(
   peso ~ estatura + sexo,
   data = df,
   family = gaussian(),
@@ -1112,7 +1159,7 @@ A continuación podemos dibujar algunas de las rectas de regresión obtenidas a 
 
 ```{r}
 df |>
-  add_epred_draws(modelo2_prior, ndraws = 50, value = "Predicción_media") |>
+  add_epred_draws(modelo_peso_estatura_sexo_prior, ndraws = 50, value = "Predicción_media") |>
   ggplot(aes(x = estatura, y = peso, color = sexo)) +
   geom_line(aes(y = Predicción_media, group = paste(sexo, .draw)), alpha = 0.2) +
   labs(x = "Estatura", y = "Peso") +
@@ -1130,7 +1177,7 @@ Para ajustar el modelo de regresión lineal múltiple del peso sobre la estatura
 
 ```{r}
 #| output: false
-modelo2 <- update(modelo2_prior, prior_PD = FALSE)
+modelo_peso_estatura_sexo <- update(modelo_peso_estatura_sexo_prior, prior_PD = FALSE)
 ```
 :::
 
@@ -1138,13 +1185,13 @@ modelo2 <- update(modelo2_prior, prior_PD = FALSE)
 ---
 
 ```{r}
-mcmc_trace(modelo2, size = 0.1)
+mcmc_trace(modelo_peso_estatura_sexo, size = 0.2)
 ```
 
 ---
 
 ```{r}
-mcmc_dens_overlay(modelo2)
+mcmc_dens_overlay(modelo_peso_estatura_sexo)
 ```
 
 Observando las trazas y las distribuciones de las cadenas de Markov, se puede ver que las cadenas son estables y convergentes.
@@ -1152,8 +1199,8 @@ Observando las trazas y las distribuciones de las cadenas de Markov, se puede ve
 ---
 
 ```{r}
-neff_ratio(modelo2) |> t() |> kable()
-rhat(modelo2) |> t() |> kable()
+neff_ratio(modelo_peso_estatura_sexo) |> t() |> kable()
+rhat(modelo_peso_estatura_sexo) |> t() |> kable()
 ```
 
 El número efectivo de simulaciones es razonablemente alto para los tres parámetros, y el valor de $\hat{R}$ es casi 1, lo que indica que las cadenas de Markov han convergido correctamente.
@@ -1165,7 +1212,7 @@ Veamos cómo obtener la media y los intervalos de credibilidad del 90% de las di
 
 ```{r}
 library(tidybayes)
-modelo2 |> 
+modelo_peso_estatura_sexo |> 
   gather_draws(`(Intercept)`, estatura, sexoM, sigma) |>
   mean_qi(.width = 0.9) |> 
   kable()
@@ -1183,7 +1230,7 @@ Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la sim
 ```{r}
 #| output-location: column
 df |>
-  add_epred_draws(modelo2, ndraws = 50, value = "Predicción_media") |>
+  add_epred_draws(modelo_peso_estatura_sexo, ndraws = 50, value = "Predicción_media") |>
   ggplot(aes(x = estatura, y = peso, color = sexo)) +
   geom_point(data = df) +
   geom_line(aes(y = Predicción_media, group = paste(sexo, .draw)), alpha = 0.2) +
@@ -1201,7 +1248,7 @@ Veamos cómo obtener la distribución a posteriori de la predicción del peso pa
 
 ```{r}
 datos_nuevos <- tibble(estatura = c(160,160), sexo = c("H","M"))
-post_pred_160<- predicted_draws(modelo2, newdata = datos_nuevos, value = "Predicción")
+post_pred_160<- predicted_draws(modelo_peso_estatura_sexo, newdata = datos_nuevos, value = "Predicción")
 mean_qi(post_pred_160, .width = 0.9) |> kable()
 ```
 
@@ -1211,7 +1258,7 @@ Un hombre de 160 cm tendría un peso entre 59.2 y 98.6 kg con una probabilidad d
 ---
 
 ```{r}
-predicted_draws(modelo2, newdata = tibble(estatura = c(160,160), sexo = c("H", "M")), value = "Predicción") |>
+predicted_draws(modelo_peso_estatura_sexo, newdata = tibble(estatura = c(160,160), sexo = c("H", "M")), value = "Predicción") |>
   ggplot(aes(x = Predicción, y = sexo, color = sexo)) +
   stat_halfeye(.width = c(0.5, 0.9), fill = "gray90") +
   scale_y_discrete(labels = c("H" = "Hombre", "M" = "Mujer")) +
@@ -1228,7 +1275,7 @@ Veamos cómo obtener las distribuciones a posteriori de las predicciones del pes
 
 ```{r}
 #| output-location: column
-post_pred <- predicted_draws(modelo2, newdata = df, value = "Predicción")
+post_pred <- predicted_draws(modelo_peso_estatura_sexo, newdata = df, value = "Predicción")
 ggplot(post_pred, aes(x = estatura, y = Predicción, color = sexo)) +
   stat_pointinterval(.width = c(0.5, 0.95), position = position_dodge(width = 0.5)) +
   geom_point(data = df, aes(y = peso), position = position_dodge(width = 0.5)) +
@@ -1244,7 +1291,7 @@ Veamos cómo obtener las métricas de evaluación del modelo de regresión linea
 
 ```{r}
 set.seed(123)
-eval_cv <- prediction_summary_cv(model = modelo2, data = df, k = 10, prob_outer = 0.9)
+eval_cv <- prediction_summary_cv(model = modelo_peso_estatura_sexo, data = df, k = 10, prob_outer = 0.9)
 eval_cv$cv |> kable()
 ```
 
@@ -1256,7 +1303,7 @@ Podemos observar que el error absoluto mediano ha disminuido en 1.13 kg, lo que 
 Veamos ahora cuánto vale el coeficiente de determinación bayesiano.
 
 ```{r}
-bayes_R2(modelo2) |>
+bayes_R2(modelo_peso_estatura_sexo) |>
   mean_qi(.width = 0.9) |>
   kable(col.names = c("R² medio", ".lower", ".upper", ".width", ".point", ".interval"))
 ```
@@ -1329,7 +1376,7 @@ loo(modelo_peso_estatura)$estimates[1,] |> t() |> kable()
 ```{r}
 #| output-location: column
 # ELPD del modelo de regresión lineal múltiple
-loo(modelo2)$estimates[1,] |> t() |> kable()
+loo(modelo_peso_estatura_sexo)$estimates[1,] |> t() |> kable()
 ```
 
 La diferencia de ELPD entre ambos modelos es 
@@ -1363,7 +1410,7 @@ Veamos cómo comparar la ELPD de los modelos de regresión lineal simple y múlt
 ```{r}
 #| output-location: column
 loo1 <- loo(modelo_peso_estatura)
-loo2 <- loo(modelo2)
+loo2 <- loo(modelo_peso_estatura_sexo)
 loo_compare(loo1, loo2)[,c("elpd_diff", "se_diff")] |> kable()
 ```
 
@@ -1381,3 +1428,125 @@ Se suele utilizar la regla de Vehtari:
 - $\geq 4 \rightarrow$ Diferencia sustancial.
 
 En este caso podemos decir que el modelo de regresión múltiple es sustancialmente mejor que el modelo de regresión simple.
+
+---
+
+:::{#exr-comparacion-elpd-regresion-lineal}
+Comparar la ELPD del modelo de regresión del peso sobre el sexo con la ELPD del modelo de regresión múltiple del peso sobre la estatura y el sexo. ¿Qué conclusiones se pueden extraer de esta comparación?
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output-location: column
+loo1 <- loo(modelo_peso_sexo)
+loo2 <- loo(modelo_peso_estatura_sexo)
+loo_compare(loo1, loo2)[,c("elpd_diff", "se_diff")] |> kable()
+```
+
+En este caso la diferencia tipificada de ELDP es
+
+$$
+\frac{\Delta \mbox{ELPD}}{\mbox{SE}(\mbox{ELPD})} = \frac{1.33}{1.75} \approx 0.76 < 2.
+$$
+
+En este caso, aunque la diferencia entre los dos modelos no es sustancial, el modelo de regresión simple es ligéramente mejor que el modelo de regresión múltiple, por lo que la inclusión de la variable estatura no mejora la capacidad predictiva del modelo.
+
+:::{.centered}
+_¿A qué puede ser debido?_
+:::
+
+</details>
+
+## Modelos de regresión con interacciones
+
+En un modelo de regresión múltiple sin interacción como el que hemos visto 
+
+$$
+Y|\beta_0,\beta_1,\beta_2,\sigma \sim N(\beta_0 + \beta_1 X_1+ \beta_2 X_2, \sigma)
+$$
+
+se asume que la pendiente $\beta_1$ es la misma para cualquier valor de $X_2$. En el ejemplo anterior esto quiere decir que el incremento del peso por unidad de estatura es el mismo para hombres y para mujeres. Pero esto no es cierto cuando hay _interacción_ entre las variables independientes, es decir, podría ser que el incremento de peso por unidad de estatura en hombres fuese distinto que en mujeres.
+
+Cuando no hay interacción entre $X_1$ y $X_2$, las rectas de regresión correspondientes a cada valor de $X_2$ son paralelas mientras que si hay interacción no.
+
+## Construcción de un modelo de regresión con interacción
+
+Si queremos modelar la interacción entre $X_1$ y $X_2$ en un modelo de regresión múltiple, tenemos que introducir un nuevo parámetro $\beta_3$ que como coeficiente del producto de $X_1$ y $X_2$.
+
+$$
+Y|\beta_0,\beta_1,\beta_2,\beta_3,\sigma \sim N(\beta_0 + \beta_1 X_1+ \beta_2 X_2+\beta_3X_1X_2, \sigma)
+$$
+
+---
+
+:::{#exm-modelo-regresión-interacción}
+
+
+```{r}
+#| output: false
+modelo_peso_estatura_sexo_interaccion <- stan_glm(
+  peso ~ estatura * sexo,
+  data = df,
+  family = gaussian(),
+  prior_intercept = normal(70, 10),
+  prior = normal(location = c(1.5, -10, 0), scale = c(0.5, 5, 0.5)),
+  prior_aux = exponential(0.5),
+  chains = 4, iter = 5000 * 2, seed = 123
+)
+```
+
+```{r}
+modelo_peso_estatura_sexo_interaccion |> 
+  gather_draws(`(Intercept)`, estatura, sexoM, `estatura:sexoM`, sigma) |>
+  mean_qi(.width = 0.9) |> 
+  kable()
+```
+
+:::
+
+## Dibujo de las rectas de regresión a posteriori
+
+:::{exm-rectas-regresion-posteriori-interaccion}
+Veamos cómo dibujar 50 de las rectas de regresión obtenidas a partir de la simulación de las distribuciones a posteriori de los parámetros del modelo de regresión lineal múltiple del peso sobre la estatura y el sexo con interacción.
+
+```{r}
+#| output-location: column
+df |>
+  add_epred_draws(modelo_peso_estatura_sexo_interaccion, ndraws = 50, value = "Predicción_media") |>
+  ggplot(aes(x = estatura, y = peso, color = sexo)) +
+  geom_point(data = df) +
+  geom_line(aes(y = Predicción_media, group = paste(sexo, .draw)), alpha = 0.2) +
+  labs(x = "Estatura", y = "Peso") +
+  theme_minimal()
+```
+
+En este caso, se observa, a pesar de incluir la interacción el el modelo, las rectas de regresión son prácticamente paralelas, lo que indica que no hay casi interacción entre la estatura y el sexo.
+:::
+
+---
+
+:::{#exr-comparacion-elpd-regresion-interaccion}
+Comparar la ELPD del modelo de regresión múltiple del peso sobre la estatura y el sexo con interacción con la ELPD del modelo de regresión múltiple del peso sobre la estatura y el sexo sin interacción. ¿Qué conclusiones se pueden extraer de esta comparación?
+:::
+
+<details>
+<summary>**Solución**</summary>
+
+```{r}
+#| output-location: column
+loo1 <- loo(modelo_peso_estatura_sexo)
+loo2 <- loo(modelo_peso_estatura_sexo_interaccion)
+loo_compare(loo1, loo2)[,c("elpd_diff", "se_diff")] |> kable()
+```
+
+En este caso la diferencia tipificada de ELDP es
+
+$$
+\frac{\Delta \mbox{ELPD}}{\mbox{SE}(\mbox{ELPD})} = \frac{0.64}{0.79}   \approx 0.81 < 2,
+$$
+
+por lo que no hay una diferencia sustancial entre los dos modelos.
+
+</details>
